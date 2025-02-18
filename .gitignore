@@ -1,0 +1,13 @@
+*~undo-tree~
+__pycache__/
+.venv
+AppData
+*.pdf
+*.sh
+*.zip
+*._*.txt
+*._*.csv
+*.DS_Store
+*._*
+*.png
+*.jpg

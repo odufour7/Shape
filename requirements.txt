@@ -1,0 +1,9 @@
+matplotlib
+numpy
+pandas
+plotly
+pyvista
+mpl_toolkits
+shapely
+scipy
+tqdm
