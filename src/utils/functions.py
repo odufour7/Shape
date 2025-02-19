@@ -2,12 +2,13 @@
 
 import pickle
 from pathlib import Path
+from typing import Any
 
 import numpy as np
 from shapely.geometry import MultiPolygon
 
 
-def load_pickle(file_path: Path):
+def load_pickle(file_path: Path) -> Any:
     """Loads a pickle file from the specified path."""
     with open(file_path, "rb") as f:
         data = pickle.load(f)

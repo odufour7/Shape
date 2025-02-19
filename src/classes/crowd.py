@@ -5,10 +5,9 @@ from scipy.stats import truncnorm
 from shapely.geometry import Point, Polygon
 from tqdm import tqdm
 
-import utils.constants as cst
-import utils.functions as fun
-from src import plot
-from src.pedestrian import Pedestrian
+import src.utils.constants as cst
+import src.utils.functions as fun
+from src.classes.pedestrian import Pedestrian
 
 
 class Crowd:
@@ -224,31 +223,31 @@ class Crowd:
         return packing_crowd
 
 
-# Example usage:
-if __name__ == "__main__":
-    # ajouter une classe anthropometric data pour les valeurs de référence (où on plotte les distriubtions selon les sexes)
-    # ajouter la possibilité de créer une crowd à partir des données anthropométriques en mettant la possibilité
-    # de tirer les valeur depuis les distribution anthropométriques plutôt qu eloi normale
-    room_geometry = Polygon([(0, 0), (100, 0), (100, 100), (0, 100)])  # Example room geometry
+# # Example usage:
+# if __name__ == "__main__":
+#     # ajouter une classe anthropometric data pour les valeurs de référence (où on plotte les distriubtions selon les sexes)
+#     # ajouter la possibilité de créer une crowd à partir des données anthropométriques en mettant la possibilité
+#     # de tirer les valeur depuis les distribution anthropométriques plutôt qu eloi normale
+#     room_geometry = Polygon([(0, 0), (100, 0), (100, 100), (0, 100)])  # Example room geometry
 
-    try:
-        crowd = Crowd(
-            density=13e-4,
-            geometry=room_geometry,
-            chest_depth=(15.0, 5.0),
-            bideltoid_breadth=(25.0, 5.0),
-            crowd_orientation=(0.0, 0.5),
-        )
+#     try:
+#         crowd = Crowd(
+#             density=13e-4,
+#             geometry=room_geometry,
+#             chest_depth=(15.0, 5.0),
+#             bideltoid_breadth=(25.0, 5.0),
+#             crowd_orientation=(0.0, 0.5),
+#         )
 
-        print("Crowd successfully created!")
+#         print("Crowd successfully created!")
 
-        print(f"Density: {crowd.density}")
-        print(f"Chest Depth: {crowd.chest_depth}")
-        print(f"Geometry: {crowd.geometry}")
-        print(f"Bideltoid Breadth: {crowd.bideltoid_breadth}")
-        print(f"Crowd Orientation: {crowd.crowd_orientation}")
-        print(f"Number of pedestrians: {crowd.pedestrian_number()}")
-        plot.display_crowd2D(crowd)
+#         print(f"Density: {crowd.density}")
+#         print(f"Chest Depth: {crowd.chest_depth}")
+#         print(f"Geometry: {crowd.geometry}")
+#         print(f"Bideltoid Breadth: {crowd.bideltoid_breadth}")
+#         print(f"Crowd Orientation: {crowd.crowd_orientation}")
+#         print(f"Number of pedestrians: {crowd.pedestrian_number()}")
+#         plot.display_crowd2D(crowd)
 
-    except ValueError as e:
-        print(f"Error creating crowd: {e}")
+#     except ValueError as e:
+#         print(f"Error creating crowd: {e}")

@@ -1,11 +1,15 @@
 """ This module reads the anthropometric data from the ANSUR II dataset and saves it as a pandas DataFrame."""
 
+from io import BytesIO
+
 import numpy as np
 import pandas as pd
+import streamlit as st
 
-import utils.constants as cst
-import utils.functions as fun
-from utils.typing_custom import Sex
+import src.utils.constants as cst
+import src.utils.functions as fun
+from src.plotting import plot
+from src.utils.typing_custom import Sex
 
 
 def read_anthropometric_data(sex: Sex) -> None:
@@ -36,3 +40,36 @@ def save_anthropometric_data() -> None:
     df_female = read_anthropometric_data("female")
     df = pd.concat([df_male, df_female], ignore_index=True)
     fun.save_pickle(df, cst.PICKLE_DIR / "ANSUREIIPublic.pkl")
+
+
+def main() -> None:
+    save_anthropometric_data()
+    df = fun.load_pickle(cst.PICKLE_DIR / "ANSUREIIPublic.pkl")
+
+    st.title("Distribution Visualization")
+    if st.button("Draw a Distribution"):
+        fig = plot.display_disbtribution(df, "Bideltoid breadth [cm]")
+        st.pyplot(fig)
+        # Save the figure to a BytesIO object in PDF format
+        dist_plot = BytesIO()
+        fig.savefig(dist_plot, format="pdf")
+        dist_plot.seek(0)  # Reset buffer pointer to the beginning
+        # Streamlit button in the sidebar to download the graph in PDF format
+        st.sidebar.download_button(
+            label="Download Image",
+            data=dist_plot,
+            file_name="distribution.pdf",
+            mime="application/pdf",
+        )
+
+
+def run_tab_anthropometry() -> None:
+    """
+    Execute the main function for the survey tab.
+
+    This function serves as the entry point for running the 2D pedestrian tab
+    functionality within the application. It calls the main() function
+    to initiate the necessary processes.
+    """
+    print("here")
+    main()

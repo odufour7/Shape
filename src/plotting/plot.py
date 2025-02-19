@@ -10,9 +10,9 @@ import seaborn as sns
 from matplotlib.colors import Normalize
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
-import utils.functions as fun
-from src.crowd import Crowd
-from src.pedestrian import Pedestrian
+import src.utils.functions as fun
+from src.classes.crowd import Crowd
+from src.classes.pedestrian import Pedestrian
 
 plt.rcParams.update(
     {
@@ -25,34 +25,59 @@ plt.rcParams.update(
 )
 
 
-def display_shape2D(ped: Pedestrian) -> None:
-    """Draws the 2D shape of the pedestrian."""
+def display_shape2D(ped: Pedestrian) -> go.Figure:
+    """Draws the 2D shape of the pedestrian using Plotly."""
     geometric_pedestrian = ped.calculate_geometric_shape()
-    _, ax = plt.subplots(figsize=(10, 7))
+    fig = go.Figure()
+
     if geometric_pedestrian.geom_type == "MultiPolygon":
         for geom in geometric_pedestrian.geoms:
             x, y = geom.exterior.xy
-            ax.fill(x, y, facecolor="red", alpha=0.5)
-            ax.plot(x, y, color="black", lw=1)
+            # Add filled polygon
+            fig.add_trace(
+                go.Scatter(
+                    x=np.array(x),
+                    y=np.array(y),
+                    fill="toself",
+                    mode="lines",
+                    line={"color": "black", "width": 1},
+                    fillcolor="rgba(255, 0, 0, 0.5)",  # Red with transparency
+                    name="MultiPolygon",
+                )
+            )
     elif geometric_pedestrian.geom_type == "Polygon":
         x, y = geometric_pedestrian.exterior.xy
-        ax.fill(x, y, facecolor="red", alpha=0.5)
-        ax.plot(x, y, color="black", lw=1)
-    ax.margins(0)
-    ax.set_title("2D shape of a pedestrian")
-    ax.set_aspect("equal")
-    ax.set_xlabel("X [cm]")
-    ax.set_ylabel("Y [cm]")
-    plt.tight_layout()
-    plt.show()
-    plt.close()
+        # Add filled polygon
+        fig.add_trace(
+            go.Scatter(
+                x=np.array(x),
+                y=np.array(y),
+                fill="toself",
+                mode="lines",
+                line={"color": "black", "width": 1},
+                fillcolor="rgba(255, 0, 0, 0.5)",  # Red with transparency
+                name="Polygon",
+            )
+        )
+
+    # Set layout properties
+    fig.update_layout(
+        title="2D Shape of a Pedestrian",
+        xaxis_title="X [cm]",
+        yaxis_title="Y [cm]",
+        xaxis={"scaleanchor": "y", "showgrid": True},
+        yaxis={"showgrid": True},
+        showlegend=False,
+        margin={"l": 10, "r": 10, "t": 40, "b": 10},
+    )
+
+    return fig
 
 
 def display_body3D_orthogonal_projection(ped: Pedestrian) -> None:
     """Draws the orthogonal projection of the pedestrian's body."""
 
-    plt.figure(figsize=(11, 8))
-    ax = plt.gca()
+    fig, ax = plt.subplots(figsize=(11, 8))
     sm = plt.cm.ScalarMappable(cmap="coolwarm", norm=plt.Normalize(vmin=0, vmax=max(ped.body3D.keys())))
 
     # Plot each polygon with its corresponding height-based color
@@ -76,8 +101,8 @@ def display_body3D_orthogonal_projection(ped: Pedestrian) -> None:
     ax.set_xlabel("X [cm]")
     ax.set_ylabel("Y [cm]")
     plt.tight_layout()
-    plt.show()
-    plt.close()
+
+    return fig
 
 
 def display_body3D_polygons(ped: Pedestrian) -> None:
@@ -274,7 +299,7 @@ def display_body3D_mesh(ped: Pedestrian) -> None:
     fig.show()
 
 
-def display_crowd2D(crowd: Crowd) -> None:
+def display_crowd2D(crowd: Crowd) -> plt.Figure:
     """Draw the crowd of pedestrians in the room."""
     crowd_to_draw = crowd.generate_packing_crowd()
     fig, ax = plt.subplots(figsize=(8, 8))
@@ -290,15 +315,15 @@ def display_crowd2D(crowd: Crowd) -> None:
     plt.xlabel("x [cm]")
     plt.ylabel("y [cm]")
     fig.tight_layout()
-    plt.show()
+    return fig
 
 
-def display_disbtribution(df: pd.DataFrame, column: str) -> None:
+def display_disbtribution(df: pd.DataFrame, column: str) -> plt.Figure:
     """Display the distribution of a given column in a DataFrame."""
     if column not in df.columns:
         raise ValueError(f"Column '{column}' not found in the DataFrame.")
 
-    plt.figure(figsize=(9, 8))
+    fig, ax = plt.subplots(figsize=(9, 8))
     ax = sns.histplot(
         data=df,
         x=column,
@@ -310,5 +335,4 @@ def display_disbtribution(df: pd.DataFrame, column: str) -> None:
     ax.get_legend().set_title("")
     plt.xlabel(column)
     plt.ylabel("Count")
-    plt.show()
-    plt.close()
+    return fig

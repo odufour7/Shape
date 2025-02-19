@@ -7,3 +7,5 @@ mpl_toolkits
 shapely
 scipy
 tqdm
+streamlit
+seaborn

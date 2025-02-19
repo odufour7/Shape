@@ -6,9 +6,9 @@ from shapely.affinity import rotate, scale, translate
 from shapely.geometry import MultiPolygon, Point, Polygon
 from shapely.ops import unary_union
 
-import utils.constants as cst
-import utils.functions as fun
-from utils.typing_custom import Sex
+import src.utils.constants as cst
+import src.utils.functions as fun
+from src.utils.typing_custom import Sex
 
 
 class InitialState:
