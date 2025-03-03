@@ -1,3 +1,5 @@
+""" Write about text. """
+
 from pathlib import Path
 
 import streamlit as st
@@ -10,11 +12,11 @@ def about() -> None:
     img_path_1 = ROOT_DIR / "data" / "images" / "example.png"
     text = """
 
-    ## Overview
+    ### Overview
     Project shape
     """
     st.markdown(text)
-    st.image(str(img_path_1), width=300, caption="Example.")
+    # st.image(str(img_path_1), width=300, caption="Example.")
     text2 = """
     This app is part of the SHAPE project.
     """

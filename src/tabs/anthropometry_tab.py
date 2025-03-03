@@ -1,75 +1,78 @@
 """ This module reads the anthropometric data from the ANSUR II dataset and saves it as a pandas DataFrame."""
 
-from io import BytesIO
+from pathlib import Path
 
-import numpy as np
-import pandas as pd
 import streamlit as st
 
 import src.utils.constants as cst
 import src.utils.functions as fun
 from src.plotting import plot
-from src.utils.typing_custom import Sex
-
-
-def read_anthropometric_data(sex: Sex) -> None:
-    """Read anthropometry data from a csv file and return it as a pandas DataFrame."""
-    if sex not in ["male", "female"]:
-        raise ValueError("The sex should be either 'male' or 'female'.")
-
-    # Read the CSV file
-    file_name = f"ANSURII{sex.upper()}Public.csv"
-    df = pd.read_csv(cst.CSV_DIR / file_name, encoding="latin1")
-
-    # Add a column sex
-    df["Sex"] = np.full_like(df["Heightin"], sex, dtype=object)
-
-    # Standardize units and rename columns
-    df["chestdepth"] = df["chestdepth"] / 10.0  # Convert mm to cm
-    df.rename(columns={"chestdepth": "Chest depth [cm]"}, inplace=True)
-    df["bideltoidbreadth"] = df["bideltoidbreadth"] / 10.0  # Convert mm to cm
-    df.rename(columns={"bideltoidbreadth": "Bideltoid breadth [cm]"}, inplace=True)
-    df["Heightin"] = df["Heightin"] * 2.54  # Convert inches to cm
-    df.rename(columns={"Heightin": "Height [cm]"}, inplace=True)
-    return df
-
-
-def save_anthropometric_data() -> None:
-    """Save the anthropometry data as a pickle file."""
-    df_male = read_anthropometric_data("male")
-    df_female = read_anthropometric_data("female")
-    df = pd.concat([df_male, df_female], ignore_index=True)
-    fun.save_pickle(df, cst.PICKLE_DIR / "ANSUREIIPublic.pkl")
 
 
 def main() -> None:
-    save_anthropometric_data()
+    """Main function for the anthropometry tab."""
+
+    # Load the dataset from a pickle file
     df = fun.load_pickle(cst.PICKLE_DIR / "ANSUREIIPublic.pkl")
 
-    st.title("Distribution Visualization")
-    if st.button("Draw a Distribution"):
-        fig = plot.display_disbtribution(df, "Bideltoid breadth [cm]")
-        st.pyplot(fig)
-        # Save the figure to a BytesIO object in PDF format
-        dist_plot = BytesIO()
-        fig.savefig(dist_plot, format="pdf")
-        dist_plot.seek(0)  # Reset buffer pointer to the beginning
-        # Streamlit button in the sidebar to download the graph in PDF format
-        st.sidebar.download_button(
-            label="Download Image",
-            data=dist_plot,
-            file_name="distribution.pdf",
-            mime="application/pdf",
-        )
+    # Define default attributes to display
+    default_attributes = ["Sex", "Height [cm]", "Chest depth [cm]", "Bideltoid breadth [cm]"]
+
+    # Sidebar: allow users to select attributes dynamically
+    st.sidebar.title("Adjust parameters")
+    selected_attribute = st.sidebar.selectbox(
+        "Select an attribute for distribution visualization:",
+        options=default_attributes,
+    )
+
+    # Display title on the main page
+    st.subheader("Visualisation")
+    col1, col2 = st.columns([1.7, 1])  # Adjust proportions as needed
+    with col1:
+        fig = plot.display_distribution(df, selected_attribute)
+        st.plotly_chart(fig, use_container_width=True)
+        # Sidebar: Button to download the graph in PDF format
+        selected_attribute_name = selected_attribute.replace(" ", "_")
+    with col2:
+        # display the mean and standard deviation of the selected attribute for man and woman
+        if selected_attribute != "Sex":
+            df_male = df[df["Sex"] == "male"]
+            df_female = df[df["Sex"] == "female"]
+            st.write("**Male**")
+            st.write(f"Mean = {df_male[selected_attribute].mean():.2f} cm ")
+            st.write(f"Standard deviation = {df_male[selected_attribute].std():.2f} cm ")
+            st.write("**Female**")
+            st.write(f"Mean = {df_female[selected_attribute].mean():.2f} cm ")
+            st.write(f"Standard deviation = {df_female[selected_attribute].std():.2f} cm ")
+
+    # Download section in the sidebar
+    st.sidebar.title("Download")
+    st.sidebar.download_button(
+        label="Download plot as PDF",
+        data=fig.to_image(format="pdf"),
+        file_name=f"{selected_attribute_name}_distribution.pdf",
+        mime="application/pdf",
+    )
+    # Add a selectbox for choosing the dataset
+    dataset_choice = st.sidebar.selectbox("Choose ANSUR II dataset to donwload:", ("Female", "Male"))
+    # Define the filenames based on the choice
+    path_file = Path(__file__).parent.parent.parent / "data" / "csv"
+    filename_dict = {"Female": path_file / "ANSURIIFEMALEPublic.csv", "Male": path_file / "ANSURIIMALEPublic.csv"}
+    df = fun.load_data(filename_dict[dataset_choice])
+
+    # Create the download filename
+    download_filename = f"anthropometric_data_{filename_dict[dataset_choice].stem}.csv"
+    # Prepare the data for download
+    data_to_download = df.to_csv(index=False).encode("utf-8")
+    # Add the download button
+    st.sidebar.download_button(
+        label=f"Download {dataset_choice} data as CSV",
+        data=data_to_download,
+        file_name=download_filename,
+        mime="text/csv",
+    )
 
 
 def run_tab_anthropometry() -> None:
-    """
-    Execute the main function for the survey tab.
-
-    This function serves as the entry point for running the 2D pedestrian tab
-    functionality within the application. It calls the main() function
-    to initiate the necessary processes.
-    """
-    print("here")
+    """Execute the main function for the anthropometry tab."""
     main()

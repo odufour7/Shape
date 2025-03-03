@@ -6,13 +6,13 @@ import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 import pyvista as pv
-import seaborn as sns
 from matplotlib.colors import Normalize
 from mpl_toolkits.axes_grid1 import make_axes_locatable
+from streamlit.delta_generator import DeltaGenerator
 
 import src.utils.functions as fun
-from src.classes.crowd import Crowd
-from src.classes.pedestrian import Pedestrian
+from src.classes.agents import Agent
+from src.classes.trial.crowd_old import Crowd
 
 plt.rcParams.update(
     {
@@ -25,15 +25,16 @@ plt.rcParams.update(
 )
 
 
-def display_shape2D(ped: Pedestrian) -> go.Figure:
+def display_shape2D(agents: list[Agent]) -> go.Figure:
     """Draws the 2D shape of the pedestrian using Plotly."""
-    geometric_pedestrian = ped.calculate_geometric_shape()
-    fig = go.Figure()
 
-    if geometric_pedestrian.geom_type == "MultiPolygon":
-        for geom in geometric_pedestrian.geoms:
-            x, y = geom.exterior.xy
-            # Add filled polygon
+    fig = go.Figure()
+    for id_agent, agent in enumerate(agents):
+        id_agent += 1
+        geometric_agent = agent.shapes2D.get_geometric_shape()
+        agent_type = agent.agent_type
+        if geometric_agent.geom_type == "Polygon":
+            x, y = geometric_agent.exterior.xy
             fig.add_trace(
                 go.Scatter(
                     x=np.array(x),
@@ -41,47 +42,72 @@ def display_shape2D(ped: Pedestrian) -> go.Figure:
                     fill="toself",
                     mode="lines",
                     line={"color": "black", "width": 1},
-                    fillcolor="rgba(255, 0, 0, 0.5)",  # Red with transparency
-                    name="MultiPolygon",
+                    fillcolor="rgba(255, 0, 0, 0.5)",
+                    name=f"agent {id_agent}",
                 )
             )
-    elif geometric_pedestrian.geom_type == "Polygon":
-        x, y = geometric_pedestrian.exterior.xy
-        # Add filled polygon
-        fig.add_trace(
-            go.Scatter(
-                x=np.array(x),
-                y=np.array(y),
-                fill="toself",
-                mode="lines",
-                line={"color": "black", "width": 1},
-                fillcolor="rgba(255, 0, 0, 0.5)",  # Red with transparency
-                name="Polygon",
+            # Add pedestrian ID as annotation
+            centroid_x = np.mean(x)
+            centroid_y = np.mean(y)
+            fig.add_annotation(
+                x=centroid_x,
+                y=centroid_y,
+                text=f"agent {id_agent}",
+                showarrow=False,
+                font={"size": 12, "color": "white"},
+                align="center",
             )
-        )
+        elif geometric_agent.geom_type == "MultiPolygon":
+            for polygon in geometric_agent.geoms:
+                x, y = polygon.exterior.xy
+                fig.add_trace(
+                    go.Scatter(
+                        x=np.array(x),
+                        y=np.array(y),
+                        fill="toself",
+                        mode="lines",
+                        line={"color": "black", "width": 1},
+                        fillcolor="rgba(255, 0, 0, 0.5)",
+                    )
+                )
+            centroid_x = np.mean([np.mean(polygon.exterior.xy[0]) for polygon in geometric_agent.geoms])
+            centroid_y = np.mean([np.mean(polygon.exterior.xy[1]) for polygon in geometric_agent.geoms])
+            fig.add_annotation(
+                x=centroid_x,
+                y=centroid_y,
+                text=f"agent {id_agent}",
+                showarrow=False,
+                font={"size": 12, "color": "white"},
+                align="center",
+            )
 
     # Set layout properties
     fig.update_layout(
-        title="2D Shape of a Pedestrian",
         xaxis_title="X [cm]",
         yaxis_title="Y [cm]",
-        xaxis={"scaleanchor": "y", "showgrid": True},
-        yaxis={"showgrid": True},
+        xaxis={"scaleanchor": "y", "showgrid": False, "title_standoff": 15},
+        yaxis={"showgrid": False, "title_standoff": 15},
         showlegend=False,
-        margin={"l": 10, "r": 10, "t": 40, "b": 10},
+        margin={"l": 50, "r": 50, "t": 50, "b": 50},
+        width=550,
+        height=550,
     )
 
     return fig
 
 
-def display_body3D_orthogonal_projection(ped: Pedestrian) -> None:
+def display_body3D_orthogonal_projection(agent: Agent, extra_info: list[DeltaGenerator, str]) -> None:
     """Draws the orthogonal projection of the pedestrian's body."""
 
-    fig, ax = plt.subplots(figsize=(11, 8))
-    sm = plt.cm.ScalarMappable(cmap="coolwarm", norm=plt.Normalize(vmin=0, vmax=max(ped.body3D.keys())))
+    fig, ax = plt.subplots(figsize=(11, 11))
+    sm = plt.cm.ScalarMappable(cmap="coolwarm", norm=plt.Normalize(vmin=0, vmax=max(agent.shapes3D.shapes.keys())))
 
     # Plot each polygon with its corresponding height-based color
-    for height, multi_polygon in sorted(ped.body3D.items()):
+    min_height = min(agent.shapes3D.shapes.keys())
+    max_height = max(agent.shapes3D.shapes.keys())
+    for height, multi_polygon in sorted(agent.shapes3D.shapes.items()):
+        percent_completed = (height - min_height) / (max_height - min_height)
+        fun.update_progress_bar(extra_info[0], extra_info[1], percent_completed)
         for polygon in multi_polygon.geoms:
             x, y = polygon.exterior.xy
             ax.plot(x, y, color=sm.to_rgba(height), alpha=0.6, linewidth=2)
@@ -95,7 +121,7 @@ def display_body3D_orthogonal_projection(ped: Pedestrian) -> None:
     cbar.set_label("Height [cm]")
 
     # Set plot title and labels
-    ax.set_title(f"Orthogonal projection of a {ped.sex}")
+    ax.set_title(f"Orthogonal projection of a {agent.measures.measures["sex"]}")
     ax.margins(0)
     ax.set_aspect("equal")
     ax.set_xlabel("X [cm]")
@@ -105,23 +131,27 @@ def display_body3D_orthogonal_projection(ped: Pedestrian) -> None:
     return fig
 
 
-def display_body3D_polygons(ped: Pedestrian) -> None:
+def display_body3D_polygons(agent: Agent, extra_info: list[DeltaGenerator, str]) -> go.Figure:
     """Draws the 3D body of the pedestrian."""
 
     # Initialize a Plotly figure
     fig = go.Figure()
 
     # Normalize heights for color mapping
-    max_height = max(ped.body3D.keys())
-    min_height = min(ped.body3D.keys())
+    max_height = max(agent.shapes3D.shapes.keys())
+    min_height = min(agent.shapes3D.shapes.keys())
 
     # Add each polygon to the 3D plot
-    for height, multi_polygon in sorted(ped.body3D.items(), reverse=True):
+    for height, multi_polygon in sorted(agent.shapes3D.shapes.items(), reverse=True):
         # Reverse order for proper layering (start from top)
 
         normalized_height = (height - min_height) / (max_height - min_height)  # Normalize height for color scale
+
+        percent_completed = (max_height - height - min_height) / (max_height - min_height)
+        fun.update_progress_bar(extra_info[0], extra_info[1], percent_completed)
+
         # Assign color based on normalized height
-        if ped.sex == "female":
+        if agent.measures.measures["sex"] == "female":
             # Gradient from red to yellow
             color = f"rgba(255, {int(205 * (normalized_height))}, {int(205 * (1-normalized_height))}, 0.8)"
         else:
@@ -142,17 +172,17 @@ def display_body3D_polygons(ped: Pedestrian) -> None:
 
     # Determine axis ranges to set equal scale
     x_range = np.ptp(
-        [x for multi_polygon in ped.body3D.values() for polygon in multi_polygon.geoms for x in polygon.exterior.xy[0]]
+        [x for multi_polygon in agent.shapes3D.shapes.values() for polygon in multi_polygon.geoms for x in polygon.exterior.xy[0]]
     )
     y_range = np.ptp(
-        [y for multi_polygon in ped.body3D.values() for polygon in multi_polygon.geoms for y in polygon.exterior.xy[1]]
+        [y for multi_polygon in agent.shapes3D.shapes.values() for polygon in multi_polygon.geoms for y in polygon.exterior.xy[1]]
     )
     z_range = max_height - min_height
     max_range = max(x_range, y_range, z_range)
 
     # Customize the layout with same scale for all axes and add colorbar
     fig.update_layout(
-        title=f"3D body representation of a {ped.sex} with polygons",
+        # title=f"3D body representation of a {ped.sex}<br>   as a superposition of slices",
         scene={
             "xaxis_title": "X [cm]",
             "yaxis_title": "Y [cm]",
@@ -163,21 +193,28 @@ def display_body3D_polygons(ped: Pedestrian) -> None:
                 "y": y_range / max_range,
                 "z": z_range / max_range,
             },
+            # change with and height of the plot
         },
         showlegend=False,
+        width=500,
+        height=900,
+        scene_camera={"eye": {"x": 1.5, "y": 0.4, "z": 0.5}},
     )
 
-    fig.show()
+    return fig
 
 
-def display_body3D_mesh(ped: Pedestrian) -> None:
+def display_body3D_mesh(agent: Agent, extra_info: list[DeltaGenerator, str, int]) -> go.Figure:
     """
     Draws a continuous 3D mesh connecting contours at different heights using Plotly's Mesh3d.
     Fills missing triangles and smooths the mesh for better visualization.
     """
 
     # Reduce the number of heights to process
-    new_body = {height: multi_polygon for idx, (height, multi_polygon) in enumerate(ped.body3D.items()) if idx % 10 == 0}
+    precision = extra_info[2]
+    new_body = {
+        height: multi_polygon for idx, (height, multi_polygon) in enumerate(agent.shapes3D.shapes.items()) if idx % precision == 0
+    }
     print(f"Number of heights: {len(new_body)}")
 
     # Extract sorted heights
@@ -189,6 +226,11 @@ def display_body3D_mesh(ped: Pedestrian) -> None:
 
     # Iterate through pairs of consecutive heights
     for h_idx in range(len(sorted_heights) - 1):
+        percent_completed = (sorted_heights[0] - sorted_heights[h_idx] - sorted_heights[-1]) / (
+            sorted_heights[0] - sorted_heights[-1]
+        )
+        fun.update_progress_bar(extra_info[0], extra_info[1], percent_completed)
+
         height_high, height_low = sorted_heights[h_idx], sorted_heights[h_idx + 1]
         high_contours, low_contours = new_body[height_high], new_body[height_low]
 
@@ -247,16 +289,17 @@ def display_body3D_mesh(ped: Pedestrian) -> None:
 
     # Remove triangles associated with the last layer of vertices (if needed) with filter_mesh_by_z_threshold
     # because for the smallest height, we only have one leg and more precisely, just a few toes
-    min_height = min(ped.body3D.keys())
+    min_height = min(agent.shapes3D.shapes.keys())
     points_filled, all_triangles_filled = fun.filter_mesh_by_z_threshold(
         points_filled, all_triangles_filled, z_threshold=min_height + 0.1
     )
 
     # Normalize z-coordinates for color mapping
+    color_scale_name = "viridis" if agent.measures.measures["sex"] == "male" else "inferno"
     norm = Normalize(vmin=np.min(points_filled[:, 2]), vmax=np.max(points_filled[:, 2]))
     colorscale_values = norm(points_filled[:, 2])
-    viridis_colorscale = cm.get_cmap("viridis")(colorscale_values)[:, :3]
-    vertex_colors = [f"rgb({int(r * 255)}, {int(g * 255)}, {int(b * 255)})" for r, g, b in viridis_colorscale]
+    colorscale_values = cm.get_cmap(color_scale_name)(colorscale_values)[:, :3]
+    vertex_colors = [f"rgb({int(r * 255)}, {int(g * 255)}, {int(b * 255)})" for r, g, b in colorscale_values]
 
     print("\nPlotting...")
 
@@ -272,7 +315,7 @@ def display_body3D_mesh(ped: Pedestrian) -> None:
                 k=all_triangles_filled[:, 2],
                 facecolor=vertex_colors,
                 opacity=1.0,
-                colorscale="Viridis",
+                colorscale=color_scale_name,
                 intensity=points_filled[:, 2],
                 showscale=False,
             )
@@ -286,7 +329,7 @@ def display_body3D_mesh(ped: Pedestrian) -> None:
     max_range = max(x_range, y_range, z_range)
 
     fig.update_layout(
-        title=f"3D body representation of a {ped.sex} with a mesh",
+        title=f"3D body representation of a {agent.measures.measures["sex"]} with a mesh",
         scene={
             "xaxis_title": "X [cm]",
             "yaxis_title": "Y [cm]",
@@ -294,21 +337,24 @@ def display_body3D_mesh(ped: Pedestrian) -> None:
             "aspectmode": "manual",
             "aspectratio": {"x": x_range / max_range, "y": y_range / max_range, "z": z_range / max_range},
         },
+        width=500,
+        height=900,
+        scene_camera={"eye": {"x": 1.5, "y": 0.4, "z": 0.5}},
     )
 
-    fig.show()
+    return fig
 
 
 def display_crowd2D(crowd: Crowd) -> plt.Figure:
     """Draw the crowd of pedestrians in the room."""
-    crowd_to_draw = crowd.generate_packing_crowd()
+
     fig, ax = plt.subplots(figsize=(8, 8))
-    for ped in crowd_to_draw.values():
+    for ped in crowd.packed_crowd.values():
         ped_geometric = ped.calculate_geometric_shape()
         x, y = ped_geometric.exterior.xy
         ax.fill(x, y, alpha=0.8)
         ax.plot(x, y, color="black", linewidth=0.5)
-    x_min, y_min, x_max, y_max = crowd.geometry.bounds
+    x_min, y_min, x_max, y_max = crowd.boundaries.bounds
     ax.set_xlim(x_min, x_max)
     ax.set_ylim(y_min, y_max)
     ax.set_aspect("equal", "box")
@@ -318,21 +364,39 @@ def display_crowd2D(crowd: Crowd) -> plt.Figure:
     return fig
 
 
-def display_disbtribution(df: pd.DataFrame, column: str) -> plt.Figure:
-    """Display the distribution of a given column in a DataFrame."""
+def display_distribution(df: pd.DataFrame, column: str):
+    """Display the distribution of a given column in a DataFrame using Plotly."""
     if column not in df.columns:
         raise ValueError(f"Column '{column}' not found in the DataFrame.")
+    if "Sex" not in df.columns:
+        raise ValueError("Column 'Sex' not found in the DataFrame, required for hue.")
+    fig = go.Figure()
 
-    fig, ax = plt.subplots(figsize=(9, 8))
-    ax = sns.histplot(
-        data=df,
-        x=column,
-        hue="Sex",
-        alpha=0.5,
-        palette={"male": "blue", "female": "red"},
-        edgecolor=None,
+    values_male = df[df["Sex"] == "male"][column]
+    values_female = df[df["Sex"] == "female"][column]
+
+    fig.add_trace(
+        go.Histogram(
+            x=values_male,
+            name="male",
+            marker_color="blue",
+        )
     )
-    ax.get_legend().set_title("")
-    plt.xlabel(column)
-    plt.ylabel("Count")
+    fig.add_trace(
+        go.Histogram(
+            x=values_female,
+            name="female",
+            marker_color="red",
+        )
+    )
+    fig.update_layout(barmode="overlay")
+    fig.update_traces(opacity=0.5)
+    # Add custom hover text using hovertemplate
+    if column != "Sex":
+        fig.update_traces(hovertemplate=f"<b>{column[:-5]}</b>" + " = %{x} cm<br><b>Count = </b>%{y}</b>")
+    else:
+        fig.update_traces(hovertemplate=f"<b>{column}</b>" + " = %{x}<br><b>Count = </b>%{y}</b><extra></extra>")
+
+    fig.update_layout(xaxis_title=column, yaxis_title="Count", legend_title_text="", width=600, height=500)
+
     return fig

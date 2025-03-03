@@ -1,7 +1,11 @@
+""" User interface module."""
+
 from typing import Any
 
 import streamlit as st
 from streamlit_option_menu import option_menu
+
+import src.utils.constants as cst
 
 
 def setup_app() -> None:
@@ -13,7 +17,7 @@ def setup_app() -> None:
         initial_sidebar_state="expanded",
         menu_items={
             "Get Help": "https://github.com/odufour7/Shape",
-            "About": "# Shape Project\n\n" + ":flag-fr:.",
+            "About": "# Shape Project " + ":flag-fr:",
         },
     )
 
@@ -24,14 +28,14 @@ def init_sidebar() -> Any:
     To add more tabs, add the name of the tab and add an icon from
     https://icons.getbootstrap.com/
     """
-    # Custom CSS to handle multi-line text alignment and indentation
+    # Custom CSS rules to handle multi-line text alignment and indentation, that applies to the entire app.
     st.markdown(
         """
         <style>
         .nav-link {
             display: flex;
             align-items: center;
-            white-space: pre-wrap; /* Allows text to wrap */
+            white-space: pre-wrap; /* Ensures that long text wraps onto multiple lines without breaking formatting */
             text-align: left;
         }
         .nav-link div {
@@ -43,35 +47,40 @@ def init_sidebar() -> Any:
         }
         </style>
         """,
-        unsafe_allow_html=True,
+        unsafe_allow_html=True,  # enables Streamlit to render raw HTML and CSS
     )
     return option_menu(
         "Shape project",
         [
-            "About",
-            "Pedestrian 2D",
-            "Pedestrian 3D",
-            "Crowd",
-            "Anthropometry",
+            cst.FIRST_TAB_NAME,
+            cst.SECOND_TAB_NAME,
+            cst.THIRD_TAB_NAME,
+            cst.FOURTH_TAB_NAME,
+            cst.FIFTH_TAB_NAME,
+            cst.SIXTH_TAB_NAME,
         ],
         icons=[
             "info-square",
             "person-fill",
             "person-walking",
-            "people-fill",
             "bar-chart-line",
+            "people-fill",
+            "people-fill",
         ],
         menu_icon="cast",
         default_index=0,
         orientation="horizontal",
         styles={
-            "container": {"padding": "0!important", "background-color": "#fafafa"},
-            "icon": {"color": "gray", "font-size": "15px"},
+            "container": {
+                "padding": "0!important",  # Removes padding from container. (generate space around an element's content)
+                "background-color": "#fafafa",  # Sets the background color of the container to a light gray shade (#fafafa).
+            },
+            "icon": {"color": "red", "font-size": "15px"},
             "nav-link": {
                 "font-size": "15px",
                 "text-align": "left",
                 "margin": "0px",
-                "--hover-color": "#eee",
+                "--hover-color": "#fafafa",  # Sets the hover color to a light gray shade (#eee).
             },
         },
     )

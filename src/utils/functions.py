@@ -1,11 +1,20 @@
 """This module contains utility functions for data processing and manipulation."""
 
+import json
 import pickle
 from pathlib import Path
 from typing import Any
+from xml.dom.minidom import parseString
 
 import numpy as np
+import pandas as pd
+import streamlit as st
+from dicttoxml import dicttoxml
 from shapely.geometry import MultiPolygon
+from streamlit.delta_generator import DeltaGenerator
+
+import src.utils.constants as cst
+from src.utils.typing_custom import BackupDataType, SapeDataType
 
 
 def load_pickle(file_path: Path) -> Any:
@@ -21,6 +30,43 @@ def save_pickle(data, file_path: Path) -> None:
         pickle.dump(data, f)
 
 
+@st.cache_data
+def load_data(filename):
+    """Load a CSV file as a pandas DataFrame."""
+    return pd.read_csv(filename)
+
+
+def wrap_angle(angle: float) -> float:
+    """Wrap an angle to the range [-180, 180)."""
+    return (angle + 180.0) % (2 * 180.0) - 180.0
+
+
+def get_shapes_data(backup_data_type: BackupDataType, shapes_data: SapeDataType) -> tuple[str, str]:
+    """Prepare the shapes data based on the specified format."""
+    if backup_data_type == cst.BackupDataTypes.json.name:
+        # Convert the dictionary to JSON
+        data = json.dumps(shapes_data, indent=4)
+        mime_type = "application/json"
+    elif backup_data_type == cst.BackupDataTypes.xml.name:
+        # Convert the dictionary to XML
+        xml_data = dicttoxml(shapes_data, custom_root="shapes", attr_type=False)
+        # Parse the XML string
+        dom = parseString(xml_data)
+        # Pretty-print the XML with indentation
+        pretty_xml = dom.toprettyxml(indent="  ")
+        # Remove empty lines
+        data = "\n".join([line for line in pretty_xml.split("\n") if line.strip()])
+        mime_type = "application/xml"
+    elif backup_data_type == cst.BackupDataTypes.pickle.name:
+        # Convert the dictionary to a pickle byte stream
+        data = pickle.dumps(shapes_data)
+        mime_type = "application/octet-stream"
+    else:
+        raise ValueError(f"Unsupported backup data type: {backup_data_type}")
+
+    return data, mime_type
+
+
 def extract_coordinates(multi_polygon: MultiPolygon) -> tuple[np.ndarray, np.ndarray]:
     """Extracts the x and y coordinates of a MultiPolygon."""
     all_x, all_y = [], []
@@ -29,11 +75,6 @@ def extract_coordinates(multi_polygon: MultiPolygon) -> tuple[np.ndarray, np.nda
         all_x.extend(x)
         all_y.extend(y)
     return np.array(all_x), np.array(all_y)
-
-
-def wrap_angle(angle: float) -> float:
-    """Wrap an angle to the range [-π, π)."""
-    return (angle + np.pi) % (2 * np.pi) - np.pi
 
 
 def filter_mesh_by_z_threshold(
@@ -59,3 +100,13 @@ def filter_mesh_by_z_threshold(
     filtered_points = all_points[valid_vertices_mask]
 
     return filtered_points, filtered_triangles
+
+
+def update_progress_bar(progress_bar: DeltaGenerator, status_text: DeltaGenerator, frac: float) -> None:
+    """Update the progress bar and status text."""
+    # Update progress bar
+    percent_complete = int(frac * 100)
+    progress_bar.progress(percent_complete)
+    # Update status text
+    progress_text = "Operation in progress. Please wait. ⏳"
+    status_text.text(f"{progress_text} {percent_complete}%")

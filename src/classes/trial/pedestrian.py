@@ -40,6 +40,14 @@ class InitialState:
         """Returns the sex."""
         return self._sex
 
+    @sex.setter
+    def sex(self, value) -> None:
+        """Set a new value for the sex."""
+        if isinstance(value, str) and value not in ["male", "female"]:
+            raise ValueError("The sex should be either 'male' or 'female'.")
+        self._sex = value
+        self._body3D = fun.load_pickle(cst.PICKLE_DIR / f"{value}_3dBody.pkl")
+
     @property
     def height(self) -> float:
         """Returns the initial height of the pedestrian."""
@@ -108,6 +116,8 @@ class Pedestrian:
         if value <= 0:
             raise ValueError("Chest depth must be a positive value.")
         self._chest_depth = value
+        self._dataframe_shape = self.calculate_dataframe_shape()
+        self._body3D = self.calculate_body3D()
 
     @property
     def bideltoid_breadth(self) -> float:
@@ -120,6 +130,8 @@ class Pedestrian:
         if value <= 0:
             raise ValueError("Bideltoid breadth must be a positive value.")
         self._bideltoid_breadth = value
+        self._dataframe_shape = self.calculate_dataframe_shape()
+        self._body3D = self.calculate_body3D()
 
     @property
     def height(self) -> float:
@@ -132,6 +144,8 @@ class Pedestrian:
         if value <= 0:
             raise ValueError("Height must be a positive value.")
         self._height = value
+        self._dataframe_shape = self.calculate_dataframe_shape()
+        self._body3D = self.calculate_body3D()
 
     @property
     def sex(self) -> Sex:
@@ -144,6 +158,8 @@ class Pedestrian:
         if value not in ["male", "female"]:
             raise ValueError("Sex should be either 'male' or 'female'.")
         self._sex = value
+        self._initial_state.sex = value
+        self._body3D = self.calculate_body3D()
 
     @property
     def young_modulus(self) -> float:
@@ -199,11 +215,10 @@ class Pedestrian:
             )
         ]
 
+        # Adjust centers of disks
+        adjusted_centers = [scale(disk.centroid, xfact=scale_factor_x, origin=homothety_center) for disk in disks]
         # Adjust disks by scaling
         adjusted_disks = [scale(circle, xfact=scale_factor_y, yfact=scale_factor_y, origin=homothety_center) for circle in disks]
-
-        # Adjust centers of disks
-        adjusted_centers = [scale(disk.centroid, xfact=scale_factor_x, origin=homothety_center) for disk in adjusted_disks]
 
         # Create a DataFrame for the adjusted shape
         df_pedestrian = pd.DataFrame(
