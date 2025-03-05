@@ -1,4 +1,4 @@
-""" Class to store body shapes dynamically based on agent type. """
+"""Class to store body shapes dynamically based on agent type."""
 
 from dataclasses import dataclass, field
 from typing import get_args
@@ -34,14 +34,18 @@ class Shapes3D:
         # Validate that the provided shapes are valid Shapely objects
         for height, multipolygon in self.shapes.items():
             if not isinstance(multipolygon, MultiPolygon):
-                raise ValueError(f"Invalid shape type for '{height}': {type(multipolygon)}")
+                raise ValueError(
+                    f"Invalid shape type for '{height}': {type(multipolygon)}"
+                )
             if not isinstance(height, float):
                 raise ValueError(f"Invalid height type for '{height}': {type(height)}")
 
     def create_pedestrian3D(self, measurements: AgentMeasures) -> None:
         """Returns the 3D body of the pedestrian."""
 
-        initial_pedestrian = InitialPedestrian(measurements.measures[cst.PedestrianParts.sex.name])
+        initial_pedestrian = InitialPedestrian(
+            measurements.measures[cst.PedestrianParts.sex.name]
+        )
 
         scale_factor_x = (
             measurements.measures[cst.PedestrianParts.bideltoid_breadth.name]
@@ -52,13 +56,24 @@ class Shapes3D:
             / initial_pedestrian.measures[cst.PedestrianParts.chest_depth.name]
         )
         scale_factor_z = (
-            measurements.measures[cst.PedestrianParts.height.name] / initial_pedestrian.measures[cst.PedestrianParts.height.name]
+            measurements.measures[cst.PedestrianParts.height.name]
+            / initial_pedestrian.measures[cst.PedestrianParts.height.name]
         )
 
         current_body3D = {}
-        homothety_center = MultiPoint([multipolygon.centroid for multipolygon in initial_pedestrian.shapes3D.values()]).centroid
+        homothety_center = MultiPoint(
+            [
+                multipolygon.centroid
+                for multipolygon in initial_pedestrian.shapes3D.values()
+            ]
+        ).centroid
         for height, multipolygon in initial_pedestrian.shapes3D.items():
-            scaled_multipolygon = scale(multipolygon, xfact=scale_factor_x, yfact=scale_factor_y, origin=homothety_center)
+            scaled_multipolygon = scale(
+                multipolygon,
+                xfact=scale_factor_x,
+                yfact=scale_factor_y,
+                origin=homothety_center,
+            )
             scaled_height = height * scale_factor_z
             current_body3D[scaled_height] = scaled_multipolygon
 

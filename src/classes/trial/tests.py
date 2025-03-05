@@ -8,9 +8,27 @@ def main():
     # Test 1: Create a pedestrian agent with three circles of different radii
     print("=== Test 1: Pedestrian Agent with Circles ===")
     pedestrian_shapes = Shapes()
-    pedestrian_shapes.create_shape(name="circle1", shape_type=ShapeTypes.CIRCLE, center=(0, 0), radius=1, young_modulus=1.0)
-    pedestrian_shapes.create_shape(name="circle2", shape_type=ShapeTypes.CIRCLE, center=(0, 0), radius=2, young_modulus=1.5)
-    pedestrian_shapes.create_shape(name="circle3", shape_type=ShapeTypes.CIRCLE, center=(0, 0), radius=3, young_modulus=2.0)
+    pedestrian_shapes.create_shape(
+        name="circle1",
+        shape_type=ShapeTypes.CIRCLE,
+        center=(0, 0),
+        radius=1,
+        young_modulus=1.0,
+    )
+    pedestrian_shapes.create_shape(
+        name="circle2",
+        shape_type=ShapeTypes.CIRCLE,
+        center=(0, 0),
+        radius=2,
+        young_modulus=1.5,
+    )
+    pedestrian_shapes.create_shape(
+        name="circle3",
+        shape_type=ShapeTypes.CIRCLE,
+        center=(0, 0),
+        radius=3,
+        young_modulus=2.0,
+    )
 
     pedestrian_measures = BodyMeasures(
         agent_type=AgentTypes.PEDESTRIAN,
@@ -57,7 +75,9 @@ def main():
         young_modulus=3.0,
     )
 
-    robot_measures = BodyMeasures(agent_type=AgentTypes.CUSTOM, measures={})  # No specific measures for custom agents
+    robot_measures = BodyMeasures(
+        agent_type=AgentTypes.CUSTOM, measures={}
+    )  # No specific measures for custom agents
 
     robot_agent = Agent(
         sex=None,
@@ -82,16 +102,31 @@ def main():
         "agent_type": AgentTypes.PEDESTRIAN,
         "measures": {"bideltoid_breadth": 45.0, "chest_depth": 28.0, "height": 160.0},
         "shapes": {
-            "circle1": {"shape_type": ShapeTypes.CIRCLE, "center": (1, 1), "radius": 2.5},
-            "circle2": {"shape_type": ShapeTypes.CIRCLE, "center": (2, 2), "radius": 3.5},
-            "circle3": {"shape_type": ShapeTypes.CIRCLE, "center": (3, 3), "radius": 4.5},
+            "circle1": {
+                "shape_type": ShapeTypes.CIRCLE,
+                "center": (1, 1),
+                "radius": 2.5,
+            },
+            "circle2": {
+                "shape_type": ShapeTypes.CIRCLE,
+                "center": (2, 2),
+                "radius": 3.5,
+            },
+            "circle3": {
+                "shape_type": ShapeTypes.CIRCLE,
+                "center": (3, 3),
+                "radius": 4.5,
+            },
         },
     }
 
     pedestrian_from_dict = Agent(
         sex=pedestrian_dict["sex"],
         agent_type=pedestrian_dict["agent_type"],
-        measures=BodyMeasures(agent_type=pedestrian_dict["agent_type"], measures=pedestrian_dict["measures"]),
+        measures=BodyMeasures(
+            agent_type=pedestrian_dict["agent_type"],
+            measures=pedestrian_dict["measures"],
+        ),
         shapes={
             name: {
                 **shape_data,
@@ -112,8 +147,20 @@ def main():
         "agent_type": AgentTypes.CUSTOM,
         "measures": {},
         "shapes": {
-            "rectangle1": {"shape_type": ShapeTypes.RECTANGLE, "min_x": 0, "min_y": 0, "max_x": 2, "max_y": 1},
-            "rectangle2": {"shape_type": ShapeTypes.RECTANGLE, "min_x": 2, "min_y": 0, "max_x": 4, "max_y": 1},
+            "rectangle1": {
+                "shape_type": ShapeTypes.RECTANGLE,
+                "min_x": 0,
+                "min_y": 0,
+                "max_x": 2,
+                "max_y": 1,
+            },
+            "rectangle2": {
+                "shape_type": ShapeTypes.RECTANGLE,
+                "min_x": 2,
+                "min_y": 0,
+                "max_x": 4,
+                "max_y": 1,
+            },
         },
     }
 

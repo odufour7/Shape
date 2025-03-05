@@ -1,4 +1,4 @@
-""" This module reads the anthropometric data from the ANSUR II dataset and saves it as a pandas DataFrame."""
+"""This module reads the anthropometric data from the ANSUR II dataset and saves it as a pandas DataFrame."""
 
 from pathlib import Path
 
@@ -16,7 +16,12 @@ def main() -> None:
     df = fun.load_pickle(cst.PICKLE_DIR / "ANSUREIIPublic.pkl")
 
     # Define default attributes to display
-    default_attributes = ["Sex", "Height [cm]", "Chest depth [cm]", "Bideltoid breadth [cm]"]
+    default_attributes = [
+        "Sex",
+        "Height [cm]",
+        "Chest depth [cm]",
+        "Bideltoid breadth [cm]",
+    ]
 
     # Sidebar: allow users to select attributes dynamically
     st.sidebar.title("Adjust parameters")
@@ -40,10 +45,14 @@ def main() -> None:
             df_female = df[df["Sex"] == "female"]
             st.write("**Male**")
             st.write(f"Mean = {df_male[selected_attribute].mean():.2f} cm ")
-            st.write(f"Standard deviation = {df_male[selected_attribute].std():.2f} cm ")
+            st.write(
+                f"Standard deviation = {df_male[selected_attribute].std():.2f} cm "
+            )
             st.write("**Female**")
             st.write(f"Mean = {df_female[selected_attribute].mean():.2f} cm ")
-            st.write(f"Standard deviation = {df_female[selected_attribute].std():.2f} cm ")
+            st.write(
+                f"Standard deviation = {df_female[selected_attribute].std():.2f} cm "
+            )
 
     # Download section in the sidebar
     st.sidebar.title("Download")
@@ -54,10 +63,15 @@ def main() -> None:
         mime="application/pdf",
     )
     # Add a selectbox for choosing the dataset
-    dataset_choice = st.sidebar.selectbox("Choose ANSUR II dataset to donwload:", ("Female", "Male"))
+    dataset_choice = st.sidebar.selectbox(
+        "Choose ANSUR II dataset to donwload:", ("Female", "Male")
+    )
     # Define the filenames based on the choice
     path_file = Path(__file__).parent.parent.parent / "data" / "csv"
-    filename_dict = {"Female": path_file / "ANSURIIFEMALEPublic.csv", "Male": path_file / "ANSURIIMALEPublic.csv"}
+    filename_dict = {
+        "Female": path_file / "ANSURIIFEMALEPublic.csv",
+        "Male": path_file / "ANSURIIMALEPublic.csv",
+    }
     df = fun.load_data(filename_dict[dataset_choice])
 
     # Create the download filename

@@ -1,4 +1,4 @@
-""" Constants used in the project. """
+"""Constants used in the project."""
 
 from enum import Enum, auto
 from pathlib import Path
@@ -107,3 +107,45 @@ class BikeParts(Enum):
     total_length = auto()
     handlebar_length = auto()
     top_tube_length = auto()
+
+
+class CrowdPedestrianStat(Enum):
+    """Enum for a crowd made of pedestrians"""
+
+    male_proportion = auto()
+
+    mean_chest_depth = auto()
+    std_dev_chest_depth = auto()
+    min_chest_depth = auto()
+    max_chest_depth = auto()
+
+    mean_bideltoid_breadth = auto()
+    std_dev_bideltoid_breadth = auto()
+    min_bideltoid_breadth = auto()
+    max_bideltoid_breadth = auto()
+
+
+class CrowdBikeStat(Enum):
+    """Enum for a crowd made of bikes"""
+
+    number_of_bikes = auto()
+
+    mean_handlebar_length = auto()
+    std_dev_handlebar_length = auto()
+    min_handlebar_length = auto()
+    max_handlebar_length = auto()
+
+    mean_top_tube_length = auto()
+    std_dev_top_tube_length = auto()
+    min_top_tube_length = auto()
+    max_top_tube_length = auto()
+
+    mean_total_length = auto()
+    std_dev_total_length = auto()
+    min_total_length = auto()
+    max_total_length = auto()
+
+    mean_wheel_width = auto()
+    std_dev_wheel_width = auto()
+    min_wheel_width = auto()
+    max_wheel_width = auto()

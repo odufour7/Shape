@@ -1,4 +1,4 @@
-""" Crowd class definition and example usage. """
+"""Crowd class definition and example usage."""
 
 import numpy as np
 from scipy.stats import truncnorm

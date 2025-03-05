@@ -1,4 +1,4 @@
-""" User interface module."""
+"""User interface module."""
 
 from typing import Any
 

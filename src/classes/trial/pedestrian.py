@@ -1,4 +1,4 @@
-""" This module contains functions to load and process data, as well as classes to represent pedestrians. """
+"""This module contains functions to load and process data, as well as classes to represent pedestrians."""
 
 import numpy as np
 import pandas as pd
@@ -23,16 +23,24 @@ class InitialState:
         self._sex: Sex = sex
         self._dataframe_shape: pd.DataFrame = pd.DataFrame(
             {
-                "radius [cm]": np.array([282.41232, 388.36243, 405.97552, 388.36243, 282.41232]) * cst.PIXEL_TO_CM,
-                "x [cm]": np.array([-552.7920, -242.5697, 0.0000, 242.5697, 552.7920]) * cst.PIXEL_TO_CM,
-                "y [cm]": np.array([0.00000, 71.73901, 86.11438, 71.73901, 0.00000]) * cst.PIXEL_TO_CM,
+                "radius [cm]": np.array(
+                    [282.41232, 388.36243, 405.97552, 388.36243, 282.41232]
+                )
+                * cst.PIXEL_TO_CM,
+                "x [cm]": np.array([-552.7920, -242.5697, 0.0000, 242.5697, 552.7920])
+                * cst.PIXEL_TO_CM,
+                "y [cm]": np.array([0.00000, 71.73901, 86.11438, 71.73901, 0.00000])
+                * cst.PIXEL_TO_CM,
             }
         )
         self._bideltoid_breadth: float = (
-            2.0 * self._dataframe_shape["x [cm]"].iloc[-1] + 2.0 * self._dataframe_shape["radius [cm]"].iloc[-1]
+            2.0 * self._dataframe_shape["x [cm]"].iloc[-1]
+            + 2.0 * self._dataframe_shape["radius [cm]"].iloc[-1]
         )
         self._chest_depth: float = 2.0 * self._dataframe_shape["radius [cm]"].iloc[2]
-        self._body3D: dict[int, Polygon] = fun.load_pickle(cst.PICKLE_DIR / f"{sex}_3dBody.pkl")
+        self._body3D: dict[int, Polygon] = fun.load_pickle(
+            cst.PICKLE_DIR / f"{sex}_3dBody.pkl"
+        )
         self._height: float = abs(max(self._body3D.keys()) - min(self._body3D.keys()))
 
     @property
@@ -88,7 +96,9 @@ class Pedestrian:
         """Initializes a Pedestrian object."""
 
         if chest_depth <= 0 or bideltoid_breadth <= 0 or height <= 0:
-            raise ValueError("Chest depth and bideltoid breadth must be positive values.")
+            raise ValueError(
+                "Chest depth and bideltoid breadth must be positive values."
+            )
         if sex not in ["male", "female"]:
             raise ValueError("The sex should be either 'male' or 'female'.")
         if young_modulus <= 0:
@@ -203,7 +213,9 @@ class Pedestrian:
         scale_factor_x = self.bideltoid_breadth / self.initial_state.bideltoid_breadth
         scale_factor_y = self.chest_depth / self.initial_state.chest_depth
         df_init_shape = self.initial_state.dataframe_shape
-        homothety_center = Point(df_init_shape["x [cm]"].iloc[2], df_init_shape["y [cm]"].iloc[4])
+        homothety_center = Point(
+            df_init_shape["x [cm]"].iloc[2], df_init_shape["y [cm]"].iloc[4]
+        )
 
         # Create initial disks
         disks = [
@@ -216,14 +228,27 @@ class Pedestrian:
         ]
 
         # Adjust centers of disks
-        adjusted_centers = [scale(disk.centroid, xfact=scale_factor_x, origin=homothety_center) for disk in disks]
+        adjusted_centers = [
+            scale(disk.centroid, xfact=scale_factor_x, origin=homothety_center)
+            for disk in disks
+        ]
         # Adjust disks by scaling
-        adjusted_disks = [scale(circle, xfact=scale_factor_y, yfact=scale_factor_y, origin=homothety_center) for circle in disks]
+        adjusted_disks = [
+            scale(
+                circle,
+                xfact=scale_factor_y,
+                yfact=scale_factor_y,
+                origin=homothety_center,
+            )
+            for circle in disks
+        ]
 
         # Create a DataFrame for the adjusted shape
         df_pedestrian = pd.DataFrame(
             {
-                "radius [cm]": [disk.exterior.distance(disk.centroid) for disk in adjusted_disks],
+                "radius [cm]": [
+                    disk.exterior.distance(disk.centroid) for disk in adjusted_disks
+                ],
                 "x [cm]": [center.x for center in adjusted_centers],
                 "y [cm]": [center.y for center in adjusted_centers],
             }
@@ -240,13 +265,17 @@ class Pedestrian:
         """Create a geometric agent shape based on the provided agent shape DataFrame."""
         df_shape = self.dataframe_shape
         circles = [
-            Point(df_shape.loc[i, "x [cm]"], df_shape.loc[i, "y [cm]"]).buffer(df_shape.loc[i, "radius [cm]"], resolution=100)
+            Point(df_shape.loc[i, "x [cm]"], df_shape.loc[i, "y [cm]"]).buffer(
+                df_shape.loc[i, "radius [cm]"], resolution=100
+            )
             for i in range(cst.DISK_NUMBER)
         ]
 
         return unary_union(circles)
 
-    def translate_shape(self, x_translation: float, y_translation: float) -> pd.DataFrame:
+    def translate_shape(
+        self, x_translation: float, y_translation: float
+    ) -> pd.DataFrame:
         """Translate the pedestrian shape by the given x and y translations."""
         df_shape = self.dataframe_shape
         df_shape["x [cm]"] += x_translation
@@ -261,10 +290,16 @@ class Pedestrian:
         df_shape["x [cm]"] -= shape_CM[0]
         df_shape["y [cm]"] -= shape_CM[1]
         # rotate shape
-        df_shape["x_rotated"] = df_shape["x [cm]"].copy() * np.cos(angle) - df_shape["y [cm]"].copy() * np.sin(angle)
-        df_shape["y_rotated"] = df_shape["x [cm]"].copy() * np.sin(angle) + df_shape["y [cm]"].copy() * np.cos(angle)
+        df_shape["x_rotated"] = df_shape["x [cm]"].copy() * np.cos(angle) - df_shape[
+            "y [cm]"
+        ].copy() * np.sin(angle)
+        df_shape["y_rotated"] = df_shape["x [cm]"].copy() * np.sin(angle) + df_shape[
+            "y [cm]"
+        ].copy() * np.cos(angle)
         df_shape.drop(columns=["x [cm]", "y [cm]"], inplace=True)
-        df_shape.rename(columns={"x_rotated": "x [cm]", "y_rotated": "y [cm]"}, inplace=True)
+        df_shape.rename(
+            columns={"x_rotated": "x [cm]", "y_rotated": "y [cm]"}, inplace=True
+        )
         # translate shape back to the original position
         df_shape["x [cm]"] += shape_CM[0]
         df_shape["y [cm]"] += shape_CM[1]
@@ -293,15 +328,24 @@ class Pedestrian:
         scale_factor_z = self.height / self.initial_state.height
 
         current_body3D = {}
-        homothety_center = Pedestrian.calculate_body_vertical_axis(self.initial_state.body3D)
+        homothety_center = Pedestrian.calculate_body_vertical_axis(
+            self.initial_state.body3D
+        )
         for height, multipolygon in self.initial_state.body3D.items():
-            scaled_multipolygon = scale(multipolygon, xfact=scale_factor_x, yfact=scale_factor_y, origin=homothety_center)
+            scaled_multipolygon = scale(
+                multipolygon,
+                xfact=scale_factor_x,
+                yfact=scale_factor_y,
+                origin=homothety_center,
+            )
             scaled_height = height * scale_factor_z
             current_body3D[scaled_height] = scaled_multipolygon
 
         return current_body3D
 
-    def translate_body3D(self, dx: float, dy: float, dz: float) -> dict[int, MultiPolygon]:
+    def translate_body3D(
+        self, dx: float, dy: float, dz: float
+    ) -> dict[int, MultiPolygon]:
         """Translates the 3D body of the pedestrian by the specified displacements dx, dy, and dz."""
         translated_body3D = {}
         for height, multipolygon in self.body3D.items():
@@ -313,5 +357,7 @@ class Pedestrian:
         rotated_body3D = {}
         centroid_body = Pedestrian.calculate_body_vertical_axis(self.body3D)
         for height, multipolygon in self.body3D.items():
-            rotated_body3D[height] = rotate(multipolygon, angle, origin=centroid_body, use_radians=True)
+            rotated_body3D[height] = rotate(
+                multipolygon, angle, origin=centroid_body, use_radians=True
+            )
         return rotated_body3D

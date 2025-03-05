@@ -1,4 +1,4 @@
-""" Main file to run the application. """
+"""Main file to run the application."""
 
 import src.utils.constants as cst
 from src.datafactory import datafactory

@@ -35,9 +35,13 @@ def main():
                 "height": cst.DEFAULT_HEIGHT,
             },
         )
-        new_agent = Agent(agent_type=cst.AgentTypes.pedestrian.name, measures=agent_measures)
+        new_agent = Agent(
+            agent_type=cst.AgentTypes.pedestrian.name, measures=agent_measures
+        )
         agents.append(new_agent)
-        st.session_state.current_agent_id = len(agents) - 1  # Set the new pedestrian as current
+        st.session_state.current_agent_id = (
+            len(agents) - 1
+        )  # Set the new pedestrian as current
 
     if st.sidebar.button("Add a bike"):
         agent_measures = AgentMeasures(
@@ -51,11 +55,13 @@ def main():
         )
         new_agent = Agent(agent_type=cst.AgentTypes.bike.name, measures=agent_measures)
         agents.append(new_agent)
-        st.session_state.current_agent_id = len(agents) - 1  # Set the new pedestrian as current
+        st.session_state.current_agent_id = (
+            len(agents) - 1
+        )  # Set the new pedestrian as current
 
     # Sidebar: Dropdown to select a pedestrian
     if agents:
-        agent_ids = [f"Agent {i+1}" for i in range(len(agents))]
+        agent_ids = [f"Agent {i + 1}" for i in range(len(agents))]
         selected_id = st.sidebar.selectbox(
             "Select Agent",
             options=range(len(agents)),
@@ -75,7 +81,9 @@ def main():
 
             # Update the currently selected pedestrian ID
             if agents:
-                st.session_state.current_agent_id = min(st.session_state.current_agent_id, len(agents) - 1)
+                st.session_state.current_agent_id = min(
+                    st.session_state.current_agent_id, len(agents) - 1
+                )
             else:
                 st.session_state.current_agent_id = None
                 # rerun the file to update the sliders
@@ -183,7 +191,9 @@ def main():
         )
 
         # Update shape transformations
-        current_agent.translate(current_agent.x_translation, current_agent.y_translation)
+        current_agent.translate(
+            current_agent.x_translation, current_agent.y_translation
+        )
         current_agent.rotate(current_agent.rotation_angle)
 
     # Main Page Content: Plot all pedestrians
@@ -191,41 +201,51 @@ def main():
     col1, _ = st.columns([2.0, 1])  # Adjust proportions as needed
     with col1:
         if agents:
-            fig = plot.display_shape2D(agents)  # Pass the list of all pedestrians to the plot function
+            fig = plot.display_shape2D(
+                agents
+            )  # Pass the list of all pedestrians to the plot function
             st.plotly_chart(fig)
         else:
-            st.write("No pedestrians to display.")
+            st.write("No agents to display.")
 
-    # Streamlit button in the sidebar to download the graph in PDF format
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    st.sidebar.header("Download")
-    st.sidebar.download_button(
-        label="Download plot as PDF",
-        data=fig.to_image(format="pdf"),
-        file_name=f"scene_custom_crowd_{timestamp}.pdf",
-        mime="application/pdf",
-    )
-    # Create a select box for format selection
-    backup_data_type = st.sidebar.selectbox(
-        "Select backup format:",
-        options=[cst.BackupDataTypes.json.name, cst.BackupDataTypes.xml.name, cst.BackupDataTypes.pickle.name],
-        format_func=lambda x: x.upper(),
-        help="Choose the format for your data backup.",
-    )
-    # Add a download button
-    filename = f"custom_crowd_{backup_data_type}_{timestamp}.{backup_data_type}"
-    crowd_dict = {
-        f"agent{id_agent}": {"type": agent.agent_type, "shapes": agent.shapes2D.get_additional_parameters()}
-        for id_agent, agent in enumerate(agents)
-    }
+    if agents:
+        # Streamlit button in the sidebar to download the graph in PDF format
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        st.sidebar.header("Download")
+        st.sidebar.download_button(
+            label="Download plot as PDF",
+            data=fig.to_image(format="pdf"),
+            file_name=f"scene_custom_crowd_{timestamp}.pdf",
+            mime="application/pdf",
+        )
+        # Create a select box for format selection
+        backup_data_type = st.sidebar.selectbox(
+            "Select backup format:",
+            options=[
+                cst.BackupDataTypes.json.name,
+                cst.BackupDataTypes.xml.name,
+                cst.BackupDataTypes.pickle.name,
+            ],
+            format_func=lambda x: x.upper(),
+            help="Choose the format for your data backup.",
+        )
+        # Add a download button
+        filename = f"custom_crowd_{backup_data_type}_{timestamp}.{backup_data_type}"
+        crowd_dict = {
+            f"agent{id_agent}": {
+                "type": agent.agent_type,
+                "shapes": agent.shapes2D.get_additional_parameters(),
+            }
+            for id_agent, agent in enumerate(agents)
+        }
 
-    data, mime_type = fun.get_shapes_data(backup_data_type, crowd_dict)
-    st.sidebar.download_button(
-        label=f"Download data as {backup_data_type.upper()}",
-        data=data,
-        file_name=filename,
-        mime=mime_type,
-    )
+        data, mime_type = fun.get_shapes_data(backup_data_type, crowd_dict)
+        st.sidebar.download_button(
+            label=f"Download data as {backup_data_type.upper()}",
+            data=data,
+            file_name=filename,
+            mime=mime_type,
+        )
 
 
 def run_tab_custom_crowd() -> None:

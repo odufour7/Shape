@@ -26,7 +26,9 @@ def main() -> None:
                 "height": cst.DEFAULT_HEIGHT,
             },
         )
-        st.session_state.current_pedestrian = Agent(agent_type="pedestrian", measures=pedestrian_measures)
+        st.session_state.current_pedestrian = Agent(
+            agent_type="pedestrian", measures=pedestrian_measures
+        )
 
     # Access the stored object
     current_pedestrian = st.session_state.current_pedestrian
@@ -89,10 +91,26 @@ def main() -> None:
 
     if menu_option != "Display orthogonal projection":
         # Input fields for translation and rotation
-        x_translation = st.sidebar.number_input("X-translation (cm):", min_value=-500.0, max_value=500.0, value=0.0, step=1.0)
-        y_translation = st.sidebar.number_input("Y-translation (cm):", min_value=-500.0, max_value=500.0, value=0.0, step=1.0)
+        x_translation = st.sidebar.number_input(
+            "X-translation (cm):",
+            min_value=-500.0,
+            max_value=500.0,
+            value=0.0,
+            step=1.0,
+        )
+        y_translation = st.sidebar.number_input(
+            "Y-translation (cm):",
+            min_value=-500.0,
+            max_value=500.0,
+            value=0.0,
+            step=1.0,
+        )
         rotation_angle = st.sidebar.number_input(
-            "Rotation angle around z-axis (degrees):", min_value=-360.0, max_value=360.0, value=0.0, step=1.0
+            "Rotation angle around z-axis (degrees):",
+            min_value=-360.0,
+            max_value=360.0,
+            value=0.0,
+            step=1.0,
         )
 
         current_pedestrian.translate_body3D(x_translation, y_translation, dz=0.0)
@@ -102,13 +120,14 @@ def main() -> None:
     with col1:
         # Display content based on the selected menu option
         if menu_option == "Display orthogonal projection":
-
             title_progress_bar = st.text("Progress bar")
             my_progress_bar = st.progress(0)
             status_text = st.empty()
 
             # Compute the orthogonal projection
-            fig = plot.display_body3D_orthogonal_projection(current_pedestrian, extra_info=[my_progress_bar, status_text])
+            fig = plot.display_body3D_orthogonal_projection(
+                current_pedestrian, extra_info=[my_progress_bar, status_text]
+            )
             # Display the figure
             st.pyplot(fig)
 
@@ -120,7 +139,9 @@ def main() -> None:
             # Save the figure to a BytesIO object in PDF format
             body3D_orthogonal_projection = BytesIO()
             fig.savefig(body3D_orthogonal_projection, format="pdf")
-            body3D_orthogonal_projection.seek(0)  # Reset buffer pointer to the beginning
+            body3D_orthogonal_projection.seek(
+                0
+            )  # Reset buffer pointer to the beginning
 
             # Streamlit button in the sidebar to download the graph in PDF format
             st.sidebar.header("Download")
@@ -132,13 +153,14 @@ def main() -> None:
             )
 
         elif menu_option == "Display the body in 3D as a superposition of slices":
-
             title_progress_bar = st.text("Progress Bar")
             my_progress_bar = st.progress(0)
             status_text = st.empty()
 
             # Compute the 3D body with slices
-            fig = plot.display_body3D_polygons(current_pedestrian, extra_info=[my_progress_bar, status_text])
+            fig = plot.display_body3D_polygons(
+                current_pedestrian, extra_info=[my_progress_bar, status_text]
+            )
             # Display the figure
             st.plotly_chart(fig)
 
@@ -156,7 +178,6 @@ def main() -> None:
             )
 
         elif menu_option == "Display the body in 3D with a mesh":
-
             precision = st.sidebar.slider(
                 "Precision of the mesh",
                 min_value=1,
@@ -170,7 +191,9 @@ def main() -> None:
             status_text = st.empty()
 
             # Compute the 3D body with a mesh
-            fig = plot.display_body3D_mesh(current_pedestrian, extra_info=[my_progress_bar, status_text, precision])
+            fig = plot.display_body3D_mesh(
+                current_pedestrian, extra_info=[my_progress_bar, status_text, precision]
+            )
             # Display the figure
             st.plotly_chart(fig)
 
@@ -189,8 +212,10 @@ def main() -> None:
 
     # Add a download button
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    filename = f"agent3D_{current_pedestrian.agent_type}_{current_pedestrian.measures.measures["sex"]}_{timestamp}.pkl"
-    data_to_download, mime_type = fun.get_shapes_data("pickle", current_pedestrian.shapes3D.shapes)
+    filename = f"agent3D_{current_pedestrian.agent_type}_{current_pedestrian.measures.measures['sex']}_{timestamp}.pkl"
+    data_to_download, mime_type = fun.get_shapes_data(
+        "pickle", current_pedestrian.shapes3D.shapes
+    )
     st.sidebar.download_button(
         label="Download data as PKL",
         data=data_to_download,

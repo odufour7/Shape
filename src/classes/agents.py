@@ -1,4 +1,4 @@
-""" This module defines classes to store physical attributes and geometry of agents. """
+"""This module defines classes to store physical attributes and geometry of agents."""
 
 from typing import get_args
 
@@ -28,9 +28,13 @@ class Agent:
             raise ValueError(f"Agent type should be one of: {allowed_values}.")
 
         if isinstance(measures, dict):
-            measures = AgentMeasures(measures)  # Assuming Measures can be initialized from a dictionary
+            measures = AgentMeasures(
+                measures
+            )  # Assuming Measures can be initialized from a dictionary
         elif not isinstance(measures, AgentMeasures):
-            raise ValueError("`measures` should be an instance of Measures or a dictionary.")
+            raise ValueError(
+                "`measures` should be an instance of Measures or a dictionary."
+            )
 
         if isinstance(shapes2D, dict):
             shapes2D = Shapes2D(agent_type=agent_type, shapes=shapes2D)
@@ -40,7 +44,9 @@ class Agent:
             elif agent_type == cst.AgentTypes.bike.name:
                 shapes2D.create_bike_shapes(measures)
         if not isinstance(shapes2D, Shapes2D):
-            raise ValueError("`shapes` should be an instance of Shapes or a dictionary or None.")
+            raise ValueError(
+                "`shapes` should be an instance of Shapes or a dictionary or None."
+            )
 
         if isinstance(shapes3D, dict):
             shapes3D = Shapes3D(agent_type=agent_type, shapes=shapes3D)
@@ -48,7 +54,9 @@ class Agent:
             if agent_type == cst.AgentTypes.pedestrian.name:
                 shapes3D.create_pedestrian3D(measures)
         if not isinstance(shapes3D, Shapes3D):
-            raise ValueError("`shapes3D` should be an instance of Shapes3D or a dictionary or None.")
+            raise ValueError(
+                "`shapes3D` should be an instance of Shapes3D or a dictionary or None."
+            )
 
         self._agent_type: AgentType = agent_type
         self._measures: AgentMeasures = measures
@@ -91,7 +99,9 @@ class Agent:
         return self._shapes2D
 
     @shapes2D.setter
-    def shapes2D(self, value: Shapes2D | dict[str, ShapeType | float | Polygon]) -> None:
+    def shapes2D(
+        self, value: Shapes2D | dict[str, ShapeType | float | Polygon]
+    ) -> None:
         """Set the body shapes of the agent."""
         if isinstance(value, dict):
             value = Shapes2D(value)
@@ -113,18 +123,26 @@ class Agent:
         """Translate all shapes by given x and y offsets."""
         for name, shape in self.shapes2D.shapes.items():
             shape_object = shape["object"]
-            self.shapes2D.shapes[name]["object"] = translate(shape_object, xoff=dx, yoff=dy)
+            self.shapes2D.shapes[name]["object"] = translate(
+                shape_object, xoff=dx, yoff=dy
+            )
 
     def rotate(self, angle: float) -> None:
         """Rotate all shapes by a given angle given in degree around a specified axis."""
-        rotation_axis = MultiPoint([shape["object"].centroid for shape in self.shapes2D.shapes.values()]).centroid
+        rotation_axis = MultiPoint(
+            [shape["object"].centroid for shape in self.shapes2D.shapes.values()]
+        ).centroid
         for name, shape in self.shapes2D.shapes.items():
             shape_object = shape["object"]
-            self.shapes2D.shapes[name]["object"] = rotate(shape_object, angle, origin=rotation_axis, use_radians=False)
+            self.shapes2D.shapes[name]["object"] = rotate(
+                shape_object, angle, origin=rotation_axis, use_radians=False
+            )
 
     def get_position(self) -> Point:
         """Get the position of the agent."""
-        return MultiPoint([shape["object"].centroid for shape in self.shapes2D.shapes.values()]).centroid
+        return MultiPoint(
+            [shape["object"].centroid for shape in self.shapes2D.shapes.values()]
+        ).centroid
 
     def translate_body3D(self, dx: float, dy: float, dz: float) -> None:
         """Translates the 3D body of the pedestrian by the specified displacements dx, dy, and dz."""
@@ -136,7 +154,11 @@ class Agent:
     def rotate_body3D(self, angle: float) -> None:
         """Rotates the 3D body of the pedestrian by the specified angle in radian."""
         rotated_body3D = {}
-        centroid_body = MultiPoint([multipolygon.centroid for multipolygon in self.shapes3D.shapes.values()]).centroid
+        centroid_body = MultiPoint(
+            [multipolygon.centroid for multipolygon in self.shapes3D.shapes.values()]
+        ).centroid
         for height, multipolygon in self.shapes3D.shapes.items():
-            rotated_body3D[height] = rotate(multipolygon, angle, origin=centroid_body, use_radians=False)
+            rotated_body3D[height] = rotate(
+                multipolygon, angle, origin=centroid_body, use_radians=False
+            )
         self.shapes3D.shapes = rotated_body3D

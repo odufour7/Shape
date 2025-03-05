@@ -1,4 +1,4 @@
-""" This module defines the InitialState class. """
+"""This module defines the InitialState class."""
 
 from shapely.geometry import MultiPolygon, Point, Polygon
 
@@ -20,16 +20,23 @@ class InitialPedestrian:
 
         self._agent_type: AgentType = cst.AgentTypes.pedestrian.name
         self._shapes: SapeDataType = self._initialize_shapes()
-        self._shapes3D: dict[int, Polygon] = fun.load_pickle(cst.PICKLE_DIR / f"{sex}_3dBody.pkl")
+        self._shapes3D: dict[int, Polygon] = fun.load_pickle(
+            cst.PICKLE_DIR / f"{sex}_3dBody.pkl"
+        )
         self._measures: dict[str, float] = {
             cst.PedestrianParts.sex.name: sex,
-            cst.PedestrianParts.bideltoid_breadth.name: 2.0 * self._shapes["disk4"]["center"][0]
+            cst.PedestrianParts.bideltoid_breadth.name: 2.0
+            * self._shapes["disk4"]["center"][0]
             + 2.0 * self._shapes["disk4"]["radius"],
             cst.PedestrianParts.chest_depth.name: 2.0 * self._shapes["disk2"]["radius"],
-            cst.PedestrianParts.height.name: abs(max(self._shapes3D.keys()) - min(self._shapes3D.keys())),
+            cst.PedestrianParts.height.name: abs(
+                max(self._shapes3D.keys()) - min(self._shapes3D.keys())
+            ),
         }
 
-    def _initialize_shapes(self) -> dict[str, dict[str, ShapeType | float | tuple[float, float]]]:
+    def _initialize_shapes(
+        self,
+    ) -> dict[str, dict[str, ShapeType | float | tuple[float, float]]]:
         """Initializes the shape data for the pedestrian."""
         # Define disk parameters (center coordinates and radii)
         disks = [
@@ -45,7 +52,10 @@ class InitialPedestrian:
             f"disk{i}": {
                 "shape_type": cst.ShapeTypes.circle.name,
                 "young_modulus": cst.YOUNG_MODULUS_DISK_INIT,
-                "center": (disk["center"][0] * cst.PIXEL_TO_CM_PEDESTRIAN, disk["center"][1] * cst.PIXEL_TO_CM_PEDESTRIAN),
+                "center": (
+                    disk["center"][0] * cst.PIXEL_TO_CM_PEDESTRIAN,
+                    disk["center"][1] * cst.PIXEL_TO_CM_PEDESTRIAN,
+                ),
                 "radius": disk["radius"] * cst.PIXEL_TO_CM_PEDESTRIAN,
             }
             for i, disk in enumerate(disks)
@@ -86,11 +96,15 @@ class InitialPedestrian:
 
     def calculate_position(self):
         """Calculate the position of the pedestrian."""
-        return Point(self.shapes["disk2"]["center"][0], self.shapes["disk2"]["center"][0])
+        return Point(
+            self.shapes["disk2"]["center"][0], self.shapes["disk2"]["center"][0]
+        )
 
     def get_disk_centers(self):
         """Get the centers of the disks."""
-        return [Point(self.shapes[f"disk{i}"]["center"]) for i in range(cst.DISK_NUMBER)]
+        return [
+            Point(self.shapes[f"disk{i}"]["center"]) for i in range(cst.DISK_NUMBER)
+        ]
 
     def get_disk_radii(self):
         """Get the radii of the disks."""
@@ -105,13 +119,19 @@ class InitialBike:
         self._agent_type: AgentType = cst.AgentTypes.bike.name
         self._shapes: SapeDataType = self._initialize_shapes()
         self._measures: dict[str, float] = {
-            cst.BikeParts.wheel_width.name: self._shapes["bike"]["max_x"] - self._shapes["bike"]["min_x"],
-            cst.BikeParts.total_length.name: self._shapes["bike"]["max_y"] - self._shapes["bike"]["min_y"],
-            cst.BikeParts.handlebar_length.name: self._shapes["rider"]["max_x"] - self._shapes["rider"]["min_x"],
-            cst.BikeParts.top_tube_length.name: self._shapes["rider"]["max_y"] - self._shapes["rider"]["min_y"],
+            cst.BikeParts.wheel_width.name: self._shapes["bike"]["max_x"]
+            - self._shapes["bike"]["min_x"],
+            cst.BikeParts.total_length.name: self._shapes["bike"]["max_y"]
+            - self._shapes["bike"]["min_y"],
+            cst.BikeParts.handlebar_length.name: self._shapes["rider"]["max_x"]
+            - self._shapes["rider"]["min_x"],
+            cst.BikeParts.top_tube_length.name: self._shapes["rider"]["max_y"]
+            - self._shapes["rider"]["min_y"],
         }
 
-    def _initialize_shapes(self) -> dict[str, dict[str, ShapeType | float | tuple[float, float]]]:
+    def _initialize_shapes(
+        self,
+    ) -> dict[str, dict[str, ShapeType | float | tuple[float, float]]]:
         """Initializes the shape data for the bike.
         There is two composite shapes: the bike and the rider.
         """
@@ -130,8 +150,13 @@ class InitialBike:
             "max_y": 46.0 + 204.0,
         }
         # put the CM to (0,0) and convert to cm
-        center_of_mass_bike = Point((bike["min_x"] + bike["max_x"]) / 2.0, (bike["min_y"] + bike["max_y"]) / 2.0)
-        center_of_mass_rider = Point((rider["min_x"] + rider["max_x"]) / 2.0, (rider["min_y"] + rider["max_y"]) / 2.0)
+        center_of_mass_bike = Point(
+            (bike["min_x"] + bike["max_x"]) / 2.0, (bike["min_y"] + bike["max_y"]) / 2.0
+        )
+        center_of_mass_rider = Point(
+            (rider["min_x"] + rider["max_x"]) / 2.0,
+            (rider["min_y"] + rider["max_y"]) / 2.0,
+        )
         bike["min_x"] = bike["min_x"] - center_of_mass_bike.x
         bike["min_y"] = bike["min_y"] - center_of_mass_bike.y
         bike["max_x"] = bike["max_x"] - center_of_mass_bike.x

@@ -1,17 +1,18 @@
-""" This module contains functions to plot the geometric shapes of the pedestrian and the crowd. """
+"""This module contains functions to plot the geometric shapes of the pedestrian and the crowd."""
 
-import matplotlib.cm as cm
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 import pyvista as pv
+from matplotlib import cm
 from matplotlib.colors import Normalize
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from streamlit.delta_generator import DeltaGenerator
 
 import src.utils.functions as fun
 from src.classes.agents import Agent
+
 from src.classes.trial.crowd_old import Crowd
 
 plt.rcParams.update(
@@ -32,7 +33,6 @@ def display_shape2D(agents: list[Agent]) -> go.Figure:
     for id_agent, agent in enumerate(agents):
         id_agent += 1
         geometric_agent = agent.shapes2D.get_geometric_shape()
-        agent_type = agent.agent_type
         if geometric_agent.geom_type == "Polygon":
             x, y = geometric_agent.exterior.xy
             fig.add_trace(
@@ -70,8 +70,12 @@ def display_shape2D(agents: list[Agent]) -> go.Figure:
                         fillcolor="rgba(255, 0, 0, 0.5)",
                     )
                 )
-            centroid_x = np.mean([np.mean(polygon.exterior.xy[0]) for polygon in geometric_agent.geoms])
-            centroid_y = np.mean([np.mean(polygon.exterior.xy[1]) for polygon in geometric_agent.geoms])
+            centroid_x = np.mean(
+                [np.mean(polygon.exterior.xy[0]) for polygon in geometric_agent.geoms]
+            )
+            centroid_y = np.mean(
+                [np.mean(polygon.exterior.xy[1]) for polygon in geometric_agent.geoms]
+            )
             fig.add_annotation(
                 x=centroid_x,
                 y=centroid_y,
@@ -96,11 +100,16 @@ def display_shape2D(agents: list[Agent]) -> go.Figure:
     return fig
 
 
-def display_body3D_orthogonal_projection(agent: Agent, extra_info: list[DeltaGenerator, str]) -> None:
+def display_body3D_orthogonal_projection(
+    agent: Agent, extra_info: list[DeltaGenerator, str]
+) -> None:
     """Draws the orthogonal projection of the pedestrian's body."""
 
     fig, ax = plt.subplots(figsize=(11, 11))
-    sm = plt.cm.ScalarMappable(cmap="coolwarm", norm=plt.Normalize(vmin=0, vmax=max(agent.shapes3D.shapes.keys())))
+    sm = plt.cm.ScalarMappable(
+        cmap="coolwarm",
+        norm=plt.Normalize(vmin=0, vmax=max(agent.shapes3D.shapes.keys())),
+    )
 
     # Plot each polygon with its corresponding height-based color
     min_height = min(agent.shapes3D.shapes.keys())
@@ -121,7 +130,7 @@ def display_body3D_orthogonal_projection(agent: Agent, extra_info: list[DeltaGen
     cbar.set_label("Height [cm]")
 
     # Set plot title and labels
-    ax.set_title(f"Orthogonal projection of a {agent.measures.measures["sex"]}")
+    ax.set_title(f"Orthogonal projection of a {agent.measures.measures['sex']}")
     ax.margins(0)
     ax.set_aspect("equal")
     ax.set_xlabel("X [cm]")
@@ -131,7 +140,9 @@ def display_body3D_orthogonal_projection(agent: Agent, extra_info: list[DeltaGen
     return fig
 
 
-def display_body3D_polygons(agent: Agent, extra_info: list[DeltaGenerator, str]) -> go.Figure:
+def display_body3D_polygons(
+    agent: Agent, extra_info: list[DeltaGenerator, str]
+) -> go.Figure:
     """Draws the 3D body of the pedestrian."""
 
     # Initialize a Plotly figure
@@ -145,18 +156,22 @@ def display_body3D_polygons(agent: Agent, extra_info: list[DeltaGenerator, str])
     for height, multi_polygon in sorted(agent.shapes3D.shapes.items(), reverse=True):
         # Reverse order for proper layering (start from top)
 
-        normalized_height = (height - min_height) / (max_height - min_height)  # Normalize height for color scale
+        normalized_height = (height - min_height) / (
+            max_height - min_height
+        )  # Normalize height for color scale
 
-        percent_completed = (max_height - height - min_height) / (max_height - min_height)
+        percent_completed = (max_height - height - min_height) / (
+            max_height - min_height
+        )
         fun.update_progress_bar(extra_info[0], extra_info[1], percent_completed)
 
         # Assign color based on normalized height
         if agent.measures.measures["sex"] == "female":
             # Gradient from red to yellow
-            color = f"rgba(255, {int(205 * (normalized_height))}, {int(205 * (1-normalized_height))}, 0.8)"
+            color = f"rgba(255, {int(205 * (normalized_height))}, {int(205 * (1 - normalized_height))}, 0.8)"
         else:
             # Gradient from red to blue
-            color = f"rgba({int(205 * (1-normalized_height))}, {int(205 * (normalized_height))}, 255, 0.8)"
+            color = f"rgba({int(205 * (1 - normalized_height))}, {int(205 * (normalized_height))}, 255, 0.8)"
 
         for polygon in multi_polygon.geoms:
             x, y = polygon.exterior.xy
@@ -172,10 +187,20 @@ def display_body3D_polygons(agent: Agent, extra_info: list[DeltaGenerator, str])
 
     # Determine axis ranges to set equal scale
     x_range = np.ptp(
-        [x for multi_polygon in agent.shapes3D.shapes.values() for polygon in multi_polygon.geoms for x in polygon.exterior.xy[0]]
+        [
+            x
+            for multi_polygon in agent.shapes3D.shapes.values()
+            for polygon in multi_polygon.geoms
+            for x in polygon.exterior.xy[0]
+        ]
     )
     y_range = np.ptp(
-        [y for multi_polygon in agent.shapes3D.shapes.values() for polygon in multi_polygon.geoms for y in polygon.exterior.xy[1]]
+        [
+            y
+            for multi_polygon in agent.shapes3D.shapes.values()
+            for polygon in multi_polygon.geoms
+            for y in polygon.exterior.xy[1]
+        ]
     )
     z_range = max_height - min_height
     max_range = max(x_range, y_range, z_range)
@@ -204,7 +229,9 @@ def display_body3D_polygons(agent: Agent, extra_info: list[DeltaGenerator, str])
     return fig
 
 
-def display_body3D_mesh(agent: Agent, extra_info: list[DeltaGenerator, str, int]) -> go.Figure:
+def display_body3D_mesh(
+    agent: Agent, extra_info: list[DeltaGenerator, str, int]
+) -> go.Figure:
     """
     Draws a continuous 3D mesh connecting contours at different heights using Plotly's Mesh3d.
     Fills missing triangles and smooths the mesh for better visualization.
@@ -213,7 +240,9 @@ def display_body3D_mesh(agent: Agent, extra_info: list[DeltaGenerator, str, int]
     # Reduce the number of heights to process
     precision = extra_info[2]
     new_body = {
-        height: multi_polygon for idx, (height, multi_polygon) in enumerate(agent.shapes3D.shapes.items()) if idx % precision == 0
+        height: multi_polygon
+        for idx, (height, multi_polygon) in enumerate(agent.shapes3D.shapes.items())
+        if idx % precision == 0
     }
     print(f"Number of heights: {len(new_body)}")
 
@@ -226,9 +255,9 @@ def display_body3D_mesh(agent: Agent, extra_info: list[DeltaGenerator, str, int]
 
     # Iterate through pairs of consecutive heights
     for h_idx in range(len(sorted_heights) - 1):
-        percent_completed = (sorted_heights[0] - sorted_heights[h_idx] - sorted_heights[-1]) / (
-            sorted_heights[0] - sorted_heights[-1]
-        )
+        percent_completed = (
+            sorted_heights[0] - sorted_heights[h_idx] - sorted_heights[-1]
+        ) / (sorted_heights[0] - sorted_heights[-1])
         fun.update_progress_bar(extra_info[0], extra_info[1], percent_completed)
 
         height_high, height_low = sorted_heights[h_idx], sorted_heights[h_idx + 1]
@@ -253,9 +282,13 @@ def display_body3D_mesh(agent: Agent, extra_info: list[DeltaGenerator, str, int]
             all_points = np.vstack((all_points, points_low))
 
             # Create triangular meshes between high and low contours
-            for idx in range(len(x_high) - 1):  # Loop through consecutive points on high contour
+            for idx in range(
+                len(x_high) - 1
+            ):  # Loop through consecutive points on high contour
                 # Find the nearest point on the low contour
-                nearest_idx = np.argmin((x_low - x_high[idx]) ** 2 + (y_low - y_high[idx]) ** 2)
+                nearest_idx = np.argmin(
+                    (x_low - x_high[idx]) ** 2 + (y_low - y_high[idx]) ** 2
+                )
                 # Triangle 1: two vertices from high contour and one from low contour
                 triangle1 = np.column_stack(
                     (
@@ -295,11 +328,16 @@ def display_body3D_mesh(agent: Agent, extra_info: list[DeltaGenerator, str, int]
     )
 
     # Normalize z-coordinates for color mapping
-    color_scale_name = "viridis" if agent.measures.measures["sex"] == "male" else "inferno"
+    color_scale_name = (
+        "viridis" if agent.measures.measures["sex"] == "male" else "inferno"
+    )
     norm = Normalize(vmin=np.min(points_filled[:, 2]), vmax=np.max(points_filled[:, 2]))
     colorscale_values = norm(points_filled[:, 2])
     colorscale_values = cm.get_cmap(color_scale_name)(colorscale_values)[:, :3]
-    vertex_colors = [f"rgb({int(r * 255)}, {int(g * 255)}, {int(b * 255)})" for r, g, b in colorscale_values]
+    vertex_colors = [
+        f"rgb({int(r * 255)}, {int(g * 255)}, {int(b * 255)})"
+        for r, g, b in colorscale_values
+    ]
 
     print("\nPlotting...")
 
@@ -329,13 +367,17 @@ def display_body3D_mesh(agent: Agent, extra_info: list[DeltaGenerator, str, int]
     max_range = max(x_range, y_range, z_range)
 
     fig.update_layout(
-        title=f"3D body representation of a {agent.measures.measures["sex"]} with a mesh",
+        title=f"3D body representation of a {agent.measures.measures['sex']} with a mesh",
         scene={
             "xaxis_title": "X [cm]",
             "yaxis_title": "Y [cm]",
             "zaxis_title": "Height [cm]",
             "aspectmode": "manual",
-            "aspectratio": {"x": x_range / max_range, "y": y_range / max_range, "z": z_range / max_range},
+            "aspectratio": {
+                "x": x_range / max_range,
+                "y": y_range / max_range,
+                "z": z_range / max_range,
+            },
         },
         width=500,
         height=900,
@@ -393,10 +435,22 @@ def display_distribution(df: pd.DataFrame, column: str):
     fig.update_traces(opacity=0.5)
     # Add custom hover text using hovertemplate
     if column != "Sex":
-        fig.update_traces(hovertemplate=f"<b>{column[:-5]}</b>" + " = %{x} cm<br><b>Count = </b>%{y}</b>")
+        fig.update_traces(
+            hovertemplate=f"<b>{column[:-5]}</b>"
+            + " = %{x} cm<br><b>Count = </b>%{y}</b>"
+        )
     else:
-        fig.update_traces(hovertemplate=f"<b>{column}</b>" + " = %{x}<br><b>Count = </b>%{y}</b><extra></extra>")
+        fig.update_traces(
+            hovertemplate=f"<b>{column}</b>"
+            + " = %{x}<br><b>Count = </b>%{y}</b><extra></extra>"
+        )
 
-    fig.update_layout(xaxis_title=column, yaxis_title="Count", legend_title_text="", width=600, height=500)
+    fig.update_layout(
+        xaxis_title=column,
+        yaxis_title="Count",
+        legend_title_text="",
+        width=600,
+        height=500,
+    )
 
     return fig

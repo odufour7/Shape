@@ -1,6 +1,15 @@
-*~undo-tree~
+# Python-generated files
 __pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info/
+.ruff_cache/
+
+# Virtual environments
 .venv
+
 AppData
 *.pdf
 *.sh
@@ -10,3 +19,4 @@ AppData
 *.DS_Store
 *._*
 *.jpg
+

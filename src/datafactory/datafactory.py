@@ -1,4 +1,4 @@
-""" This module contains functions to download and prepare the data. """
+"""This module contains functions to download and prepare the data."""
 
 from typing import get_args
 

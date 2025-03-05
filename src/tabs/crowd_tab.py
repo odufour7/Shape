@@ -6,7 +6,6 @@ import streamlit as st
 from shapely.geometry import Polygon
 
 import src.utils.constants as cst
-import src.utils.functions as fun
 from src.classes.trial.crowd_old import Crowd
 from src.plotting import plot
 
@@ -15,19 +14,28 @@ def main() -> None:
     """Main function for the crowd tab."""
 
     st.info(
-        "The computation of the random packing of the crowd is ongoing and may take some time.\n" "Please be patient.",
+        "The computation of the random packing of the crowd is ongoing and may take some time.\n"
+        "Please be patient.",
         icon="⏳",
     )
 
     current_room_geometry = Polygon(
-        [(0, 0), (cst.DEFAULT_BOUNDARY_X, 0), (cst.DEFAULT_BOUNDARY_X, cst.DEFAULT_BOUNDARY_Y), (0, cst.DEFAULT_BOUNDARY_Y)]
+        [
+            (0, 0),
+            (cst.DEFAULT_BOUNDARY_X, 0),
+            (cst.DEFAULT_BOUNDARY_X, cst.DEFAULT_BOUNDARY_Y),
+            (0, cst.DEFAULT_BOUNDARY_Y),
+        ]
     )  # Example room geometry
 
     current_crowd = Crowd(
         density=cst.DEFAULT_DENSITY,
         boundaries=current_room_geometry,
         chest_depth=(cst.DEDAULT_MEAN_CHEST_DEPTH, cst.DEDAULT_STD_CHEST_DEPTH),
-        bideltoid_breadth=(cst.DEDAULT_MEAN_BIDELTOID_BREADTH, cst.DEDAULT_STD_BIDELTOID_BREADTH),
+        bideltoid_breadth=(
+            cst.DEDAULT_MEAN_BIDELTOID_BREADTH,
+            cst.DEDAULT_STD_BIDELTOID_BREADTH,
+        ),
     )
 
     interpenetration = current_crowd.calculate_interpenetration()
@@ -45,7 +53,6 @@ def main() -> None:
     st.subheader("Visualisation")
     col1, _ = st.columns([1.5, 1])  # Adjust proportions as needed
     with col1:
-
         fig = plot.display_crowd2D(current_crowd)
         st.pyplot(fig)
         # Save the figure to a BytesIO object in PDF format

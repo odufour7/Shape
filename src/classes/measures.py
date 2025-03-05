@@ -1,4 +1,4 @@
-""" This module contains the Measures class to store body measures dynamically based on agent type. """
+"""This module contains the Measures class to store body measures dynamically based on agent type."""
 
 from dataclasses import dataclass, field
 from typing import get_args
@@ -41,12 +41,16 @@ class AgentMeasures:
         # Validate that all required measures are present
         missing_parts = required_parts - self.measures.keys()
         if missing_parts:
-            raise ValueError(f"Missing measures for {self.agent_type.value}: {', '.join(missing_parts)}")
+            raise ValueError(
+                f"Missing measures for {self.agent_type.value}: {', '.join(missing_parts)}"
+            )
 
         # Validate that no extra measures are provided
         extra_parts = self.measures.keys() - required_parts
         if extra_parts and self.agent_type != cst.AgentTypes.custom.name:
-            raise ValueError(f"Extra measures provided for {self.agent_type.value}: {', '.join(extra_parts)}")
+            raise ValueError(
+                f"Extra measures provided for {self.agent_type.value}: {', '.join(extra_parts)}"
+            )
 
     def number_of_measures(self) -> int:
         """Return the number of measures stored."""
@@ -55,8 +59,13 @@ class AgentMeasures:
 
 @dataclass
 class CrowdMeasures:
-    agent_type: AgentType
-    measures: dict[str, float] = field(default_factory=dict)
+    pedestrian_custom_database: dict[str, float] = field(
+        default_factory=dict
+    )  # TODO : ANSURII by default (for men and women)
+    bike_custom_database: dict[str, float] = field(default_factory=dict)
+
+    pedestrian_statistics: dict[str, float] = field(default_factory=dict)
+    bike_statistics: dict[str, float] = field(default_factory=dict)
 
     # there should be
     # the wanted statistics of each agent measure quantity (mean, std, min, max)

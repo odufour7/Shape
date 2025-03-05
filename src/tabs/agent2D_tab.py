@@ -126,7 +126,13 @@ def main() -> None:
     # Input fields for translation and rotation
     x_translation = st.sidebar.number_input("X-Translation (cm):", min_value=-100.0, max_value=100.0, value=0.0, step=1.0)
     y_translation = st.sidebar.number_input("Y-Translation (cm):", min_value=-100.0, max_value=100.0, value=0.0, step=1.0)
-    rotation_angle = st.sidebar.number_input("Rotation Angle (degrees):", min_value=-360.0, max_value=360.0, value=0.0, step=1.0)
+    rotation_angle = st.sidebar.number_input(
+        "Rotation Angle (degrees):",
+        min_value=-360.0,
+        max_value=360.0,
+        value=0.0,
+        step=1.0,
+    )
 
     current_agent.translate(x_translation, y_translation)
     current_agent.rotate(rotation_angle)
@@ -147,7 +153,6 @@ def main() -> None:
             path_file = Path(__file__).parent.parent.parent / "data" / "images"
             st.image(path_file / "measures_bike.png", use_container_width=True)
 
-    # Streamlit button in the sidebar to download the graph in PDF format
     st.sidebar.header("Download")
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     st.sidebar.download_button(
@@ -156,6 +161,7 @@ def main() -> None:
         file_name=f"body2D_orthogonal_projection_{timestamp}.pdf",
         mime="application/pdf",
     )
+
     # Create a select box for format selection
     backup_data_type = st.sidebar.selectbox(
         "Select backup format:",
