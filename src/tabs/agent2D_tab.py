@@ -61,15 +61,15 @@ def main() -> None:
     if agent_type == "pedestrian":
         bideltoid_breadth = st.sidebar.slider(
             "Bideltoid breadth (cm)",
-            min_value=cst.MIN_BIDELTOID_BREADTH,
-            max_value=cst.MAX_BIDELTOID_BREADTH,
+            min_value=cst.DEFAULT_BIDELTOID_BREADTH_MIN,
+            max_value=cst.DEFAULT_BIDELTOID_BREADTH_MAX,
             value=cst.DEFAULT_BIDELTOID_BREADTH,
             step=1.0,
         )
         chest_depth = st.sidebar.slider(
             "Chest depth (cm)",
-            min_value=cst.MIN_CHEST_DEPTH,
-            max_value=cst.MAX_CHEST_DEPTH,
+            min_value=cst.DEFAULT_CHEST_DEPTH_MIN,
+            max_value=cst.DEFAULT_CHEST_DEPTH_MAX,
             value=cst.DEFAULT_CHEST_DEPTH,
             step=1.0,
         )
@@ -85,29 +85,29 @@ def main() -> None:
     elif agent_type == "bike":
         wheel_width = st.sidebar.slider(
             "Wheel width (cm)",
-            min_value=cst.MIN_WHEEL_WIDTH,
-            max_value=cst.MAX_WHEEL_WIDTH,
+            min_value=cst.DEFAULT_WHEEL_WIDTH_MIN,
+            max_value=cst.DEFAULT_WHEEL_WIDTH_MAX,
             value=cst.DEFAULT_WHEEL_WIDTH,
             step=0.5,
         )
         total_length = st.sidebar.slider(
             "Total length (cm)",
-            min_value=cst.MIN_TOTAL_LENGTH,
-            max_value=cst.MAX_TOTAL_LENGTH,
+            min_value=cst.DEFAULT_TOTAL_LENGTH_MIN,
+            max_value=cst.DEFAULT_TOTAL_LENGTH_MAX,
             value=cst.DEFAULT_TOTAL_LENGTH,
             step=1.0,
         )
         handlebar_length = st.sidebar.slider(
             "Handlebar length (cm)",
-            min_value=cst.MIN_HANDLEBAR_LENGTH,
-            max_value=cst.MAX_HANDLEBAR_LENGTH,
+            min_value=cst.DEFAULT_HANDLEBAR_LENGTH_MIN,
+            max_value=cst.DEFAULT_HANDLEBAR_LENGTH_MAX,
             value=cst.DEFAULT_HANDLEBAR_LENGTH,
             step=1.0,
         )
         top_tube_length = st.sidebar.slider(
             "Top tube length (cm)",
-            min_value=cst.MIN_TOP_TUBE_LENGTH,
-            max_value=cst.MAX_TOP_TUBE_LENGTH,
+            min_value=cst.DEFAULT_TOP_TUBE_LENGTH_MIN,
+            max_value=cst.DEFAULT_TOP_TUBE_LENGTH_MAX,
             value=cst.DEFAULT_TOP_TUBE_LENGTH,
             step=1.0,
         )

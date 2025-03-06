@@ -1,0 +1,123 @@
+{
+    "agent0": {
+        "agent_type": "pedestrian",
+        "shapes": {
+            "disk0": {
+                "shape_type": "circle",
+                "young_modulus": 1000000.0,
+                "center": [
+                    -13.804515018900204,
+                    5.050195625925118e-16
+                ],
+                "radius": 8.685010755956364
+            },
+            "disk1": {
+                "shape_type": "circle",
+                "young_modulus": 1000000.0,
+                "center": [
+                    -6.057535323919518,
+                    2.6506158548673073
+                ],
+                "radius": 11.943288740942146
+            },
+            "disk2": {
+                "shape_type": "circle",
+                "young_modulus": 1000000.0,
+                "center": [
+                    -1.1024776729041038e-16,
+                    3.181757609424331
+                ],
+                "radius": 12.484943142193577
+            },
+            "disk3": {
+                "shape_type": "circle",
+                "young_modulus": 1000000.0,
+                "center": [
+                    6.057535323919514,
+                    2.650615854867307
+                ],
+                "radius": 11.943288740942146
+            },
+            "disk4": {
+                "shape_type": "circle",
+                "young_modulus": 1000000.0,
+                "center": [
+                    13.804515018900211,
+                    -1.7129820395841959e-16
+                ],
+                "radius": 8.68501075595636
+            }
+        }
+    },
+    "agent1": {
+        "agent_type": "pedestrian",
+        "shapes": {
+            "disk0": {
+                "shape_type": "circle",
+                "young_modulus": 1000000.0,
+                "center": [
+                    39.1954849810998,
+                    1.3542740037386777e-16
+                ],
+                "radius": 8.685010755956357
+            },
+            "disk1": {
+                "shape_type": "circle",
+                "young_modulus": 1000000.0,
+                "center": [
+                    46.94246467608048,
+                    2.6506158548673064
+                ],
+                "radius": 11.943288740942146
+            },
+            "disk2": {
+                "shape_type": "circle",
+                "young_modulus": 1000000.0,
+                "center": [
+                    53.000000000000014,
+                    3.181757609424332
+                ],
+                "radius": 12.48494314219356
+            },
+            "disk3": {
+                "shape_type": "circle",
+                "young_modulus": 1000000.0,
+                "center": [
+                    59.05753532391954,
+                    2.650615854867309
+                ],
+                "radius": 11.943288740942126
+            },
+            "disk4": {
+                "shape_type": "circle",
+                "young_modulus": 1000000.0,
+                "center": [
+                    66.80451501890022,
+                    -3.9822638715726397e-16
+                ],
+                "radius": 8.685010755956354
+            }
+        }
+    },
+    "agent2": {
+        "agent_type": "bike",
+        "shapes": {
+            "bike": {
+                "shape_type": "rectangle",
+                "young_modulus": 1000000.0,
+                "min_x": -104.14248809677754,
+                "min_y": -83.20488846186349,
+                "max_x": 20.142488096777555,
+                "max_y": 13.204888461863494
+            },
+            "rider": {
+                "shape_type": "rectangle",
+                "young_modulus": 1000000.0,
+                "min_x": -84.3085757386846,
+                "min_y": -77.19795984209503,
+                "max_x": 0.30857573868460264,
+                "max_y": 7.197959842095035
+            }
+        }
+    }
+}

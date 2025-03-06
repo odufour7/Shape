@@ -15,8 +15,7 @@ from shapely.geometry import MultiPolygon
 from streamlit.delta_generator import DeltaGenerator
 
 import src.utils.constants as cst
-from src.classes.measures import CrowdMeasures
-from src.utils.typing_custom import AgentPart, BackupDataType, SapeDataType
+from src.utils.typing_custom import BackupDataType, SapeDataType
 
 
 def load_pickle(file_path: Path) -> Any:
@@ -126,47 +125,3 @@ def draw_sex(p):
     if not 0 <= p <= 1:
         raise ValueError("Probability p must be between 0 and 1.")
     return "male" if np.random.random() < p else "female"
-
-
-# TODO : rename in draw from statistics maybe rather than from database
-def draw_agent_part(agent_part: AgentPart, crowd_statistics: CrowdMeasures) -> float:
-    """Draw a random value for the specified agent part from a truncated normal distribution."""
-    if agent_part == cst.PedestrianParts.chest_depth.name:
-        mean = crowd_statistics.pedestrian_statistics[cst.CrowdPedestrianStat.mean_chest_depth.name]
-        std_dev = crowd_statistics.pedestrian_statistics[cst.CrowdPedestrianStat.std_dev_chest_depth.name]
-        min_val = crowd_statistics.pedestrian_statistics[cst.CrowdPedestrianStat.min_chest_depth.name]
-        max_val = crowd_statistics.pedestrian_statistics[cst.CrowdPedestrianStat.max_chest_depth.name]
-        return draw_from_trunc_normal(mean, std_dev, min_val, max_val)
-    if agent_part == cst.PedestrianParts.bideltoid_breadth.name:
-        mean = crowd_statistics.pedestrian_statistics[cst.CrowdPedestrianStat.mean_bideltoid_breadth.name]
-        std_dev = crowd_statistics.pedestrian_statistics[cst.CrowdPedestrianStat.std_dev_bideltoid_breadth.name]
-        min_val = crowd_statistics.pedestrian_statistics[cst.CrowdPedestrianStat.min_bideltoid_breadth.name]
-        max_val = crowd_statistics.pedestrian_statistics[cst.CrowdPedestrianStat.max_bideltoid_breadth.name]
-        return draw_from_trunc_normal(mean, std_dev, min_val, max_val)
-    if agent_part == cst.PedestrianParts.sex.name:
-        return draw_sex(crowd_statistics.pedestrian_statistics[cst.CrowdPedestrianStat.male_proportion.name])
-    if agent_part == cst.BikeParts.handlebar_length.name:
-        mean = crowd_statistics.bike_statistics[cst.CrowdBikeStat.mean_handlebar_length.name]
-        std_dev = crowd_statistics.bike_statistics[cst.CrowdBikeStat.std_dev_handlebar_length.name]
-        min_val = crowd_statistics.bike_statistics[cst.CrowdBikeStat.min_handlebar_length.name]
-        max_val = crowd_statistics.bike_statistics[cst.CrowdBikeStat.max_handlebar_length.name]
-        return draw_from_trunc_normal(mean, std_dev, min_val, max_val)
-    if agent_part == cst.BikeParts.top_tube_length.name:
-        mean = crowd_statistics.bike_statistics[cst.CrowdBikeStat.mean_top_tube_length.name]
-        std_dev = crowd_statistics.bike_statistics[cst.CrowdBikeStat.std_dev_top_tube_length.name]
-        min_val = crowd_statistics.bike_statistics[cst.CrowdBikeStat.min_top_tube_length.name]
-        max_val = crowd_statistics.bike_statistics[cst.CrowdBikeStat.max_top_tube_length.name]
-        return draw_from_trunc_normal(mean, std_dev, min_val, max_val)
-    if agent_part == cst.BikeParts.total_length.name:
-        mean = crowd_statistics.bike_statistics[cst.CrowdBikeStat.mean_total_length.name]
-        std_dev = crowd_statistics.bike_statistics[cst.CrowdBikeStat.std_dev_total_length.name]
-        min_val = crowd_statistics.bike_statistics[cst.CrowdBikeStat.min_total_length.name]
-        max_val = crowd_statistics.bike_statistics[cst.CrowdBikeStat.max_total_length.name]
-        return draw_from_trunc_normal(mean, std_dev, min_val, max_val)
-    if agent_part == cst.BikeParts.wheel_width.name:
-        mean = crowd_statistics.bike_statistics[cst.CrowdBikeStat.mean_wheel_width.name]
-        std_dev = crowd_statistics.bike_statistics[cst.CrowdBikeStat.std_dev_wheel_width.name]
-        min_val = crowd_statistics.bike_statistics[cst.CrowdBikeStat.min_wheel_width.name]
-        max_val = crowd_statistics.bike_statistics[cst.CrowdBikeStat.max_wheel_width.name]
-        return draw_from_trunc_normal(mean, std_dev, min_val, max_val)
-    raise ValueError(f"Unknown agent part: {agent_part}")

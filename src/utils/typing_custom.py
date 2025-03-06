@@ -18,6 +18,5 @@ AgentPart: TypeAlias = Literal[
 ShapeType: TypeAlias = Literal["circle", "rectangle", "ellipse", "polygon"]
 BackupDataType: TypeAlias = Literal["json", "pickle", "xml"]
 SapeDataType: TypeAlias = (
-    dict[str, dict[str, ShapeType | float | tuple[float, float]]]
-    | dict[str, dict[str, ShapeType | float | Polygon]]
+    dict[str, dict[str, ShapeType | float | tuple[float, float]]] | dict[str, dict[str, ShapeType | float | Polygon]]
 )

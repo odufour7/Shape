@@ -12,6 +12,7 @@ from shapely.ops import unary_union
 import src.utils.constants as cst
 from src.classes.initial_agents import InitialBike, InitialPedestrian
 from src.classes.measures import AgentMeasures
+from src.utils import functions as fun
 from src.utils.typing_custom import AgentType, SapeDataType, ShapeType
 
 
@@ -25,6 +26,7 @@ class Shapes2D:
 
     agent_type: AgentType
     shapes: SapeDataType = field(default_factory=dict)
+    reference_direction: float = 90.0  # angle in degrees
 
     def __post_init__(self) -> None:
         """Validate the provided shapes."""
@@ -36,13 +38,13 @@ class Shapes2D:
         # Validate that the provided shapes are valid Shapely objects
         for shape_name, shape in self.shapes.items():
             if not isinstance(shape.get("object"), (Point, Polygon)):
-                raise ValueError(
-                    f"Invalid shape type for '{shape_name}': {type(shape.get('object'))}"
-                )
+                raise ValueError(f"Invalid shape type for '{shape_name}': {type(shape.get('object'))}")
+        # reference direction musct belongs to (-180.0, 180.0]
+        if not -180.0 <= self.reference_direction < 180.0:
+            self.reference_direction = fun.wrap_angle(self.reference_direction)
+            raise ValueError("Reference direction must belong to (-180.0, 180.0].")
 
-    def create_shape(
-        self, name: str, shape_type: str, young_modulus: float, **kwargs
-    ) -> None:
+    def create_shape(self, name: str, shape_type: str, young_modulus: float, **kwargs) -> None:
         """
         Dynamically create a shape based on the specified type and characteristics.
 
@@ -59,9 +61,7 @@ class Shapes2D:
             center = kwargs.get("center")
             radius = kwargs.get("radius")
             if not isinstance(center, tuple) or not isinstance(radius, (int, float)):
-                raise ValueError(
-                    "For a circle, 'center' must be a tuple and 'radius' must be a number."
-                )
+                raise ValueError("For a circle, 'center' must be a tuple and 'radius' must be a number.")
             self.shapes[name] = {
                 "shape_type": cst.ShapeTypes.circle.name,
                 "young_modulus": young_modulus,
@@ -73,39 +73,27 @@ class Shapes2D:
             min_y = kwargs.get("min_y")
             max_x = kwargs.get("max_x")
             max_y = kwargs.get("max_y")
-            if not all(
-                isinstance(coord, (int, float))
-                for coord in [min_x, min_y, max_x, max_y]
-            ):
-                raise ValueError(
-                    "For a rectangle, 'min_x', 'min_y', 'max_x', and 'max_y' must be numbers."
-                )
+            if not all(isinstance(coord, (int, float)) for coord in [min_x, min_y, max_x, max_y]):
+                raise ValueError("For a rectangle, 'min_x', 'min_y', 'max_x', and 'max_y' must be numbers.")
             self.shapes[name] = {
                 "shape_type": cst.ShapeTypes.rectangle.name,
                 "young_modulus": young_modulus,
-                "object": Polygon(
-                    [(min_x, min_y), (min_x, max_y), (max_x, max_y), (max_x, min_y)]
-                ),
+                "object": Polygon([(min_x, min_y), (min_x, max_y), (max_x, max_y), (max_x, min_y)]),
             }
 
         elif shape_type == cst.ShapeTypes.polygon.name:
             points = kwargs.get("points")
-            if not isinstance(points, list) or not all(
-                isinstance(point, tuple) for point in points
-            ):
+            if not isinstance(points, list) or not all(isinstance(point, tuple) for point in points):
                 raise ValueError("For a polygon, 'points' must be a list of tuples.")
 
             if len(points) < 3 or points[0] != points[-1]:
-                raise ValueError(
-                    "A polygon must have at least 3 points and the first/last points must match."
-                )
+                raise ValueError("A polygon must have at least 3 points and the first/last points must match.")
 
             self.shapes[name] = {
                 "shape_type": cst.ShapeTypes.polygon.name,
                 "young_modulus": young_modulus,
                 "object": Polygon(points),
             }
-
         else:
             raise ValueError(f"Unsupported shape type: {shape_type}")
 
@@ -158,13 +146,9 @@ class Shapes2D:
     def create_pedestrian_shapes(self, measurements: AgentMeasures) -> None:
         """Create the shapes of a pedestrian based on the provided measures."""
         if self.agent_type != cst.AgentTypes.pedestrian.name:
-            raise ValueError(
-                "create_pedestrian_shapes() can only create pedestrian agents."
-            )
+            raise ValueError("create_pedestrian_shapes() can only create pedestrian agents.")
 
-        initial_pedestrian = InitialPedestrian(
-            measurements.measures[cst.PedestrianParts.sex.name]
-        )
+        initial_pedestrian = InitialPedestrian(measurements.measures[cst.PedestrianParts.sex.name])
         homothety_center = initial_pedestrian.calculate_position()
 
         def objectif_fun(scaling_factor: np.ndarray) -> float:
@@ -173,24 +157,13 @@ class Shapes2D:
                 scale(disk_center, xfact=scale_factor_x, origin=homothety_center)
                 for disk_center in initial_pedestrian.get_disk_centers()
             ]
-            adjusted_radii = [
-                disk_radius * scale_factor_y
-                for disk_radius in initial_pedestrian.get_disk_radii()
-            ]
-            old_chest_depth = measurements.measures[
-                cst.PedestrianParts.chest_depth.name
-            ]
-            old_bideltoid_breadth = measurements.measures[
-                cst.PedestrianParts.bideltoid_breadth.name
-            ]
+            adjusted_radii = [disk_radius * scale_factor_y for disk_radius in initial_pedestrian.get_disk_radii()]
+            old_chest_depth = measurements.measures[cst.PedestrianParts.chest_depth.name]
+            old_bideltoid_breadth = measurements.measures[cst.PedestrianParts.bideltoid_breadth.name]
             new_chest_depth = 2.0 * adjusted_radii[2]
-            new_bideltoid_breadth = (
-                2.0 * adjusted_centers[4].x + 2.0 * adjusted_radii[4]
-            )
+            new_bideltoid_breadth = 2.0 * adjusted_centers[4].x + 2.0 * adjusted_radii[4]
             penalty_chest = (new_chest_depth - old_chest_depth) ** 2
-            penalty_shoulder_breadth = (
-                new_bideltoid_breadth - old_bideltoid_breadth
-            ) ** 2
+            penalty_shoulder_breadth = (new_bideltoid_breadth - old_bideltoid_breadth) ** 2
             return penalty_chest + penalty_shoulder_breadth
 
         bounds = np.array([[1e-5, 3.0], [1e-5, 3.0]])
@@ -208,14 +181,8 @@ class Shapes2D:
             scale(disk_center, xfact=optimized_scale_factor_x, origin=homothety_center)
             for disk_center in initial_pedestrian.get_disk_centers()
         ]
-        adjusted_radii = [
-            disk_radius * optimized_scale_factor_y
-            for disk_radius in initial_pedestrian.get_disk_radii()
-        ]
-        disks = [
-            {"center": center, "radius": radius}
-            for center, radius in zip(adjusted_centers, adjusted_radii)
-        ]
+        adjusted_radii = [disk_radius * optimized_scale_factor_y for disk_radius in initial_pedestrian.get_disk_radii()]
+        disks = [{"center": center, "radius": radius} for center, radius in zip(adjusted_centers, adjusted_radii)]
         adjusted_shapes = {
             f"disk{i}": {
                 "shape_type": cst.ShapeTypes.circle.name,
@@ -260,36 +227,19 @@ class Shapes2D:
                     "max_y": init_bike.shapes["rider"]["max_y"] * scale_rider_factor_y,
                 },
             }
-            wanted_rider_width = measurements.measures[
-                cst.BikeParts.handlebar_length.name
-            ]
-            wanted_rider_length = measurements.measures[
-                cst.BikeParts.top_tube_length.name
-            ]
+            wanted_rider_width = measurements.measures[cst.BikeParts.handlebar_length.name]
+            wanted_rider_length = measurements.measures[cst.BikeParts.top_tube_length.name]
             wanted_bike_width = measurements.measures[cst.BikeParts.wheel_width.name]
             wanted_bike_length = measurements.measures[cst.BikeParts.total_length.name]
-            current_bike_length = abs(
-                new_shapes["bike"]["max_y"] - new_shapes["bike"]["min_y"]
-            )
-            current_rider_width = abs(
-                new_shapes["rider"]["max_x"] - new_shapes["rider"]["min_x"]
-            )
-            current_rider_length = abs(
-                new_shapes["rider"]["max_y"] - new_shapes["rider"]["min_y"]
-            )
-            current_bike_width = abs(
-                new_shapes["bike"]["max_x"] - new_shapes["bike"]["min_x"]
-            )
+            current_bike_length = abs(new_shapes["bike"]["max_y"] - new_shapes["bike"]["min_y"])
+            current_rider_width = abs(new_shapes["rider"]["max_x"] - new_shapes["rider"]["min_x"])
+            current_rider_length = abs(new_shapes["rider"]["max_y"] - new_shapes["rider"]["min_y"])
+            current_bike_width = abs(new_shapes["bike"]["max_x"] - new_shapes["bike"]["min_x"])
             penalty_rider_width = (wanted_rider_width - current_rider_width) ** 2
             penalty_rider_length = (wanted_rider_length - current_rider_length) ** 2
             penalty_bike_width = (wanted_bike_width - current_bike_width) ** 2
             penalty_bike_length = (wanted_bike_length - current_bike_length) ** 2
-            return (
-                penalty_rider_length
-                + penalty_bike_width
-                + penalty_bike_length
-                + penalty_rider_width
-            )
+            return penalty_rider_length + penalty_bike_width + penalty_bike_length + penalty_rider_width
 
         bounds = np.array([[1e-5, 3.0], [1e-5, 3.0], [1e-5, 3.0], [1e-5, 3.0]])
         guess_parameters = np.array([0.99, 0.99, 0.99, 0.99])
@@ -299,9 +249,7 @@ class Shapes2D:
             maxiter=100,
             x0=guess_parameters,
         )
-        opt_bike_sfx, opt_bike_sfy, opt_rider_sfx, opt_rider_sfy = (
-            optimised_scaling.x
-        )  # optimised scaling factors
+        opt_bike_sfx, opt_bike_sfy, opt_rider_sfx, opt_rider_sfy = optimised_scaling.x  # optimised scaling factors
         adjusted_shapes = {
             "bike": {
                 "shape_type": cst.ShapeTypes.rectangle.name,

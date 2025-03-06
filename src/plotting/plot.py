@@ -12,8 +12,7 @@ from streamlit.delta_generator import DeltaGenerator
 
 import src.utils.functions as fun
 from src.classes.agents import Agent
-
-from src.classes.trial.crowd_old import Crowd
+from src.classes.crowd import Crowd
 
 plt.rcParams.update(
     {
@@ -70,12 +69,8 @@ def display_shape2D(agents: list[Agent]) -> go.Figure:
                         fillcolor="rgba(255, 0, 0, 0.5)",
                     )
                 )
-            centroid_x = np.mean(
-                [np.mean(polygon.exterior.xy[0]) for polygon in geometric_agent.geoms]
-            )
-            centroid_y = np.mean(
-                [np.mean(polygon.exterior.xy[1]) for polygon in geometric_agent.geoms]
-            )
+            centroid_x = np.mean([np.mean(polygon.exterior.xy[0]) for polygon in geometric_agent.geoms])
+            centroid_y = np.mean([np.mean(polygon.exterior.xy[1]) for polygon in geometric_agent.geoms])
             fig.add_annotation(
                 x=centroid_x,
                 y=centroid_y,
@@ -100,9 +95,7 @@ def display_shape2D(agents: list[Agent]) -> go.Figure:
     return fig
 
 
-def display_body3D_orthogonal_projection(
-    agent: Agent, extra_info: list[DeltaGenerator, str]
-) -> None:
+def display_body3D_orthogonal_projection(agent: Agent, extra_info: list[DeltaGenerator, str]) -> None:
     """Draws the orthogonal projection of the pedestrian's body."""
 
     fig, ax = plt.subplots(figsize=(11, 11))
@@ -140,9 +133,7 @@ def display_body3D_orthogonal_projection(
     return fig
 
 
-def display_body3D_polygons(
-    agent: Agent, extra_info: list[DeltaGenerator, str]
-) -> go.Figure:
+def display_body3D_polygons(agent: Agent, extra_info: list[DeltaGenerator, str]) -> go.Figure:
     """Draws the 3D body of the pedestrian."""
 
     # Initialize a Plotly figure
@@ -156,13 +147,9 @@ def display_body3D_polygons(
     for height, multi_polygon in sorted(agent.shapes3D.shapes.items(), reverse=True):
         # Reverse order for proper layering (start from top)
 
-        normalized_height = (height - min_height) / (
-            max_height - min_height
-        )  # Normalize height for color scale
+        normalized_height = (height - min_height) / (max_height - min_height)  # Normalize height for color scale
 
-        percent_completed = (max_height - height - min_height) / (
-            max_height - min_height
-        )
+        percent_completed = (max_height - height - min_height) / (max_height - min_height)
         fun.update_progress_bar(extra_info[0], extra_info[1], percent_completed)
 
         # Assign color based on normalized height
@@ -187,20 +174,10 @@ def display_body3D_polygons(
 
     # Determine axis ranges to set equal scale
     x_range = np.ptp(
-        [
-            x
-            for multi_polygon in agent.shapes3D.shapes.values()
-            for polygon in multi_polygon.geoms
-            for x in polygon.exterior.xy[0]
-        ]
+        [x for multi_polygon in agent.shapes3D.shapes.values() for polygon in multi_polygon.geoms for x in polygon.exterior.xy[0]]
     )
     y_range = np.ptp(
-        [
-            y
-            for multi_polygon in agent.shapes3D.shapes.values()
-            for polygon in multi_polygon.geoms
-            for y in polygon.exterior.xy[1]
-        ]
+        [y for multi_polygon in agent.shapes3D.shapes.values() for polygon in multi_polygon.geoms for y in polygon.exterior.xy[1]]
     )
     z_range = max_height - min_height
     max_range = max(x_range, y_range, z_range)
@@ -229,9 +206,7 @@ def display_body3D_polygons(
     return fig
 
 
-def display_body3D_mesh(
-    agent: Agent, extra_info: list[DeltaGenerator, str, int]
-) -> go.Figure:
+def display_body3D_mesh(agent: Agent, extra_info: list[DeltaGenerator, str, int]) -> go.Figure:
     """
     Draws a continuous 3D mesh connecting contours at different heights using Plotly's Mesh3d.
     Fills missing triangles and smooths the mesh for better visualization.
@@ -240,9 +215,7 @@ def display_body3D_mesh(
     # Reduce the number of heights to process
     precision = extra_info[2]
     new_body = {
-        height: multi_polygon
-        for idx, (height, multi_polygon) in enumerate(agent.shapes3D.shapes.items())
-        if idx % precision == 0
+        height: multi_polygon for idx, (height, multi_polygon) in enumerate(agent.shapes3D.shapes.items()) if idx % precision == 0
     }
     print(f"Number of heights: {len(new_body)}")
 
@@ -255,9 +228,9 @@ def display_body3D_mesh(
 
     # Iterate through pairs of consecutive heights
     for h_idx in range(len(sorted_heights) - 1):
-        percent_completed = (
-            sorted_heights[0] - sorted_heights[h_idx] - sorted_heights[-1]
-        ) / (sorted_heights[0] - sorted_heights[-1])
+        percent_completed = (sorted_heights[0] - sorted_heights[h_idx] - sorted_heights[-1]) / (
+            sorted_heights[0] - sorted_heights[-1]
+        )
         fun.update_progress_bar(extra_info[0], extra_info[1], percent_completed)
 
         height_high, height_low = sorted_heights[h_idx], sorted_heights[h_idx + 1]
@@ -282,13 +255,9 @@ def display_body3D_mesh(
             all_points = np.vstack((all_points, points_low))
 
             # Create triangular meshes between high and low contours
-            for idx in range(
-                len(x_high) - 1
-            ):  # Loop through consecutive points on high contour
+            for idx in range(len(x_high) - 1):  # Loop through consecutive points on high contour
                 # Find the nearest point on the low contour
-                nearest_idx = np.argmin(
-                    (x_low - x_high[idx]) ** 2 + (y_low - y_high[idx]) ** 2
-                )
+                nearest_idx = np.argmin((x_low - x_high[idx]) ** 2 + (y_low - y_high[idx]) ** 2)
                 # Triangle 1: two vertices from high contour and one from low contour
                 triangle1 = np.column_stack(
                     (
@@ -328,16 +297,11 @@ def display_body3D_mesh(
     )
 
     # Normalize z-coordinates for color mapping
-    color_scale_name = (
-        "viridis" if agent.measures.measures["sex"] == "male" else "inferno"
-    )
+    color_scale_name = "viridis" if agent.measures.measures["sex"] == "male" else "inferno"
     norm = Normalize(vmin=np.min(points_filled[:, 2]), vmax=np.max(points_filled[:, 2]))
     colorscale_values = norm(points_filled[:, 2])
     colorscale_values = cm.get_cmap(color_scale_name)(colorscale_values)[:, :3]
-    vertex_colors = [
-        f"rgb({int(r * 255)}, {int(g * 255)}, {int(b * 255)})"
-        for r, g, b in colorscale_values
-    ]
+    vertex_colors = [f"rgb({int(r * 255)}, {int(g * 255)}, {int(b * 255)})" for r, g, b in colorscale_values]
 
     print("\nPlotting...")
 
@@ -391,9 +355,9 @@ def display_crowd2D(crowd: Crowd) -> plt.Figure:
     """Draw the crowd of pedestrians in the room."""
 
     fig, ax = plt.subplots(figsize=(8, 8))
-    for ped in crowd.packed_crowd.values():
-        ped_geometric = ped.calculate_geometric_shape()
-        x, y = ped_geometric.exterior.xy
+    for agent in crowd.agents:
+        agent_geometric = agent.shapes2D.get_geometric_shape()
+        x, y = agent_geometric.exterior.xy
         ax.fill(x, y, alpha=0.8)
         ax.plot(x, y, color="black", linewidth=0.5)
     x_min, y_min, x_max, y_max = crowd.boundaries.bounds
@@ -410,12 +374,12 @@ def display_distribution(df: pd.DataFrame, column: str):
     """Display the distribution of a given column in a DataFrame using Plotly."""
     if column not in df.columns:
         raise ValueError(f"Column '{column}' not found in the DataFrame.")
-    if "Sex" not in df.columns:
-        raise ValueError("Column 'Sex' not found in the DataFrame, required for hue.")
+    if "sex" not in df.columns:
+        raise ValueError("Column 'sex' not found in the DataFrame, required for hue.")
     fig = go.Figure()
 
-    values_male = df[df["Sex"] == "male"][column]
-    values_female = df[df["Sex"] == "female"][column]
+    values_male = df[df["sex"] == "male"][column]
+    values_female = df[df["sex"] == "female"][column]
 
     fig.add_trace(
         go.Histogram(
@@ -435,15 +399,9 @@ def display_distribution(df: pd.DataFrame, column: str):
     fig.update_traces(opacity=0.5)
     # Add custom hover text using hovertemplate
     if column != "Sex":
-        fig.update_traces(
-            hovertemplate=f"<b>{column[:-5]}</b>"
-            + " = %{x} cm<br><b>Count = </b>%{y}</b>"
-        )
+        fig.update_traces(hovertemplate=f"<b>{column[:-5]}</b>" + " = %{x} cm<br><b>Count = </b>%{y}</b>")
     else:
-        fig.update_traces(
-            hovertemplate=f"<b>{column}</b>"
-            + " = %{x}<br><b>Count = </b>%{y}</b><extra></extra>"
-        )
+        fig.update_traces(hovertemplate=f"<b>{column}</b>" + " = %{x}<br><b>Count = </b>%{y}</b><extra></extra>")
 
     fig.update_layout(
         xaxis_title=column,

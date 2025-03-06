@@ -15,3 +15,6 @@ def about() -> None:
     This app is part of the SHAPE project.
     """
     st.markdown(text2)
+
+    text3 = " Lien vers code C++, article, exemples d'utilisation"
+    st.markdown(text3)

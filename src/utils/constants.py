@@ -20,35 +20,7 @@ DISK_NUMBER: int = 5
 DATA_DIR: Path = Path("./data")
 PICKLE_DIR: Path = DATA_DIR / "pickle"
 CSV_DIR: Path = DATA_DIR / "csv"
-
-MIN_DENSITY: float = 1e-5  # in pedestrians per cm^2
-MAX_DENSITY: float = 10.0  # in pedestrians per cm^2
-MIN_CHEST_DEPTH: float = 15.0  # in cm
-MAX_CHEST_DEPTH: float = 50.0  # in cm
-MIN_BIDELTOID_BREADTH: float = 20.0  # in cm
-MAX_BIDELTOID_BREADTH: float = 60.0  # in cm
-MIN_HEIGHT: float = 100.0  # in cm
-MAX_HEIGHT: float = 200.0  # in cm
-MAX_NB_ITERATIONS: int = 100  # Maximum number of iterations for the parking algorithm
-
-DEFAULT_CHEST_DEPTH: float = 25.0
-DEFAULT_BIDELTOID_BREADTH: float = 45.0
-DEFAULT_HEIGHT: float = 170.0
-DEFAULT_SEX: Sex = "male"
-
-DEFAULT_HANDLEBAR_LENGTH: float = 60.0  # cm
-DEFAULT_TOP_TUBE_LENGTH: float = 61.0  # cm
-DEFAULT_TOTAL_LENGTH: float = 142.0  # cm
-DEFAULT_WHEEL_WIDTH: float = 16.0  # cm
-
-MIN_HANDLEBAR_LENGTH: float = 30.0  # cm
-MAX_HANDLEBAR_LENGTH: float = 90.0  # cm
-MIN_TOP_TUBE_LENGTH: float = 40.0  # cm
-MAX_TOP_TUBE_LENGTH: float = 90.0  # cm
-MIN_TOTAL_LENGTH: float = 100.0  # cm
-MAX_TOTAL_LENGTH: float = 200.0  # cm
-MIN_WHEEL_WIDTH: float = 5.0  # cm
-MAX_WHEEL_WIDTH: float = 30.0  # cm
+JSON_DIR: Path = DATA_DIR / "json"
 
 FIRST_TAB_NAME: str = "About"
 SECOND_TAB_NAME: str = "2D agent"
@@ -57,14 +29,71 @@ FOURTH_TAB_NAME: str = "Anthropometry"
 FIFTH_TAB_NAME: str = "Crowd"
 SIXTH_TAB_NAME: str = "Custom crowd"
 
-DEFAULT_DENSITY: float = 1e-3
-DEDAULT_MEAN_CHEST_DEPTH: float = 22.0
-DEDAULT_STD_CHEST_DEPTH: float = 3.0
-DEDAULT_MEAN_BIDELTOID_BREADTH: float = 35.0
-DEDAULT_STD_BIDELTOID_BREADTH: float = 3.0
+# 2D shapes tab
+DEFAULT_CHEST_DEPTH: float = 25.0
+DEFAULT_CHEST_DEPTH_MIN: float = 15.0  # in cm
+DEFAULT_CHEST_DEPTH_MAX: float = 50.0  # in cm
+DEFAULT_BIDELTOID_BREADTH: float = 45.0
+DEFAULT_BIDELTOID_BREADTH_MIN: float = 20.0  # in cm
+DEFAULT_BIDELTOID_BREADTH_MAX: float = 60.0  # in cm
+DEFAULT_HEIGHT: float = 170.0
+DEFAULT_HEIGHT_MIN: float = 100.0  # in cm
+DEFAULT_HEIGHT_MAX: float = 200.0  # in cm
+DEFAULT_SEX: Sex = "male"
 
-DEFAULT_BOUNDARY_X: float = 100.0  # cm
-DEFAULT_BOUNDARY_Y: float = 100.0  # cm
+DEFAULT_HANDLEBAR_LENGTH: float = 60.0  # cm
+DEFAULT_TOP_TUBE_LENGTH: float = 61.0  # cm
+DEFAULT_TOTAL_LENGTH: float = 142.0  # cm
+DEFAULT_WHEEL_WIDTH: float = 16.0  # cm
+
+# Crowd tab
+DEFAULT_BOUNDARY_X: float = 200.0  # cm
+DEFAULT_BOUNDARY_X_MIN: float = 100.0  # cm
+DEFAULT_BOUNDARY_X_MAX: float = 300.0  # cm
+DEFAULT_BOUNDARY_Y: float = 200.0  # cm
+DEFAULT_BOUNDARY_Y_MIN: float = 100.0  # cm
+DEFAULT_BOUNDARY_Y_MAX: float = 300.0  # cm
+
+DEFAULT_AGENT_NUMBER: int = 4
+DEFAULT_AGENT_NUMBER_MIN: int = 1
+DEFAULT_AGENT_NUMBER_MAX: int = 100
+MAX_MOVE_X: float = 50.0  # cm
+MAX_MOVE_Y: float = 50.0  # cm
+MAX_ROTATION: float = 30.0  # degrees
+MAX_NB_ITERATIONS: int = 100  # Maximum number of iterations for the parking algorithm
+
+# 2D Shapes tab / Custom crowd tab / Crowd tab (statistics)
+DEFAULT_MALE_PROPORTION: float = 0.5
+DEFAULT_PEDESTRIAN_PROPORTION: float = 1.0
+DEFAULT_BIKE_PROPORTION: float = 1.0 - DEFAULT_PEDESTRIAN_PROPORTION
+
+
+DEFAULT_MALE_CHEST_DEPTH_MEAN: float = 25.0
+DEFAULT_MALE_CHEST_DEPTH_STD_DEV: float = 5.0
+DEFAULT_MALE_BIDELTOID_BREADTH_MEAN: float = 45.0
+DEFAULT_MALE_BIDELTOID_BREADTH_STD_DEV: float = 5.0
+
+DEFAULT_FEMALE_CHEST_DEPTH_MEAN: float = 25.0
+DEFAULT_FEMALE_CHEST_DEPTH_STD_DEV: float = 5.0
+DEFAULT_FEMALE_BIDELTOID_BREADTH_MEAN: float = 45.0
+DEFAULT_FEMALE_BIDELTOID_BREADTH_STD_DEV: float = 5.0
+
+DEFAULT_WHEEL_WIDTH_MEAN: float = 16.0
+DEFAULT_WHEEL_WIDTH_STD_DEV: float = 2.0
+DEFAULT_WHEEL_WIDTH_MIN: float = 5.0  # cm
+DEFAULT_WHEEL_WIDTH_MAX: float = 30.0  # cm
+DEFAULT_TOTAL_LENGTH_MEAN: float = 142.0
+DEFAULT_TOTAL_LENGTH_STD_DEV: float = 5.0
+DEFAULT_TOTAL_LENGTH_MIN: float = 100.0  # cm
+DEFAULT_TOTAL_LENGTH_MAX: float = 200.0  # cm
+DEFAULT_HANDLEBAR_LENGTH_MEAN: float = 60.0
+DEFAULT_HANDLEBAR_LENGTH_STD_DEV: float = 5.0
+DEFAULT_HANDLEBAR_LENGTH_MIN: float = 30.0  # cm
+DEFAULT_HANDLEBAR_LENGTH_MAX: float = 90.0  # cm
+DEFAULT_TOP_TUBE_LENGTH_MEAN: float = 61.0
+DEFAULT_TOP_TUBE_LENGTH_STD_DEV: float = 5.0
+DEFAULT_TOP_TUBE_LENGTH_MIN: float = 40.0  # cm
+DEFAULT_TOP_TUBE_LENGTH_MAX: float = 90.0  # cm
 
 
 class BackupDataTypes(Enum):
@@ -101,7 +130,7 @@ class PedestrianParts(Enum):
 
 
 class BikeParts(Enum):
-    """Enum for bike parts"""
+    """Bike is an enumeration that defines different parts of a bike."""
 
     wheel_width = auto()
     total_length = auto()
@@ -109,43 +138,82 @@ class BikeParts(Enum):
     top_tube_length = auto()
 
 
-class CrowdPedestrianStat(Enum):
-    """Enum for a crowd made of pedestrians"""
+class StatType(Enum):
+    """StatType is an enumeration that defines different types of statistics."""
+
+    mean = auto()
+    std_dev = auto()
+    min = auto()
+    max = auto()
+
+
+# def create_crowd_stat_members():
+#     """Generates a dictionary of CrowdStat members by combining each agent part"""
+#     members = {}
+
+#     # Loop through each agent part enumeration
+#     for agent in AgentTypes:
+#         if agent == AgentTypes.pedestrian:
+#             parts_enum = PedestrianParts
+#         elif agent == AgentTypes.bike:
+#             parts_enum = BikeParts
+#         else:
+#             continue
+#         for part in parts_enum:
+#             if part != PedestrianParts.sex:
+#                 for stat in StatType:
+#                     # Construct a member name like "PEDESTRIAN_SEX_PROPORTION"
+#                     member_name = f"{agent.name.lower()}_{part.name}_{stat.name}"
+#                     # The value can be a tuple holding structured info (agent, part, statistic)
+#                     members[member_name] = auto()
+#     members["male_proportion"] = auto()
+#     members["pedestrian_proportion"] = auto()
+#     members["bike_proportion"] = auto()
+#     return members
+
+
+# Dynamically create the CrowdStat enum using the functional API
+# CrowdStat = Enum("CrowdStat", create_crowd_stat_members())
+
+
+class CrowdStat(Enum):
+    """Enum for crowd statistics"""
 
     male_proportion = auto()
+    pedestrian_proportion = auto()
+    bike_proportion = auto()
 
-    mean_chest_depth = auto()
-    std_dev_chest_depth = auto()
-    min_chest_depth = auto()
-    max_chest_depth = auto()
+    male_bideltoid_breadth_mean = auto()
+    male_bideltoid_breadth_std_dev = auto()
+    male_bideltoid_breadth_min = auto()
+    male_bideltoid_breadth_max = auto()
+    male_chest_depth_mean = auto()
+    male_chest_depth_std_dev = auto()
+    male_chest_depth_min = auto()
+    male_chest_depth_max = auto()
 
-    mean_bideltoid_breadth = auto()
-    std_dev_bideltoid_breadth = auto()
-    min_bideltoid_breadth = auto()
-    max_bideltoid_breadth = auto()
+    female_bideltoid_breadth_mean = auto()
+    female_bideltoid_breadth_std_dev = auto()
+    female_bideltoid_breadth_min = auto()
+    female_bideltoid_breadth_max = auto()
+    female_chest_depth_mean = auto()
+    female_chest_depth_std_dev = auto()
+    female_chest_depth_min = auto()
+    female_chest_depth_max = auto()
 
-
-class CrowdBikeStat(Enum):
-    """Enum for a crowd made of bikes"""
-
-    number_of_bikes = auto()
-
-    mean_handlebar_length = auto()
-    std_dev_handlebar_length = auto()
-    min_handlebar_length = auto()
-    max_handlebar_length = auto()
-
-    mean_top_tube_length = auto()
-    std_dev_top_tube_length = auto()
-    min_top_tube_length = auto()
-    max_top_tube_length = auto()
-
-    mean_total_length = auto()
-    std_dev_total_length = auto()
-    min_total_length = auto()
-    max_total_length = auto()
-
-    mean_wheel_width = auto()
-    std_dev_wheel_width = auto()
-    min_wheel_width = auto()
-    max_wheel_width = auto()
+    wheel_width_mean = auto()
+    wheel_width_std_dev = auto()
+    wheel_width_min = auto()
+    wheel_width_max = auto()
+    total_length_mean = auto()
+    total_length_std_dev = auto()
+    total_length_min = auto()
+    total_length_max = auto()
+    handlebar_length_mean = auto()
+    handlebar_length_std_dev = auto()
+    handlebar_length_min = auto()
+    handlebar_length_max = auto()
+    top_tube_length_mean = auto()
+    top_tube_length_std_dev = auto()
+    top_tube_length_min = auto()
+    top_tube_length_max = auto()

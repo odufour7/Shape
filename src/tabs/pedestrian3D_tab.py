@@ -26,9 +26,7 @@ def main() -> None:
                 "height": cst.DEFAULT_HEIGHT,
             },
         )
-        st.session_state.current_pedestrian = Agent(
-            agent_type="pedestrian", measures=pedestrian_measures
-        )
+        st.session_state.current_pedestrian = Agent(agent_type="pedestrian", measures=pedestrian_measures)
 
     # Access the stored object
     current_pedestrian = st.session_state.current_pedestrian
@@ -47,22 +45,22 @@ def main() -> None:
 
     bideltoid_breadth = st.sidebar.slider(
         "Bideltoid breadth (cm)",
-        min_value=cst.MIN_BIDELTOID_BREADTH,
-        max_value=cst.MAX_BIDELTOID_BREADTH,
+        min_value=cst.DEFAULT_BIDELTOID_BREADTH_MIN,
+        max_value=cst.DEFAULT_BIDELTOID_BREADTH_MAX,
         value=cst.DEFAULT_BIDELTOID_BREADTH,
         step=1.0,
     )
     chest_depth = st.sidebar.slider(
         "Chest depth (cm)",
-        min_value=cst.MIN_CHEST_DEPTH,
-        max_value=cst.MAX_CHEST_DEPTH,
+        min_value=cst.DEFAULT_CHEST_DEPTH_MIN,
+        max_value=cst.DEFAULT_CHEST_DEPTH_MAX,
         value=cst.DEFAULT_CHEST_DEPTH,
         step=1.0,
     )
     height = st.sidebar.slider(
         "Height (cm)",
-        min_value=cst.MIN_HEIGHT,
-        max_value=cst.MAX_HEIGHT,
+        min_value=cst.DEFAULT_HEIGHT_MIN,
+        max_value=cst.DEFAULT_HEIGHT_MAX,
         value=cst.DEFAULT_HEIGHT,
         step=1.0,
     )
@@ -125,9 +123,7 @@ def main() -> None:
             status_text = st.empty()
 
             # Compute the orthogonal projection
-            fig = plot.display_body3D_orthogonal_projection(
-                current_pedestrian, extra_info=[my_progress_bar, status_text]
-            )
+            fig = plot.display_body3D_orthogonal_projection(current_pedestrian, extra_info=[my_progress_bar, status_text])
             # Display the figure
             st.pyplot(fig)
 
@@ -139,9 +135,7 @@ def main() -> None:
             # Save the figure to a BytesIO object in PDF format
             body3D_orthogonal_projection = BytesIO()
             fig.savefig(body3D_orthogonal_projection, format="pdf")
-            body3D_orthogonal_projection.seek(
-                0
-            )  # Reset buffer pointer to the beginning
+            body3D_orthogonal_projection.seek(0)  # Reset buffer pointer to the beginning
 
             # Streamlit button in the sidebar to download the graph in PDF format
             st.sidebar.header("Download")
@@ -158,9 +152,7 @@ def main() -> None:
             status_text = st.empty()
 
             # Compute the 3D body with slices
-            fig = plot.display_body3D_polygons(
-                current_pedestrian, extra_info=[my_progress_bar, status_text]
-            )
+            fig = plot.display_body3D_polygons(current_pedestrian, extra_info=[my_progress_bar, status_text])
             # Display the figure
             st.plotly_chart(fig)
 
@@ -191,9 +183,7 @@ def main() -> None:
             status_text = st.empty()
 
             # Compute the 3D body with a mesh
-            fig = plot.display_body3D_mesh(
-                current_pedestrian, extra_info=[my_progress_bar, status_text, precision]
-            )
+            fig = plot.display_body3D_mesh(current_pedestrian, extra_info=[my_progress_bar, status_text, precision])
             # Display the figure
             st.plotly_chart(fig)
 
@@ -213,9 +203,7 @@ def main() -> None:
     # Add a download button
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     filename = f"agent3D_{current_pedestrian.agent_type}_{current_pedestrian.measures.measures['sex']}_{timestamp}.pkl"
-    data_to_download, mime_type = fun.get_shapes_data(
-        "pickle", current_pedestrian.shapes3D.shapes
-    )
+    data_to_download, mime_type = fun.get_shapes_data("pickle", current_pedestrian.shapes3D.shapes)
     st.sidebar.download_button(
         label="Download data as PKL",
         data=data_to_download,

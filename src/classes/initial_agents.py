@@ -6,8 +6,6 @@ import src.utils.constants as cst
 import src.utils.functions as fun
 from src.utils.typing_custom import AgentType, SapeDataType, Sex, ShapeType
 
-# python -m src.classes.initial_pedestrian
-
 
 class InitialPedestrian:
     """Encapsulates the initial pedestrian state."""
@@ -20,18 +18,13 @@ class InitialPedestrian:
 
         self._agent_type: AgentType = cst.AgentTypes.pedestrian.name
         self._shapes: SapeDataType = self._initialize_shapes()
-        self._shapes3D: dict[int, Polygon] = fun.load_pickle(
-            cst.PICKLE_DIR / f"{sex}_3dBody.pkl"
-        )
+        self._shapes3D: dict[int, Polygon] = fun.load_pickle(cst.PICKLE_DIR / f"{sex}_3dBody.pkl")
         self._measures: dict[str, float] = {
             cst.PedestrianParts.sex.name: sex,
-            cst.PedestrianParts.bideltoid_breadth.name: 2.0
-            * self._shapes["disk4"]["center"][0]
+            cst.PedestrianParts.bideltoid_breadth.name: 2.0 * self._shapes["disk4"]["center"][0]
             + 2.0 * self._shapes["disk4"]["radius"],
             cst.PedestrianParts.chest_depth.name: 2.0 * self._shapes["disk2"]["radius"],
-            cst.PedestrianParts.height.name: abs(
-                max(self._shapes3D.keys()) - min(self._shapes3D.keys())
-            ),
+            cst.PedestrianParts.height.name: abs(max(self._shapes3D.keys()) - min(self._shapes3D.keys())),
         }
 
     def _initialize_shapes(
@@ -96,15 +89,11 @@ class InitialPedestrian:
 
     def calculate_position(self):
         """Calculate the position of the pedestrian."""
-        return Point(
-            self.shapes["disk2"]["center"][0], self.shapes["disk2"]["center"][0]
-        )
+        return Point(self.shapes["disk2"]["center"][0], self.shapes["disk2"]["center"][0])
 
     def get_disk_centers(self):
         """Get the centers of the disks."""
-        return [
-            Point(self.shapes[f"disk{i}"]["center"]) for i in range(cst.DISK_NUMBER)
-        ]
+        return [Point(self.shapes[f"disk{i}"]["center"]) for i in range(cst.DISK_NUMBER)]
 
     def get_disk_radii(self):
         """Get the radii of the disks."""
@@ -119,14 +108,10 @@ class InitialBike:
         self._agent_type: AgentType = cst.AgentTypes.bike.name
         self._shapes: SapeDataType = self._initialize_shapes()
         self._measures: dict[str, float] = {
-            cst.BikeParts.wheel_width.name: self._shapes["bike"]["max_x"]
-            - self._shapes["bike"]["min_x"],
-            cst.BikeParts.total_length.name: self._shapes["bike"]["max_y"]
-            - self._shapes["bike"]["min_y"],
-            cst.BikeParts.handlebar_length.name: self._shapes["rider"]["max_x"]
-            - self._shapes["rider"]["min_x"],
-            cst.BikeParts.top_tube_length.name: self._shapes["rider"]["max_y"]
-            - self._shapes["rider"]["min_y"],
+            cst.BikeParts.wheel_width.name: self._shapes["bike"]["max_x"] - self._shapes["bike"]["min_x"],
+            cst.BikeParts.total_length.name: self._shapes["bike"]["max_y"] - self._shapes["bike"]["min_y"],
+            cst.BikeParts.handlebar_length.name: self._shapes["rider"]["max_x"] - self._shapes["rider"]["min_x"],
+            cst.BikeParts.top_tube_length.name: self._shapes["rider"]["max_y"] - self._shapes["rider"]["min_y"],
         }
 
     def _initialize_shapes(
@@ -150,9 +135,7 @@ class InitialBike:
             "max_y": 46.0 + 204.0,
         }
         # put the CM to (0,0) and convert to cm
-        center_of_mass_bike = Point(
-            (bike["min_x"] + bike["max_x"]) / 2.0, (bike["min_y"] + bike["max_y"]) / 2.0
-        )
+        center_of_mass_bike = Point((bike["min_x"] + bike["max_x"]) / 2.0, (bike["min_y"] + bike["max_y"]) / 2.0)
         center_of_mass_rider = Point(
             (rider["min_x"] + rider["max_x"]) / 2.0,
             (rider["min_y"] + rider["max_y"]) / 2.0,
