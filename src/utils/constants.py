@@ -1,7 +1,6 @@
 """Constants used in the project."""
 
 from enum import Enum, auto
-from pathlib import Path
 
 import numpy as np
 
@@ -17,10 +16,10 @@ YOUNG_MODULUS_RECTANGLE_INIT: float = 1.0e6
 
 DEG_TO_RAD: float = np.pi / 180.0  # Conversion factor from degrees to radians
 DISK_NUMBER: int = 5
-DATA_DIR: Path = Path("./data")
-PICKLE_DIR: Path = DATA_DIR / "pickle"
-CSV_DIR: Path = DATA_DIR / "csv"
-JSON_DIR: Path = DATA_DIR / "json"
+# DATA_DIR: Path = Path("./data")
+# PICKLE_DIR: Path = DATA_DIR / "pickle"
+# CSV_DIR: Path = DATA_DIR / "csv"
+# JSON_DIR: Path = DATA_DIR / "json"
 
 FIRST_TAB_NAME: str = "About"
 SECOND_TAB_NAME: str = "2D agent"
@@ -34,11 +33,11 @@ DEFAULT_CHEST_DEPTH: float = 25.0
 DEFAULT_CHEST_DEPTH_MIN: float = 15.0  # in cm
 DEFAULT_CHEST_DEPTH_MAX: float = 50.0  # in cm
 DEFAULT_BIDELTOID_BREADTH: float = 45.0
-DEFAULT_BIDELTOID_BREADTH_MIN: float = 20.0  # in cm
-DEFAULT_BIDELTOID_BREADTH_MAX: float = 60.0  # in cm
+DEFAULT_BIDELTOID_BREADTH_MIN: float = 30.0  # in cm
+DEFAULT_BIDELTOID_BREADTH_MAX: float = 90.0  # in cm
 DEFAULT_HEIGHT: float = 170.0
 DEFAULT_HEIGHT_MIN: float = 100.0  # in cm
-DEFAULT_HEIGHT_MAX: float = 200.0  # in cm
+DEFAULT_HEIGHT_MAX: float = 230.0  # in cm
 DEFAULT_SEX: Sex = "male"
 
 DEFAULT_HANDLEBAR_LENGTH: float = 60.0  # cm
@@ -46,21 +45,28 @@ DEFAULT_TOP_TUBE_LENGTH: float = 61.0  # cm
 DEFAULT_TOTAL_LENGTH: float = 142.0  # cm
 DEFAULT_WHEEL_WIDTH: float = 16.0  # cm
 
+MAX_TRANSLATION_X: float = 500.0  # cm
+MAX_TRANSLATION_Y: float = 500.0  # cm
+
 # Crowd tab
 DEFAULT_BOUNDARY_X: float = 200.0  # cm
-DEFAULT_BOUNDARY_X_MIN: float = 100.0  # cm
+DEFAULT_BOUNDARY_X_MIN: float = 50.0  # cm
 DEFAULT_BOUNDARY_X_MAX: float = 300.0  # cm
 DEFAULT_BOUNDARY_Y: float = 200.0  # cm
-DEFAULT_BOUNDARY_Y_MIN: float = 100.0  # cm
+DEFAULT_BOUNDARY_Y_MIN: float = 50.0  # cm
 DEFAULT_BOUNDARY_Y_MAX: float = 300.0  # cm
 
 DEFAULT_AGENT_NUMBER: int = 4
 DEFAULT_AGENT_NUMBER_MIN: int = 1
-DEFAULT_AGENT_NUMBER_MAX: int = 100
+DEFAULT_AGENT_NUMBER_MAX: int = 300
 MAX_MOVE_X: float = 50.0  # cm
 MAX_MOVE_Y: float = 50.0  # cm
 MAX_ROTATION: float = 30.0  # degrees
 MAX_NB_ITERATIONS: int = 100  # Maximum number of iterations for the parking algorithm
+
+DEFAULT_DECAY_REPULSION_RATE: float = 1.0 / 15.0
+DEFAULT_DECAY_REPULSION_RATE_MIN: float = 1.0 / 30.0
+DEFAULT_DECAY_REPULSION_RATE_MAX: float = 1.0 / 5.0
 
 # 2D Shapes tab / Custom crowd tab / Crowd tab (statistics)
 DEFAULT_MALE_PROPORTION: float = 0.5
@@ -68,15 +74,15 @@ DEFAULT_PEDESTRIAN_PROPORTION: float = 1.0
 DEFAULT_BIKE_PROPORTION: float = 1.0 - DEFAULT_PEDESTRIAN_PROPORTION
 
 
-DEFAULT_MALE_CHEST_DEPTH_MEAN: float = 25.0
-DEFAULT_MALE_CHEST_DEPTH_STD_DEV: float = 5.0
-DEFAULT_MALE_BIDELTOID_BREADTH_MEAN: float = 45.0
-DEFAULT_MALE_BIDELTOID_BREADTH_STD_DEV: float = 5.0
+DEFAULT_MALE_CHEST_DEPTH_MEAN: float = 26.0
+DEFAULT_MALE_CHEST_DEPTH_STD_DEV: float = 2.0
+DEFAULT_MALE_BIDELTOID_BREADTH_MEAN: float = 51.0
+DEFAULT_MALE_BIDELTOID_BREADTH_STD_DEV: float = 2.0
 
-DEFAULT_FEMALE_CHEST_DEPTH_MEAN: float = 25.0
-DEFAULT_FEMALE_CHEST_DEPTH_STD_DEV: float = 5.0
+DEFAULT_FEMALE_CHEST_DEPTH_MEAN: float = 24.0
+DEFAULT_FEMALE_CHEST_DEPTH_STD_DEV: float = 1.5
 DEFAULT_FEMALE_BIDELTOID_BREADTH_MEAN: float = 45.0
-DEFAULT_FEMALE_BIDELTOID_BREADTH_STD_DEV: float = 5.0
+DEFAULT_FEMALE_BIDELTOID_BREADTH_STD_DEV: float = 1.5
 
 DEFAULT_WHEEL_WIDTH_MEAN: float = 16.0
 DEFAULT_WHEEL_WIDTH_STD_DEV: float = 2.0
@@ -145,35 +151,6 @@ class StatType(Enum):
     std_dev = auto()
     min = auto()
     max = auto()
-
-
-# def create_crowd_stat_members():
-#     """Generates a dictionary of CrowdStat members by combining each agent part"""
-#     members = {}
-
-#     # Loop through each agent part enumeration
-#     for agent in AgentTypes:
-#         if agent == AgentTypes.pedestrian:
-#             parts_enum = PedestrianParts
-#         elif agent == AgentTypes.bike:
-#             parts_enum = BikeParts
-#         else:
-#             continue
-#         for part in parts_enum:
-#             if part != PedestrianParts.sex:
-#                 for stat in StatType:
-#                     # Construct a member name like "PEDESTRIAN_SEX_PROPORTION"
-#                     member_name = f"{agent.name.lower()}_{part.name}_{stat.name}"
-#                     # The value can be a tuple holding structured info (agent, part, statistic)
-#                     members[member_name] = auto()
-#     members["male_proportion"] = auto()
-#     members["pedestrian_proportion"] = auto()
-#     members["bike_proportion"] = auto()
-#     return members
-
-
-# Dynamically create the CrowdStat enum using the functional API
-# CrowdStat = Enum("CrowdStat", create_crowd_stat_members())
 
 
 class CrowdStat(Enum):

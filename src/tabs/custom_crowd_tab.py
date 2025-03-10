@@ -6,7 +6,6 @@ import streamlit as st
 
 import src.utils.constants as cst
 from src.classes.agents import Agent
-from src.classes.crowd import Crowd
 from src.classes.measures import AgentMeasures
 from src.plotting import plot
 from src.utils import functions as fun
@@ -219,16 +218,24 @@ def main():
             help="Choose the format for your data backup.",
         )
         # Add a download button
-        filename = f"custom_crowd_{backup_data_type}_{timestamp}.{backup_data_type}"
-        current_crowd = Crowd(agents=list(agents))
-
-        data, mime_type = fun.get_shapes_data(backup_data_type, current_crowd.get_agents_params())
-        st.sidebar.download_button(
-            label=f"Download data as {backup_data_type.upper()}",
-            data=data,
-            file_name=filename,
-            mime=mime_type,
-        )
+        if agents:
+            filename = f"custom_crowd_{backup_data_type}_{timestamp}.{backup_data_type}"
+            # Attention, current_crowd fait parti ici de la session state et a de nouveaux attributs ajoutés dynamiquement,
+            # on ne peut donc pas simplement créer une crowd à partir d'eux
+            crowd_dict = {
+                f"agent{id_agent}": {
+                    "agent_type": agent.agent_type,
+                    "shapes": agent.shapes2D.get_additional_parameters(),
+                }
+                for id_agent, agent in enumerate(agents)
+            }
+            data, mime_type = fun.get_shapes_data(backup_data_type, crowd_dict)
+            st.sidebar.download_button(
+                label=f"Download data as {backup_data_type.upper()}",
+                data=data,
+                file_name=filename,
+                mime=mime_type,
+            )
 
 
 def run_tab_custom_crowd() -> None:

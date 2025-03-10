@@ -7,6 +7,7 @@ import streamlit as st
 
 import src.utils.constants as cst
 from src.classes.agents import Agent
+from src.classes.initial_agents import InitialPedestrian
 from src.classes.measures import AgentMeasures
 from src.plotting import plot
 from src.utils import functions as fun
@@ -14,16 +15,18 @@ from src.utils import functions as fun
 
 def main() -> None:
     """Main function for the 3D pedestrian tab."""
+
     # Initialize the object only if it doesn't exist
     if "current_pedestrian" not in st.session_state:
+        initial_pedestrian = InitialPedestrian(cst.DEFAULT_SEX)
         # Create a new pedestrian object
         pedestrian_measures = AgentMeasures(
             agent_type="pedestrian",
             measures={
                 "sex": cst.DEFAULT_SEX,
-                "bideltoid_breadth": cst.DEFAULT_BIDELTOID_BREADTH,
-                "chest_depth": cst.DEFAULT_CHEST_DEPTH,
-                "height": cst.DEFAULT_HEIGHT,
+                "bideltoid_breadth": initial_pedestrian.measures[cst.PedestrianParts.bideltoid_breadth.name],
+                "chest_depth": initial_pedestrian.measures[cst.PedestrianParts.chest_depth.name],
+                "height": initial_pedestrian.measures[cst.PedestrianParts.height.name],
             },
         )
         st.session_state.current_pedestrian = Agent(agent_type="pedestrian", measures=pedestrian_measures)
@@ -42,26 +45,27 @@ def main() -> None:
         index=0,  # Default to "male"
         key="sex",  # Automatically syncs with st.session_state["sex"]
     )
+    initial_pedestrian = InitialPedestrian(st.session_state.sex)
 
     bideltoid_breadth = st.sidebar.slider(
         "Bideltoid breadth (cm)",
         min_value=cst.DEFAULT_BIDELTOID_BREADTH_MIN,
         max_value=cst.DEFAULT_BIDELTOID_BREADTH_MAX,
-        value=cst.DEFAULT_BIDELTOID_BREADTH,
+        value=initial_pedestrian.measures[cst.PedestrianParts.bideltoid_breadth.name],
         step=1.0,
     )
     chest_depth = st.sidebar.slider(
         "Chest depth (cm)",
         min_value=cst.DEFAULT_CHEST_DEPTH_MIN,
         max_value=cst.DEFAULT_CHEST_DEPTH_MAX,
-        value=cst.DEFAULT_CHEST_DEPTH,
+        value=initial_pedestrian.measures[cst.PedestrianParts.chest_depth.name],
         step=1.0,
     )
     height = st.sidebar.slider(
         "Height (cm)",
         min_value=cst.DEFAULT_HEIGHT_MIN,
         max_value=cst.DEFAULT_HEIGHT_MAX,
-        value=cst.DEFAULT_HEIGHT,
+        value=initial_pedestrian.measures[cst.PedestrianParts.height.name],
         step=1.0,
     )
     pedestrian_measures = AgentMeasures(

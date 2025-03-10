@@ -51,10 +51,11 @@ def main() -> None:
                     "height": cst.DEFAULT_HEIGHT,
                 },
             )
-        st.session_state.agent_type = Agent(agent_type=agent_type, measures=agent_measures)
+        st.session_state.agent_type = agent_type
+        st.session_state.current_agent = Agent(agent_type=agent_type, measures=agent_measures)
 
     # Access the stored object
-    current_agent = st.session_state.agent_type
+    current_agent = st.session_state.current_agent
 
     # Sidebar Sliders for Anthropometric Parameters
     st.sidebar.header("Adjust parameters")
@@ -124,12 +125,16 @@ def main() -> None:
     current_agent.measures = agent_measures
 
     # Input fields for translation and rotation
-    x_translation = st.sidebar.number_input("X-Translation (cm):", min_value=-100.0, max_value=100.0, value=0.0, step=1.0)
-    y_translation = st.sidebar.number_input("Y-Translation (cm):", min_value=-100.0, max_value=100.0, value=0.0, step=1.0)
-    rotation_angle = st.sidebar.number_input(
+    x_translation = st.sidebar.slider(
+        "X-Translation (cm):", min_value=-cst.MAX_TRANSLATION_X, max_value=cst.MAX_TRANSLATION_X, value=0.0, step=1.0
+    )
+    y_translation = st.sidebar.slider(
+        "Y-Translation (cm):", min_value=-cst.MAX_TRANSLATION_Y, max_value=cst.MAX_TRANSLATION_Y, value=0.0, step=1.0
+    )
+    rotation_angle = st.sidebar.slider(
         "Rotation Angle (degrees):",
-        min_value=-360.0,
-        max_value=360.0,
+        min_value=-180.0,
+        max_value=180.0,
         value=0.0,
         step=1.0,
     )

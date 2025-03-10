@@ -9,11 +9,13 @@ from src.tabs.crowd_tab import run_tab_crowd
 from src.tabs.custom_crowd_tab import run_tab_custom_crowd
 from src.tabs.pedestrian3D_tab import run_tab_pedestrian3D
 from src.ui import ui
+from src.utils.logging_custom import setup_logging
 
+setup_logging()
 if __name__ == "__main__":
     ui.setup_app()
     selected_tab = ui.init_sidebar()
-    datafactory.prepare_anthropometric_data()
+    datafactory.prepare_data()
 
     if selected_tab == cst.FIRST_TAB_NAME:
         docs.about()

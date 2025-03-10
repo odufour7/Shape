@@ -1,13 +1,16 @@
 """Pedestrian Visualization Tab"""
 
+import json
 from datetime import datetime
 from io import BytesIO
 
+import pandas as pd
 import streamlit as st
 from shapely.geometry import Polygon
 
 import src.utils.constants as cst
 from src.classes.crowd import Crowd
+from src.classes.measures import CrowdMeasures
 from src.plotting import plot
 from src.utils import functions as fun
 
@@ -35,7 +38,7 @@ def display_interpenetration_warning(interpenetration: float):
     """Display a warning if interpenetration is too high."""
     if interpenetration > 1e-4:
         st.warning(
-            f"The interpenetration area is {interpenetration:.2f} cm².\nPlease try again or increase the boundaries.",
+            f"The interpenetration area is {interpenetration:.2f} cm².\nPlease rerun or increase the boundaries.",
             icon="⚠️",
         )
 
@@ -84,195 +87,255 @@ def main():
         "The computation of the random packing of the crowd is ongoing and may take some time. Please be patient.",
         icon="⏳",
     )
-
-    initial_boundaries = create_boundaries(cst.DEFAULT_BOUNDARY_X, cst.DEFAULT_BOUNDARY_Y)
-    current_crowd = update_crowd(initial_boundaries, cst.DEFAULT_AGENT_NUMBER)
+    # Initialize session state variables
+    if "pedestrian_proportion" not in st.session_state:
+        st.session_state.pedestrian_proportion = cst.DEFAULT_PEDESTRIAN_PROPORTION
+    if "bike_proportion" not in st.session_state:
+        st.session_state.bike_proportion = cst.DEFAULT_BIKE_PROPORTION
+    if "male_proportion" not in st.session_state:
+        st.session_state.male_proportion = cst.DEFAULT_MALE_PROPORTION
+    if "male_chest_depth_mean" not in st.session_state:
+        st.session_state.male_chest_depth_mean = cst.DEFAULT_MALE_CHEST_DEPTH_MEAN
+    if "male_bideltoid_breadth_mean" not in st.session_state:
+        st.session_state.male_bideltoid_breadth_mean = cst.DEFAULT_MALE_BIDELTOID_BREADTH_MEAN
+    if "female_chest_depth_mean" not in st.session_state:
+        st.session_state.female_chest_depth_mean = cst.DEFAULT_FEMALE_CHEST_DEPTH_MEAN
+    if "female_bideltoid_breadth_mean" not in st.session_state:
+        st.session_state.female_bideltoid_breadth_mean = cst.DEFAULT_FEMALE_BIDELTOID_BREADTH_MEAN
+    if "wheel_width_mean" not in st.session_state:
+        st.session_state.wheel_width_mean = cst.DEFAULT_WHEEL_WIDTH_MEAN
+    if "total_length_mean" not in st.session_state:
+        st.session_state.total_length_mean = cst.DEFAULT_TOTAL_LENGTH_MEAN
+    if "handlebar_length_mean" not in st.session_state:
+        st.session_state.handlebar_length_mean = cst.DEFAULT_HANDLEBAR_LENGTH_MEAN
+    if "top_tube_length_mean" not in st.session_state:
+        st.session_state.top_tube_length_mean = cst.DEFAULT_TOP_TUBE_LENGTH_MEAN
+    if "boundary_x" not in st.session_state:
+        st.session_state.boundary_x = cst.DEFAULT_BOUNDARY_X
+    if "boundary_y" not in st.session_state:
+        st.session_state.boundary_y = cst.DEFAULT_BOUNDARY_Y
+    if "current_crowd" not in st.session_state:
+        initial_boundaries = create_boundaries(cst.DEFAULT_BOUNDARY_X, cst.DEFAULT_BOUNDARY_Y)
+        current_crowd = Crowd(boundaries=initial_boundaries)
+        current_crowd.create_agents(cst.DEFAULT_AGENT_NUMBER)
+        st.session_state.current_crowd = current_crowd
+    if "num_agents" not in st.session_state:
+        st.session_state.num_agents = current_crowd.get_number_agents()
 
     st.sidebar.header("General settings")
     # Rolling menu to select between ANSURII database / custom Database / Custom Statistics
     database_option = st.sidebar.selectbox(
         "Select database option:", options=["ANSURII database", "Custom database", "Custom statistics"]
     )
+    if "database_option" not in st.session_state:
+        st.session_state.database_option = database_option
     boundary_x = st.sidebar.number_input(
         "Boundary X",
         min_value=cst.DEFAULT_BOUNDARY_X_MIN,
         max_value=cst.DEFAULT_BOUNDARY_X_MAX,
-        value=cst.DEFAULT_BOUNDARY_X,
+        value=st.session_state.boundary_x,
         step=1.0,
     )
     boundary_y = st.sidebar.number_input(
         "Boundary Y",
         min_value=cst.DEFAULT_BOUNDARY_Y_MIN,
         max_value=cst.DEFAULT_BOUNDARY_Y_MAX,
-        value=cst.DEFAULT_BOUNDARY_Y,
+        value=st.session_state.boundary_y,
         step=1.0,
     )
-    new_boundaries = create_boundaries(boundary_x, boundary_y)
-    # Display current options in the sidebar
+    if boundary_x != st.session_state.boundary_x:
+        st.session_state.boundary_x = boundary_x
+    if boundary_y != st.session_state.boundary_y:
+        st.session_state.boundary_y = boundary_y
+
+    new_boundaries = create_boundaries(st.session_state.boundary_x, st.session_state.boundary_y)
+
     num_agents = st.sidebar.number_input(
         "Number of agents",
         min_value=cst.DEFAULT_AGENT_NUMBER_MIN,
         max_value=cst.DEFAULT_AGENT_NUMBER_MAX,
-        value=current_crowd.get_number_agents(),
+        value=st.session_state.num_agents,
         step=1,
     )
+
+    if num_agents != st.session_state.num_agents:
+        st.session_state.num_agents = num_agents
+
     if database_option == "ANSURII database":
-        current_crowd.measures.agent_statistics = {}
-        current_crowd.measures.custom_database = {}
-        current_crowd = update_crowd(new_boundaries, num_agents)
+        current_crowd = Crowd(boundaries=new_boundaries)
+
+        current_crowd.create_agents(num_agents)
+
+        st.session_state.current_crowd = current_crowd
+
     elif database_option == "Custom database":
         st.sidebar.header(f"{database_option} settings")
-        current_crowd.measures.agent_statistics = {}
+
         # Ask to upload a file with the desired dataset
         uploaded_file = st.sidebar.file_uploader("Upload custom dataset", type=["json", "xlsx"])
-        if uploaded_file is not None:
-            st.sidebar.success("File successfully uploaded!")
-        # download the dataset example in data/json/ custom_crowd_example.json
-        example_path = cst.JSON_DIR / "custom_crowd_example.json"
-        with open(example_path, "r", encoding="utf8") as f:
+        # Provide an example dataset for download
+        with open(cst.JSON_DIR / "custom_crowd_example.json", "r", encoding="utf8") as f:
             example_data = f.read()
         st.sidebar.download_button(
             label="Download example dataset", data=example_data, file_name="custom_crowd_example.json", mime="application/json"
         )
-    else:  # Custom Statistics
-        # set the default values for the statistics
-        st.sidebar.header(f"{database_option} settings")
-        male_proportion = cst.DEFAULT_MALE_PROPORTION
-        male_chest_depth_mean = cst.DEFAULT_MALE_CHEST_DEPTH_MEAN
-        male_bideltoid_breadth_mean = cst.DEFAULT_MALE_BIDELTOID_BREADTH_MEAN
-        female_chest_depth_mean = cst.DEFAULT_FEMALE_CHEST_DEPTH_MEAN
-        female_bideltoid_breadth_mean = cst.DEFAULT_FEMALE_BIDELTOID_BREADTH_MEAN
-        wheel_width_mean = cst.DEFAULT_WHEEL_WIDTH_MEAN
-        total_length_mean = cst.DEFAULT_TOTAL_LENGTH_MEAN
-        handlebar_length_mean = cst.DEFAULT_HANDLEBAR_LENGTH_MEAN
-        top_tube_length_mean = cst.DEFAULT_TOP_TUBE_LENGTH_MEAN
 
-        pedestrian_proportion = st.sidebar.number_input(
+        if uploaded_file is not None:
+            st.sidebar.success("File successfully uploaded!")
+            # Convert uploaded file to dictionary
+            uploaded_dict = None
+            if uploaded_file.type == "application/json":
+                uploaded_dict = json.load(uploaded_file)
+            elif uploaded_file.type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+                df = pd.read_excel(uploaded_file)
+                uploaded_dict = df.to_dict(orient="records")
+            st.sidebar.write("Uploaded file converted to dictionary successfully!")
+            if uploaded_dict is not None:
+                # uploaded_file should be a dictionnary
+                crowd_measures = CrowdMeasures(custom_database=uploaded_dict)
+                current_crowd = Crowd(boundaries=new_boundaries, measures=crowd_measures)
+                current_crowd.create_agents(num_agents)
+                st.session_state.current_crowd = current_crowd
+
+    else:  # Custom Statistics
+        st.sidebar.header(f"{database_option} settings")
+        # set the default values for the statistics
+
+        pedestrian_proportion = st.sidebar.slider(
             "Proportion of pedestrians",
             min_value=0.0,
             max_value=1.0,
-            value=cst.DEFAULT_PEDESTRIAN_PROPORTION,
+            value=st.session_state.pedestrian_proportion,
             step=0.1,
         )
-        bike_proportion = st.sidebar.number_input(
-            "Proportion of bikes",
-            min_value=0.0,
-            max_value=1.0,
-            value=cst.DEFAULT_BIKE_PROPORTION,
-            step=0.1,
-        )
-        if pedestrian_proportion > 0:
+        st.session_state.pedestrian_proportion = pedestrian_proportion
+        bike_proportion = 1 - pedestrian_proportion
+        st.session_state.bike_proportion = bike_proportion
+        if st.session_state.pedestrian_proportion > 0:
             male_proportion = st.sidebar.slider(
                 "Proportion of male",
                 min_value=0.0,
                 max_value=1.0,
-                value=cst.DEFAULT_MALE_PROPORTION,
+                value=st.session_state.male_proportion,
                 step=0.1,
             )
-            if male_proportion != 0.0:
+            st.session_state.male_proportion = male_proportion
+            if st.session_state.male_proportion != 0.0:
                 male_chest_depth_mean = st.sidebar.slider(
                     "Male mean chest depth",
                     min_value=cst.DEFAULT_CHEST_DEPTH_MIN,
                     max_value=cst.DEFAULT_CHEST_DEPTH_MAX,
-                    value=cst.DEFAULT_MALE_CHEST_DEPTH_MEAN,
+                    value=st.session_state.male_chest_depth_mean,
                     step=1.0,
                 )
+                st.session_state.male_chest_depth_mean = male_chest_depth_mean
                 male_bideltoid_breadth_mean = st.sidebar.slider(
                     "Male mean bideltoid breadth",
                     min_value=cst.DEFAULT_BIDELTOID_BREADTH_MIN,
                     max_value=cst.DEFAULT_BIDELTOID_BREADTH_MAX,
-                    value=cst.DEFAULT_MALE_BIDELTOID_BREADTH_MEAN,
+                    value=st.session_state.male_bideltoid_breadth_mean,
                     step=1.0,
                 )
-            if male_proportion != 1.0:
+                st.session_state.male_bideltoid_breadth_mean = male_bideltoid_breadth_mean
+            if st.session_state.male_proportion != 1.0:
                 female_chest_depth_mean = st.sidebar.slider(
                     "Female mean chest depth",
                     min_value=cst.DEFAULT_CHEST_DEPTH_MIN,
                     max_value=cst.DEFAULT_CHEST_DEPTH_MAX,
-                    value=cst.DEFAULT_FEMALE_CHEST_DEPTH_MEAN,
+                    value=st.session_state.female_chest_depth_mean,
                     step=1.0,
                 )
+                st.session_state.female_chest_depth_mean = female_chest_depth_mean
                 female_bideltoid_breadth_mean = st.sidebar.slider(
                     "Female mean bideltoid breadth",
                     min_value=cst.DEFAULT_BIDELTOID_BREADTH_MIN,
                     max_value=cst.DEFAULT_BIDELTOID_BREADTH_MAX,
-                    value=cst.DEFAULT_FEMALE_BIDELTOID_BREADTH_MEAN,
+                    value=st.session_state.female_bideltoid_breadth_mean,
                     step=1.0,
                 )
-        if bike_proportion > 0.0:
+                st.session_state.female_bideltoid_breadth_mean = female_bideltoid_breadth_mean
+        if st.session_state.bike_proportion > 0.0:
             wheel_width_mean = st.sidebar.slider(
                 "Wheel width mean",
                 min_value=cst.DEFAULT_WHEEL_WIDTH_MIN,
                 max_value=cst.DEFAULT_WHEEL_WIDTH_MAX,
-                value=cst.DEFAULT_WHEEL_WIDTH_MEAN,
+                value=st.session_state.wheel_width_mean,
                 step=1.0,
             )
+            st.session_state.wheel_width_mean = wheel_width_mean
             total_length_mean = st.sidebar.slider(
                 "Total length mean",
                 min_value=cst.DEFAULT_TOTAL_LENGTH_MIN,
                 max_value=cst.DEFAULT_TOTAL_LENGTH_MAX,
-                value=cst.DEFAULT_TOTAL_LENGTH_MEAN,
+                value=st.session_state.total_length_mean,
                 step=1.0,
             )
+            st.session_state.total_length_mean = total_length_mean
             handlebar_length_mean = st.sidebar.slider(
                 "Handlebar length mean",
                 min_value=cst.DEFAULT_HANDLEBAR_LENGTH_MIN,
                 max_value=cst.DEFAULT_HANDLEBAR_LENGTH_MAX,
-                value=cst.DEFAULT_HANDLEBAR_LENGTH_MEAN,
+                value=st.session_state.handlebar_length_mean,
                 step=1.0,
             )
+            st.session_state.handlebar_length_mean = handlebar_length_mean
             top_tube_length_mean = st.sidebar.slider(
                 "Top tube length mean",
                 min_value=cst.DEFAULT_TOP_TUBE_LENGTH_MIN,
                 max_value=cst.DEFAULT_TOP_TUBE_LENGTH_MAX,
-                value=cst.DEFAULT_TOP_TUBE_LENGTH_MEAN,
+                value=st.session_state.top_tube_length_mean,
                 step=1.0,
             )
+            st.session_state.top_tube_length_mean = top_tube_length_mean
 
-        current_crowd.measures.agent_statistics = {
-            cst.CrowdStat.male_proportion.name: male_proportion,
-            cst.CrowdStat.pedestrian_proportion.name: pedestrian_proportion,
-            cst.CrowdStat.bike_proportion.name: bike_proportion,
-            cst.CrowdStat.male_bideltoid_breadth_mean.name: male_bideltoid_breadth_mean,
+        agent_statistics = {
+            cst.CrowdStat.male_proportion.name: st.session_state.male_proportion,
+            cst.CrowdStat.pedestrian_proportion.name: st.session_state.pedestrian_proportion,
+            cst.CrowdStat.bike_proportion.name: st.session_state.bike_proportion,
+            cst.CrowdStat.male_bideltoid_breadth_mean.name: st.session_state.male_bideltoid_breadth_mean,
             cst.CrowdStat.male_bideltoid_breadth_std_dev.name: cst.DEFAULT_MALE_BIDELTOID_BREADTH_STD_DEV,
             cst.CrowdStat.male_bideltoid_breadth_min.name: cst.DEFAULT_BIDELTOID_BREADTH_MIN,
             cst.CrowdStat.male_bideltoid_breadth_max.name: cst.DEFAULT_BIDELTOID_BREADTH_MAX,
-            cst.CrowdStat.male_chest_depth_mean.name: male_chest_depth_mean,
+            cst.CrowdStat.male_chest_depth_mean.name: st.session_state.male_chest_depth_mean,
             cst.CrowdStat.male_chest_depth_std_dev.name: cst.DEFAULT_MALE_CHEST_DEPTH_STD_DEV,
             cst.CrowdStat.male_chest_depth_min.name: cst.DEFAULT_CHEST_DEPTH_MIN,
             cst.CrowdStat.male_chest_depth_max.name: cst.DEFAULT_CHEST_DEPTH_MAX,
-            cst.CrowdStat.female_bideltoid_breadth_mean.name: female_bideltoid_breadth_mean,
+            cst.CrowdStat.female_bideltoid_breadth_mean.name: st.session_state.female_bideltoid_breadth_mean,
             cst.CrowdStat.female_bideltoid_breadth_std_dev.name: cst.DEFAULT_FEMALE_BIDELTOID_BREADTH_STD_DEV,
             cst.CrowdStat.female_bideltoid_breadth_min.name: cst.DEFAULT_BIDELTOID_BREADTH_MIN,
             cst.CrowdStat.female_bideltoid_breadth_max.name: cst.DEFAULT_BIDELTOID_BREADTH_MAX,
-            cst.CrowdStat.female_chest_depth_mean.name: female_chest_depth_mean,
+            cst.CrowdStat.female_chest_depth_mean.name: st.session_state.female_chest_depth_mean,
             cst.CrowdStat.female_chest_depth_std_dev.name: cst.DEFAULT_FEMALE_CHEST_DEPTH_STD_DEV,
             cst.CrowdStat.female_chest_depth_min.name: cst.DEFAULT_CHEST_DEPTH_MIN,
             cst.CrowdStat.female_chest_depth_max.name: cst.DEFAULT_CHEST_DEPTH_MAX,
-            cst.CrowdStat.wheel_width_mean.name: wheel_width_mean,
+            cst.CrowdStat.wheel_width_mean.name: st.session_state.wheel_width_mean,
             cst.CrowdStat.wheel_width_std_dev.name: cst.DEFAULT_WHEEL_WIDTH_STD_DEV,
             cst.CrowdStat.wheel_width_min.name: cst.DEFAULT_WHEEL_WIDTH_MIN,
             cst.CrowdStat.wheel_width_max.name: cst.DEFAULT_WHEEL_WIDTH_MAX,
-            cst.CrowdStat.total_length_mean.name: total_length_mean,
+            cst.CrowdStat.total_length_mean.name: st.session_state.total_length_mean,
             cst.CrowdStat.total_length_std_dev.name: cst.DEFAULT_TOTAL_LENGTH_STD_DEV,
             cst.CrowdStat.total_length_min.name: cst.DEFAULT_TOTAL_LENGTH_MIN,
             cst.CrowdStat.total_length_max.name: cst.DEFAULT_TOTAL_LENGTH_MAX,
-            cst.CrowdStat.handlebar_length_mean.name: handlebar_length_mean,
+            cst.CrowdStat.handlebar_length_mean.name: st.session_state.handlebar_length_mean,
             cst.CrowdStat.handlebar_length_std_dev.name: cst.DEFAULT_HANDLEBAR_LENGTH_STD_DEV,
             cst.CrowdStat.handlebar_length_min.name: cst.DEFAULT_HANDLEBAR_LENGTH_MIN,
             cst.CrowdStat.handlebar_length_max.name: cst.DEFAULT_HANDLEBAR_LENGTH_MAX,
-            cst.CrowdStat.top_tube_length_mean.name: top_tube_length_mean,
+            cst.CrowdStat.top_tube_length_mean.name: st.session_state.top_tube_length_mean,
             cst.CrowdStat.top_tube_length_std_dev.name: cst.DEFAULT_TOP_TUBE_LENGTH_STD_DEV,
             cst.CrowdStat.top_tube_length_min.name: cst.DEFAULT_TOP_TUBE_LENGTH_MIN,
             cst.CrowdStat.top_tube_length_max.name: cst.DEFAULT_TOP_TUBE_LENGTH_MAX,
         }
-        current_crowd.create_agents(number_agents=num_agents)
+        crowd_measures = CrowdMeasures(agent_statistics=agent_statistics)
+        current_crowd = Crowd(boundaries=new_boundaries, measures=crowd_measures)
+        current_crowd.create_agents(num_agents)
+        st.session_state.current_crowd = current_crowd
 
-    current_crowd.pack_agents_with_forces()
-    interpenetration = current_crowd.calculate_interpenetration()
+    st.session_state.current_crowd.pack_agents_with_forces()
+
+    interpenetration = st.session_state.current_crowd.calculate_interpenetration()
     display_interpenetration_warning(interpenetration)
 
-    plot_and_download(current_crowd)
+    plot_and_download(st.session_state.current_crowd)
 
 
 def run_tab_crowd():

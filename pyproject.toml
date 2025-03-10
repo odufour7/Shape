@@ -5,6 +5,7 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "cmcrameri>=1.9",
     "dicttoxml>=1.7.16",
     "kaleido==0.2.1",
     "matplotlib>=3.10.1",
@@ -16,4 +17,5 @@ dependencies = [
     "shapely>=2.0.7",
     "streamlit>=1.43.0",
     "streamlit-option-menu>=0.4.0",
+    "watchdog>=6.0.0",
 ]

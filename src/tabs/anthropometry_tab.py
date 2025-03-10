@@ -11,7 +11,7 @@ from src.plotting import plot
 
 def main() -> None:
     """Main function for the anthropometry tab."""
-
+    # TODO add a title ANDURII database visualisation
     # Load the dataset from a pickle file
     df = fun.load_pickle(cst.PICKLE_DIR / "ANSUREIIPublic.pkl")
     # Define default attributes to display
@@ -39,15 +39,15 @@ def main() -> None:
         selected_attribute_name = selected_attribute.replace(" ", "_")
     with col2:
         # display the mean and standard deviation of the selected attribute for man and woman
-        if selected_attribute != "Sex":
+        if selected_attribute.lower() != "sex":
             df_male = df[df["sex"] == "male"]
             df_female = df[df["sex"] == "female"]
             st.write("**Male**")
-            st.write(f"Mean = {df_male[selected_attribute].mean():.2f} cm ")
-            st.write(f"Standard deviation = {df_male[selected_attribute].std():.2f} cm ")
+            st.write(f"Mean = {df_male[selected_attribute.lower()].mean():.2f} cm ")
+            st.write(f"Standard deviation = {df_male[selected_attribute.lower()].std():.2f} cm ")
             st.write("**Female**")
-            st.write(f"Mean = {df_female[selected_attribute].mean():.2f} cm ")
-            st.write(f"Standard deviation = {df_female[selected_attribute].std():.2f} cm ")
+            st.write(f"Mean = {df_female[selected_attribute.lower()].mean():.2f} cm ")
+            st.write(f"Standard deviation = {df_female[selected_attribute.lower()].std():.2f} cm ")
 
     # Download section in the sidebar
     st.sidebar.title("Download")
