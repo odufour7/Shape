@@ -12,10 +12,21 @@ dependencies = [
     "pandas>=2.2.3",
     "plotly>=6.0.0",
     "pyvista>=0.44.1",
-    "ruff>=0.9.9",
     "scipy>=1.15.2",
     "shapely>=2.0.7",
+    "sphinx>=8.2.3",
     "streamlit>=1.43.0",
     "streamlit-option-menu>=0.4.0",
     "watchdog>=6.0.0",
 ]
+
+[project.optional-dependencies]
+dev = [
+    "mypy>=1.15.0",      # Static type checker
+    "ruff>=0.9.9",       # Linter and formatter
+    "pre-commit>=4.1.0", # Pre-commit framework
+]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"

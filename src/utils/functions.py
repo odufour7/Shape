@@ -1,4 +1,4 @@
-"""This module contains utility functions for data processing and manipulation."""
+"""Contains utility functions for data processing and manipulation."""
 
 import json
 import pickle
@@ -10,94 +10,115 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 from dicttoxml import dicttoxml
+from numpy.typing import NDArray
 from scipy.stats import truncnorm
 from shapely.geometry import MultiPolygon
 from streamlit.delta_generator import DeltaGenerator
 
 import src.utils.constants as cst
-from src.utils.typing_custom import BackupDataType, SapeDataType
+from src.utils.typing_custom import BackupDataType, Sex, ShapeDataType
 
 
 def load_pickle(file_path: Path) -> Any:
+    """Load data from a pickle file.
+
+    Parameters
+    ----------
+    file_path : Path
+        The path to the pickle file.
+
+    Returns
+    -------
+    Any
+        The deserialized data loaded from the pickle file.
+
     """
-    Loads a pickle file from the specified path.
-
-    Parameters:
-        file_path (Path): The path to the pickle file.
-
-    Returns:
-        Any: The data loaded from the pickle file.
-    """
-
     with open(file_path, "rb") as f:
         data = pickle.load(f)
     return data
 
 
 def save_pickle(data: Any, file_path: Path) -> None:
+    """Save data to a pickle file.
+
+    Parameters
+    ----------
+    data : Any
+        The data to be serialized and saved.
+    file_path : Path
+        The path where the pickle file will be saved.
+
+    Returns
+    -------
+    None
+        This function does not return a value.
+
     """
-    Saves data to a pickle file at the specified path.
-
-    Parameters:
-        data (Any): The data to be saved.
-        file_path (Path): The path where the pickle file will be saved.
-
-    Returns:
-        None
-    """
-
     with open(file_path, "wb") as f:
         pickle.dump(data, f)
 
 
 @st.cache_data
 def load_data(filename: Path) -> pd.DataFrame:
+    """Load data from a CSV file into a pandas DataFrame.
+
+    This function leverages Streamlit's caching mechanism to improve performance by avoiding redundant
+    reloads of the data on every run.
+
+    Parameters
+    ----------
+    filename : Path
+        The path to the CSV file to be loaded.
+
+    Returns
+    -------
+    pd.DataFrame
+        A DataFrame containing the data from the CSV file.
+
     """
-    Loads data from a CSV file into a pandas DataFrame.
-
-    This function uses Streamlit's caching mechanism to cache the data,
-    so it doesn't need to be reloaded on every run, which can improve performance.
-
-    Parameters:
-        filename (Path): The path to the CSV file to be loaded.
-
-    Returns:
-        pd.DataFrame: A DataFrame containing the data from the CSV file.
-    """
-
     return pd.read_csv(filename)
 
 
 def wrap_angle(angle: float) -> float:
+    """Wrap an angle to the range [-180, 180).
+
+    Parameters
+    ----------
+    angle : float
+        The angle in degrees to be wrapped.
+
+    Returns
+    -------
+    float
+        The wrapped angle in the range [-180, 180).
+
     """
-    Wrap an angle to the range [-180, 180).
-
-    Parameters:
-        angle (float): The angle in degrees to be wrapped.
-
-    Returns:
-        float: The wrapped angle in the range [-180, 180).
-    """
-
     return (angle + 180.0) % (2.0 * 180.0) - 180.0
 
 
-def get_shapes_data(backup_data_type: BackupDataType, shapes_data: SapeDataType) -> tuple[str, str]:
+def get_shapes_data(backup_data_type: BackupDataType, shapes_data: dict[str, dict[str, str | ShapeDataType]]) -> tuple[str, str]:
+    """Serialize shapes data into the specified backup format.
+
+    Parameters
+    ----------
+    backup_data_type : BackupDataType
+        The format in which to serialize the data. Supported types are 'json', 'xml', and 'pickle'.
+    shapes_data : ShapeDataType
+        The shapes data to be serialized, typically a dictionary.
+
+    Returns
+    -------
+    tuple[str, str]
+        A tuple containing:
+        - The serialized data as a string.
+        - The corresponding MIME type for the serialized data.
+
+    Raises
+    ------
+    ValueError
+        If the provided `backup_data_type` is not supported.
+
     """
-    Prepare the shapes data based on the specified format.
-
-    Parameters:
-        backup_data_type (BackupDataType): The format in which to backup the data.
-                                           Supported types are 'json', 'xml', and 'pickle'.
-        shapes_data (SapeDataType): The shapes data to be backed up, typically a dictionary.
-
-    Returns:
-        tuple[str, str]: A tuple containing the serialized data as a string and the corresponding MIME type.
-
-    Raises:
-        ValueError: If the provided backup_data_type is not supported.
-    """
-
     if backup_data_type == cst.BackupDataTypes.json.name:
         # Convert the dictionary to JSON
         data = json.dumps(shapes_data, indent=4)
@@ -114,7 +135,7 @@ def get_shapes_data(backup_data_type: BackupDataType, shapes_data: SapeDataType)
         mime_type = "application/xml"
     elif backup_data_type == cst.BackupDataTypes.pickle.name:
         # Convert the dictionary to a pickle byte stream
-        data = pickle.dumps(shapes_data)
+        data = pickle.dumps(shapes_data).hex()
         mime_type = "application/octet-stream"
     else:
         raise ValueError(f"Unsupported backup data type: {backup_data_type}")
@@ -122,17 +143,22 @@ def get_shapes_data(backup_data_type: BackupDataType, shapes_data: SapeDataType)
     return data, mime_type
 
 
-def extract_coordinates(multi_polygon: MultiPolygon) -> tuple[np.ndarray, np.ndarray]:
+def extract_coordinates(multi_polygon: MultiPolygon) -> tuple[NDArray[np.float64], NDArray[np.float64]]:
+    """Extract x and y coordinates from a MultiPolygon object.
+
+    Parameters
+    ----------
+    multi_polygon : MultiPolygon
+        A MultiPolygon object containing one or more polygons.
+
+    Returns
+    -------
+    tuple[ NDArray[np.float64],  NDArray[np.float64]]
+        Two numpy arrays:
+        - The first array contains the x-coordinates.
+        - The second array contains the y-coordinates.
+
     """
-    Extracts the x and y coordinates from a MultiPolygon object.
-
-    Parameters:
-        multi_polygon (MultiPolygon): A MultiPolygon object from which to extract coordinates.
-
-    Returns:
-        tuple[np.ndarray, np.ndarray]: Two numpy arrays containing the x and y coordinates respectively.
-    """
-
     all_x, all_y = [], []
     for polygon in multi_polygon.geoms:
         x, y = polygon.exterior.xy
@@ -142,22 +168,29 @@ def extract_coordinates(multi_polygon: MultiPolygon) -> tuple[np.ndarray, np.nda
 
 
 def filter_mesh_by_z_threshold(
-    all_points: np.ndarray, all_triangles: np.ndarray, z_threshold: float = 0.3
-) -> tuple[np.ndarray, np.ndarray]:
+    all_points: NDArray[np.float64], all_triangles: NDArray[np.float64], z_threshold: float = 0.3
+) -> tuple[NDArray[np.float64], NDArray[np.float64]]:
+    """Filter a 3D mesh by removing vertices and triangles below a given z-coordinate threshold.
+
+    Parameters
+    ----------
+    all_points :  NDArray[np.float64]
+        An array of shape (N, 3) representing the coordinates of the vertices in the mesh.
+    all_triangles :  NDArray[np.float64]
+        An array of shape (M, 3) representing the indices of the vertices forming the triangles in the mesh.
+    z_threshold : float, optional
+        The z-coordinate threshold below which vertices and associated triangles are removed. Default is 0.3.
+
+    Returns
+    -------
+    tuple[ NDArray[np.float64],  NDArray[np.float64]]
+        A tuple containing:
+        - filtered_points :  NDArray[np.float64]
+            An array of shape (P, 3) representing the coordinates of the filtered vertices.
+        - filtered_triangles :  NDArray[np.float64]
+            An array of shape (Q, 3) representing the indices of the vertices forming the filtered triangles.
+
     """
-    Filters a 3D mesh by removing vertices and triangles associated with z-coordinates below a given threshold.
-
-    Parameters:
-        all_points (np.ndarray): An array of shape (N, 3) representing the coordinates of the vertices in the mesh.
-        all_triangles (np.ndarray): An array of shape (M, 3) representing the indices of the vertices forming the triangles in the mesh.
-        z_threshold (float, optional): The z-coordinate threshold below which vertices and associated triangles are removed. Default is 0.3.
-
-    Returns:
-        tuple[np.ndarray, np.ndarray]: A tuple containing two elements:
-            - filtered_points (np.ndarray): An array of shape (P, 3) representing the coordinates of the filtered vertices.
-            - filtered_triangles (np.ndarray): An array of shape (Q, 3) representing the indices of the vertices forming the filtered triangles.
-    """
-
     # Step 1: Identify valid vertices (z > threshold)
     valid_vertices_mask = all_points[:, 2] > z_threshold
     valid_indices = np.where(valid_vertices_mask)[0]
@@ -180,18 +213,23 @@ def filter_mesh_by_z_threshold(
 
 
 def update_progress_bar(progress_bar: DeltaGenerator, status_text: DeltaGenerator, frac: float) -> None:
+    """Update a progress bar and status text based on the given completion fraction.
+
+    Parameters
+    ----------
+    progress_bar : DeltaGenerator
+        The progress bar object to be updated.
+    status_text : DeltaGenerator
+        The status text object to be updated.
+    frac : float
+        A value between 0 and 1 representing the completion fraction.
+
+    Returns
+    -------
+    None
+        This function does not return a value.
+
     """
-    Updates the progress bar and status text based on the given fraction.
-
-    Parameters:
-        progress_bar (DeltaGenerator): The progress bar object to be updated.
-        status_text (DeltaGenerator): The status text object to be updated.
-        frac (float): A float value between 0 and 1 representing the completion fraction.
-
-    Returns:
-        None
-    """
-
     # Update progress bar
     percent_complete = int(frac * 100.0)
     progress_bar.progress(percent_complete)
@@ -201,38 +239,49 @@ def update_progress_bar(progress_bar: DeltaGenerator, status_text: DeltaGenerato
 
 
 def draw_from_trunc_normal(mean: float, std_dev: float, min_val: float, max_val: float) -> float:
+    """Draw a sample from a truncated normal distribution.
+
+    Parameters
+    ----------
+    mean : float
+        The mean of the normal distribution.
+    std_dev : float
+        The standard deviation of the normal distribution.
+    min_val : float
+        The lower bound of the truncated normal distribution.
+    max_val : float
+        The upper bound of the truncated normal distribution.
+
+    Returns
+    -------
+    float
+        A sample drawn from the truncated normal distribution.
+
     """
-    Draw a sample from a truncated normal distribution.
-
-    Parameters:
-        mean (float): The mean of the normal distribution.
-        std_dev (float): The standard deviation of the normal distribution.
-        min_val (float): The minimum value of the truncated normal distribution.
-        max_val (float): The maximum value of the truncated normal distribution.
-
-    Returns:
-        float: A sample drawn from the truncated normal distribution.
-    """
-
     a = (min_val - mean) / std_dev
     b = (max_val - mean) / std_dev
-    return truncnorm.rvs(a, b, loc=mean, scale=std_dev)
+    return float(truncnorm.rvs(a, b, loc=mean, scale=std_dev))
 
 
-def draw_sex(p):
+def draw_sex(p: float) -> Sex:
+    """Randomly draw a sex based on a given probability.
+
+    Parameters
+    ----------
+    p : float
+        A probability value between 0 and 1, representing the likelihood of selecting "male".
+
+    Returns
+    -------
+    str
+        "male" if a randomly generated number is less than `p`, otherwise "female".
+
+    Raises
+    ------
+    ValueError
+        If the probability `p` is not between 0 and 1.
+
     """
-    Randomly draw a sex based on a given probability.
-
-    Parameters:
-        p (float): A probability value between 0 and 1. Represents the likelihood of selecting "male".
-
-    Returns:
-        str: "male" if a randomly generated number is less than p, otherwise "female".
-
-    Raises:
-        ValueError: If the probability p is not between 0 and 1.
-    """
-
     # Check if the probability is between 0 and 1
     if not 0 <= p <= 1:
         raise ValueError("Probability p must be between 0 and 1.")

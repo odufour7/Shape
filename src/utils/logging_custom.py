@@ -4,16 +4,21 @@ import logging
 
 
 def setup_logging() -> None:
-    """
-    Configures the logging settings for the application.
+    """Set up logging configuration for the application.
 
-    This function sets up the logging configuration with the following settings:
+    Configures the logging system with the following settings:
     - Log level: INFO
     - Log format: "%(asctime)s - %(levelname)s - %(filename)s:%(lineno)d - %(message)s"
     - Date format: "%Y-%m-%d %H:%M:%S"
 
-    This ensures that all log messages will include the timestamp, log level, filename,
-    line number, and the log message itself.
+    This ensures that log messages include the timestamp, log level, filename, line number,
+    and the message content for better debugging and monitoring.
+
+    Returns
+    -------
+    None
+        This function does not return a value.
+
     """
     logging.basicConfig(
         level=logging.INFO,

@@ -1,19 +1,19 @@
-"""This module reads the anthropometric data from the ANSUR II dataset and saves it as a pandas DataFrame."""
+"""Read the anthropometric data from the ANSUR II dataset and save it as a pandas DataFrame."""
 
 from pathlib import Path
 
 import streamlit as st
 
-import src.utils.constants as cst
 import src.utils.functions as fun
 from src.plotting import plot
 
 
 def main() -> None:
-    """Main function for the anthropometry tab."""
+    """Run the main function for the anthropometry tab."""
     # TODO add a title ANDURII database visualisation
     # Load the dataset from a pickle file
-    df = fun.load_pickle(cst.PICKLE_DIR / "ANSUREIIPublic.pkl")
+    path_file = Path(__file__).parent.parent.parent / "data" / "pkl"
+    df = fun.load_pickle(path_file / "ANSUREIIPublic.pkl")
     # Define default attributes to display
     default_attributes = [
         "Sex",
@@ -58,7 +58,7 @@ def main() -> None:
         mime="application/pdf",
     )
     # Add a selectbox for choosing the dataset
-    dataset_choice = st.sidebar.selectbox("Choose ANSUR II dataset to donwload:", ("Female", "Male"))
+    dataset_choice = st.sidebar.selectbox("Choose ANSUR II dataset to download:", ("Female", "Male"))
     # Define the filenames based on the choice
     path_file = Path(__file__).parent.parent.parent / "data" / "csv"
     filename_dict = {

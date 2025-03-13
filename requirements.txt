@@ -118,8 +118,6 @@ rpds-py==0.23.1
     # via
     #   jsonschema
     #   referencing
-ruff==0.9.10
-    # via shape-project (pyproject.toml)
 scipy==1.15.2
     # via shape-project (pyproject.toml)
 scooby==0.10.0

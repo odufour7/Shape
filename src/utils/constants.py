@@ -127,7 +127,7 @@ class ShapeTypes(Enum):
 
 
 class PedestrianParts(Enum):
-    """Enum for pedestrian parts"""
+    """Enum for pedestrian parts."""
 
     sex = auto()
     bideltoid_breadth = auto()
@@ -154,7 +154,7 @@ class StatType(Enum):
 
 
 class CrowdStat(Enum):
-    """Enum for crowd statistics"""
+    """Enum for crowd statistics."""
 
     male_proportion = auto()
     pedestrian_proportion = auto()

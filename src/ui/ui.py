@@ -9,7 +9,18 @@ import src.utils.constants as cst
 
 
 def setup_app() -> None:
-    """Set up the Streamlit page configuration."""
+    """
+    Set up the Streamlit page configuration.
+
+    This function configures the Streamlit application with the following settings:
+    - Page title: "Shape Project"
+    - Page icon: bar chart emoji
+    - Layout: wide
+    - Initial sidebar state: expanded
+    - Menu items:
+        - "Get Help" link to the project's GitHub repository
+        - "About" section with a brief description and a French flag emoji
+    """
     st.set_page_config(
         page_title="Shape Project",
         page_icon=":bar_chart:",
@@ -23,10 +34,24 @@ def setup_app() -> None:
 
 
 def init_sidebar() -> Any:
-    """Init sidebar.
+    """Initialize the sidebar for the Shape project application.
 
-    To add more tabs, add the name of the tab and add an icon from
-    https://icons.getbootstrap.com/
+    This function applies custom CSS rules to handle multi-line text alignment and indentation
+    and creates a sidebar menu with multiple tabs and icons. To add more tabs, update the list
+    of tab names and icons using resources from https://icons.getbootstrap.com/.
+
+    Returns
+    -------
+    Any
+        The selected option from the sidebar menu.
+
+    Notes
+    -----
+    - Streamlit's `st.markdown` is used to apply custom CSS styles.
+    - The `option_menu` function creates the sidebar menu with specified tabs and icons.
+    - The `unsafe_allow_html=True` parameter enables Streamlit to render raw HTML and CSS.
+    - The `styles` dictionary customizes the appearance of the sidebar menu.
+
     """
     # Custom CSS rules to handle multi-line text alignment and indentation, that applies to the entire app.
     st.markdown(

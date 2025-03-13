@@ -1,4 +1,4 @@
-"""This module contains functions to download and prepare the data."""
+"""Contains functions to download and prepare the data."""
 
 import logging
 from pathlib import Path
@@ -12,20 +12,25 @@ import src.utils.functions as fun
 from src.utils.typing_custom import Sex
 
 
-def read_anthropometric_data(sex: Sex) -> None:
+def read_anthropometric_data(sex: Sex) -> pd.DataFrame:
+    """Read anthropometric data from a CSV file and return it as a pandas DataFrame.
+
+    Parameters
+    ----------
+    sex : Sex
+        The sex of the individuals whose data is to be read. Must be either 'male' or 'female'.
+
+    Returns
+    -------
+    pd.DataFrame
+        A DataFrame containing the anthropometric data with standardized units and renamed columns.
+
+    Raises
+    ------
+    ValueError
+        If the provided `sex` is not 'male' or 'female'.
+
     """
-    Read anthropometry data from a CSV file and return it as a pandas DataFrame.
-
-    Parameters:
-    sex (Sex): The sex of the individuals whose data is to be read. Should be either 'male' or 'female'.
-
-    Raises:
-    ValueError: If the provided sex is not 'male' or 'female'.
-
-    Returns:
-    pandas.DataFrame: A DataFrame containing the anthropometric data with standardized units and renamed columns.
-    """
-
     # Check if the sex is valid
     if sex not in get_args(Sex):
         raise ValueError("The sex should be either 'male' or 'female'.")
@@ -50,17 +55,17 @@ def read_anthropometric_data(sex: Sex) -> None:
 
 
 def prepare_anthropometric_data() -> None:
-    """
-    Save the anthropometry data as a pickle file.
+    """Save the anthropometry data as a pickle file.
 
     This function reads anthropometric data for both male and female,
     concatenates the data into a single DataFrame, and saves it as a
     pickle file in the specified directory.
 
-    Returns:
+    Returns
+    -------
         None
-    """
 
+    """
     dir_path = Path(__file__).parent.parent.parent.absolute() / "data" / "pkl"
     df_male = read_anthropometric_data("male")
     df_female = read_anthropometric_data("female")
@@ -69,34 +74,34 @@ def prepare_anthropometric_data() -> None:
 
 
 def prepare_bike_data() -> None:
-    """
-    This function performs the following steps:
-    1. Constructs the file path to the CSV file containing bike data.
-    2. Reads the CSV file into a pandas DataFrame.
-    3. Saves the DataFrame as a pickle file for later use.
+    """Prepare bike data by reading a CSV file and saving it as a pickle file.
 
-    Returns:
+    This function reads bike data from a CSV file located in the 'data/csv' directory,
+    processes it, and saves it as a pickle file in the 'data/pkl' directory.
+
+    Returns
+    -------
         None
-    """
 
+    """
     dir_path = Path(__file__).parent.parent.parent.absolute() / "data"
     df = pd.read_csv(dir_path / "csv" / "geometrics.mtb-news.de.csv", sep=";")
     fun.save_pickle(df, dir_path / "pkl" / "bike_data.pkl")
 
 
 def prepare_data() -> None:
-    """
-    Prepare the data for the application by calling the necessary data preparation functions.
+    """Prepare the data for the application by calling the necessary data preparation functions.
 
     This function performs the following steps:
     1. Prepares anthropometric data by calling `prepare_anthropometric_data()`.
     2. Prepares bike data by calling `prepare_bike_data()`.
     3. Prints a success message indicating that the data has been prepared.
 
-    Returns:
+    Returns
+    -------
         None
-    """
 
+    """
     prepare_anthropometric_data()
     prepare_bike_data()
     logging.info("Data prepared successfully")

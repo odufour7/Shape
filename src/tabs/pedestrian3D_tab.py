@@ -1,9 +1,11 @@
-"""3D Pedestrian Visualization Tab"""
+"""3D Pedestrian Visualization Tab."""
 
 from datetime import datetime
 from io import BytesIO
 
+import plotly.graph_objects as go
 import streamlit as st
+from matplotlib.figure import Figure
 
 import src.utils.constants as cst
 from src.classes.agents import Agent
@@ -14,14 +16,13 @@ from src.utils import functions as fun
 
 
 def main() -> None:
-    """Main function for the 3D pedestrian tab."""
-
+    """Run the main function for the 3D pedestrian tab."""
     # Initialize the object only if it doesn't exist
     if "current_pedestrian" not in st.session_state:
         initial_pedestrian = InitialPedestrian(cst.DEFAULT_SEX)
         # Create a new pedestrian object
         pedestrian_measures = AgentMeasures(
-            agent_type="pedestrian",
+            agent_type=cst.AgentTypes.pedestrian,
             measures={
                 "sex": cst.DEFAULT_SEX,
                 "bideltoid_breadth": initial_pedestrian.measures[cst.PedestrianParts.bideltoid_breadth.name],
@@ -29,7 +30,7 @@ def main() -> None:
                 "height": initial_pedestrian.measures[cst.PedestrianParts.height.name],
             },
         )
-        st.session_state.current_pedestrian = Agent(agent_type="pedestrian", measures=pedestrian_measures)
+        st.session_state.current_pedestrian = Agent(agent_type=cst.AgentTypes.pedestrian, measures=pedestrian_measures)
 
     # Access the stored object
     current_pedestrian = st.session_state.current_pedestrian
@@ -47,29 +48,29 @@ def main() -> None:
     )
     initial_pedestrian = InitialPedestrian(st.session_state.sex)
 
-    bideltoid_breadth = st.sidebar.slider(
+    bideltoid_breadth: float = st.sidebar.slider(
         "Bideltoid breadth (cm)",
-        min_value=cst.DEFAULT_BIDELTOID_BREADTH_MIN,
-        max_value=cst.DEFAULT_BIDELTOID_BREADTH_MAX,
-        value=initial_pedestrian.measures[cst.PedestrianParts.bideltoid_breadth.name],
+        min_value=float(cst.DEFAULT_BIDELTOID_BREADTH_MIN),
+        max_value=float(cst.DEFAULT_BIDELTOID_BREADTH_MAX),
+        value=float(initial_pedestrian.measures[cst.PedestrianParts.bideltoid_breadth.name]),
         step=1.0,
     )
-    chest_depth = st.sidebar.slider(
+    chest_depth: float = st.sidebar.slider(
         "Chest depth (cm)",
-        min_value=cst.DEFAULT_CHEST_DEPTH_MIN,
-        max_value=cst.DEFAULT_CHEST_DEPTH_MAX,
-        value=initial_pedestrian.measures[cst.PedestrianParts.chest_depth.name],
+        min_value=float(cst.DEFAULT_CHEST_DEPTH_MIN),
+        max_value=float(cst.DEFAULT_CHEST_DEPTH_MAX),
+        value=float(initial_pedestrian.measures[cst.PedestrianParts.chest_depth.name]),
         step=1.0,
     )
-    height = st.sidebar.slider(
+    height: float = st.sidebar.slider(
         "Height (cm)",
-        min_value=cst.DEFAULT_HEIGHT_MIN,
-        max_value=cst.DEFAULT_HEIGHT_MAX,
-        value=initial_pedestrian.measures[cst.PedestrianParts.height.name],
+        min_value=float(cst.DEFAULT_HEIGHT_MIN),
+        max_value=float(cst.DEFAULT_HEIGHT_MAX),
+        value=float(initial_pedestrian.measures[cst.PedestrianParts.height.name]),
         step=1.0,
     )
     pedestrian_measures = AgentMeasures(
-        agent_type="pedestrian",
+        agent_type=cst.AgentTypes.pedestrian,
         measures={
             "sex": st.session_state.sex,
             "bideltoid_breadth": bideltoid_breadth,
@@ -127,7 +128,7 @@ def main() -> None:
             status_text = st.empty()
 
             # Compute the orthogonal projection
-            fig = plot.display_body3D_orthogonal_projection(current_pedestrian, extra_info=[my_progress_bar, status_text])
+            fig: Figure = plot.display_body3D_orthogonal_projection(current_pedestrian, extra_info=(my_progress_bar, status_text))
             # Display the figure
             st.pyplot(fig)
 
@@ -156,9 +157,9 @@ def main() -> None:
             status_text = st.empty()
 
             # Compute the 3D body with slices
-            fig = plot.display_body3D_polygons(current_pedestrian, extra_info=[my_progress_bar, status_text])
+            fig_plotly: go.Figure = plot.display_body3D_polygons(current_pedestrian, extra_info=(my_progress_bar, status_text))
             # Display the figure
-            st.plotly_chart(fig)
+            st.plotly_chart(fig_plotly)
 
             status_text.text("Operation complete! ⌛")
             my_progress_bar.empty()
@@ -169,7 +170,7 @@ def main() -> None:
             st.sidebar.header("Download")
             st.sidebar.download_button(
                 label="Download the 3D body with slices as PDF",
-                data=fig.to_image(format="pdf"),
+                data=fig_plotly.to_image(format="pdf"),
                 file_name="body3D_slices.pdf",
             )
 
@@ -187,9 +188,11 @@ def main() -> None:
             status_text = st.empty()
 
             # Compute the 3D body with a mesh
-            fig = plot.display_body3D_mesh(current_pedestrian, extra_info=[my_progress_bar, status_text, precision])
+            fig_plotly_mesh: go.Figure = plot.display_body3D_mesh(
+                current_pedestrian, extra_info=(my_progress_bar, status_text, precision)
+            )
             # Display the figure
-            st.plotly_chart(fig)
+            st.plotly_chart(fig_plotly_mesh)
 
             status_text.text("Operation complete! ⌛")
             my_progress_bar.empty()
@@ -200,7 +203,7 @@ def main() -> None:
             st.sidebar.header("Download")
             st.sidebar.download_button(
                 label="Download the 3D body with a mesh as PDF",
-                data=fig.to_image(format="pdf"),
+                data=fig_plotly_mesh.to_image(format="pdf"),
                 file_name="body3D_mesh.pdf",
             )
 
@@ -217,7 +220,5 @@ def main() -> None:
 
 
 def run_tab_pedestrian3D() -> None:
-    """
-    Execute the main function for the 3D pedestrian tab.
-    """
+    """Execute the main function for the 3D pedestrian tab."""
     main()

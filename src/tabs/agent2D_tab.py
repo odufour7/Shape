@@ -1,4 +1,4 @@
-"""2D Pedestrian Visualization Tab"""
+"""2D Pedestrian Visualization Tab."""
 
 from datetime import datetime
 from pathlib import Path
@@ -10,19 +10,19 @@ from src.classes.agents import Agent
 from src.classes.measures import AgentMeasures
 from src.plotting import plot
 from src.utils import functions as fun
+from src.utils.typing_custom import BackupDataType
 
 
 def main() -> None:
-    """Main function for the 2D pedestrian tab."""
-
+    """Run the main function for the 2D pedestrian tab."""
     st.sidebar.header("Select agent type")
-    agent_type = st.sidebar.radio("Agent type", [cst.AgentTypes.pedestrian.name, cst.AgentTypes.bike.name])
+    agent_type = st.sidebar.radio("Agent type", [cst.AgentTypes.pedestrian, cst.AgentTypes.bike])
 
-    if agent_type not in st.session_state:
-        if agent_type == cst.AgentTypes.pedestrian.name:
+    if str(agent_type) not in st.session_state:
+        if agent_type == cst.AgentTypes.pedestrian:
             # Create a new pedestrian object
             agent_measures = AgentMeasures(
-                agent_type=cst.AgentTypes.pedestrian.name,
+                agent_type=cst.AgentTypes.pedestrian,
                 measures={
                     "sex": cst.DEFAULT_SEX,
                     "bideltoid_breadth": cst.DEFAULT_BIDELTOID_BREADTH,
@@ -30,10 +30,10 @@ def main() -> None:
                     "height": cst.DEFAULT_HEIGHT,
                 },
             )
-        elif agent_type == cst.AgentTypes.bike.name:
+        elif agent_type == cst.AgentTypes.bike:
             # Create a new bike object
             agent_measures = AgentMeasures(
-                agent_type=cst.AgentTypes.bike.name,
+                agent_type=cst.AgentTypes.bike,
                 measures={
                     "wheel_width": cst.DEFAULT_WHEEL_WIDTH,
                     "total_length": cst.DEFAULT_TOTAL_LENGTH,
@@ -43,7 +43,7 @@ def main() -> None:
             )
         else:  # default case
             agent_measures = AgentMeasures(
-                agent_type=cst.AgentTypes.pedestrian.name,
+                agent_type=cst.AgentTypes.pedestrian,
                 measures={
                     "sex": cst.DEFAULT_SEX,
                     "bideltoid_breadth": cst.DEFAULT_BIDELTOID_BREADTH,
@@ -59,7 +59,7 @@ def main() -> None:
 
     # Sidebar Sliders for Anthropometric Parameters
     st.sidebar.header("Adjust parameters")
-    if agent_type == "pedestrian":
+    if agent_type == cst.AgentTypes.pedestrian:
         bideltoid_breadth = st.sidebar.slider(
             "Bideltoid breadth (cm)",
             min_value=cst.DEFAULT_BIDELTOID_BREADTH_MIN,
@@ -75,7 +75,7 @@ def main() -> None:
             step=1.0,
         )
         agent_measures = AgentMeasures(
-            agent_type="pedestrian",
+            agent_type=cst.AgentTypes.pedestrian,
             measures={
                 "sex": cst.DEFAULT_SEX,
                 "bideltoid_breadth": bideltoid_breadth,
@@ -83,7 +83,7 @@ def main() -> None:
                 "height": cst.DEFAULT_HEIGHT,
             },
         )
-    elif agent_type == "bike":
+    elif agent_type == cst.AgentTypes.bike:
         wheel_width = st.sidebar.slider(
             "Wheel width (cm)",
             min_value=cst.DEFAULT_WHEEL_WIDTH_MIN,
@@ -113,7 +113,7 @@ def main() -> None:
             step=1.0,
         )
         agent_measures = AgentMeasures(
-            agent_type="bike",
+            agent_type=cst.AgentTypes.bike,
             measures={
                 "wheel_width": wheel_width,
                 "total_length": total_length,
@@ -151,10 +151,10 @@ def main() -> None:
     with col2:
         # display the current agent measures
         st.subheader("Current agent measures:")
-        if agent_type == cst.AgentTypes.pedestrian.name:
+        if agent_type == cst.AgentTypes.pedestrian:
             path_file = Path(__file__).parent.parent.parent / "data" / "images"
             st.image(path_file / "measures_pedestrian.png", use_container_width=True)
-        elif agent_type == cst.AgentTypes.bike.name:
+        elif agent_type == cst.AgentTypes.bike:
             path_file = Path(__file__).parent.parent.parent / "data" / "images"
             st.image(path_file / "measures_bike.png", use_container_width=True)
 
@@ -168,12 +168,13 @@ def main() -> None:
     )
 
     # Create a select box for format selection
-    backup_data_type = st.sidebar.selectbox(
+    backup_data_type: BackupDataType = st.sidebar.selectbox(
         "Select backup format:",
-        options=[cst.BackupDataTypes.json.name, cst.BackupDataTypes.xml.name],
+        options=["json", "xml"],
         format_func=lambda x: x.upper(),
         help="Choose the format for your data backup.",
     )
+
     # Add a download button
     filename = f"agent2D_{current_agent.agent_type}_{backup_data_type}_{timestamp}.{backup_data_type}"
     data, mime_type = fun.get_shapes_data(backup_data_type, current_agent.shapes2D.get_additional_parameters())

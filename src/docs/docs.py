@@ -16,5 +16,5 @@ def about() -> None:
     """
     st.markdown(text2)
 
-    text3 = " Lien vers code C++, article, exemples d'utilisation"
+    text3 = " Link towards C++, article, examples of using"
     st.markdown(text3)
