@@ -8,7 +8,6 @@ import os
 import sys
 
 sys.path.insert(0, os.path.abspath("../../src"))
-print(os.path.abspath("../.."))
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
@@ -17,6 +16,8 @@ project = "shapes"
 copyright = "2025, oscar dufour"
 author = "oscar dufour"
 release = "1"
+
+pygments_style = "sphinx"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -35,4 +36,4 @@ language = "english"
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = "sphinx_rtd_theme"
-html_static_path = ["_static"]
+html_static_path = ["../../assets"]
