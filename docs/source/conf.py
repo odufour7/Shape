@@ -1,14 +1,14 @@
-"""Sphinx configuration file for the project documentation."""
+"""Sphinx configuration file for the documentation."""
+
 # Configuration file for the Sphinx documentation builder.
 #
 # For the full list of built-in configuration values, see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
-
 import os
 import sys
 
-# Assuming your conf.py is inside docs/source/, and your modules are two levels up
 sys.path.insert(0, os.path.abspath("../.."))
+print(os.path.abspath("../.."))
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
@@ -21,10 +21,13 @@ release = "1"
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ["sphinx.ext.autodoc"]
+extensions = [
+    "sphinx.ext.autodoc",
+    "sphinx.ext.viewcode",
+]
 
 templates_path = ["_templates"]
-# exclude_patterns = []
+# exclude_patterns = ["source/modules.rst"]
 
 language = "english"
 

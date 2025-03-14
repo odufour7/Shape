@@ -1,15 +1,15 @@
 """Main file to run the application."""
 
-import src.utils.constants as cst
-from src.datafactory import datafactory
-from src.docs import docs
-from src.tabs.agent2D_tab import run_tab_agent2D
-from src.tabs.anthropometry_tab import run_tab_anthropometry
-from src.tabs.custom_crowd_tab import run_tab_custom_crowd
-from src.tabs.pedestrian3D_tab import run_tab_pedestrian3D
-from src.ui import ui
-from src.utils.logging_custom import setup_logging
-from tabs.crowd_tab import run_tab_crowd
+import src.shapes_package.utils.constants as cst
+from src.shapes_package.datafactory import datafactory
+from src.shapes_package.docs import docs
+from src.shapes_package.tabs.agent2D_tab import run_tab_agent2D
+from src.shapes_package.tabs.anthropometry_tab import run_tab_anthropometry
+from src.shapes_package.tabs.crowd_tab import run_tab_crowd
+from src.shapes_package.tabs.custom_crowd_tab import run_tab_custom_crowd
+from src.shapes_package.tabs.pedestrian3D_tab import run_tab_pedestrian3D
+from src.shapes_package.ui import ui
+from src.shapes_package.utils.logging_custom import setup_logging
 
 setup_logging()
 if __name__ == "__main__":
