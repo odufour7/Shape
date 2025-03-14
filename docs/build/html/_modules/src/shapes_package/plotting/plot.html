@@ -1,0 +1,727 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="english" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>src.shapes_package.plotting.plot &mdash; shapes 1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=9ce8ba2a"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            shapes
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">shape_project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../src.html">src package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">shapes</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">src.shapes_package.plotting.plot</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for src.shapes_package.plotting.plot</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Contains functions to plot the geometric shapes of the pedestrian and the crowd.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">cmcrameri</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cram</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">plotly.graph_objects</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">go</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyvista</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pv</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.colors</span><span class="w"> </span><span class="kn">import</span> <span class="n">Normalize</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.figure</span><span class="w"> </span><span class="kn">import</span> <span class="n">Figure</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mpl_toolkits.axes_grid1</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_axes_locatable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy.typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">NDArray</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">shapely.geometry</span><span class="w"> </span><span class="kn">import</span> <span class="n">MultiPolygon</span><span class="p">,</span> <span class="n">Polygon</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">streamlit.delta_generator</span><span class="w"> </span><span class="kn">import</span> <span class="n">DeltaGenerator</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">src.shapes_package.utils.functions</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">fun</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.shapes_package.classes.agents</span><span class="w"> </span><span class="kn">import</span> <span class="n">Agent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.shapes_package.classes.crowd</span><span class="w"> </span><span class="kn">import</span> <span class="n">Crowd</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;text.usetex&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;font.family&quot;</span><span class="p">:</span> <span class="s2">&quot;serif&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;font.serif&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Computer Modern Roman&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;font.size&quot;</span><span class="p">:</span> <span class="mi">23</span><span class="p">,</span>
+        <span class="s2">&quot;text.latex.preamble&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;\usepackage</span><span class="si">{amsmath}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="display_shape2D">
+<a class="viewcode-back" href="../../../../src.shapes_package.plotting.html#src.shapes_package.plotting.plot.display_shape2D">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">display_shape2D</span><span class="p">(</span><span class="n">agents</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Agent</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Draw 2D geometric shapes of either pedestrian or bike using Plotly.</span>
+
+<span class="sd">    This function plots the 2D shapes of agents on a Plotly figure. It supports both Polygon and MultiPolygon geometries.</span>
+<span class="sd">    Each shape is filled with semi-transparent red color, outlined in black, and annotated with the agent&#39;s ID at its centroid.</span>
+<span class="sd">    The figure layout is configured with equal axis scaling, no grid lines, and predefined margins.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    agents : list[Agent]</span>
+<span class="sd">        A list of Agent objects, each containing a 2D geometric shape.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    go.Figure</span>
+<span class="sd">        A Plotly Figure object displaying the 2D shapes of the agents.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Initialize a Plotly figure</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">()</span>
+
+    <span class="c1"># Add each agent&#39;s shape to the plot</span>
+    <span class="k">for</span> <span class="n">id_agent</span><span class="p">,</span> <span class="n">agent</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">agents</span><span class="p">):</span>
+        <span class="n">id_agent</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">geometric_agent</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">shapes2D</span><span class="o">.</span><span class="n">get_geometric_shape</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">geometric_agent</span><span class="p">,</span> <span class="n">Polygon</span><span class="p">):</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">geometric_agent</span><span class="o">.</span><span class="n">exterior</span><span class="o">.</span><span class="n">xy</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span>
+                <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span>
+                    <span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">),</span>
+                    <span class="n">y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y</span><span class="p">),</span>
+                    <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;toself&quot;</span><span class="p">,</span>
+                    <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;lines&quot;</span><span class="p">,</span>
+                    <span class="n">line</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+                    <span class="n">fillcolor</span><span class="o">=</span><span class="s2">&quot;rgba(255, 0, 0, 0.5)&quot;</span><span class="p">,</span>
+                    <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;agent </span><span class="si">{</span><span class="n">id_agent</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="c1"># Add pedestrian ID as annotation</span>
+            <span class="n">centroid_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">centroid_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">add_annotation</span><span class="p">(</span>
+                <span class="n">x</span><span class="o">=</span><span class="n">centroid_x</span><span class="p">,</span>
+                <span class="n">y</span><span class="o">=</span><span class="n">centroid_y</span><span class="p">,</span>
+                <span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;agent </span><span class="si">{</span><span class="n">id_agent</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">showarrow</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">font</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;white&quot;</span><span class="p">},</span>
+                <span class="n">align</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="c1"># If the agent&#39;s shape is a MultiPolygon, plot each polygon separately</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">geometric_agent</span><span class="p">,</span> <span class="n">MultiPolygon</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">polygon</span> <span class="ow">in</span> <span class="n">geometric_agent</span><span class="o">.</span><span class="n">geoms</span><span class="p">:</span>
+                <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">polygon</span><span class="o">.</span><span class="n">exterior</span><span class="o">.</span><span class="n">xy</span>
+                <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span>
+                    <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span>
+                        <span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">),</span>
+                        <span class="n">y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y</span><span class="p">),</span>
+                        <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;toself&quot;</span><span class="p">,</span>
+                        <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;lines&quot;</span><span class="p">,</span>
+                        <span class="n">line</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+                        <span class="n">fillcolor</span><span class="o">=</span><span class="s2">&quot;rgba(255, 0, 0, 0.5)&quot;</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+            <span class="c1"># Add pedestrian ID as annotation</span>
+            <span class="n">centroid_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">polygon</span><span class="o">.</span><span class="n">exterior</span><span class="o">.</span><span class="n">xy</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">polygon</span> <span class="ow">in</span> <span class="n">geometric_agent</span><span class="o">.</span><span class="n">geoms</span><span class="p">])</span>
+            <span class="n">centroid_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">polygon</span><span class="o">.</span><span class="n">exterior</span><span class="o">.</span><span class="n">xy</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">polygon</span> <span class="ow">in</span> <span class="n">geometric_agent</span><span class="o">.</span><span class="n">geoms</span><span class="p">])</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">add_annotation</span><span class="p">(</span>
+                <span class="n">x</span><span class="o">=</span><span class="n">centroid_x</span><span class="p">,</span>
+                <span class="n">y</span><span class="o">=</span><span class="n">centroid_y</span><span class="p">,</span>
+                <span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;agent </span><span class="si">{</span><span class="n">id_agent</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">showarrow</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">font</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;white&quot;</span><span class="p">},</span>
+                <span class="n">align</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+
+    <span class="c1"># Set layout properties</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+        <span class="n">xaxis_title</span><span class="o">=</span><span class="s2">&quot;X [cm]&quot;</span><span class="p">,</span>
+        <span class="n">yaxis_title</span><span class="o">=</span><span class="s2">&quot;Y [cm]&quot;</span><span class="p">,</span>
+        <span class="n">xaxis</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;scaleanchor&quot;</span><span class="p">:</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;showgrid&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;title_standoff&quot;</span><span class="p">:</span> <span class="mi">15</span><span class="p">},</span>
+        <span class="n">yaxis</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;showgrid&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;title_standoff&quot;</span><span class="p">:</span> <span class="mi">15</span><span class="p">},</span>
+        <span class="n">showlegend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">margin</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;l&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="s2">&quot;t&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">},</span>
+        <span class="n">width</span><span class="o">=</span><span class="mi">550</span><span class="p">,</span>
+        <span class="n">height</span><span class="o">=</span><span class="mi">550</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">fig</span></div>
+
+
+
+<div class="viewcode-block" id="display_body3D_orthogonal_projection">
+<a class="viewcode-back" href="../../../../src.shapes_package.plotting.html#src.shapes_package.plotting.plot.display_body3D_orthogonal_projection">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">display_body3D_orthogonal_projection</span><span class="p">(</span><span class="n">agent</span><span class="p">:</span> <span class="n">Agent</span><span class="p">,</span> <span class="n">extra_info</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">DeltaGenerator</span><span class="p">,</span> <span class="n">DeltaGenerator</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Figure</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Draws the orthogonal projection of the pedestrian&#39;s body.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    agent : Agent</span>
+<span class="sd">        The agent object containing the 3D shapes and measures of the pedestrian.</span>
+<span class="sd">    extra_info : list[DeltaGenerator, str]</span>
+<span class="sd">        A list containing a DeltaGenerator object for updating the progress bar and a string for additional information.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        None</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Check if the agent&#39;s 3D shapes are available</span>
+    <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">shapes3D</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">agent</span><span class="o">.</span><span class="n">shapes3D</span><span class="o">.</span><span class="n">shapes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;agent.shapes3D or agent.shapes3D.shapes is None&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Create a ScalarMappable object for color mapping</span>
+    <span class="n">sm</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">ScalarMappable</span><span class="p">(</span>
+        <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span>
+        <span class="n">norm</span><span class="o">=</span><span class="n">Normalize</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">agent</span><span class="o">.</span><span class="n">shapes3D</span><span class="o">.</span><span class="n">shapes</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="nb">float</span><span class="p">))),</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Initialize a Matplotlib figure</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">11</span><span class="p">))</span>
+
+    <span class="c1"># Normalize heights for color mapping</span>
+    <span class="n">min_height</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">agent</span><span class="o">.</span><span class="n">shapes3D</span><span class="o">.</span><span class="n">shapes</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="nb">float</span><span class="p">))</span>
+    <span class="n">max_height</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">agent</span><span class="o">.</span><span class="n">shapes3D</span><span class="o">.</span><span class="n">shapes</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="nb">float</span><span class="p">))</span>
+    <span class="c1"># Plot each polygon at different heights</span>
+    <span class="k">for</span> <span class="n">height_str</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">agent</span><span class="o">.</span><span class="n">shapes3D</span><span class="o">.</span><span class="n">shapes</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="nb">float</span><span class="p">):</span>
+        <span class="n">multi_polygon</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">shapes3D</span><span class="o">.</span><span class="n">shapes</span><span class="p">[</span><span class="n">height_str</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">multi_polygon</span><span class="p">,</span> <span class="n">MultiPolygon</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;multi_polygon is not a MultiPolygon&quot;</span><span class="p">)</span>
+        <span class="n">height</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">height_str</span><span class="p">)</span>
+        <span class="n">proportion_completed</span> <span class="o">=</span> <span class="p">(</span><span class="n">height</span> <span class="o">-</span> <span class="n">min_height</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">max_height</span> <span class="o">-</span> <span class="n">min_height</span><span class="p">)</span>
+        <span class="n">fun</span><span class="o">.</span><span class="n">update_progress_bar</span><span class="p">(</span><span class="n">extra_info</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">extra_info</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">proportion_completed</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">polygon</span> <span class="ow">in</span> <span class="n">multi_polygon</span><span class="o">.</span><span class="n">geoms</span><span class="p">:</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">polygon</span><span class="o">.</span><span class="n">exterior</span><span class="o">.</span><span class="n">xy</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">sm</span><span class="o">.</span><span class="n">to_rgba</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">height</span><span class="p">])),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># Add a colorbar with inverted orientation (red at top)</span>
+    <span class="n">divider</span> <span class="o">=</span> <span class="n">make_axes_locatable</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+    <span class="n">cax</span> <span class="o">=</span> <span class="n">divider</span><span class="o">.</span><span class="n">append_axes</span><span class="p">(</span><span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="s2">&quot;5%&quot;</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+
+    <span class="c1"># Set colorbar properties</span>
+    <span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">sm</span><span class="p">,</span> <span class="n">cax</span><span class="o">=</span><span class="n">cax</span><span class="p">)</span>
+    <span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s2">&quot;Height [cm]&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Set plot properties</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Orthogonal projection of a </span><span class="si">{</span><span class="n">agent</span><span class="o">.</span><span class="n">measures</span><span class="o">.</span><span class="n">measures</span><span class="p">[</span><span class="s1">&#39;sex&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">margins</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;X [cm]&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Y [cm]&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">fig</span></div>
+
+
+
+<div class="viewcode-block" id="compute_range">
+<a class="viewcode-back" href="../../../../src.shapes_package.plotting.html#src.shapes_package.plotting.plot.compute_range">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_range</span><span class="p">(</span><span class="n">agent</span><span class="p">:</span> <span class="n">Agent</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the range (ptp) of coordinates along a given axis (&#39;x&#39; or &#39;y&#39;).&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">axis</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Axis must be &#39;x&#39; or &#39;y&#39;&quot;</span><span class="p">)</span>
+
+    <span class="n">coord_index</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">axis</span> <span class="o">==</span> <span class="s2">&quot;x&quot;</span> <span class="k">else</span> <span class="mi">1</span>  <span class="c1"># Determine index for x or y coordinates</span>
+    <span class="n">coordinates</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># Check if the agent&#39;s 3D shapes are available</span>
+    <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">shapes3D</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">agent</span><span class="o">.</span><span class="n">shapes3D</span><span class="o">.</span><span class="n">shapes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;agent.shapes3D or agent.shapes3D.shapes is None&quot;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">multi_polygon</span> <span class="ow">in</span> <span class="n">agent</span><span class="o">.</span><span class="n">shapes3D</span><span class="o">.</span><span class="n">shapes</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">multi_polygon</span><span class="p">,</span> <span class="n">MultiPolygon</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;multi_polygon is not a MultiPolygon&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Extract coordinates for the given axis from all polygons</span>
+        <span class="n">coordinates</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">coord</span><span class="p">[</span><span class="n">coord_index</span><span class="p">]</span> <span class="k">for</span> <span class="n">polygon</span> <span class="ow">in</span> <span class="n">multi_polygon</span><span class="o">.</span><span class="n">geoms</span> <span class="k">for</span> <span class="n">coord</span> <span class="ow">in</span> <span class="n">polygon</span><span class="o">.</span><span class="n">exterior</span><span class="o">.</span><span class="n">xy</span><span class="p">)</span>
+
+    <span class="n">xy_range</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ptp</span><span class="p">(</span><span class="n">coordinates</span><span class="p">)</span>  <span class="c1"># Compute and return the range</span>
+    <span class="k">return</span> <span class="n">xy_range</span></div>
+
+
+
+<div class="viewcode-block" id="display_body3D_polygons">
+<a class="viewcode-back" href="../../../../src.shapes_package.plotting.html#src.shapes_package.plotting.plot.display_body3D_polygons">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">display_body3D_polygons</span><span class="p">(</span><span class="n">agent</span><span class="p">:</span> <span class="n">Agent</span><span class="p">,</span> <span class="n">extra_info</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">DeltaGenerator</span><span class="p">,</span> <span class="n">DeltaGenerator</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Display a 3D visualization of body polygons using Plotly.</span>
+
+<span class="sd">    This function visualizes an agent&#39;s 3D body representation by plotting polygons at different heights.</span>
+<span class="sd">    Polygons are color-coded according to the agent&#39;s height and sex.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    agent : Agent</span>
+<span class="sd">        The agent object containing 3D shapes and associated measurements.</span>
+<span class="sd">    extra_info : list[DeltaGenerator, str]</span>
+<span class="sd">        A list containing a progress bar object and a status message string used for updating progress.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    go.Figure</span>
+<span class="sd">        A Plotly figure object representing the 3D body polygons.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Check if the agent&#39;s 3D shapes are available</span>
+    <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">shapes3D</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">agent</span><span class="o">.</span><span class="n">shapes3D</span><span class="o">.</span><span class="n">shapes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;agent.shapes3D or agent.shapes3D.shapes is None&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Initialize a Plotly figure</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">()</span>
+
+    <span class="c1"># Normalize heights for color mapping</span>
+    <span class="n">max_height</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">agent</span><span class="o">.</span><span class="n">shapes3D</span><span class="o">.</span><span class="n">shapes</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+    <span class="n">min_height</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">agent</span><span class="o">.</span><span class="n">shapes3D</span><span class="o">.</span><span class="n">shapes</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+
+    <span class="c1"># Add each polygon to the 3D plot</span>
+    <span class="k">for</span> <span class="n">height_str</span><span class="p">,</span> <span class="n">multi_polygon</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">agent</span><span class="o">.</span><span class="n">shapes3D</span><span class="o">.</span><span class="n">shapes</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">multi_polygon</span><span class="p">,</span> <span class="n">MultiPolygon</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;multi_polygon is not a MultiPolygon&quot;</span><span class="p">)</span>
+
+        <span class="n">height</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">height_str</span><span class="p">)</span>
+
+        <span class="c1"># Normalize height for color scale</span>
+        <span class="n">normalized_height</span> <span class="o">=</span> <span class="p">(</span><span class="n">height</span> <span class="o">-</span> <span class="n">min_height</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">max_height</span> <span class="o">-</span> <span class="n">min_height</span><span class="p">)</span>  <span class="c1"># Normalize height for color scale</span>
+
+        <span class="c1"># Update progress bar</span>
+        <span class="n">percent_completed</span> <span class="o">=</span> <span class="p">(</span><span class="n">max_height</span> <span class="o">-</span> <span class="n">height</span> <span class="o">-</span> <span class="n">min_height</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">max_height</span> <span class="o">-</span> <span class="n">min_height</span><span class="p">)</span>
+        <span class="n">fun</span><span class="o">.</span><span class="n">update_progress_bar</span><span class="p">(</span><span class="n">extra_info</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">extra_info</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">percent_completed</span><span class="p">)</span>
+
+        <span class="c1"># Assign color based on normalized height</span>
+        <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">measures</span><span class="o">.</span><span class="n">measures</span><span class="p">[</span><span class="s2">&quot;sex&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;female&quot;</span><span class="p">:</span>
+            <span class="c1"># Gradient from green to red</span>
+            <span class="n">color</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;rgba(255, </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="mi">205</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">normalized_height</span><span class="p">))</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="mi">205</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">normalized_height</span><span class="p">))</span><span class="si">}</span><span class="s2">, 0.8)&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Gradient from blue to red</span>
+            <span class="n">color</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;rgba(</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="mi">205</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">normalized_height</span><span class="p">))</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="mi">205</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">normalized_height</span><span class="p">))</span><span class="si">}</span><span class="s2">, 255, 0.8)&quot;</span>
+
+        <span class="c1"># Plot each polygon</span>
+        <span class="k">for</span> <span class="n">polygon</span> <span class="ow">in</span> <span class="n">multi_polygon</span><span class="o">.</span><span class="n">geoms</span><span class="p">:</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">polygon</span><span class="o">.</span><span class="n">exterior</span><span class="o">.</span><span class="n">xy</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span>
+                <span class="n">go</span><span class="o">.</span><span class="n">Scatter3d</span><span class="p">(</span>
+                    <span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">),</span>
+                    <span class="n">y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y</span><span class="p">),</span>
+                    <span class="n">z</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span>
+                    <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;lines&quot;</span><span class="p">,</span>
+                    <span class="n">line</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="n">color</span><span class="p">},</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+    <span class="c1"># Determine the maximum range for equal scaling</span>
+    <span class="n">x_range</span> <span class="o">=</span> <span class="n">compute_range</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+    <span class="n">y_range</span> <span class="o">=</span> <span class="n">compute_range</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+    <span class="n">z_range</span> <span class="o">=</span> <span class="n">max_height</span> <span class="o">-</span> <span class="n">min_height</span>
+    <span class="n">max_range</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">x_range</span><span class="p">,</span> <span class="n">y_range</span><span class="p">,</span> <span class="n">z_range</span><span class="p">)</span>
+
+    <span class="c1"># Set layout properties</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+        <span class="n">scene</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;xaxis_title&quot;</span><span class="p">:</span> <span class="s2">&quot;X [cm]&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;yaxis_title&quot;</span><span class="p">:</span> <span class="s2">&quot;Y [cm]&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;zaxis_title&quot;</span><span class="p">:</span> <span class="s2">&quot;Height [cm]&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;aspectmode&quot;</span><span class="p">:</span> <span class="s2">&quot;manual&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;aspectratio&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">x_range</span> <span class="o">/</span> <span class="n">max_range</span><span class="p">,</span>
+                <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">y_range</span> <span class="o">/</span> <span class="n">max_range</span><span class="p">,</span>
+                <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="n">z_range</span> <span class="o">/</span> <span class="n">max_range</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">},</span>
+        <span class="n">showlegend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">width</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+        <span class="n">height</span><span class="o">=</span><span class="mi">900</span><span class="p">,</span>
+        <span class="n">scene_camera</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;eye&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="mf">1.5</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="mf">0.4</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">}},</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">fig</span></div>
+
+
+
+<div class="viewcode-block" id="display_body3D_mesh">
+<a class="viewcode-back" href="../../../../src.shapes_package.plotting.html#src.shapes_package.plotting.plot.display_body3D_mesh">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">display_body3D_mesh</span><span class="p">(</span><span class="n">agent</span><span class="p">:</span> <span class="n">Agent</span><span class="p">,</span> <span class="n">extra_info</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">DeltaGenerator</span><span class="p">,</span> <span class="n">DeltaGenerator</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Draw a continuous 3D mesh connecting contours at different heights.</span>
+
+<span class="sd">    This function generates a smooth 3D mesh visualization of an agent by connecting shape contours</span>
+<span class="sd">    at various heights using Plotly&#39;s Mesh3d.</span>
+<span class="sd">    It fills missing triangles and smooths the mesh surface for improved visualization.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    agent : Agent</span>
+<span class="sd">        An instance of the Agent class containing 3D shape data.</span>
+<span class="sd">    extra_info : list</span>
+<span class="sd">        A list containing:</span>
+<span class="sd">        - DeltaGenerator: Streamlit object for updating the progress bar.</span>
+<span class="sd">        - str: Identifier string for the progress bar.</span>
+<span class="sd">        - int: Precision level used to reduce the number of processed heights.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    go.Figure</span>
+<span class="sd">        A Plotly Figure object displaying the generated 3D mesh.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Check if the agent&#39;s 3D shapes are available</span>
+    <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">shapes3D</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">agent</span><span class="o">.</span><span class="n">shapes3D</span><span class="o">.</span><span class="n">shapes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;agent.shapes3D or agent.shapes3D.shapes is None&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Extract every nth height to reduce the number of vertices</span>
+    <span class="n">precision</span> <span class="o">=</span> <span class="n">extra_info</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">new_body</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">height</span><span class="p">:</span> <span class="n">multi_polygon</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">multi_polygon</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">agent</span><span class="o">.</span><span class="n">shapes3D</span><span class="o">.</span><span class="n">shapes</span><span class="o">.</span><span class="n">items</span><span class="p">())</span> <span class="k">if</span> <span class="n">idx</span> <span class="o">%</span> <span class="n">precision</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="p">}</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Number of heights: </span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_body</span><span class="p">))</span>
+
+    <span class="c1"># Sort the heights in descending order</span>
+    <span class="n">sorted_heights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">new_body</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+
+    <span class="c1"># Initialize arrays to store vertices and triangles</span>
+    <span class="n">all_points</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">all_triangles</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="c1"># Loop through consecutive heights and connect contours with triangular meshes</span>
+    <span class="k">for</span> <span class="n">h_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sorted_heights</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="c1"># Update progress bar</span>
+        <span class="n">percent_completed</span> <span class="o">=</span> <span class="p">(</span><span class="n">sorted_heights</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">sorted_heights</span><span class="p">[</span><span class="n">h_idx</span><span class="p">]</span> <span class="o">-</span> <span class="n">sorted_heights</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span>
+            <span class="n">sorted_heights</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">sorted_heights</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">fun</span><span class="o">.</span><span class="n">update_progress_bar</span><span class="p">(</span><span class="n">extra_info</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">extra_info</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">percent_completed</span><span class="p">)</span>
+
+        <span class="c1"># Extract high and low contours for the current height pair</span>
+        <span class="n">height_high</span><span class="p">,</span> <span class="n">height_low</span> <span class="o">=</span> <span class="n">sorted_heights</span><span class="p">[</span><span class="n">h_idx</span><span class="p">],</span> <span class="n">sorted_heights</span><span class="p">[</span><span class="n">h_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">high_contours</span><span class="p">:</span> <span class="n">MultiPolygon</span> <span class="o">=</span> <span class="n">new_body</span><span class="p">[</span><span class="n">height_high</span><span class="p">]</span>
+        <span class="n">low_contours</span><span class="p">:</span> <span class="n">MultiPolygon</span> <span class="o">=</span> <span class="n">new_body</span><span class="p">[</span><span class="n">height_low</span><span class="p">]</span>
+
+        <span class="c1"># Loop through high contours and connect them with low contours</span>
+        <span class="k">for</span> <span class="n">polygon_high</span> <span class="ow">in</span> <span class="n">high_contours</span><span class="o">.</span><span class="n">geoms</span><span class="p">:</span>
+            <span class="c1"># Extract coordinates for high and low contours</span>
+            <span class="n">x_high</span><span class="p">,</span> <span class="n">y_high</span> <span class="o">=</span> <span class="n">polygon_high</span><span class="o">.</span><span class="n">exterior</span><span class="o">.</span><span class="n">xy</span>
+            <span class="n">x_high</span><span class="p">,</span> <span class="n">y_high</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x_high</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y_high</span><span class="p">)</span>
+            <span class="n">z_high</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">x_high</span><span class="p">,</span> <span class="n">height_high</span><span class="p">)</span>
+
+            <span class="n">x_low</span><span class="p">,</span> <span class="n">y_low</span> <span class="o">=</span> <span class="n">fun</span><span class="o">.</span><span class="n">extract_coordinates</span><span class="p">(</span><span class="n">low_contours</span><span class="p">)</span>
+            <span class="n">z_low</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">x_low</span><span class="p">,</span> <span class="n">height_low</span><span class="p">)</span>
+
+            <span class="c1"># Append high and low contours to the vertices array</span>
+            <span class="n">start_idx_high</span> <span class="o">=</span> <span class="n">all_points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">points_high</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">x_high</span><span class="p">,</span> <span class="n">y_high</span><span class="p">,</span> <span class="n">z_high</span><span class="p">))</span>
+            <span class="n">all_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">all_points</span><span class="p">,</span> <span class="n">points_high</span><span class="p">))</span>
+
+            <span class="n">start_idx_low</span> <span class="o">=</span> <span class="n">all_points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">points_low</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">x_low</span><span class="p">,</span> <span class="n">y_low</span><span class="p">,</span> <span class="n">z_low</span><span class="p">))</span>
+            <span class="n">all_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">all_points</span><span class="p">,</span> <span class="n">points_low</span><span class="p">))</span>
+
+            <span class="c1"># Connect high and low contours with triangular meshes</span>
+            <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x_high</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="c1"># Find the nearest vertex in the low contour</span>
+                <span class="n">nearest_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">((</span><span class="n">x_low</span> <span class="o">-</span> <span class="n">x_high</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">y_low</span> <span class="o">-</span> <span class="n">y_high</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+                <span class="c1"># Triangle 1: two vertices from high contour and one from low contour</span>
+                <span class="n">triangle1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">(</span>
+                    <span class="p">(</span>
+                        <span class="n">start_idx_high</span> <span class="o">+</span> <span class="n">idx</span><span class="p">,</span>
+                        <span class="n">start_idx_high</span> <span class="o">+</span> <span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                        <span class="n">start_idx_low</span> <span class="o">+</span> <span class="n">nearest_idx</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+                <span class="n">all_triangles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">all_triangles</span><span class="p">,</span> <span class="n">triangle1</span><span class="p">))</span>
+                <span class="c1"># Triangle 2: one vertex from high contour and two from low contour</span>
+                <span class="n">triangle2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">(</span>
+                    <span class="p">(</span>
+                        <span class="n">start_idx_high</span> <span class="o">+</span> <span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                        <span class="n">start_idx_low</span> <span class="o">+</span> <span class="n">nearest_idx</span><span class="p">,</span>
+                        <span class="n">start_idx_low</span> <span class="o">+</span> <span class="p">(</span><span class="n">nearest_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_low</span><span class="p">),</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+                <span class="n">all_triangles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">all_triangles</span><span class="p">,</span> <span class="n">triangle2</span><span class="p">))</span>
+
+    <span class="c1"># Fill holes in the mesh and remove triangles associated with the last layer of vertices</span>
+    <span class="n">faces</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">all_triangles</span><span class="p">),</span> <span class="mi">3</span><span class="p">),</span> <span class="n">all_triangles</span><span class="p">))</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">mesh_pv</span> <span class="o">=</span> <span class="n">pv</span><span class="o">.</span><span class="n">PolyData</span><span class="p">(</span><span class="n">all_points</span><span class="p">,</span> <span class="n">faces</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">filled_mesh_pv</span> <span class="o">=</span> <span class="n">mesh_pv</span><span class="o">.</span><span class="n">fill_holes</span><span class="p">(</span><span class="mf">5.0</span><span class="p">)</span>
+        <span class="n">points_filled</span> <span class="o">=</span> <span class="n">filled_mesh_pv</span><span class="o">.</span><span class="n">points</span>
+        <span class="n">faces_filled</span> <span class="o">=</span> <span class="n">filled_mesh_pv</span><span class="o">.</span><span class="n">faces</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">:]</span>
+        <span class="n">all_triangles_filled</span> <span class="o">=</span> <span class="n">faces_filled</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Error filling holes: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+        <span class="n">all_triangles_filled</span> <span class="o">=</span> <span class="n">all_triangles</span>
+
+    <span class="c1"># Filter the mesh by removing vertices and triangles below a certain threshold</span>
+    <span class="n">min_height</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">agent</span><span class="o">.</span><span class="n">shapes3D</span><span class="o">.</span><span class="n">shapes</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+    <span class="n">points_filled</span><span class="p">,</span> <span class="n">all_triangles_filled</span> <span class="o">=</span> <span class="n">fun</span><span class="o">.</span><span class="n">filter_mesh_by_z_threshold</span><span class="p">(</span>
+        <span class="n">points_filled</span><span class="p">,</span> <span class="n">all_triangles_filled</span><span class="p">,</span> <span class="n">z_threshold</span><span class="o">=</span><span class="n">min_height</span> <span class="o">+</span> <span class="mf">0.1</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Normalize the height values for color mapping</span>
+    <span class="n">color_scale_name</span> <span class="o">=</span> <span class="s2">&quot;viridis&quot;</span> <span class="k">if</span> <span class="n">agent</span><span class="o">.</span><span class="n">measures</span><span class="o">.</span><span class="n">measures</span><span class="p">[</span><span class="s2">&quot;sex&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;male&quot;</span> <span class="k">else</span> <span class="s2">&quot;inferno&quot;</span>
+    <span class="n">norm</span> <span class="o">=</span> <span class="n">Normalize</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">points_filled</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]),</span> <span class="n">vmax</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">points_filled</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]))</span>
+    <span class="n">colorscale_values</span> <span class="o">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">points_filled</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">])</span>
+    <span class="n">colorscale_values</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="n">color_scale_name</span><span class="p">)(</span><span class="n">colorscale_values</span><span class="p">)[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">vertex_colors</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;rgb(</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">r</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">255</span><span class="p">)</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">g</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">255</span><span class="p">)</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">b</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">255</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span> <span class="k">for</span> <span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">colorscale_values</span><span class="p">]</span>
+
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Plotting...&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Create a Plotly figure with the filled mesh</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">go</span><span class="o">.</span><span class="n">Mesh3d</span><span class="p">(</span>
+                <span class="n">x</span><span class="o">=</span><span class="n">points_filled</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+                <span class="n">y</span><span class="o">=</span><span class="n">points_filled</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
+                <span class="n">z</span><span class="o">=</span><span class="n">points_filled</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span>
+                <span class="n">i</span><span class="o">=</span><span class="n">all_triangles_filled</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+                <span class="n">j</span><span class="o">=</span><span class="n">all_triangles_filled</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
+                <span class="n">k</span><span class="o">=</span><span class="n">all_triangles_filled</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span>
+                <span class="n">facecolor</span><span class="o">=</span><span class="n">vertex_colors</span><span class="p">,</span>
+                <span class="n">opacity</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                <span class="n">colorscale</span><span class="o">=</span><span class="n">color_scale_name</span><span class="p">,</span>
+                <span class="n">intensity</span><span class="o">=</span><span class="n">points_filled</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span>
+                <span class="n">showscale</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Determine the maximum range for equal scaling</span>
+    <span class="n">x_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ptp</span><span class="p">(</span><span class="n">points_filled</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
+    <span class="n">y_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ptp</span><span class="p">(</span><span class="n">points_filled</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="n">z_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ptp</span><span class="p">(</span><span class="n">points_filled</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">])</span>
+    <span class="n">max_range</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">x_range</span><span class="p">,</span> <span class="n">y_range</span><span class="p">,</span> <span class="n">z_range</span><span class="p">)</span>
+
+    <span class="c1"># Set layout properties</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+        <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;3D body representation of a </span><span class="si">{</span><span class="n">agent</span><span class="o">.</span><span class="n">measures</span><span class="o">.</span><span class="n">measures</span><span class="p">[</span><span class="s1">&#39;sex&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> with a mesh&quot;</span><span class="p">,</span>
+        <span class="n">scene</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;xaxis_title&quot;</span><span class="p">:</span> <span class="s2">&quot;X [cm]&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;yaxis_title&quot;</span><span class="p">:</span> <span class="s2">&quot;Y [cm]&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;zaxis_title&quot;</span><span class="p">:</span> <span class="s2">&quot;Height [cm]&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;aspectmode&quot;</span><span class="p">:</span> <span class="s2">&quot;manual&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;aspectratio&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">x_range</span> <span class="o">/</span> <span class="n">max_range</span><span class="p">,</span>
+                <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">y_range</span> <span class="o">/</span> <span class="n">max_range</span><span class="p">,</span>
+                <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="n">z_range</span> <span class="o">/</span> <span class="n">max_range</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">},</span>
+        <span class="n">width</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+        <span class="n">height</span><span class="o">=</span><span class="mi">900</span><span class="p">,</span>
+        <span class="n">scene_camera</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;eye&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="mf">1.5</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="mf">0.4</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">}},</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">fig</span></div>
+
+
+
+<div class="viewcode-block" id="display_crowd2D">
+<a class="viewcode-back" href="../../../../src.shapes_package.plotting.html#src.shapes_package.plotting.plot.display_crowd2D">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">display_crowd2D</span><span class="p">(</span><span class="n">crowd</span><span class="p">:</span> <span class="n">Crowd</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Figure</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Display a 2D plot of a crowd of agents.</span>
+
+<span class="sd">    This function visualizes the 2D shapes of agents in a crowd using matplotlib. It normalizes the colors</span>
+<span class="sd">    of the agents based on their areas and plots their shapes. Both Polygon and MultiPolygon geometries are supported.</span>
+<span class="sd">    The plot&#39;s x and y limits are set based on the bounds of the agents&#39; shapes, and the aspect ratio is adjusted to be equal.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    crowd : Crowd</span>
+<span class="sd">        The crowd object containing agents with 2D geometric shapes.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    plt.Figure</span>
+<span class="sd">        A matplotlib figure object displaying the 2D plot of the crowd.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">norm</span> <span class="o">=</span> <span class="n">Normalize</span><span class="p">(</span>
+        <span class="n">vmin</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">agent</span><span class="o">.</span><span class="n">shapes2D</span><span class="o">.</span><span class="n">get_area</span><span class="p">()</span> <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">crowd</span><span class="o">.</span><span class="n">agents</span><span class="p">),</span>
+        <span class="n">vmax</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="n">agent</span><span class="o">.</span><span class="n">shapes2D</span><span class="o">.</span><span class="n">get_area</span><span class="p">()</span> <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">crowd</span><span class="o">.</span><span class="n">agents</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Initialize a Matplotlib figure</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+
+    <span class="c1"># Plot each agent&#39;s shape</span>
+    <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">crowd</span><span class="o">.</span><span class="n">agents</span><span class="p">:</span>
+        <span class="n">agent_geometric</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">shapes2D</span><span class="o">.</span><span class="n">get_geometric_shape</span><span class="p">()</span>
+        <span class="n">agent_area</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">shapes2D</span><span class="o">.</span><span class="n">get_area</span><span class="p">()</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="n">cram</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">hawaii</span><span class="p">(</span><span class="n">norm</span><span class="p">(</span><span class="n">agent_area</span><span class="p">))</span>  <span class="c1"># pylint: disable=no-member</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">agent_geometric</span><span class="p">,</span> <span class="n">Polygon</span><span class="p">):</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">agent_geometric</span><span class="o">.</span><span class="n">exterior</span><span class="o">.</span><span class="n">xy</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+        <span class="c1"># If the agent&#39;s shape is a MultiPolygon, plot each polygon separately</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">agent_geometric</span><span class="p">,</span> <span class="n">MultiPolygon</span><span class="p">):</span>
+            <span class="n">agent_area</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">shapes2D</span><span class="o">.</span><span class="n">get_area</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">polygon</span> <span class="ow">in</span> <span class="n">agent_geometric</span><span class="o">.</span><span class="n">geoms</span><span class="p">:</span>
+                <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">polygon</span><span class="o">.</span><span class="n">exterior</span><span class="o">.</span><span class="n">xy</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="c1"># Determine the x and y limits based on the agents&#39; shapes</span>
+    <span class="n">x_agent_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">([</span><span class="n">agent</span><span class="o">.</span><span class="n">shapes2D</span><span class="o">.</span><span class="n">get_geometric_shape</span><span class="p">()</span><span class="o">.</span><span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">crowd</span><span class="o">.</span><span class="n">agents</span><span class="p">])</span>
+    <span class="n">x_agent_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="n">agent</span><span class="o">.</span><span class="n">shapes2D</span><span class="o">.</span><span class="n">get_geometric_shape</span><span class="p">()</span><span class="o">.</span><span class="n">bounds</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">crowd</span><span class="o">.</span><span class="n">agents</span><span class="p">])</span>
+    <span class="n">y_agent_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">([</span><span class="n">agent</span><span class="o">.</span><span class="n">shapes2D</span><span class="o">.</span><span class="n">get_geometric_shape</span><span class="p">()</span><span class="o">.</span><span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">crowd</span><span class="o">.</span><span class="n">agents</span><span class="p">])</span>
+    <span class="n">y_agent_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="n">agent</span><span class="o">.</span><span class="n">shapes2D</span><span class="o">.</span><span class="n">get_geometric_shape</span><span class="p">()</span><span class="o">.</span><span class="n">bounds</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">crowd</span><span class="o">.</span><span class="n">agents</span><span class="p">])</span>
+
+    <span class="c1"># Set plot properties</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">x_agent_min</span><span class="p">,</span> <span class="n">x_agent_max</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">y_agent_min</span><span class="p">,</span> <span class="n">y_agent_max</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">,</span> <span class="s2">&quot;box&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;x [cm]&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;y [cm]&quot;</span><span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">fig</span></div>
+
+
+
+<div class="viewcode-block" id="display_distribution">
+<a class="viewcode-back" href="../../../../src.shapes_package.plotting.html#src.shapes_package.plotting.plot.display_distribution">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">display_distribution</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">column</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Display the distribution of a specified column in a DataFrame, separated by sex.</span>
+
+<span class="sd">    This function creates overlaid histograms for the specified column, with separate distributions</span>
+<span class="sd">    for male and female values. Each sex is represented with a distinct color for better visualization.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pd.DataFrame</span>
+<span class="sd">        The DataFrame containing the data.</span>
+<span class="sd">    column : str</span>
+<span class="sd">        The name of the column for which the distribution is to be displayed.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    plotly.graph_objs._figure.Figure</span>
+<span class="sd">        A Plotly Figure object displaying the histogram.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If the specified column or the &#39;sex&#39; column is not found in the DataFrame.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Check if the specified column is present in the DataFrame</span>
+    <span class="k">if</span> <span class="n">column</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Column &#39;</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2">&#39; not found in the DataFrame.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">&quot;sex&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Column &#39;sex&#39; not found in the DataFrame, required for hue.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Initialize a Plotly figure</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">()</span>
+
+    <span class="c1"># Select values associated with the sex male or female</span>
+    <span class="n">values_male</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;sex&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;male&quot;</span><span class="p">][</span><span class="n">column</span><span class="p">]</span>
+    <span class="n">values_female</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;sex&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;female&quot;</span><span class="p">][</span><span class="n">column</span><span class="p">]</span>
+
+    <span class="c1"># Add histograms</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span>
+        <span class="n">go</span><span class="o">.</span><span class="n">Histogram</span><span class="p">(</span>
+            <span class="n">x</span><span class="o">=</span><span class="n">values_male</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;male&quot;</span><span class="p">,</span>
+            <span class="n">marker_color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="c1"># Overlay the histograms</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span>
+        <span class="n">go</span><span class="o">.</span><span class="n">Histogram</span><span class="p">(</span>
+            <span class="n">x</span><span class="o">=</span><span class="n">values_female</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;female&quot;</span><span class="p">,</span>
+            <span class="n">marker_color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Set opacity for overlapping histograms</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">update_traces</span><span class="p">(</span><span class="n">opacity</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="c1"># Add custom hover text using hovertemplate</span>
+    <span class="k">if</span> <span class="n">column</span> <span class="o">!=</span> <span class="s2">&quot;sex&quot;</span><span class="p">:</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">update_traces</span><span class="p">(</span><span class="n">hovertemplate</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;&lt;b&gt;</span><span class="si">{</span><span class="n">column</span><span class="p">[:</span><span class="o">-</span><span class="mi">5</span><span class="p">]</span><span class="si">}</span><span class="s2">&lt;/b&gt;&quot;</span> <span class="o">+</span> <span class="s2">&quot; = %</span><span class="si">{x}</span><span class="s2"> cm&lt;br&gt;&lt;b&gt;Count = &lt;/b&gt;%</span><span class="si">{y}</span><span class="s2">&lt;/b&gt;&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">update_traces</span><span class="p">(</span><span class="n">hovertemplate</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;&lt;b&gt;</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2">&lt;/b&gt;&quot;</span> <span class="o">+</span> <span class="s2">&quot; = %</span><span class="si">{x}</span><span class="s2">&lt;br&gt;&lt;b&gt;Count = &lt;/b&gt;%</span><span class="si">{y}</span><span class="s2">&lt;/b&gt;&lt;extra&gt;&lt;/extra&gt;&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Set layout properties</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+        <span class="n">barmode</span><span class="o">=</span><span class="s2">&quot;overlay&quot;</span><span class="p">,</span>
+        <span class="n">xaxis_title</span><span class="o">=</span><span class="n">column</span><span class="p">,</span>
+        <span class="n">yaxis_title</span><span class="o">=</span><span class="s2">&quot;Count&quot;</span><span class="p">,</span>
+        <span class="n">legend_title_text</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">width</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span>
+        <span class="n">height</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">fig</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, oscar dufour.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

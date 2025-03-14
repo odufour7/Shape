@@ -1,0 +1,193 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="english" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>src.shapes_package.tabs.anthropometry_tab &mdash; shapes 1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=9ce8ba2a"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            shapes
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">shape_project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../src.html">src package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">shapes</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">src.shapes_package.tabs.anthropometry_tab</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for src.shapes_package.tabs.anthropometry_tab</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Read the anthropometric data from the ANSUR II dataset and save it as a pandas DataFrame.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">streamlit</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">st</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">src.shapes_package.utils.functions</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">fun</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">src.shapes_package.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot</span>
+
+
+<div class="viewcode-block" id="main">
+<a class="viewcode-back" href="../../../../src.shapes_package.tabs.html#src.shapes_package.tabs.anthropometry_tab.main">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run the main function for the anthropometry tab.&quot;&quot;&quot;</span>
+    <span class="c1"># TODO add a title ANDURII database visualisation</span>
+    <span class="c1"># Load the dataset from a pickle file</span>
+    <span class="n">path_file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;data&quot;</span> <span class="o">/</span> <span class="s2">&quot;pkl&quot;</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">fun</span><span class="o">.</span><span class="n">load_pickle</span><span class="p">(</span><span class="n">path_file</span> <span class="o">/</span> <span class="s2">&quot;ANSUREIIPublic.pkl&quot;</span><span class="p">)</span>
+    <span class="c1"># Define default attributes to display</span>
+    <span class="n">default_attributes</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;Sex&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Height [cm]&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Chest depth [cm]&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Bideltoid breadth [cm]&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+    <span class="c1"># Sidebar: allow users to select attributes dynamically</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">sidebar</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Adjust parameters&quot;</span><span class="p">)</span>
+    <span class="n">selected_attribute</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">sidebar</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span>
+        <span class="s2">&quot;Select an attribute for distribution visualization:&quot;</span><span class="p">,</span>
+        <span class="n">options</span><span class="o">=</span><span class="n">default_attributes</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Display title on the main page</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">subheader</span><span class="p">(</span><span class="s2">&quot;Visualisation&quot;</span><span class="p">)</span>
+    <span class="n">col1</span><span class="p">,</span> <span class="n">col2</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">columns</span><span class="p">([</span><span class="mf">1.7</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>  <span class="c1"># Adjust proportions as needed</span>
+    <span class="k">with</span> <span class="n">col1</span><span class="p">:</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plot</span><span class="o">.</span><span class="n">display_distribution</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">selected_attribute</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">plotly_chart</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">use_container_width</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="c1"># Sidebar: Button to download the graph in PDF format</span>
+        <span class="n">selected_attribute_name</span> <span class="o">=</span> <span class="n">selected_attribute</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">col2</span><span class="p">:</span>
+        <span class="c1"># display the mean and standard deviation of the selected attribute for man and woman</span>
+        <span class="k">if</span> <span class="n">selected_attribute</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;sex&quot;</span><span class="p">:</span>
+            <span class="n">df_male</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;sex&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;male&quot;</span><span class="p">]</span>
+            <span class="n">df_female</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;sex&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;female&quot;</span><span class="p">]</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;**Male**&quot;</span><span class="p">)</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mean = </span><span class="si">{</span><span class="n">df_male</span><span class="p">[</span><span class="n">selected_attribute</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> cm &quot;</span><span class="p">)</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Standard deviation = </span><span class="si">{</span><span class="n">df_male</span><span class="p">[</span><span class="n">selected_attribute</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> cm &quot;</span><span class="p">)</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;**Female**&quot;</span><span class="p">)</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mean = </span><span class="si">{</span><span class="n">df_female</span><span class="p">[</span><span class="n">selected_attribute</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> cm &quot;</span><span class="p">)</span>
+            <span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Standard deviation = </span><span class="si">{</span><span class="n">df_female</span><span class="p">[</span><span class="n">selected_attribute</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> cm &quot;</span><span class="p">)</span>
+
+    <span class="c1"># Download section in the sidebar</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">sidebar</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Download&quot;</span><span class="p">)</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">sidebar</span><span class="o">.</span><span class="n">download_button</span><span class="p">(</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Download plot as PDF&quot;</span><span class="p">,</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">fig</span><span class="o">.</span><span class="n">to_image</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="s2">&quot;pdf&quot;</span><span class="p">),</span>
+        <span class="n">file_name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">selected_attribute_name</span><span class="si">}</span><span class="s2">_distribution.pdf&quot;</span><span class="p">,</span>
+        <span class="n">mime</span><span class="o">=</span><span class="s2">&quot;application/pdf&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="c1"># Add a selectbox for choosing the dataset</span>
+    <span class="n">dataset_choice</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">sidebar</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span><span class="s2">&quot;Choose ANSUR II dataset to download:&quot;</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;Female&quot;</span><span class="p">,</span> <span class="s2">&quot;Male&quot;</span><span class="p">))</span>
+    <span class="c1"># Define the filenames based on the choice</span>
+    <span class="n">path_file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;data&quot;</span> <span class="o">/</span> <span class="s2">&quot;csv&quot;</span>
+    <span class="n">filename_dict</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;Female&quot;</span><span class="p">:</span> <span class="n">path_file</span> <span class="o">/</span> <span class="s2">&quot;ANSURIIFEMALEPublic.csv&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Male&quot;</span><span class="p">:</span> <span class="n">path_file</span> <span class="o">/</span> <span class="s2">&quot;ANSURIIMALEPublic.csv&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">fun</span><span class="o">.</span><span class="n">load_data</span><span class="p">(</span><span class="n">filename_dict</span><span class="p">[</span><span class="n">dataset_choice</span><span class="p">])</span>
+
+    <span class="c1"># Create the download filename</span>
+    <span class="n">download_filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;anthropometric_data_</span><span class="si">{</span><span class="n">filename_dict</span><span class="p">[</span><span class="n">dataset_choice</span><span class="p">]</span><span class="o">.</span><span class="n">stem</span><span class="si">}</span><span class="s2">.csv&quot;</span>
+    <span class="c1"># Prepare the data for download</span>
+    <span class="n">data_to_download</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+    <span class="c1"># Add the download button</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">sidebar</span><span class="o">.</span><span class="n">download_button</span><span class="p">(</span>
+        <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Download </span><span class="si">{</span><span class="n">dataset_choice</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2"> dataset as CSV&quot;</span><span class="p">,</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">data_to_download</span><span class="p">,</span>
+        <span class="n">file_name</span><span class="o">=</span><span class="n">download_filename</span><span class="p">,</span>
+        <span class="n">mime</span><span class="o">=</span><span class="s2">&quot;text/csv&quot;</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="run_tab_anthropometry">
+<a class="viewcode-back" href="../../../../src.shapes_package.tabs.html#src.shapes_package.tabs.anthropometry_tab.run_tab_anthropometry">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_tab_anthropometry</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Execute the main function for the anthropometry tab.&quot;&quot;&quot;</span>
+    <span class="n">main</span><span class="p">()</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, oscar dufour.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
