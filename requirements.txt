@@ -52,6 +52,10 @@ matplotlib==3.10.1
     #   cmcrameri
     #   pyvista
     #   vtk
+mypy==1.15.0
+    # via shape-project (pyproject.toml)
+mypy-extensions==1.0.0
+    # via mypy
 narwhals==1.30.0
     # via
     #   altair
@@ -143,6 +147,7 @@ tornado==6.4.2
 typing-extensions==4.12.2
     # via
     #   altair
+    #   mypy
     #   pyvista
     #   streamlit
 tzdata==2025.1
