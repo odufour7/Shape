@@ -28,3 +28,10 @@ repos:
         language: python
         types: ["python"] # Targets Python files only
         files: "\\.py$" # Properly escaped regex for .py files only
+
+  # Numpydoc Validation: Ensure docstring compliance
+  - repo: https://github.com/numpy/numpydoc
+    rev: v1.8.0 # Use the latest version of numpydoc installed
+    hooks:
+      - id: numpydoc-validation
+        files: ^src/.*\.py$

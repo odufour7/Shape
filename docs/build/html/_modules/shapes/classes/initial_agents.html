@@ -1,0 +1,614 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="english" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>shapes.classes.initial_agents &mdash; shapes project 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=14667faf"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            shapes project
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/shapes/create2Dped.html">Create a 2D pedestrian</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/shapes/create3Dped.html">Create a 3D pedestrian</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/shapes/read_database.html">Read the ANSURII database</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">src</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">shapes project</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">shapes.classes.initial_agents</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for shapes.classes.initial_agents</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Module defining the InitialState class.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">shapely.geometry</span><span class="w"> </span><span class="kn">import</span> <span class="n">MultiPolygon</span><span class="p">,</span> <span class="n">Point</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">shapes.utils.constants</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cst</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shapes.utils.functions</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">fun</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">shapes.utils.typing_custom</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sex</span><span class="p">,</span> <span class="n">ShapeDataType</span><span class="p">,</span> <span class="n">ShapeType</span>
+
+
+<div class="viewcode-block" id="InitialPedestrian">
+<a class="viewcode-back" href="../../../shapes.classes.html#shapes.classes.initial_agents.InitialPedestrian">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">InitialPedestrian</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Encapsulates the initial pedestrian state including its 2D shape data and derived measurements.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sex</span><span class="p">:</span> <span class="n">Sex</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize a pedestrian agent with biomechanical properties.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        sex : Sex</span>
+<span class="sd">            Biological sex of the pedestrian, must be either &quot;male&quot; or &quot;female&quot;.</span>
+<span class="sd">            This affects 3D body shape loading and biomechanical calculations.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If provided sex is not &quot;male&quot; or &quot;female&quot;</span>
+<span class="sd">        TypeError</span>
+<span class="sd">            If sex argument is not a string</span>
+
+<span class="sd">        Attributes</span>
+<span class="sd">        ----------</span>
+<span class="sd">        _agent_type : AgentTypes</span>
+<span class="sd">            Agent type set to pedestrian (enum value)</span>
+<span class="sd">        _shapes2D : ShapeDataType</span>
+<span class="sd">            2D shape data with disk components representing body parts</span>
+<span class="sd">        _shapes3D : dict[float, MultiPolygon]</span>
+<span class="sd">            3D body layers mapped to z-height coordinates (in centimeters)</span>
+<span class="sd">        _measures : dict[str, float | Sex | None]</span>
+<span class="sd">            Biomechanical measurements including:</span>
+<span class="sd">            - sex: Biological sex (Literal[&quot;male&quot;,&quot;female&quot;])</span>
+<span class="sd">            - bideltoid_breadth: Shoulder width derived from disk4</span>
+<span class="sd">            - chest_depth: Torso depth from disk2</span>
+<span class="sd">            - height: Vertical span of 3D body</span>
+<span class="sd">            - weight: Default weight from constants file</span>
+<span class="sd">            - moment_of_inertia: Initially uncalculated (None)</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        - 3D shapes are loaded from sex-specific pickle files in data/pkl/</span>
+<span class="sd">        - 2D disk coordinates are in centimeters</span>
+<span class="sd">        - Height calculation uses maximum z-coordinate difference from 3D data</span>
+<span class="sd">        - Default weight from DEFAULT_PEDESTRIAN_WEIGHT</span>
+<span class="sd">        - the moment_of_inertia will computed later when the agent will be created</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sex</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">sex</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;male&quot;</span><span class="p">,</span> <span class="s2">&quot;female&quot;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The sex should be either &#39;male&#39; or &#39;female&#39;.&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_agent_type</span><span class="p">:</span> <span class="n">cst</span><span class="o">.</span><span class="n">AgentTypes</span> <span class="o">=</span> <span class="n">cst</span><span class="o">.</span><span class="n">AgentTypes</span><span class="o">.</span><span class="n">pedestrian</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_shapes2D</span><span class="p">:</span> <span class="n">ShapeDataType</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialize_shapes</span><span class="p">()</span>
+        <span class="n">dir_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span> <span class="o">/</span> <span class="s2">&quot;data&quot;</span> <span class="o">/</span> <span class="s2">&quot;pkl&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_shapes3D</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">MultiPolygon</span><span class="p">]</span> <span class="o">=</span> <span class="n">fun</span><span class="o">.</span><span class="n">load_pickle</span><span class="p">(</span><span class="n">dir_path</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sex</span><span class="si">}</span><span class="s2">_3dBody.pkl&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span> <span class="o">|</span> <span class="n">Sex</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">cst</span><span class="o">.</span><span class="n">PedestrianParts</span><span class="o">.</span><span class="n">sex</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">sex</span><span class="p">,</span>
+            <span class="n">cst</span><span class="o">.</span><span class="n">PedestrianParts</span><span class="o">.</span><span class="n">bideltoid_breadth</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shapes2D</span><span class="p">[</span><span class="s2">&quot;disk4&quot;</span><span class="p">][</span><span class="s2">&quot;center&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="o">+</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shapes2D</span><span class="p">[</span><span class="s2">&quot;disk4&quot;</span><span class="p">][</span><span class="s2">&quot;radius&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_shapes2D</span><span class="p">[</span><span class="s2">&quot;disk4&quot;</span><span class="p">][</span><span class="s2">&quot;center&quot;</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_shapes2D</span><span class="p">[</span><span class="s2">&quot;disk4&quot;</span><span class="p">][</span><span class="s2">&quot;radius&quot;</span><span class="p">],</span> <span class="nb">float</span><span class="p">))</span>
+            <span class="k">else</span> <span class="mf">0.0</span><span class="p">,</span>
+            <span class="n">cst</span><span class="o">.</span><span class="n">PedestrianParts</span><span class="o">.</span><span class="n">chest_depth</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shapes2D</span><span class="p">[</span><span class="s2">&quot;disk2&quot;</span><span class="p">][</span><span class="s2">&quot;radius&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_shapes2D</span><span class="p">[</span><span class="s2">&quot;disk2&quot;</span><span class="p">][</span><span class="s2">&quot;radius&quot;</span><span class="p">],</span> <span class="nb">float</span><span class="p">)</span>
+            <span class="k">else</span> <span class="mf">0.0</span><span class="p">,</span>
+            <span class="n">cst</span><span class="o">.</span><span class="n">PedestrianParts</span><span class="o">.</span><span class="n">height</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_shapes3D</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_shapes3D</span><span class="o">.</span><span class="n">keys</span><span class="p">())),</span>
+            <span class="n">cst</span><span class="o">.</span><span class="n">CommonMeasures</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">cst</span><span class="o">.</span><span class="n">DEFAULT_PEDESTRIAN_WEIGHT</span><span class="p">,</span>
+            <span class="n">cst</span><span class="o">.</span><span class="n">CommonMeasures</span><span class="o">.</span><span class="n">moment_of_inertia</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_initialize_shapes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ShapeType</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize shape data for pedestrian body components.</span>
+
+<span class="sd">        Creates and configures five circular disks representing key body features:</span>
+<span class="sd">        - Disk0: Left arm</span>
+<span class="sd">        - Disk1: Left pectoral muscle</span>
+<span class="sd">        - Disk2: Central belly</span>
+<span class="sd">        - Disk3: Right pectoral muscle</span>
+<span class="sd">        - Disk4: Right arm</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict[str, dict[str, ShapeType | float | tuple[float, float]]]</span>
+<span class="sd">            Nested dictionary containing circular shape data with:</span>
+<span class="sd">                - Outer keys: Component IDs (e.g., &quot;disk0&quot; to &quot;disk4&quot;)</span>
+<span class="sd">                - Inner dictionaries containing:</span>
+<span class="sd">                    * shape_type: &quot;circle&quot; (str from ShapeTypes enum name)</span>
+<span class="sd">                    * young_modulus: Initial stiffness value (float)</span>
+<span class="sd">                    * center: (x, y) coordinates in centimeters (tuple[float, float])</span>
+<span class="sd">                    * radius: Disk radius in centimeters (float)</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        - Initial coordinates are defined in image pixels before conversion</span>
+<span class="sd">        - Defaults to (0.0, 0.0) center and 0.0 radius if invalid data types found</span>
+<span class="sd">        - Disk positions correspond to anatomical features:</span>
+<span class="sd">            - Disk2 represents central belly</span>
+<span class="sd">            - Disks 1/3 represent left/right pectoral muscle</span>
+<span class="sd">            - Disks 0/4 represent left/right arms</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Define disk parameters (center coordinates and radii)</span>
+        <span class="n">disks</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="nb">float</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s2">&quot;center&quot;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">552.7920</span><span class="p">,</span> <span class="mf">0.00000</span><span class="p">),</span> <span class="s2">&quot;radius&quot;</span><span class="p">:</span> <span class="mf">282.41232</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">&quot;center&quot;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">242.5697</span><span class="p">,</span> <span class="mf">71.73901</span><span class="p">),</span> <span class="s2">&quot;radius&quot;</span><span class="p">:</span> <span class="mf">388.36243</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">&quot;center&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0000</span><span class="p">,</span> <span class="mf">86.11438</span><span class="p">),</span> <span class="s2">&quot;radius&quot;</span><span class="p">:</span> <span class="mf">405.97552</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">&quot;center&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">242.5697</span><span class="p">,</span> <span class="mf">71.73901</span><span class="p">),</span> <span class="s2">&quot;radius&quot;</span><span class="p">:</span> <span class="mf">388.36243</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">&quot;center&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">552.7920</span><span class="p">,</span> <span class="mf">0.00000</span><span class="p">),</span> <span class="s2">&quot;radius&quot;</span><span class="p">:</span> <span class="mf">282.41232</span><span class="p">},</span>
+        <span class="p">]</span>
+
+        <span class="c1"># Convert disk data into a structured dictionary</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="sa">f</span><span class="s2">&quot;disk</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;shape_type&quot;</span><span class="p">:</span> <span class="n">cst</span><span class="o">.</span><span class="n">ShapeTypes</span><span class="o">.</span><span class="n">circle</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="s2">&quot;young_modulus&quot;</span><span class="p">:</span> <span class="n">cst</span><span class="o">.</span><span class="n">YOUNG_MODULUS_DISK_INIT</span><span class="p">,</span>
+                <span class="s2">&quot;center&quot;</span><span class="p">:</span> <span class="p">(</span>
+                    <span class="n">disk</span><span class="p">[</span><span class="s2">&quot;center&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">cst</span><span class="o">.</span><span class="n">PIXEL_TO_CM_PEDESTRIAN</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">disk</span><span class="p">[</span><span class="s2">&quot;center&quot;</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">)</span> <span class="k">else</span> <span class="mf">0.0</span><span class="p">,</span>
+                    <span class="n">disk</span><span class="p">[</span><span class="s2">&quot;center&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">cst</span><span class="o">.</span><span class="n">PIXEL_TO_CM_PEDESTRIAN</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">disk</span><span class="p">[</span><span class="s2">&quot;center&quot;</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">)</span> <span class="k">else</span> <span class="mf">0.0</span><span class="p">,</span>
+                <span class="p">),</span>
+                <span class="s2">&quot;radius&quot;</span><span class="p">:</span> <span class="n">disk</span><span class="p">[</span><span class="s2">&quot;radius&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">cst</span><span class="o">.</span><span class="n">PIXEL_TO_CM_PEDESTRIAN</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">disk</span><span class="p">[</span><span class="s2">&quot;radius&quot;</span><span class="p">],</span> <span class="nb">float</span><span class="p">)</span> <span class="k">else</span> <span class="mf">0.0</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">disk</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">disks</span><span class="p">)</span>
+        <span class="p">}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sex</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sex</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the biological sex of the pedestrian.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Literal[&quot;male&quot;, &quot;female&quot;]</span>
+<span class="sd">            The biological sex of the pedestrian as either &quot;male&quot; or &quot;female&quot;.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        TypeError</span>
+<span class="sd">            If the stored value is not a string or is not one of the allowed values</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sex_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="n">cst</span><span class="o">.</span><span class="n">PedestrianParts</span><span class="o">.</span><span class="n">sex</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sex_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">sex_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;male&quot;</span><span class="p">,</span> <span class="s2">&quot;female&quot;</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="n">sex_name</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected type &#39;str&#39; with value &#39;male&#39; or &#39;female&#39;, but got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">sex_name</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="nd">@sex</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Sex</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the biological sex of the pedestrian and update associated 3D body model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : Literal[&quot;male&quot;, &quot;female&quot;]</span>
+<span class="sd">            The biological sex to set. Must be exactly &quot;male&quot; or &quot;female&quot; (case-sensitive).</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If provided value is not &quot;male&quot; or &quot;female&quot;</span>
+<span class="sd">        TypeError</span>
+<span class="sd">            If non-string value is provided</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;male&quot;</span><span class="p">,</span> <span class="s2">&quot;female&quot;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The sex should be either &#39;male&#39; or &#39;female&#39;.&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="n">cst</span><span class="o">.</span><span class="n">PedestrianParts</span><span class="o">.</span><span class="n">sex</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="n">dir_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span> <span class="o">/</span> <span class="s2">&quot;data&quot;</span> <span class="o">/</span> <span class="s2">&quot;pkl&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_body3D</span> <span class="o">=</span> <span class="n">fun</span><span class="o">.</span><span class="n">load_pickle</span><span class="p">(</span><span class="n">dir_path</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">_3dBody.pkl&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">agent_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">cst</span><span class="o">.</span><span class="n">AgentTypes</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the type classification of the agent.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        AgentTypes</span>
+<span class="sd">            Enum member representing the agent&#39;s type classification (either &quot;pedestrian&quot;, &quot;bike&quot; or &quot;custom&quot;).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_agent_type</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">shapes2D</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ShapeDataType</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the 2D geometric representation of the pedestrian&#39;s body components.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ShapeDataType</span>
+<span class="sd">            Dictionary containing circular disk representations of body parts with:</span>
+<span class="sd">                - Keys: Format &quot;disk{N}&quot; where N ranges 0-4 (e.g., &quot;disk0&quot;, &quot;disk1&quot;)</span>
+<span class="sd">                - Values: Dictionaries with properties:</span>
+<span class="sd">                    * shape_type: &quot;circle&quot; (from ShapeTypes enum)</span>
+<span class="sd">                    * young_modulus: Material stiffness value (float)</span>
+<span class="sd">                    * center: (x, y) coordinates in centimeters (tuple[float, float])</span>
+<span class="sd">                    * radius: Disk radius in centimeters (float)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shapes2D</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">measures</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span> <span class="o">|</span> <span class="n">Sex</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the measures of the pedestrian.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict[str, float | Sex | None]</span>
+<span class="sd">            A dictionary containing the pedestrian&#39;s measures. The keys are measure names (str),</span>
+<span class="sd">            and the values are either floats, &quot;Sex&quot; Literal[&quot;male&quot;,&quot;female&quot;] values, or None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">shapes3D</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">MultiPolygon</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the 3D body representation of the pedestrian.</span>
+
+<span class="sd">        This property provides access to the 3D shapes of the pedestrian, stored as a dictionary</span>
+<span class="sd">        where each key is a float representing a layer or pedestrian slice, and each value is a &quot;MultiPolygon&quot;</span>
+<span class="sd">        object representing the corresponding 2D geometry.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict[float, MultiPolygon]</span>
+<span class="sd">            A dictionary where:</span>
+<span class="sd">                - Keys are float representing the height of each pedestrian slice.</span>
+<span class="sd">                - Values are &quot;MultiPolygon&quot; objects representing the 2D geometry of each layer or slice.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shapes3D</span>
+
+<div class="viewcode-block" id="InitialPedestrian.calculate_position">
+<a class="viewcode-back" href="../../../shapes.classes.html#shapes.classes.initial_agents.InitialPedestrian.calculate_position">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">calculate_position</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Point</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the pedestrian&#39;s position based on the center of disk2.</span>
+
+<span class="sd">        The position is determined by the center coordinates of the &quot;disk2&quot; shape</span>
+<span class="sd">        stored in the shapes2D attribute. This method assumes disk2 represents</span>
+<span class="sd">        the pedestrian&#39;s main body position.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Point</span>
+<span class="sd">            Point object containing (x, y) coordinates in centimeters:</span>
+<span class="sd">                - x: First element of disk2&#39;s center coordinates</span>
+<span class="sd">                - y: Second element of disk2&#39;s center coordinates</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        TypeError</span>
+<span class="sd">            If the disk2 center value is not stored as a tuple of numerical values</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shapes2D</span><span class="p">[</span><span class="s2">&quot;disk2&quot;</span><span class="p">][</span><span class="s2">&quot;center&quot;</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">Point</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shapes2D</span><span class="p">[</span><span class="s2">&quot;disk2&quot;</span><span class="p">][</span><span class="s2">&quot;center&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">shapes2D</span><span class="p">[</span><span class="s2">&quot;disk2&quot;</span><span class="p">][</span><span class="s2">&quot;center&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected type &#39;tuple&#39; with two floats, but got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shapes2D</span><span class="p">[</span><span class="s1">&#39;disk2&#39;</span><span class="p">][</span><span class="s1">&#39;center&#39;</span><span class="p">])</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="InitialPedestrian.get_disk_centers">
+<a class="viewcode-back" href="../../../shapes.classes.html#shapes.classes.initial_agents.InitialPedestrian.get_disk_centers">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_disk_centers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Point</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieve the center coordinates of all disks.</span>
+
+<span class="sd">        This method iterates through the predefined number of disks (specified by &quot;DISK_NUMBER&quot;)</span>
+<span class="sd">        and extracts their center coordinates from the &quot;shapes2D&quot; attribute.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list[Point]</span>
+<span class="sd">            A list of Point objects representing the center coordinates of each disk in centimeters.</span>
+<span class="sd">            The points are returned in the order of disk indices (disk0, disk1, ..., diskN-1).</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Requires disks to be named consecutively as &#39;disk0&#39;, &#39;disk1&#39;, ..., &#39;disk{DISK_NUMBER-1}&#39;</span>
+<span class="sd">        in the shapes2D attribute</span>
+<span class="sd">        Each disk entry must contain a &quot;center&quot; key with coordinate data compatible with Point constructor</span>
+<span class="sd">        Returns empty Points for any missing or invalid disk entries</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">Point</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shapes2D</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;disk</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">][</span><span class="s2">&quot;center&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cst</span><span class="o">.</span><span class="n">DISK_NUMBER</span><span class="p">)]</span></div>
+
+
+<div class="viewcode-block" id="InitialPedestrian.get_disk_radii">
+<a class="viewcode-back" href="../../../shapes.classes.html#shapes.classes.initial_agents.InitialPedestrian.get_disk_radii">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_disk_radii</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve the radii of all disks.</span>
+
+<span class="sd">        This method accesses the &#39;shapes2D&#39; attribute of the instance and extracts the radius</span>
+<span class="sd">        of each disk based on a predefined number of disks specified by &#39;DISK_NUMBER&#39;.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list[float]</span>
+<span class="sd">            A list containing the radii of the disks. Each element is a float</span>
+<span class="sd">            representing the radius of a disk in the order they are stored.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        - The method assumes that disk shapes are named &#39;disk0&#39;, &#39;disk1&#39;, etc., up to</span>
+<span class="sd">          &#39;disk{DISK_NUMBER - 1}&#39;.</span>
+<span class="sd">        - Only valid float radii are included in the returned list. If a disk&#39;s radius</span>
+<span class="sd">          is not a float, it will be skipped.</span>
+<span class="sd">        - If no valid radii are found, an empty list is returned.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">list_of_radii</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cst</span><span class="o">.</span><span class="n">DISK_NUMBER</span><span class="p">):</span>
+            <span class="n">radius</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shapes2D</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;disk</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">][</span><span class="s2">&quot;radius&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">radius</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+                <span class="n">list_of_radii</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">radius</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">list_of_radii</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="InitialBike">
+<a class="viewcode-back" href="../../../shapes.classes.html#shapes.classes.initial_agents.InitialBike">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">InitialBike</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Encapsulates the initial state of a bike, including its 2D shape data and derived measurements.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize an instance of the InitialBike class.</span>
+
+<span class="sd">        Attributes</span>
+<span class="sd">        ----------</span>
+<span class="sd">        _agent_type : AgentTypes</span>
+<span class="sd">            The type of agent, initialized to &#39;bike&#39;.</span>
+<span class="sd">        _shapes2D : ShapeDataType</span>
+<span class="sd">            The 2D shape data initialized by the &quot;_initialize_shapes&quot; method.</span>
+<span class="sd">        _measures : dict[str, float | None]</span>
+<span class="sd">            A dictionary containing measurements derived from the shape data.</span>
+<span class="sd">            Keys are defined in BikeParts and CommonMeasures enums:</span>
+<span class="sd">            - &#39;wheel_width&#39;: The width of the bike&#39;s wheel.</span>
+<span class="sd">            - &#39;total_length&#39;: The total length of the bike.</span>
+<span class="sd">            - &#39;handlebar_length&#39;: The length of the rider&#39;s handlebar.</span>
+<span class="sd">            - &#39;top_tube_length&#39;: The length of the rider&#39;s top tube.</span>
+<span class="sd">            - &#39;moment_of_inertia&#39;: The moment of inertia (initially set to None).</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        - All measurements are calculated in centimeters.</span>
+<span class="sd">        - If shape data is invalid or missing, measurements default to 0.0.</span>
+<span class="sd">        - The moment of inertia is initially set to None and should be calculated separately.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_agent_type</span><span class="p">:</span> <span class="n">cst</span><span class="o">.</span><span class="n">AgentTypes</span> <span class="o">=</span> <span class="n">cst</span><span class="o">.</span><span class="n">AgentTypes</span><span class="o">.</span><span class="n">bike</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_shapes2D</span><span class="p">:</span> <span class="n">ShapeDataType</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialize_shapes</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">cst</span><span class="o">.</span><span class="n">BikeParts</span><span class="o">.</span><span class="n">wheel_width</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shapes2D</span><span class="p">[</span><span class="s2">&quot;bike&quot;</span><span class="p">][</span><span class="s2">&quot;max_x&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shapes2D</span><span class="p">[</span><span class="s2">&quot;bike&quot;</span><span class="p">][</span><span class="s2">&quot;min_x&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_shapes2D</span><span class="p">[</span><span class="s2">&quot;bike&quot;</span><span class="p">][</span><span class="s2">&quot;max_x&quot;</span><span class="p">],</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_shapes2D</span><span class="p">[</span><span class="s2">&quot;bike&quot;</span><span class="p">][</span><span class="s2">&quot;min_x&quot;</span><span class="p">],</span> <span class="nb">float</span><span class="p">)</span>
+            <span class="k">else</span> <span class="mf">0.0</span><span class="p">,</span>
+            <span class="n">cst</span><span class="o">.</span><span class="n">BikeParts</span><span class="o">.</span><span class="n">total_length</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shapes2D</span><span class="p">[</span><span class="s2">&quot;bike&quot;</span><span class="p">][</span><span class="s2">&quot;max_y&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shapes2D</span><span class="p">[</span><span class="s2">&quot;bike&quot;</span><span class="p">][</span><span class="s2">&quot;min_y&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_shapes2D</span><span class="p">[</span><span class="s2">&quot;bike&quot;</span><span class="p">][</span><span class="s2">&quot;max_y&quot;</span><span class="p">],</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_shapes2D</span><span class="p">[</span><span class="s2">&quot;bike&quot;</span><span class="p">][</span><span class="s2">&quot;min_y&quot;</span><span class="p">],</span> <span class="nb">float</span><span class="p">)</span>
+            <span class="k">else</span> <span class="mf">0.0</span><span class="p">,</span>
+            <span class="n">cst</span><span class="o">.</span><span class="n">BikeParts</span><span class="o">.</span><span class="n">handlebar_length</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shapes2D</span><span class="p">[</span><span class="s2">&quot;rider&quot;</span><span class="p">][</span><span class="s2">&quot;max_x&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shapes2D</span><span class="p">[</span><span class="s2">&quot;rider&quot;</span><span class="p">][</span><span class="s2">&quot;min_x&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_shapes2D</span><span class="p">[</span><span class="s2">&quot;rider&quot;</span><span class="p">][</span><span class="s2">&quot;max_x&quot;</span><span class="p">],</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_shapes2D</span><span class="p">[</span><span class="s2">&quot;rider&quot;</span><span class="p">][</span><span class="s2">&quot;min_x&quot;</span><span class="p">],</span> <span class="nb">float</span><span class="p">)</span>
+            <span class="k">else</span> <span class="mf">0.0</span><span class="p">,</span>
+            <span class="n">cst</span><span class="o">.</span><span class="n">BikeParts</span><span class="o">.</span><span class="n">top_tube_length</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shapes2D</span><span class="p">[</span><span class="s2">&quot;rider&quot;</span><span class="p">][</span><span class="s2">&quot;max_y&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shapes2D</span><span class="p">[</span><span class="s2">&quot;rider&quot;</span><span class="p">][</span><span class="s2">&quot;min_y&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_shapes2D</span><span class="p">[</span><span class="s2">&quot;rider&quot;</span><span class="p">][</span><span class="s2">&quot;max_y&quot;</span><span class="p">],</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_shapes2D</span><span class="p">[</span><span class="s2">&quot;rider&quot;</span><span class="p">][</span><span class="s2">&quot;min_y&quot;</span><span class="p">],</span> <span class="nb">float</span><span class="p">)</span>
+            <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="n">cst</span><span class="o">.</span><span class="n">CommonMeasures</span><span class="o">.</span><span class="n">moment_of_inertia</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_initialize_shapes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ShapeType</span> <span class="o">|</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize 2D shape data for the bicycle and rider.</span>
+
+<span class="sd">        Creates rectangular shapes for both bicycle and rider, then:</span>
+<span class="sd">        1. Calculates their original center of mass</span>
+<span class="sd">        2. Adjusts coordinates to set center of mass at (0,0)</span>
+<span class="sd">        3. Converts coordinates from pixels to centimeters using PIXEL_TO_CM_BIKE</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict[str, dict[str, ShapeType | float]]</span>
+<span class="sd">            Nested dictionary containing shape data with two keys:</span>
+<span class="sd">            - &quot;bike&quot;: Dictionary of bicycle shape properties</span>
+<span class="sd">            - &quot;rider&quot;: Dictionary of rider shape properties</span>
+
+<span class="sd">            Each shape dictionary contains:</span>
+<span class="sd">            - shape_type: ShapeTypes.rectangle.name (str)</span>
+<span class="sd">            - young_modulus: Initial Young&#39;s modulus value (float)</span>
+<span class="sd">            - min_x: Minimum x-coordinate in cm (float)</span>
+<span class="sd">            - min_y: Minimum y-coordinate in cm (float)</span>
+<span class="sd">            - max_x: Maximum x-coordinate in cm (float)</span>
+<span class="sd">            - max_y: Maximum y-coordinate in cm (float)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># define the bike as a rectangle</span>
+        <span class="n">rider</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;min_x&quot;</span><span class="p">:</span> <span class="mf">62.0</span><span class="p">,</span>
+            <span class="s2">&quot;min_y&quot;</span><span class="p">:</span> <span class="mf">96.0</span><span class="p">,</span>
+            <span class="s2">&quot;max_x&quot;</span><span class="p">:</span> <span class="mf">62.0</span> <span class="o">+</span> <span class="mf">86.0</span><span class="p">,</span>
+            <span class="s2">&quot;max_y&quot;</span><span class="p">:</span> <span class="mf">96.0</span> <span class="o">+</span> <span class="mf">99.0</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="c1"># define the rider as a rectangle orthogonal to the bike</span>
+        <span class="n">bike</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;min_x&quot;</span><span class="p">:</span> <span class="mf">96.0</span><span class="p">,</span>
+            <span class="s2">&quot;min_y&quot;</span><span class="p">:</span> <span class="mf">46.0</span><span class="p">,</span>
+            <span class="s2">&quot;max_x&quot;</span><span class="p">:</span> <span class="mf">96.0</span> <span class="o">+</span> <span class="mf">16.0</span><span class="p">,</span>
+            <span class="s2">&quot;max_y&quot;</span><span class="p">:</span> <span class="mf">46.0</span> <span class="o">+</span> <span class="mf">204.0</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="c1"># put the CM to (0,0) and convert to cm</span>
+        <span class="n">center_of_mass_bike</span> <span class="o">=</span> <span class="n">Point</span><span class="p">((</span><span class="n">bike</span><span class="p">[</span><span class="s2">&quot;min_x&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">bike</span><span class="p">[</span><span class="s2">&quot;max_x&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span> <span class="p">(</span><span class="n">bike</span><span class="p">[</span><span class="s2">&quot;min_y&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">bike</span><span class="p">[</span><span class="s2">&quot;max_y&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
+        <span class="n">center_of_mass_rider</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">rider</span><span class="p">[</span><span class="s2">&quot;min_x&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">rider</span><span class="p">[</span><span class="s2">&quot;max_x&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span>
+            <span class="p">(</span><span class="n">rider</span><span class="p">[</span><span class="s2">&quot;min_y&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">rider</span><span class="p">[</span><span class="s2">&quot;max_y&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">bike</span><span class="p">[</span><span class="s2">&quot;min_x&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bike</span><span class="p">[</span><span class="s2">&quot;min_x&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">center_of_mass_bike</span><span class="o">.</span><span class="n">x</span>
+        <span class="n">bike</span><span class="p">[</span><span class="s2">&quot;min_y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bike</span><span class="p">[</span><span class="s2">&quot;min_y&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">center_of_mass_bike</span><span class="o">.</span><span class="n">y</span>
+        <span class="n">bike</span><span class="p">[</span><span class="s2">&quot;max_x&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bike</span><span class="p">[</span><span class="s2">&quot;max_x&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">center_of_mass_bike</span><span class="o">.</span><span class="n">x</span>
+        <span class="n">bike</span><span class="p">[</span><span class="s2">&quot;max_y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bike</span><span class="p">[</span><span class="s2">&quot;max_y&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">center_of_mass_bike</span><span class="o">.</span><span class="n">y</span>
+        <span class="n">rider</span><span class="p">[</span><span class="s2">&quot;min_x&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rider</span><span class="p">[</span><span class="s2">&quot;min_x&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">center_of_mass_rider</span><span class="o">.</span><span class="n">x</span>
+        <span class="n">rider</span><span class="p">[</span><span class="s2">&quot;min_y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rider</span><span class="p">[</span><span class="s2">&quot;min_y&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">center_of_mass_rider</span><span class="o">.</span><span class="n">y</span>
+        <span class="n">rider</span><span class="p">[</span><span class="s2">&quot;max_x&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rider</span><span class="p">[</span><span class="s2">&quot;max_x&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">center_of_mass_rider</span><span class="o">.</span><span class="n">x</span>
+        <span class="n">rider</span><span class="p">[</span><span class="s2">&quot;max_y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rider</span><span class="p">[</span><span class="s2">&quot;max_y&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">center_of_mass_rider</span><span class="o">.</span><span class="n">y</span>
+
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">bike</span><span class="p">:</span>
+            <span class="n">bike</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">bike</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">*</span> <span class="n">cst</span><span class="o">.</span><span class="n">PIXEL_TO_CM_BIKE</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">rider</span><span class="p">:</span>
+            <span class="n">rider</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">rider</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">*</span> <span class="n">cst</span><span class="o">.</span><span class="n">PIXEL_TO_CM_BIKE</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;bike&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;shape_type&quot;</span><span class="p">:</span> <span class="n">cst</span><span class="o">.</span><span class="n">ShapeTypes</span><span class="o">.</span><span class="n">rectangle</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="s2">&quot;young_modulus&quot;</span><span class="p">:</span> <span class="n">cst</span><span class="o">.</span><span class="n">YOUNG_MODULUS_RECTANGLE_INIT</span><span class="p">,</span>
+                <span class="s2">&quot;min_x&quot;</span><span class="p">:</span> <span class="n">bike</span><span class="p">[</span><span class="s2">&quot;min_x&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;min_y&quot;</span><span class="p">:</span> <span class="n">bike</span><span class="p">[</span><span class="s2">&quot;min_y&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;max_x&quot;</span><span class="p">:</span> <span class="n">bike</span><span class="p">[</span><span class="s2">&quot;max_x&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;max_y&quot;</span><span class="p">:</span> <span class="n">bike</span><span class="p">[</span><span class="s2">&quot;max_y&quot;</span><span class="p">],</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;rider&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;shape_type&quot;</span><span class="p">:</span> <span class="n">cst</span><span class="o">.</span><span class="n">ShapeTypes</span><span class="o">.</span><span class="n">rectangle</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="s2">&quot;young_modulus&quot;</span><span class="p">:</span> <span class="n">cst</span><span class="o">.</span><span class="n">YOUNG_MODULUS_RECTANGLE_INIT</span><span class="p">,</span>
+                <span class="s2">&quot;min_x&quot;</span><span class="p">:</span> <span class="n">rider</span><span class="p">[</span><span class="s2">&quot;min_x&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;min_y&quot;</span><span class="p">:</span> <span class="n">rider</span><span class="p">[</span><span class="s2">&quot;min_y&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;max_x&quot;</span><span class="p">:</span> <span class="n">rider</span><span class="p">[</span><span class="s2">&quot;max_x&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;max_y&quot;</span><span class="p">:</span> <span class="n">rider</span><span class="p">[</span><span class="s2">&quot;max_y&quot;</span><span class="p">],</span>
+            <span class="p">},</span>
+        <span class="p">}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">agent_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">cst</span><span class="o">.</span><span class="n">AgentTypes</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the type of the agent.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        AgentTypes</span>
+<span class="sd">            Enum member representing the agent&#39;s type classification (either &quot;pedestrian&quot;, &quot;bike&quot; or &quot;custom&quot;).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_agent_type</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">shapes2D</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ShapeDataType</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the 2D shapes associated with the pedestrian.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ShapeDataType</span>
+<span class="sd">            An object containing the 2D shapes associated with the pedestrian.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shapes2D</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">measures</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the measures of the pedestrian.</span>
+
+<span class="sd">        This property provides access to the measures of the pedestrian,</span>
+<span class="sd">        which are stored in a dictionary. The keys are strings representing</span>
+<span class="sd">        the names of the measures, and the values are floats or None</span>
+<span class="sd">        representing the measure values.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict[str, float | None]</span>
+<span class="sd">            A dictionary containing the measures of the pedestrian.</span>
+<span class="sd">            Keys are measure names (str) and values are measure values (float or None).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span>
+
+<div class="viewcode-block" id="InitialBike.calculate_position">
+<a class="viewcode-back" href="../../../shapes.classes.html#shapes.classes.initial_agents.InitialBike.calculate_position">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">calculate_position</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Point</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the central position of the bike.</span>
+
+<span class="sd">        This method computes the central position of the bike based on the</span>
+<span class="sd">        minimum and maximum x and y coordinates of the bike&#39;s shape.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Point</span>
+<span class="sd">            A Point object representing the central position of the bike.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">            If the required shape coordinates are not available or not of the correct type,</span>
+<span class="sd">            the method returns a Point(0.0, 0.0).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shapes2D</span><span class="p">[</span><span class="s2">&quot;bike&quot;</span><span class="p">][</span><span class="s2">&quot;min_x&quot;</span><span class="p">],</span> <span class="nb">float</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shapes2D</span><span class="p">[</span><span class="s2">&quot;bike&quot;</span><span class="p">][</span><span class="s2">&quot;max_x&quot;</span><span class="p">],</span> <span class="nb">float</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shapes2D</span><span class="p">[</span><span class="s2">&quot;bike&quot;</span><span class="p">][</span><span class="s2">&quot;min_y&quot;</span><span class="p">],</span> <span class="nb">float</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shapes2D</span><span class="p">[</span><span class="s2">&quot;bike&quot;</span><span class="p">][</span><span class="s2">&quot;max_y&quot;</span><span class="p">],</span> <span class="nb">float</span><span class="p">)</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="n">Point</span><span class="p">(</span>
+                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shapes2D</span><span class="p">[</span><span class="s2">&quot;bike&quot;</span><span class="p">][</span><span class="s2">&quot;max_x&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">shapes2D</span><span class="p">[</span><span class="s2">&quot;bike&quot;</span><span class="p">][</span><span class="s2">&quot;min_x&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span>
+                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shapes2D</span><span class="p">[</span><span class="s2">&quot;bike&quot;</span><span class="p">][</span><span class="s2">&quot;max_y&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">shapes2D</span><span class="p">[</span><span class="s2">&quot;bike&quot;</span><span class="p">][</span><span class="s2">&quot;min_y&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">Point</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Oscar Maxime Alexandre.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

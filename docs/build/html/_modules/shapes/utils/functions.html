@@ -1,0 +1,689 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="english" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>shapes.utils.functions &mdash; shapes project 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=14667faf"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            shapes project
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/shapes/create2Dped.html">Create a 2D pedestrian</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/shapes/create3Dped.html">Create a 3D pedestrian</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/shapes/read_database.html">Read the ANSURII database</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">src</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">shapes project</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">shapes.utils.functions</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for shapes.utils.functions</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Contains utility functions for data processing and manipulation.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">xml.dom.minidom</span><span class="w"> </span><span class="kn">import</span> <span class="n">parseString</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">streamlit</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">st</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dicttoxml</span><span class="w"> </span><span class="kn">import</span> <span class="n">dicttoxml</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy.typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">NDArray</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">truncnorm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">shapely.geometry</span><span class="w"> </span><span class="kn">import</span> <span class="n">MultiPolygon</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">streamlit.delta_generator</span><span class="w"> </span><span class="kn">import</span> <span class="n">DeltaGenerator</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">shapes.utils.constants</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cst</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">shapes.utils.typing_custom</span><span class="w"> </span><span class="kn">import</span> <span class="n">BackupDataType</span><span class="p">,</span> <span class="n">Sex</span><span class="p">,</span> <span class="n">ShapeDataType</span>
+
+
+<div class="viewcode-block" id="load_pickle">
+<a class="viewcode-back" href="../../../shapes.utils.html#shapes.utils.functions.load_pickle">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">load_pickle</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load data from a pickle file.</span>
+
+<span class="sd">    This function deserializes and loads data from a specified pickle file.</span>
+<span class="sd">    Pickle files are commonly used to store Python objects in a serialized format.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    file_path : Path</span>
+<span class="sd">        A `Path` object representing the path to the pickle file to be loaded.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Any</span>
+<span class="sd">        The deserialized data loaded from the pickle file. The type of the</span>
+<span class="sd">        returned object depends on what was serialized into the pickle file.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    FileNotFoundError</span>
+<span class="sd">        If the specified file does not exist.</span>
+<span class="sd">    pickle.UnpicklingError</span>
+<span class="sd">        If there is an error during the unpickling process.</span>
+<span class="sd">    IOError</span>
+<span class="sd">        If there is an issue opening or reading the file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span></div>
+
+
+
+<div class="viewcode-block" id="save_pickle">
+<a class="viewcode-back" href="../../../shapes.utils.html#shapes.utils.functions.save_pickle">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">save_pickle</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Save data to a pickle file.</span>
+
+<span class="sd">    This function serializes the given data and saves it to a specified file</span>
+<span class="sd">    in pickle format. Pickle files are commonly used to store Python objects</span>
+<span class="sd">    in a serialized format for later use.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : Any</span>
+<span class="sd">        The data to be serialized and saved. This can be any Python object</span>
+<span class="sd">        that is supported by the `pickle` module.</span>
+<span class="sd">    file_path : Path</span>
+<span class="sd">        A `Path` object representing the path where the pickle file will be saved.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    IOError</span>
+<span class="sd">        If there is an issue opening or writing to the file.</span>
+<span class="sd">    pickle.PicklingError</span>
+<span class="sd">        If the object cannot be pickled (e.g., unsupported data types).</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="save_xml">
+<a class="viewcode-back" href="../../../shapes.utils.html#shapes.utils.functions.save_xml">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">save_xml</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Save data to an XML file.</span>
+
+<span class="sd">    This function writes a string containing XML data to a specified file.</span>
+<span class="sd">    The file is saved with UTF-8 encoding to ensure proper handling of</span>
+<span class="sd">    special characters.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : str</span>
+<span class="sd">        A string containing the XML data to be saved.</span>
+<span class="sd">    file_path : Path</span>
+<span class="sd">        A `Path` object representing the path where the XML file will be saved.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    IOError</span>
+<span class="sd">        If there is an issue opening or writing to the file.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="load_csv">
+<a class="viewcode-back" href="../../../shapes.utils.html#shapes.utils.functions.load_csv">[docs]</a>
+<span class="nd">@st</span><span class="o">.</span><span class="n">cache_data</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">load_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load data from a CSV file into a pandas DataFrame.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filename : Path</span>
+<span class="sd">        A `Path` object representing the path to the CSV file to be loaded.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pd.DataFrame</span>
+<span class="sd">        A pandas DataFrame containing the data from the CSV file.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    FileNotFoundError</span>
+<span class="sd">        If the specified file does not exist.</span>
+<span class="sd">    pd.errors.EmptyDataError</span>
+<span class="sd">        If the CSV file is empty.</span>
+<span class="sd">    pd.errors.ParserError</span>
+<span class="sd">        If there is an error parsing the CSV file.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    - The caching mechanism provided by Streamlit (`@st.cache_data`) ensures that</span>
+<span class="sd">      the data is only reloaded if the file changes, improving app performance.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="wrap_angle">
+<a class="viewcode-back" href="../../../shapes.utils.html#shapes.utils.functions.wrap_angle">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">wrap_angle</span><span class="p">(</span><span class="n">angle</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Wrap an angle to the range [-180, 180).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    angle : float</span>
+<span class="sd">        The angle in degrees to be wrapped. This can be any real number.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        The wrapped angle in the range [-180, 180).</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from your_module import wrap_angle</span>
+<span class="sd">    &gt;&gt;&gt; wrap_angle(190)</span>
+<span class="sd">    -170.0</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">angle</span> <span class="o">+</span> <span class="mf">180.0</span><span class="p">)</span> <span class="o">%</span> <span class="mf">360.0</span> <span class="o">-</span> <span class="mf">180.0</span></div>
+
+
+
+<div class="viewcode-block" id="get_shapes_data">
+<a class="viewcode-back" href="../../../shapes.utils.html#shapes.utils.functions.get_shapes_data">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_shapes_data</span><span class="p">(</span>
+    <span class="n">backup_data_type</span><span class="p">:</span> <span class="n">BackupDataType</span><span class="p">,</span>
+    <span class="n">shapes_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">ShapeDataType</span><span class="p">]],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Serialize shapes data into the specified backup format.</span>
+
+<span class="sd">    This function serializes a given shapes data dictionary into one of the</span>
+<span class="sd">    supported formats: JSON, XML, or Pickle. It also returns the corresponding</span>
+<span class="sd">    MIME type for the serialized data.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    backup_data_type : BackupDataType</span>
+<span class="sd">        The format in which to serialize the data. Supported types are:</span>
+<span class="sd">        - `&#39;json&#39;` for JSON serialization.</span>
+<span class="sd">        - `&#39;xml&#39;` for XML serialization.</span>
+<span class="sd">        - `&#39;pickle&#39;` for Pickle serialization.</span>
+<span class="sd">    shapes_data : dict[str, dict[str, str | ShapeDataType]]</span>
+<span class="sd">        The shapes data to be serialized. This is typically a nested dictionary</span>
+<span class="sd">        where keys are strings and values are either strings or `ShapeDataType` objects.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tuple[str, str]</span>
+<span class="sd">        A tuple containing:</span>
+<span class="sd">        - The serialized data as a string (or hex-encoded string for Pickle).</span>
+<span class="sd">        - The corresponding MIME type for the serialized data: (`&quot;application/json&quot;` for JSON,</span>
+<span class="sd">        `&quot;application/xml&quot;` for XML,`&quot;application/octet-stream&quot;` for Pickle).</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If the provided `backup_data_type` is not supported.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">backup_data_type</span> <span class="o">==</span> <span class="n">cst</span><span class="o">.</span><span class="n">BackupDataTypes</span><span class="o">.</span><span class="n">json</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+        <span class="c1"># Convert the dictionary to JSON</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">shapes_data</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+        <span class="n">mime_type</span> <span class="o">=</span> <span class="s2">&quot;application/json&quot;</span>
+
+    <span class="k">elif</span> <span class="n">backup_data_type</span> <span class="o">==</span> <span class="n">cst</span><span class="o">.</span><span class="n">BackupDataTypes</span><span class="o">.</span><span class="n">xml</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+        <span class="c1"># Convert the dictionary to XML</span>
+        <span class="n">xml_data</span> <span class="o">=</span> <span class="n">dicttoxml</span><span class="p">(</span><span class="n">shapes_data</span><span class="p">,</span> <span class="n">custom_root</span><span class="o">=</span><span class="s2">&quot;crowd&quot;</span><span class="p">,</span> <span class="n">attr_type</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="c1"># Parse the XML string</span>
+        <span class="n">dom</span> <span class="o">=</span> <span class="n">parseString</span><span class="p">(</span><span class="n">xml_data</span><span class="p">)</span>
+
+        <span class="c1"># Pretty-print the XML with indentation and remove empty lines</span>
+        <span class="n">pretty_xml</span> <span class="o">=</span> <span class="n">dom</span><span class="o">.</span><span class="n">toprettyxml</span><span class="p">(</span><span class="n">indent</span><span class="o">=</span><span class="s2">&quot;  &quot;</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">line</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">pretty_xml</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()])</span>
+
+        <span class="n">mime_type</span> <span class="o">=</span> <span class="s2">&quot;application/xml&quot;</span>
+
+    <span class="k">elif</span> <span class="n">backup_data_type</span> <span class="o">==</span> <span class="n">cst</span><span class="o">.</span><span class="n">BackupDataTypes</span><span class="o">.</span><span class="n">pickle</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+        <span class="c1"># Convert the dictionary to a pickle byte stream and hex-encode it</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">shapes_data</span><span class="p">)</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span>
+        <span class="n">mime_type</span> <span class="o">=</span> <span class="s2">&quot;application/octet-stream&quot;</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported backup data type: </span><span class="si">{</span><span class="n">backup_data_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">mime_type</span></div>
+
+
+
+<div class="viewcode-block" id="extract_coordinates">
+<a class="viewcode-back" href="../../../shapes.utils.html#shapes.utils.functions.extract_coordinates">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">extract_coordinates</span><span class="p">(</span><span class="n">multi_polygon</span><span class="p">:</span> <span class="n">MultiPolygon</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract x and y coordinates from a MultiPolygon object.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    multi_polygon : MultiPolygon</span>
+<span class="sd">        A `shapely.geometry.MultiPolygon` object containing one or more polygons.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tuple[NDArray[np.float64], NDArray[np.float64]]</span>
+<span class="sd">        A tuple of two NumPy arrays:</span>
+<span class="sd">        - The first array contains the x-coordinates.</span>
+<span class="sd">        - The second array contains the y-coordinates.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from shapely.geometry import MultiPolygon, Polygon</span>
+<span class="sd">    &gt;&gt;&gt; from your_module import extract_coordinates</span>
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+
+<span class="sd">    &gt;&gt;&gt; # Create a sample MultiPolygon</span>
+<span class="sd">    &gt;&gt;&gt; poly1 = Polygon([(0, 0), (1, 0), (1, 1), (0, 0)])</span>
+<span class="sd">    &gt;&gt;&gt; poly2 = Polygon([(2, 2), (3, 2), (3, 3), (2, 2)])</span>
+<span class="sd">    &gt;&gt;&gt; multi_poly = MultiPolygon([poly1, poly2])</span>
+
+<span class="sd">    &gt;&gt;&gt; # Extract coordinates</span>
+<span class="sd">    &gt;&gt;&gt; x_coords, y_coords = extract_coordinates(multi_poly)</span>
+
+<span class="sd">    &gt;&gt;&gt; print(x_coords)</span>
+<span class="sd">    [0. 1. 1. 0. 2. 3. 3. 2.]</span>
+
+<span class="sd">    &gt;&gt;&gt; print(y_coords)</span>
+<span class="sd">    [0. 0. 1. 0. 2. 2. 3. 2.]</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">all_x</span><span class="p">,</span> <span class="n">all_y</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+
+    <span class="c1"># Iterate through each polygon in the MultiPolygon</span>
+    <span class="k">for</span> <span class="n">polygon</span> <span class="ow">in</span> <span class="n">multi_polygon</span><span class="o">.</span><span class="n">geoms</span><span class="p">:</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">polygon</span><span class="o">.</span><span class="n">exterior</span><span class="o">.</span><span class="n">xy</span>  <span class="c1"># Extract exterior boundary coordinates</span>
+        <span class="n">all_x</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">all_y</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+    <span class="c1"># Convert lists to NumPy arrays</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">all_x</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">all_y</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="filter_mesh_by_z_threshold">
+<a class="viewcode-back" href="../../../shapes.utils.html#shapes.utils.functions.filter_mesh_by_z_threshold">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">filter_mesh_by_z_threshold</span><span class="p">(</span>
+    <span class="n">all_points</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">all_triangles</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">z_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.3</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Filter a 3D mesh by removing vertices and triangles below a given z-coordinate threshold.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    all_points : numpy.ndarray of shape (N, 3), dtype=np.float64</span>
+<span class="sd">        An array representing the coordinates of the vertices in the mesh.</span>
+<span class="sd">    all_triangles : numpy.ndarray of shape (M, 3), dtype=np.float64</span>
+<span class="sd">        An array representing the indices of the vertices forming the triangles in the mesh.</span>
+<span class="sd">    z_threshold : float, optional</span>
+<span class="sd">        The z-coordinate threshold below which vertices and associated triangles are removed.</span>
+<span class="sd">        Default is 0.3.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    filtered_points : numpy.ndarray of shape (P, 3), dtype=np.float64</span>
+<span class="sd">        An array representing the coordinates of the filtered vertices.</span>
+<span class="sd">    filtered_triangles : numpy.ndarray of shape (Q, 3), dtype=np.float64</span>
+<span class="sd">        An array representing the indices of the vertices forming the filtered triangles.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    - `N` is the number of vertices in the original mesh.</span>
+<span class="sd">    - `M` is the number of triangles in the original mesh.</span>
+<span class="sd">    - `P` and `Q` are the numbers of vertices and triangles remaining after filtering, respectively.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Step 1: Identify valid vertices (z &gt; threshold)</span>
+    <span class="n">valid_vertices_mask</span> <span class="o">=</span> <span class="n">all_points</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">z_threshold</span>
+    <span class="n">valid_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">valid_vertices_mask</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># Step 2: Create a mapping from old vertex indices to new ones</span>
+    <span class="n">old_to_new_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">all_points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Initialize with -1 for invalid indices</span>
+    <span class="n">old_to_new_index</span><span class="p">[</span><span class="n">valid_indices</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">valid_indices</span><span class="p">))</span>  <span class="c1"># Map valid indices to new positions</span>
+
+    <span class="c1"># Step 3: Filter triangles where all three vertices are valid</span>
+    <span class="n">valid_triangles_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">all_triangles</span><span class="p">,</span> <span class="n">valid_indices</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">filtered_triangles</span> <span class="o">=</span> <span class="n">all_triangles</span><span class="p">[</span><span class="n">valid_triangles_mask</span><span class="p">]</span>
+
+    <span class="c1"># Step 4: Update triangle indices to reflect the new vertex indexing</span>
+    <span class="n">filtered_triangles</span> <span class="o">=</span> <span class="n">old_to_new_index</span><span class="p">[</span><span class="n">filtered_triangles</span><span class="p">]</span>
+
+    <span class="c1"># Step 5: Filter the vertices based on the valid mask</span>
+    <span class="n">filtered_points</span> <span class="o">=</span> <span class="n">all_points</span><span class="p">[</span><span class="n">valid_vertices_mask</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">filtered_points</span><span class="p">,</span> <span class="n">filtered_triangles</span></div>
+
+
+
+<div class="viewcode-block" id="update_progress_bar">
+<a class="viewcode-back" href="../../../shapes.utils.html#shapes.utils.functions.update_progress_bar">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">update_progress_bar</span><span class="p">(</span><span class="n">progress_bar</span><span class="p">:</span> <span class="n">DeltaGenerator</span><span class="p">,</span> <span class="n">status_text</span><span class="p">:</span> <span class="n">DeltaGenerator</span><span class="p">,</span> <span class="n">frac</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Update a progress bar and status text based on the given completion fraction.</span>
+
+<span class="sd">    This function updates a progress bar and its associated status text to reflect</span>
+<span class="sd">    the current progress of an operation. The progress is represented as a fraction</span>
+<span class="sd">    between 0 and 1.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    progress_bar : DeltaGenerator</span>
+<span class="sd">        The Streamlit progress bar object to be updated. Typically created using</span>
+<span class="sd">        `st.progress()`.</span>
+<span class="sd">    status_text : DeltaGenerator</span>
+<span class="sd">        The Streamlit text object to display the status message. Typically created</span>
+<span class="sd">        using `st.text()`.</span>
+<span class="sd">    frac : float</span>
+<span class="sd">        A value between 0 and 1 representing the completion fraction of the task.</span>
+<span class="sd">        For example, `frac=0.5` indicates 50% completion.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If `frac` is not between 0 and 1 (inclusive).</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import streamlit as st</span>
+<span class="sd">    &gt;&gt;&gt; from your_module import update_progress_bar</span>
+<span class="sd">    &gt;&gt;&gt; progress_bar = st.progress(0)</span>
+<span class="sd">    &gt;&gt;&gt; status_text = st.text(&quot;Starting operation...&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; update_progress_bar(progress_bar, status_text, 0.5)</span>
+<span class="sd">    # Updates the progress bar to 50% and sets the status text to:</span>
+<span class="sd">    # &quot;Operation in progress. Please wait. ⏳ 50%&quot;</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">frac</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The completion fraction &#39;frac&#39; must be between 0 and 1 (inclusive).&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Update progress bar</span>
+    <span class="n">percent_complete</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">frac</span> <span class="o">*</span> <span class="mf">100.0</span><span class="p">)</span>
+    <span class="n">progress_bar</span><span class="o">.</span><span class="n">progress</span><span class="p">(</span><span class="n">percent_complete</span><span class="p">)</span>
+
+    <span class="c1"># Update status text</span>
+    <span class="n">progress_text</span> <span class="o">=</span> <span class="s2">&quot;Operation in progress. Please wait. ⏳&quot;</span>
+    <span class="n">status_text</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">progress_text</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">percent_complete</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="draw_from_trunc_normal">
+<a class="viewcode-back" href="../../../shapes.utils.html#shapes.utils.functions.draw_from_trunc_normal">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">draw_from_trunc_normal</span><span class="p">(</span><span class="n">mean</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">std_dev</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">min_val</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">max_val</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Draw a sample from a truncated normal distribution.</span>
+
+<span class="sd">    This function generates a random sample from a normal distribution that is truncated</span>
+<span class="sd">    within the range [`min_val`, `max_val`]. The truncation ensures that the sample lies</span>
+<span class="sd">    within the specified bounds.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mean : float</span>
+<span class="sd">        The mean (center) of the normal distribution.</span>
+<span class="sd">    std_dev : float</span>
+<span class="sd">        The standard deviation (spread) of the normal distribution.</span>
+<span class="sd">    min_val : float</span>
+<span class="sd">        The lower bound of the truncated normal distribution.</span>
+<span class="sd">    max_val : float</span>
+<span class="sd">        The upper bound of the truncated normal distribution.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        A sample drawn from the truncated normal distribution.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If `std_dev` is less than or equal to zero, or if `min_val` is greater than or equal</span>
+<span class="sd">        to `max_val`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; from scipy.stats import truncnorm</span>
+<span class="sd">    &gt;&gt;&gt; from your_module import draw_from_trunc_normal</span>
+<span class="sd">    &gt;&gt;&gt; np.random.seed(42)  # Set seed for reproducibility</span>
+<span class="sd">    &gt;&gt;&gt; draw_from_trunc_normal(mean=0.0, std_dev=1.0, min_val=-1.0, max_val=1.0)</span>
+<span class="sd">    0.4967141530112327</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">std_dev</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Standard deviation must be greater than zero.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">min_val</span> <span class="o">&gt;=</span> <span class="n">max_val</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;min_val must be less than max_val.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Calculate standardized bounds for truncation</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="n">min_val</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="o">/</span> <span class="n">std_dev</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="n">max_val</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="o">/</span> <span class="n">std_dev</span>
+
+    <span class="c1"># Draw a sample from the truncated normal distribution</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">truncnorm</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="n">mean</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">std_dev</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="draw_sex">
+<a class="viewcode-back" href="../../../shapes.utils.html#shapes.utils.functions.draw_sex">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">draw_sex</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sex</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Randomly draw a sex (&quot;male&quot; or &quot;female&quot;) based on the input proportion of &quot;male&quot;.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    p : float</span>
+<span class="sd">        A proportion value between 0 and 1 (inclusive), representing the likelihood</span>
+<span class="sd">        of selecting &quot;male&quot;.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Sex : Literal[&quot;male&quot;, &quot;female&quot;]</span>
+<span class="sd">        &quot;male&quot; if a randomly generated number is less than `p`; otherwise, &quot;female&quot;.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If the probability `p` is not between 0 and 1 (inclusive).</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; from your_module import draw_sex</span>
+<span class="sd">    &gt;&gt;&gt; np.random.seed(42)  # Set seed for reproducibility</span>
+<span class="sd">    &gt;&gt;&gt; draw_sex(0.7)</span>
+<span class="sd">    &#39;male&#39;</span>
+<span class="sd">    &gt;&gt;&gt; draw_sex(0.3)</span>
+<span class="sd">    &#39;female&#39;</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Check if the probability is between 0 and 1</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">p</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Probability p must be between 0 and 1.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Draw a random number and return the sex</span>
+    <span class="k">return</span> <span class="s2">&quot;male&quot;</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">p</span> <span class="k">else</span> <span class="s2">&quot;female&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="cross2d">
+<a class="viewcode-back" href="../../../shapes.utils.html#shapes.utils.functions.cross2d">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">cross2d</span><span class="p">(</span><span class="n">Pn</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">Pn1</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the 2D cross product of two vectors.</span>
+
+<span class="sd">    This function calculates the scalar value of the 2D cross product</span>
+<span class="sd">    between two vectors in the XY-plane. The result represents the</span>
+<span class="sd">    magnitude of the perpendicular vector to the plane formed by the</span>
+<span class="sd">    input vectors.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Pn : NDArray[np.float64]</span>
+<span class="sd">        A 1D NumPy array of shape (2,) representing the first 2D vector</span>
+<span class="sd">        in the form [x, y].</span>
+<span class="sd">    Pn1 : NDArray[np.float64]</span>
+<span class="sd">        A 1D NumPy array of shape (2,) representing the second 2D vector</span>
+<span class="sd">        in the form [x, y].</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        The scalar value of the 2D cross product of the two vectors.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    - The 2D cross product is defined as:</span>
+<span class="sd">      `Pn[0] * Pn1[1] - Pn[1] * Pn1[0]`</span>
+<span class="sd">      This operation computes a scalar rather than a vector, as it is</span>
+<span class="sd">      specific to 2D vectors.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; from your_module import cross2d</span>
+<span class="sd">    &gt;&gt;&gt; Pn = np.array([1.0, 2.0])</span>
+<span class="sd">    &gt;&gt;&gt; Pn1 = np.array([3.0, 4.0])</span>
+<span class="sd">    &gt;&gt;&gt; cross2d(Pn, Pn1)</span>
+<span class="sd">    -2.0</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">Pn</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">Pn1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">Pn</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">Pn1</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span></div>
+
+
+
+<div class="viewcode-block" id="compute_moment_of_inertia">
+<a class="viewcode-back" href="../../../shapes.utils.html#shapes.utils.functions.compute_moment_of_inertia">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_moment_of_inertia</span><span class="p">(</span><span class="n">vertices</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">weight</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the moment of inertia for a 2D polygon.</span>
+
+<span class="sd">    This function calculates the moment of inertia (I_z) for a 2D shape</span>
+<span class="sd">    represented as a polygon based on its vertices and weight. The calculation</span>
+<span class="sd">    is performed using the second moment of area formula, assuming the polygon</span>
+<span class="sd">    is in the XY-plane.</span>
+
+<span class="sd">    For more details on the second moment of area, refer to:</span>
+<span class="sd">    https://en.wikipedia.org/wiki/Second_moment_of_area</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    vertices : NDArray[np.float64]</span>
+<span class="sd">        A 2D NumPy array of shape (N, 2), where each row represents the</span>
+<span class="sd">        (x, y) coordinates of a vertex of the polygon. The last vertex should</span>
+<span class="sd">        be identical to the first to close the polygon.</span>
+<span class="sd">    weight : float</span>
+<span class="sd">        The mass or weight of the shape in kilograms (kg).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        The computed moment of inertia for the shape in kg·m².</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    - The vertices must form a closed polygon. If not, the function assumes</span>
+<span class="sd">      that the last vertex is implicitly connected to the first.</span>
+<span class="sd">    - This function assumes a uniform mass distribution over the area of</span>
+<span class="sd">      the polygon.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>  <span class="c1"># Last point is a repeat of the first</span>
+
+    <span class="n">I_z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">Pn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vertices</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>
+        <span class="n">Pn1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vertices</span><span class="p">[(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">N</span><span class="p">])</span>
+        <span class="n">cross_product_magnitude</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">cross2d</span><span class="p">(</span><span class="n">Pn</span><span class="p">,</span> <span class="n">Pn1</span><span class="p">))</span>
+        <span class="n">dot_product_terms</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Pn</span><span class="p">,</span> <span class="n">Pn</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Pn</span><span class="p">,</span> <span class="n">Pn1</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Pn1</span><span class="p">,</span> <span class="n">Pn1</span><span class="p">)</span>
+
+        <span class="n">I_z</span> <span class="o">+=</span> <span class="n">cross_product_magnitude</span> <span class="o">*</span> <span class="n">dot_product_terms</span>
+
+    <span class="n">moment_of_inertia</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">weight</span> <span class="o">*</span> <span class="n">I_z</span> <span class="o">/</span> <span class="mf">12.0</span>
+    <span class="k">return</span> <span class="n">moment_of_inertia</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Oscar Maxime Alexandre.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

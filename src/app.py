@@ -1,15 +1,48 @@
-"""Main file to run the application."""
+"""
+Main file to run the application.
 
-import src.shapes_package.utils.constants as cst
-from src.shapes_package.datafactory import datafactory
-from src.shapes_package.docs import docs
-from src.shapes_package.tabs.agent2D_tab import run_tab_agent2D
-from src.shapes_package.tabs.anthropometry_tab import run_tab_anthropometry
-from src.shapes_package.tabs.crowd_tab import run_tab_crowd
-from src.shapes_package.tabs.custom_crowd_tab import run_tab_custom_crowd
-from src.shapes_package.tabs.pedestrian3D_tab import run_tab_pedestrian3D
-from src.shapes_package.ui import ui
-from src.shapes_package.utils.logging_custom import setup_logging
+This script initializes the application, sets up the user interface, and determines
+which functionality to execute based on the selected tab in the sidebar.
+
+The application includes various tabs for different functionalities, such as:
+    - Agent 2D creation and display
+    - 3D pedestrian creation and display
+    - Anthropometry analysis
+    - Crowd creation and display
+    - Custom crowd creation and display
+
+See Also
+--------
+shapes.utils.constants
+    Provides constants used throughout the application.
+shapes.datafactory
+    Handles data preparation and management.
+shapes.docs
+    Contains documentation-related utilities.
+shapes.tabs
+    Modules implementing functionality for individual tabs.
+shapes.ui
+    Manages the user interface of the application.
+
+Examples
+--------
+To run the application, execute these commands directly:
+
+>>> pip install uv
+>>> uv sync
+>>> uv run streamlit src/app.py
+"""
+
+import shapes.utils.constants as cst
+from shapes.datafactory import datafactory
+from shapes.docs import docs
+from shapes.tabs.agent2D_tab import run_tab_agent2D
+from shapes.tabs.anthropometry_tab import run_tab_anthropometry
+from shapes.tabs.crowd_tab import run_tab_crowd
+from shapes.tabs.custom_crowd_tab import run_tab_custom_crowd
+from shapes.tabs.pedestrian3D_tab import run_tab_pedestrian3D
+from shapes.ui import ui
+from shapes.utils.logging_custom import setup_logging
 
 setup_logging()
 if __name__ == "__main__":

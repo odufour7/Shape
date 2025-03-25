@@ -1,4 +1,4 @@
-"""Sphinx configuration file for the documentation."""
+"""Shapes project documentation build configuration file."""
 
 # Configuration file for the Sphinx documentation builder.
 #
@@ -7,33 +7,33 @@
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath("../.."))
+sys.path.insert(0, os.path.abspath("../../src"))
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = "shapes"
-copyright = "2025, oscar dufour"
-author = "oscar dufour"
-release = "1"
-
-pygments_style = "sphinx"
+project = "shapes project"
+copyright = "2025, Oscar Maxime Alexandre"
+author = "Oscar Maxime Alexandre"
+release = "1.0.0"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
-    "sphinx.ext.autodoc",
+    "sphinx.ext.todo",
     "sphinx.ext.viewcode",
+    "sphinx.ext.autodoc",
+    "nbsphinx",  # For Jupyter notebook support
+    "myst_nb",  # Optional: For MyST Markdown notebooks
 ]
 
 templates_path = ["_templates"]
-# exclude_patterns = ["source/modules.rst"]
-
+# exclude_patterns = []
 language = "english"
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = "sphinx_rtd_theme"
-html_static_path = ["../../assets"]
+html_static_path = ["_static"]

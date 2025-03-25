@@ -1,0 +1,1305 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="english" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>shapes.classes package &mdash; shapes project 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=14667faf"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="shapes.datafactory package" href="shapes.datafactory.html" />
+    <link rel="prev" title="shapes package" href="shapes.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            shapes project
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="tutorials/shapes/create2Dped.html">Create a 2D pedestrian</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/shapes/create3Dped.html">Create a 3D pedestrian</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/shapes/read_database.html">Read the ANSURII database</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">src</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="app.html">app module</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="shapes.html">shapes package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="shapes.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">shapes.classes package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="shapes.datafactory.html">shapes.datafactory package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="shapes.docs.html">shapes.docs package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="shapes.plotting.html">shapes.plotting package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="shapes.tabs.html">shapes.tabs package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="shapes.ui.html">shapes.ui package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="shapes.utils.html">shapes.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="shapes.html#module-shapes">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">shapes project</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">src</a></li>
+          <li class="breadcrumb-item"><a href="shapes.html">shapes package</a></li>
+      <li class="breadcrumb-item active">shapes.classes package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/shapes.classes.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="shapes-classes-package">
+<h1>shapes.classes package<a class="headerlink" href="#shapes-classes-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-shapes.classes.agents">
+<span id="shapes-classes-agents-module"></span><h2>shapes.classes.agents module<a class="headerlink" href="#module-shapes.classes.agents" title="Link to this heading"></a></h2>
+<p>Defines classes to store physical attributes and geometry of agents.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="shapes.classes.agents.Agent">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">shapes.classes.agents.</span></span><span class="sig-name descname"><span class="pre">Agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="shapes.utils.html#shapes.utils.constants.AgentTypes" title="shapes.utils.constants.AgentTypes"><span class="pre">AgentTypes</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">measures</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'male'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'female'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#shapes.classes.measures.AgentMeasures" title="shapes.classes.measures.AgentMeasures"><span class="pre">AgentMeasures</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">shapes2D</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#shapes.classes.shapes2D.Shapes2D" title="shapes.classes.shapes2D.Shapes2D"><span class="pre">Shapes2D</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'circle'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'rectangle'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'ellipse'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'polygon'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'circle'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'rectangle'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'ellipse'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'polygon'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Polygon</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">MultiPolygon</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shapes3D</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#shapes.classes.shapes3D.Shapes3D" title="shapes.classes.shapes3D.Shapes3D"><span class="pre">Shapes3D</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'circle'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'rectangle'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'ellipse'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'polygon'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">MultiPolygon</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/shapes/classes/agents.html#Agent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.agents.Agent" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class representing an agent with physical attributes and geometry.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="shapes.classes.agents.Agent.agent_type">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">agent_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="shapes.utils.html#shapes.utils.constants.AgentTypes" title="shapes.utils.constants.AgentTypes"><span class="pre">AgentTypes</span></a></em><a class="headerlink" href="#shapes.classes.agents.Agent.agent_type" title="Link to this definition"></a></dt>
+<dd><p>Get the agent type.</p>
+<section id="returns">
+<h3>Returns<a class="headerlink" href="#returns" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>AgentType</dt><dd><p>The current agent type from the enumeration of valid types.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shapes.classes.agents.Agent.get_position">
+<span class="sig-name descname"><span class="pre">get_position</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Point</span></span></span><a class="reference internal" href="_modules/shapes/classes/agents.html#Agent.get_position"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.agents.Agent.get_position" title="Link to this definition"></a></dt>
+<dd><p>Calculate the agent's position based on 2D shape geometry.</p>
+<section id="id1">
+<h3>Returns<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>Point</dt><dd><dl class="simple">
+<dt>Geometric centroid of all polygon-based 2D shapes, calculated as:</dt><dd><ol class="arabic simple">
+<li><p>Extract centroids from all Polygon/MultiPolygon shapes</p></li>
+<li><p>Create MultiPoint from these centroids</p></li>
+<li><p>Return centroid of this MultiPoint</p></li>
+</ol>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="shapes.classes.agents.Agent.measures">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">measures</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#shapes.classes.measures.AgentMeasures" title="shapes.classes.measures.AgentMeasures"><span class="pre">AgentMeasures</span></a></em><a class="headerlink" href="#shapes.classes.agents.Agent.measures" title="Link to this definition"></a></dt>
+<dd><p>Access the agent's physical measurement data.</p>
+<section id="id2">
+<h3>Returns<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>AgentMeasures</dt><dd><p>Dataclass object holding all measurement parameters including
+weight, dimensions, and biological characteristics.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shapes.classes.agents.Agent.rotate">
+<span class="sig-name descname"><span class="pre">rotate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/shapes/classes/agents.html#Agent.rotate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.agents.Agent.rotate" title="Link to this definition"></a></dt>
+<dd><p>Rotate all 2D shapes around their combined centroid by specified angle.</p>
+<section id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>angle<span class="classifier">float</span></dt><dd><p>Rotation angle in degrees (positive for counter-clockwise).</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shapes.classes.agents.Agent.rotate_body3D">
+<span class="sig-name descname"><span class="pre">rotate_body3D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/shapes/classes/agents.html#Agent.rotate_body3D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.agents.Agent.rotate_body3D" title="Link to this definition"></a></dt>
+<dd><p>Rotate all 3D shapes on XY plane around Z-axis.</p>
+<section id="id3">
+<h3>Parameters<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>angle<span class="classifier">float</span></dt><dd><p>Rotation angle in degrees (positive counter-clockwise)</p>
+</dd>
+</dl>
+</section>
+<section id="raises">
+<h3>Raises<a class="headerlink" href="#raises" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>ValueError</dt><dd><p>If shapes3D is None or contains no rotatable shapes</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="shapes.classes.agents.Agent.shapes2D">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shapes2D</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#shapes.classes.shapes2D.Shapes2D" title="shapes.classes.shapes2D.Shapes2D"><span class="pre">Shapes2D</span></a></em><a class="headerlink" href="#shapes.classes.agents.Agent.shapes2D" title="Link to this definition"></a></dt>
+<dd><p>Access the agent's 2D representation.</p>
+<section id="id4">
+<h3>Returns<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>Shapes2D</dt><dd><p>Dataclass object holding all 2D shapes defining the agent's
+spatial boundaries.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="shapes.classes.agents.Agent.shapes3D">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shapes3D</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#shapes.classes.shapes3D.Shapes3D" title="shapes.classes.shapes3D.Shapes3D"><span class="pre">Shapes3D</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#shapes.classes.agents.Agent.shapes3D" title="Link to this definition"></a></dt>
+<dd><p>Access the agent's 3D geometric representations.</p>
+<section id="id5">
+<h3>Returns<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>Shapes3D or None</dt><dd><p>Dataclass object holding all 3D shapes defining the agent's
+3D features, if available. None if not set.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shapes.classes.agents.Agent.translate">
+<span class="sig-name descname"><span class="pre">translate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/shapes/classes/agents.html#Agent.translate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.agents.Agent.translate" title="Link to this definition"></a></dt>
+<dd><p>Translate all 2D shapes by specified offsets in x and y directions.</p>
+<section id="id6">
+<h3>Parameters<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>dx<span class="classifier">float</span></dt><dd><p>Translation offset along the x-axis in centimeters units.</p>
+</dd>
+<dt>dy<span class="classifier">float</span></dt><dd><p>Translation offset along the y-axis in centimeters units.</p>
+</dd>
+</dl>
+</section>
+<section id="notes">
+<h3>Notes<a class="headerlink" href="#notes" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Modifies all 2D shapes in place</p></li>
+<li><p>Does not affect 3D shapes (see <cite>shapes3D</cite> property for 3D transformations)</p></li>
+</ul>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shapes.classes.agents.Agent.translate_body3D">
+<span class="sig-name descname"><span class="pre">translate_body3D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dz</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/shapes/classes/agents.html#Agent.translate_body3D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.agents.Agent.translate_body3D" title="Link to this definition"></a></dt>
+<dd><p>Translate 3D shapes along all spatial axes with height adjustment.</p>
+<section id="id7">
+<h3>Parameters<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>dx<span class="classifier">float</span></dt><dd><p>Displacement along x-axis in centimeter units</p>
+</dd>
+<dt>dy<span class="classifier">float</span></dt><dd><p>Displacement along y-axis in centimeter units</p>
+</dd>
+<dt>dz<span class="classifier">float</span></dt><dd><p>Vertical displacement along the z-axis in centimeter units, modifying height keys in shapes3D</p>
+</dd>
+</dl>
+</section>
+<section id="id8">
+<h3>Raises<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>ValueError</dt><dd><p>If shapes3D is None or contains no 3D shapes</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-shapes.classes.crowd">
+<span id="shapes-classes-crowd-module"></span><h2>shapes.classes.crowd module<a class="headerlink" href="#module-shapes.classes.crowd" title="Link to this heading"></a></h2>
+<p>Module containing the Crowd class, which represents a crowd of pedestrians in a room.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="shapes.classes.crowd.Crowd">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">shapes.classes.crowd.</span></span><span class="sig-name descname"><span class="pre">Crowd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">measures</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#shapes.classes.measures.CrowdMeasures" title="shapes.classes.measures.CrowdMeasures"><span class="pre">CrowdMeasures</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#shapes.classes.agents.Agent" title="shapes.classes.agents.Agent"><span class="pre">Agent</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundaries</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Polygon</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/shapes/classes/crowd.html#Crowd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.crowd.Crowd" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class representing a crowd of pedestrians in a room.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="shapes.classes.crowd.Crowd.add_one_agent">
+<span class="sig-name descname"><span class="pre">add_one_agent</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/shapes/classes/crowd.html#Crowd.add_one_agent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.crowd.Crowd.add_one_agent" title="Link to this definition"></a></dt>
+<dd><p>Add a new agent to the crowd using available measures data.</p>
+<p>The agent creation follows this priority:
+1. Uses agent statistics if available (when custom database is empty)
+2. Uses custom database if available
+3. Falls back to default ANSURII database if no other data exists</p>
+<section id="id9">
+<h3>Notes<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>Agent creation logic:</dt><dd><dl class="simple">
+<dt>Case 1 (Agent Statistics):</dt><dd><p>Uses <cite>draw_agent_type</cite> and <cite>draw_agent_measures</cite> to create agent.
+Requires <cite>measures.agent_statistics</cite> to be populated.</p>
+</dd>
+<dt>Case 2 (Custom Database):</dt><dd><p>Randomly selects from <cite>measures.custom_database</cite>.
+Creates specific agent types (pedestrian/bike) using <cite>create_*_measures</cite>.</p>
+</dd>
+<dt>Case 3 (Default Database):</dt><dd><p>Uses built-in ANSURII database.
+Always creates pedestrian agents.
+Relies on <cite>create_pedestrian_measures</cite>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="shapes.classes.crowd.Crowd.agents">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">agents</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#shapes.classes.agents.Agent" title="shapes.classes.agents.Agent"><span class="pre">Agent</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#shapes.classes.crowd.Crowd.agents" title="Link to this definition"></a></dt>
+<dd><p>Get the list of agents in the crowd.</p>
+<section id="id10">
+<h3>Returns<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>list[Agent]</dt><dd><p>A list containing all the agents in the crowd.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="shapes.classes.crowd.Crowd.boundaries">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">boundaries</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Polygon</span></em><a class="headerlink" href="#shapes.classes.crowd.Crowd.boundaries" title="Link to this definition"></a></dt>
+<dd><p>Get the boundaries of the room.</p>
+<section id="id11">
+<h3>Returns<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>Polygon</dt><dd><p>The boundaries of the room as a shapely Polygon object.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shapes.classes.crowd.Crowd.calculate_contact_force">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calculate_contact_force</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent_centroid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other_centroid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Point</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/shapes/classes/crowd.html#Crowd.calculate_contact_force"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.crowd.Crowd.calculate_contact_force" title="Link to this definition"></a></dt>
+<dd><p>Calculate the repulsive force between two centroids.</p>
+<section id="id12">
+<h3>Parameters<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>agent_centroid<span class="classifier">Point</span></dt><dd><p>The centroid of the agent (Shapely Point object).</p>
+</dd>
+<dt>other_centroid<span class="classifier">Point</span></dt><dd><p>The centroid of the other agent (Shapely Point object).</p>
+</dd>
+</dl>
+</section>
+<section id="id13">
+<h3>Returns<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>NDArray[np.float64]</dt><dd><p>The normalized direction of the repulsive force as a 1D NumPy array of floats.
+If the centroids coincide, a small random force is returned.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shapes.classes.crowd.Crowd.calculate_interpenetration">
+<span class="sig-name descname"><span class="pre">calculate_interpenetration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">with_inflation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/shapes/classes/crowd.html#Crowd.calculate_interpenetration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.crowd.Crowd.calculate_interpenetration" title="Link to this definition"></a></dt>
+<dd><p>Calculate the total interpenetration area between pedestrians.</p>
+<p>This method computes the total area of interpenetration between the geometric shapes of pedestrians
+in the crowd. Optionally, the geometric shapes can be inflated by a buffer before performing the calculation.</p>
+<section id="id14">
+<h3>Parameters<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>with_inflation<span class="classifier">bool, optional</span></dt><dd><p>If True, inflates the geometric shapes by a buffer of 5.0 units before calculating the interpenetration.
+Default is False.</p>
+</dd>
+</dl>
+</section>
+<section id="id15">
+<h3>Returns<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>float</dt><dd><p>The total interpenetration area between pedestrians and between pedestrians and boundaries.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shapes.classes.crowd.Crowd.calculate_repulsive_force">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calculate_repulsive_force</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent_centroid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other_centroid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Point</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/shapes/classes/crowd.html#Crowd.calculate_repulsive_force"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.crowd.Crowd.calculate_repulsive_force" title="Link to this definition"></a></dt>
+<dd><p>Calculate the repulsive force between two centroids, exponentially decreasing with distance.</p>
+<section id="id16">
+<h3>Parameters<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>agent_centroid<span class="classifier">Point</span></dt><dd><p>The centroid of the agent (Shapely Point object).</p>
+</dd>
+<dt>other_centroid<span class="classifier">Point</span></dt><dd><p>The centroid of the other agent (Shapely Point object).</p>
+</dd>
+</dl>
+</section>
+<section id="id17">
+<h3>Returns<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>NDArray[np.float64]</dt><dd><p>A 1D NumPy array representing the repulsive force vector.
+If the centroids coincide, a small random force is returned.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shapes.classes.crowd.Crowd.calculate_rotational_force">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calculate_rotational_force</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/shapes/classes/crowd.html#Crowd.calculate_rotational_force"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.crowd.Crowd.calculate_rotational_force" title="Link to this definition"></a></dt>
+<dd><p>Generate a random rotational force value.</p>
+<section id="id18">
+<h3>Returns<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>float</dt><dd><p>Random rotational force in degrees between -10.0 and 10.0, inclusive.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shapes.classes.crowd.Crowd.create_agents">
+<span class="sig-name descname"><span class="pre">create_agents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_agents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/shapes/classes/crowd.html#Crowd.create_agents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.crowd.Crowd.create_agents" title="Link to this definition"></a></dt>
+<dd><p>Create multiple agents in the crowd through repeated additions.</p>
+<section id="id19">
+<h3>Parameters<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>number_agents<span class="classifier">int</span></dt><dd><p>Number of agents to create.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shapes.classes.crowd.Crowd.get_agents_params">
+<span class="sig-name descname"><span class="pre">get_agents_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'circle'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'rectangle'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'ellipse'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'polygon'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'circle'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'rectangle'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'ellipse'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'polygon'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Polygon</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">MultiPolygon</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/shapes/classes/crowd.html#Crowd.get_agents_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.crowd.Crowd.get_agents_params" title="Link to this definition"></a></dt>
+<dd><p>Retrieve physical parameters of all agents in a structured format.</p>
+<section id="id20">
+<h3>Returns<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>dict</dt><dd><dl class="simple">
+<dt>Dictionary with agent IDs as keys (format: &quot;agent{N}&quot;) and values containing:</dt><dd><dl class="simple">
+<dt>agent_type<span class="classifier">str</span></dt><dd><p>Agent classification (e.g., &quot;Pedestrian&quot;, &quot;Bike&quot;)</p>
+</dd>
+<dt>weight (kg)<span class="classifier">float</span></dt><dd><p>Mass of the agent in kilograms</p>
+</dd>
+<dt>moi (kg*m^2)<span class="classifier">float</span></dt><dd><p>Moment of inertia in kilogram-square meters</p>
+</dd>
+<dt>shapes<span class="classifier">ShapeDataType</span></dt><dd><p>Geometric parameters of the agent's 2D representation</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shapes.classes.crowd.Crowd.get_crowd_measures">
+<span class="sig-name descname"><span class="pre">get_crowd_measures</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#shapes.classes.measures.CrowdMeasures" title="shapes.classes.measures.CrowdMeasures"><span class="pre">CrowdMeasures</span></a></span></span><a class="reference internal" href="_modules/shapes/classes/crowd.html#Crowd.get_crowd_measures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.crowd.Crowd.get_crowd_measures" title="Link to this definition"></a></dt>
+<dd><p>Calculate comprehensive statistics for the current crowd composition.</p>
+<section id="id21">
+<h3>Returns<a class="headerlink" href="#id21" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>dict[str, float]</dt><dd><dl class="simple">
+<dt>Dictionary containing aggregated crowd statistics with keys formatted as:</dt><dd><ul class="simple">
+<li><p>&quot;num_{agent_type}&quot;: Count of agents per type (e.g., &quot;num_pedestrian&quot;)</p></li>
+<li><p>&quot;{part}_mean&quot;: Mean value for each body/bike part measurement</p></li>
+<li><p>&quot;{part}_std_dev&quot;: Sample standard deviation for each part</p></li>
+<li><p>&quot;{part}_min&quot;: Minimum observed value for each part</p></li>
+<li><p>&quot;{part}_max&quot;: Maximum observed value for each part</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shapes.classes.crowd.Crowd.get_number_agents">
+<span class="sig-name descname"><span class="pre">get_number_agents</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/shapes/classes/crowd.html#Crowd.get_number_agents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.crowd.Crowd.get_number_agents" title="Link to this definition"></a></dt>
+<dd><p>Get the number of agents in the crowd.</p>
+<section id="id22">
+<h3>Returns<a class="headerlink" href="#id22" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>int</dt><dd><p>The number of agents in the crowd.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="shapes.classes.crowd.Crowd.measures">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">measures</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#shapes.classes.measures.CrowdMeasures" title="shapes.classes.measures.CrowdMeasures"><span class="pre">CrowdMeasures</span></a></em><a class="headerlink" href="#shapes.classes.crowd.Crowd.measures" title="Link to this definition"></a></dt>
+<dd><p>Get the measures of the crowd.</p>
+<section id="id23">
+<h3>Returns<a class="headerlink" href="#id23" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>CrowdMeasures</dt><dd><p>A CrowdMeasures object containing the measures of the crowd.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shapes.classes.crowd.Crowd.pack_agents_with_forces">
+<span class="sig-name descname"><span class="pre">pack_agents_with_forces</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/shapes/classes/crowd.html#Crowd.pack_agents_with_forces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.crowd.Crowd.pack_agents_with_forces" title="Link to this definition"></a></dt>
+<dd><p>Simulate crowd dynamics by applying physics-based forces between agents.</p>
+<p>Performs iterative force calculations to separate overlapping agents while
+maintaining boundary constraints. Implements a cooling system to gradually
+reduce movement intensity.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shapes.classes.crowd.Crowd.remove_one_agent">
+<span class="sig-name descname"><span class="pre">remove_one_agent</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/shapes/classes/crowd.html#Crowd.remove_one_agent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.crowd.Crowd.remove_one_agent" title="Link to this definition"></a></dt>
+<dd><p>Remove the most recently added agent from the crowd.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-shapes.classes.initial_agents">
+<span id="shapes-classes-initial-agents-module"></span><h2>shapes.classes.initial_agents module<a class="headerlink" href="#module-shapes.classes.initial_agents" title="Link to this heading"></a></h2>
+<p>Module defining the InitialState class.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="shapes.classes.initial_agents.InitialBike">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">shapes.classes.initial_agents.</span></span><span class="sig-name descname"><span class="pre">InitialBike</span></span><a class="reference internal" href="_modules/shapes/classes/initial_agents.html#InitialBike"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.initial_agents.InitialBike" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Encapsulates the initial state of a bike, including its 2D shape data and derived measurements.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="shapes.classes.initial_agents.InitialBike.agent_type">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">agent_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="shapes.utils.html#shapes.utils.constants.AgentTypes" title="shapes.utils.constants.AgentTypes"><span class="pre">AgentTypes</span></a></em><a class="headerlink" href="#shapes.classes.initial_agents.InitialBike.agent_type" title="Link to this definition"></a></dt>
+<dd><p>Get the type of the agent.</p>
+<section id="id24">
+<h3>Returns<a class="headerlink" href="#id24" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>AgentTypes</dt><dd><p>Enum member representing the agent's type classification (either &quot;pedestrian&quot;, &quot;bike&quot; or &quot;custom&quot;).</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shapes.classes.initial_agents.InitialBike.calculate_position">
+<span class="sig-name descname"><span class="pre">calculate_position</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Point</span></span></span><a class="reference internal" href="_modules/shapes/classes/initial_agents.html#InitialBike.calculate_position"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.initial_agents.InitialBike.calculate_position" title="Link to this definition"></a></dt>
+<dd><p>Calculate the central position of the bike.</p>
+<p>This method computes the central position of the bike based on the
+minimum and maximum x and y coordinates of the bike's shape.</p>
+<section id="id25">
+<h3>Returns<a class="headerlink" href="#id25" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>Point</dt><dd><p>A Point object representing the central position of the bike.</p>
+</dd>
+</dl>
+</section>
+<section id="id26">
+<h3>Notes<a class="headerlink" href="#id26" title="Link to this heading"></a></h3>
+<blockquote>
+<div><p>If the required shape coordinates are not available or not of the correct type,
+the method returns a Point(0.0, 0.0).</p>
+</div></blockquote>
+</section>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="shapes.classes.initial_agents.InitialBike.measures">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">measures</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#shapes.classes.initial_agents.InitialBike.measures" title="Link to this definition"></a></dt>
+<dd><p>Get the measures of the pedestrian.</p>
+<p>This property provides access to the measures of the pedestrian,
+which are stored in a dictionary. The keys are strings representing
+the names of the measures, and the values are floats or None
+representing the measure values.</p>
+<section id="id27">
+<h3>Returns<a class="headerlink" href="#id27" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>dict[str, float | None]</dt><dd><p>A dictionary containing the measures of the pedestrian.
+Keys are measure names (str) and values are measure values (float or None).</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="shapes.classes.initial_agents.InitialBike.shapes2D">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shapes2D</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'circle'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'rectangle'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'ellipse'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'polygon'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'circle'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'rectangle'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'ellipse'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'polygon'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Polygon</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">MultiPolygon</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#shapes.classes.initial_agents.InitialBike.shapes2D" title="Link to this definition"></a></dt>
+<dd><p>Get the 2D shapes associated with the pedestrian.</p>
+<section id="id28">
+<h3>Returns<a class="headerlink" href="#id28" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>ShapeDataType</dt><dd><p>An object containing the 2D shapes associated with the pedestrian.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="shapes.classes.initial_agents.InitialPedestrian">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">shapes.classes.initial_agents.</span></span><span class="sig-name descname"><span class="pre">InitialPedestrian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sex</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'male'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'female'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/shapes/classes/initial_agents.html#InitialPedestrian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.initial_agents.InitialPedestrian" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Encapsulates the initial pedestrian state including its 2D shape data and derived measurements.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="shapes.classes.initial_agents.InitialPedestrian.agent_type">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">agent_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="shapes.utils.html#shapes.utils.constants.AgentTypes" title="shapes.utils.constants.AgentTypes"><span class="pre">AgentTypes</span></a></em><a class="headerlink" href="#shapes.classes.initial_agents.InitialPedestrian.agent_type" title="Link to this definition"></a></dt>
+<dd><p>Get the type classification of the agent.</p>
+<section id="id29">
+<h3>Returns<a class="headerlink" href="#id29" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>AgentTypes</dt><dd><p>Enum member representing the agent's type classification (either &quot;pedestrian&quot;, &quot;bike&quot; or &quot;custom&quot;).</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shapes.classes.initial_agents.InitialPedestrian.calculate_position">
+<span class="sig-name descname"><span class="pre">calculate_position</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Point</span></span></span><a class="reference internal" href="_modules/shapes/classes/initial_agents.html#InitialPedestrian.calculate_position"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.initial_agents.InitialPedestrian.calculate_position" title="Link to this definition"></a></dt>
+<dd><p>Calculate the pedestrian's position based on the center of disk2.</p>
+<p>The position is determined by the center coordinates of the &quot;disk2&quot; shape
+stored in the shapes2D attribute. This method assumes disk2 represents
+the pedestrian's main body position.</p>
+<section id="id30">
+<h3>Returns<a class="headerlink" href="#id30" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>Point</dt><dd><dl class="simple">
+<dt>Point object containing (x, y) coordinates in centimeters:</dt><dd><ul class="simple">
+<li><p>x: First element of disk2's center coordinates</p></li>
+<li><p>y: Second element of disk2's center coordinates</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+<section id="id31">
+<h3>Raises<a class="headerlink" href="#id31" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>TypeError</dt><dd><p>If the disk2 center value is not stored as a tuple of numerical values</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shapes.classes.initial_agents.InitialPedestrian.get_disk_centers">
+<span class="sig-name descname"><span class="pre">get_disk_centers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Point</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/shapes/classes/initial_agents.html#InitialPedestrian.get_disk_centers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.initial_agents.InitialPedestrian.get_disk_centers" title="Link to this definition"></a></dt>
+<dd><p>Retrieve the center coordinates of all disks.</p>
+<p>This method iterates through the predefined number of disks (specified by &quot;DISK_NUMBER&quot;)
+and extracts their center coordinates from the &quot;shapes2D&quot; attribute.</p>
+<section id="id32">
+<h3>Returns<a class="headerlink" href="#id32" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>list[Point]</dt><dd><p>A list of Point objects representing the center coordinates of each disk in centimeters.
+The points are returned in the order of disk indices (disk0, disk1, ..., diskN-1).</p>
+</dd>
+</dl>
+</section>
+<section id="id33">
+<h3>Notes<a class="headerlink" href="#id33" title="Link to this heading"></a></h3>
+<p>Requires disks to be named consecutively as 'disk0', 'disk1', ..., 'disk{DISK_NUMBER-1}'
+in the shapes2D attribute
+Each disk entry must contain a &quot;center&quot; key with coordinate data compatible with Point constructor
+Returns empty Points for any missing or invalid disk entries</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shapes.classes.initial_agents.InitialPedestrian.get_disk_radii">
+<span class="sig-name descname"><span class="pre">get_disk_radii</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/shapes/classes/initial_agents.html#InitialPedestrian.get_disk_radii"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.initial_agents.InitialPedestrian.get_disk_radii" title="Link to this definition"></a></dt>
+<dd><p>Retrieve the radii of all disks.</p>
+<p>This method accesses the 'shapes2D' attribute of the instance and extracts the radius
+of each disk based on a predefined number of disks specified by 'DISK_NUMBER'.</p>
+<section id="id34">
+<h3>Returns<a class="headerlink" href="#id34" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>list[float]</dt><dd><p>A list containing the radii of the disks. Each element is a float
+representing the radius of a disk in the order they are stored.</p>
+</dd>
+</dl>
+</section>
+<section id="id35">
+<h3>Notes<a class="headerlink" href="#id35" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>The method assumes that disk shapes are named 'disk0', 'disk1', etc., up to
+'disk{DISK_NUMBER - 1}'.</p></li>
+<li><p>Only valid float radii are included in the returned list. If a disk's radius
+is not a float, it will be skipped.</p></li>
+<li><p>If no valid radii are found, an empty list is returned.</p></li>
+</ul>
+</section>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="shapes.classes.initial_agents.InitialPedestrian.measures">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">measures</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'male'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'female'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#shapes.classes.initial_agents.InitialPedestrian.measures" title="Link to this definition"></a></dt>
+<dd><p>Get the measures of the pedestrian.</p>
+<section id="id36">
+<h3>Returns<a class="headerlink" href="#id36" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>dict[str, float | Sex | None]</dt><dd><p>A dictionary containing the pedestrian's measures. The keys are measure names (str),
+and the values are either floats, &quot;Sex&quot; Literal[&quot;male&quot;,&quot;female&quot;] values, or None.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="shapes.classes.initial_agents.InitialPedestrian.sex">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sex</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'male'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'female'</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#shapes.classes.initial_agents.InitialPedestrian.sex" title="Link to this definition"></a></dt>
+<dd><p>Get the biological sex of the pedestrian.</p>
+<section id="id37">
+<h3>Returns<a class="headerlink" href="#id37" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>Literal[&quot;male&quot;, &quot;female&quot;]</dt><dd><p>The biological sex of the pedestrian as either &quot;male&quot; or &quot;female&quot;.</p>
+</dd>
+</dl>
+</section>
+<section id="id38">
+<h3>Raises<a class="headerlink" href="#id38" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>TypeError</dt><dd><p>If the stored value is not a string or is not one of the allowed values</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="shapes.classes.initial_agents.InitialPedestrian.shapes2D">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shapes2D</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'circle'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'rectangle'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'ellipse'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'polygon'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'circle'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'rectangle'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'ellipse'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'polygon'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Polygon</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">MultiPolygon</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#shapes.classes.initial_agents.InitialPedestrian.shapes2D" title="Link to this definition"></a></dt>
+<dd><p>Get the 2D geometric representation of the pedestrian's body components.</p>
+<section id="id39">
+<h3>Returns<a class="headerlink" href="#id39" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>ShapeDataType</dt><dd><dl class="simple">
+<dt>Dictionary containing circular disk representations of body parts with:</dt><dd><ul class="simple">
+<li><p>Keys: Format &quot;disk{N}&quot; where N ranges 0-4 (e.g., &quot;disk0&quot;, &quot;disk1&quot;)</p></li>
+<li><dl class="simple">
+<dt>Values: Dictionaries with properties:</dt><dd><ul>
+<li><p>shape_type: &quot;circle&quot; (from ShapeTypes enum)</p></li>
+<li><p>young_modulus: Material stiffness value (float)</p></li>
+<li><p>center: (x, y) coordinates in centimeters (tuple[float, float])</p></li>
+<li><p>radius: Disk radius in centimeters (float)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="shapes.classes.initial_agents.InitialPedestrian.shapes3D">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shapes3D</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">MultiPolygon</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#shapes.classes.initial_agents.InitialPedestrian.shapes3D" title="Link to this definition"></a></dt>
+<dd><p>Get the 3D body representation of the pedestrian.</p>
+<p>This property provides access to the 3D shapes of the pedestrian, stored as a dictionary
+where each key is a float representing a layer or pedestrian slice, and each value is a &quot;MultiPolygon&quot;
+object representing the corresponding 2D geometry.</p>
+<section id="id40">
+<h3>Returns<a class="headerlink" href="#id40" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>dict[float, MultiPolygon]</dt><dd><dl class="simple">
+<dt>A dictionary where:</dt><dd><ul class="simple">
+<li><p>Keys are float representing the height of each pedestrian slice.</p></li>
+<li><p>Values are &quot;MultiPolygon&quot; objects representing the 2D geometry of each layer or slice.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-shapes.classes.measures">
+<span id="shapes-classes-measures-module"></span><h2>shapes.classes.measures module<a class="headerlink" href="#module-shapes.classes.measures" title="Link to this heading"></a></h2>
+<p>Module containing the Measures class to store body measures dynamically based on agent type.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="shapes.classes.measures.AgentMeasures">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">shapes.classes.measures.</span></span><span class="sig-name descname"><span class="pre">AgentMeasures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent_type:</span> <span class="pre">~shapes.utils.constants.AgentTypes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measures:</span> <span class="pre">dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">float</span> <span class="pre">|</span> <span class="pre">~typing.Literal['male'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'female']]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/shapes/classes/measures.html#AgentMeasures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.measures.AgentMeasures" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to store body measures dynamically based on agent type.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="shapes.classes.measures.AgentMeasures.agent_type">
+<span class="sig-name descname"><span class="pre">agent_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="shapes.utils.html#shapes.utils.constants.AgentTypes" title="shapes.utils.constants.AgentTypes"><span class="pre">AgentTypes</span></a></em><a class="headerlink" href="#shapes.classes.measures.AgentMeasures.agent_type" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="shapes.classes.measures.AgentMeasures.measures">
+<span class="sig-name descname"><span class="pre">measures</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'male'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'female'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#shapes.classes.measures.AgentMeasures.measures" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shapes.classes.measures.AgentMeasures.number_of_measures">
+<span class="sig-name descname"><span class="pre">number_of_measures</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/shapes/classes/measures.html#AgentMeasures.number_of_measures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.measures.AgentMeasures.number_of_measures" title="Link to this definition"></a></dt>
+<dd><p>Return the number of measures stored.</p>
+<section id="id41">
+<h3>Returns<a class="headerlink" href="#id41" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>int</dt><dd><p>The number of measures stored in the &quot;measures&quot; attribute.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="shapes.classes.measures.CrowdMeasures">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">shapes.classes.measures.</span></span><span class="sig-name descname"><span class="pre">CrowdMeasures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">default_database:</span> <span class="pre">dict[int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">float]]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_database:</span> <span class="pre">dict[int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">float]]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agent_statistics:</span> <span class="pre">dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">float]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/shapes/classes/measures.html#CrowdMeasures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.measures.CrowdMeasures" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to store crowd measures based on agent type.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="shapes.classes.measures.CrowdMeasures.agent_statistics">
+<span class="sig-name descname"><span class="pre">agent_statistics</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#shapes.classes.measures.CrowdMeasures.agent_statistics" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="shapes.classes.measures.CrowdMeasures.custom_database">
+<span class="sig-name descname"><span class="pre">custom_database</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#shapes.classes.measures.CrowdMeasures.custom_database" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="shapes.classes.measures.CrowdMeasures.default_database">
+<span class="sig-name descname"><span class="pre">default_database</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#shapes.classes.measures.CrowdMeasures.default_database" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="shapes.classes.measures.create_bike_measures">
+<span class="sig-prename descclassname"><span class="pre">shapes.classes.measures.</span></span><span class="sig-name descname"><span class="pre">create_bike_measures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#shapes.classes.measures.AgentMeasures" title="shapes.classes.measures.AgentMeasures"><span class="pre">AgentMeasures</span></a></span></span><a class="reference internal" href="_modules/shapes/classes/measures.html#create_bike_measures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.measures.create_bike_measures" title="Link to this definition"></a></dt>
+<dd><p>Create bike-specific agent measures.</p>
+<section id="id42">
+<h3>Parameters<a class="headerlink" href="#id42" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>agent_data<span class="classifier">dict[str, float]</span></dt><dd><p>A dictionary containing bike measurements. Expected keys are:
+- &quot;wheel width [cm]&quot;: Width of the bike's wheel in centimeters.
+- &quot;total length [cm]&quot;: Total length of the bike in centimeters.
+- &quot;handlebar length [cm]&quot;: Length of the bike's handlebar in centimeters.
+- &quot;top tube length [cm]&quot;: Length of the bike's top tube in centimeters.</p>
+</dd>
+</dl>
+</section>
+<section id="id43">
+<h3>Returns<a class="headerlink" href="#id43" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>AgentMeasures</dt><dd><p>An AgentMeasures object with the following attributes:
+- agent_type: Set to AgentTypes.bike
+- measures: A dictionary mapping bike parts to their measurements</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="shapes.classes.measures.create_pedestrian_measures">
+<span class="sig-prename descclassname"><span class="pre">shapes.classes.measures.</span></span><span class="sig-name descname"><span class="pre">create_pedestrian_measures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#shapes.classes.measures.AgentMeasures" title="shapes.classes.measures.AgentMeasures"><span class="pre">AgentMeasures</span></a></span></span><a class="reference internal" href="_modules/shapes/classes/measures.html#create_pedestrian_measures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.measures.create_pedestrian_measures" title="Link to this definition"></a></dt>
+<dd><p>Create pedestrian-specific agent measures.</p>
+<section id="id44">
+<h3>Parameters<a class="headerlink" href="#id44" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>agent_data<span class="classifier">dict[str, float]</span></dt><dd><p>A dictionary containing pedestrian measurements. Expected keys are:
+- &quot;sex&quot;: The sex of the pedestrian (either &quot;male&quot; or &quot;female&quot;).
+- &quot;bideltoid breadth [cm]&quot;: Shoulder width in centimeters.
+- &quot;chest depth [cm]&quot;: Depth of the chest in centimeters.
+- &quot;height [cm]&quot;: Height of the pedestrian in centimeters.
+- &quot;weight [kg]&quot;: Weight of the pedestrian in kilograms.</p>
+</dd>
+</dl>
+</section>
+<section id="id45">
+<h3>Returns<a class="headerlink" href="#id45" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>AgentMeasures</dt><dd><p>An AgentMeasures object with the following attributes:
+- agent_type: Set to AgentTypes.pedestrian
+- measures: A dictionary mapping pedestrian parts to their measurements</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="shapes.classes.measures.draw_agent_measures">
+<span class="sig-prename descclassname"><span class="pre">shapes.classes.measures.</span></span><span class="sig-name descname"><span class="pre">draw_agent_measures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="shapes.utils.html#shapes.utils.constants.AgentTypes" title="shapes.utils.constants.AgentTypes"><span class="pre">AgentTypes</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">crowd_measures</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#shapes.classes.measures.CrowdMeasures" title="shapes.classes.measures.CrowdMeasures"><span class="pre">CrowdMeasures</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#shapes.classes.measures.AgentMeasures" title="shapes.classes.measures.AgentMeasures"><span class="pre">AgentMeasures</span></a></span></span><a class="reference internal" href="_modules/shapes/classes/measures.html#draw_agent_measures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.measures.draw_agent_measures" title="Link to this definition"></a></dt>
+<dd><p>Draw a random set of agent measures based on the agent type.</p>
+<section id="id46">
+<h3>Parameters<a class="headerlink" href="#id46" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>agent_type<span class="classifier">AgentTypes</span></dt><dd><p>The type of agent for which to draw measures. Must be either
+AgentTypes.pedestrian or AgentTypes.bike.</p>
+</dd>
+<dt>crowd_measures<span class="classifier">CrowdMeasures</span></dt><dd><p>An object containing statistical measures for the crowd, including
+both pedestrian and bike-specific measurements.</p>
+</dd>
+</dl>
+</section>
+<section id="id47">
+<h3>Returns<a class="headerlink" href="#id47" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>AgentMeasures</dt><dd><p>An object containing the randomly drawn measures for the specified agent type.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="shapes.classes.measures.draw_agent_type">
+<span class="sig-prename descclassname"><span class="pre">shapes.classes.measures.</span></span><span class="sig-name descname"><span class="pre">draw_agent_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crowd_measures</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#shapes.classes.measures.CrowdMeasures" title="shapes.classes.measures.CrowdMeasures"><span class="pre">CrowdMeasures</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="shapes.utils.html#shapes.utils.constants.AgentTypes" title="shapes.utils.constants.AgentTypes"><span class="pre">AgentTypes</span></a></span></span><a class="reference internal" href="_modules/shapes/classes/measures.html#draw_agent_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.measures.draw_agent_type" title="Link to this definition"></a></dt>
+<dd><p>Draw a random agent type using tower sampling.</p>
+<p>This function selects a random agent type (pedestrian or bike) based on the
+proportions specified in the crowd measures.</p>
+<section id="id48">
+<h3>Parameters<a class="headerlink" href="#id48" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>crowd_measures<span class="classifier">CrowdMeasures</span></dt><dd><p>An instance of CrowdMeasures containing the statistics of different
+agent types in the crowd.</p>
+</dd>
+</dl>
+</section>
+<section id="id49">
+<h3>Returns<a class="headerlink" href="#id49" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>AgentTypes</dt><dd><p>The randomly selected agent type (pedestrian or bike) based on the
+given proportions.</p>
+</dd>
+</dl>
+</section>
+<section id="id50">
+<h3>Raises<a class="headerlink" href="#id50" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>ValueError</dt><dd><p>If the sum of pedestrian and bike proportions is not equal to 1.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</section>
+<section id="module-shapes.classes.shapes2D">
+<span id="shapes-classes-shapes2d-module"></span><h2>shapes.classes.shapes2D module<a class="headerlink" href="#module-shapes.classes.shapes2D" title="Link to this heading"></a></h2>
+<p>Class to store body shapes dynamically based on agent type.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="shapes.classes.shapes2D.Shapes2D">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">shapes.classes.shapes2D.</span></span><span class="sig-name descname"><span class="pre">Shapes2D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent_type:</span> <span class="pre">~shapes.utils.constants.AgentTypes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shapes:</span> <span class="pre">dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~typing.Literal['circle'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'rectangle'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'ellipse'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'polygon']</span> <span class="pre">|</span> <span class="pre">float</span> <span class="pre">|</span> <span class="pre">tuple[float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">float]]]</span> <span class="pre">|</span> <span class="pre">dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~typing.Literal['circle'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'rectangle'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'ellipse'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'polygon']</span> <span class="pre">|</span> <span class="pre">float</span> <span class="pre">|</span> <span class="pre">~shapely.geometry.polygon.Polygon</span> <span class="pre">|</span> <span class="pre">~shapely.geometry.multipolygon.MultiPolygon]]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/shapes/classes/shapes2D.html#Shapes2D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.shapes2D.Shapes2D" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to store body shapes dynamically based on agent type.</p>
+<p>This class allows you to manage shapes in two ways:
+1. Provide a dictionary of pre-defined Shapely shapes as input.
+2. Specify the type of shape and its characteristics to create it dynamically.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="shapes.classes.shapes2D.Shapes2D.agent_type">
+<span class="sig-name descname"><span class="pre">agent_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="shapes.utils.html#shapes.utils.constants.AgentTypes" title="shapes.utils.constants.AgentTypes"><span class="pre">AgentTypes</span></a></em><a class="headerlink" href="#shapes.classes.shapes2D.Shapes2D.agent_type" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shapes.classes.shapes2D.Shapes2D.create_bike_shapes">
+<span class="sig-name descname"><span class="pre">create_bike_shapes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">measurements</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#shapes.classes.measures.AgentMeasures" title="shapes.classes.measures.AgentMeasures"><span class="pre">AgentMeasures</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/shapes/classes/shapes2D.html#Shapes2D.create_bike_shapes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.shapes2D.Shapes2D.create_bike_shapes" title="Link to this definition"></a></dt>
+<dd><p>Create and scale 2D shapes for a bike and its rider based on provided measurements.</p>
+<p>This method uses an optimization process to generate bike and rider shapes that
+best match the provided measurements. It scales initial shapes to minimize the
+difference between desired and actual dimensions.</p>
+<section id="id51">
+<h3>Parameters<a class="headerlink" href="#id51" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>measurements<span class="classifier">AgentMeasures</span></dt><dd><p>An object containing the target measurements for various bike parts and
+rider dimensions.</p>
+</dd>
+</dl>
+</section>
+<section id="id52">
+<h3>Raises<a class="headerlink" href="#id52" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>ValueError</dt><dd><p>If the agent type is not 'bike'.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shapes.classes.shapes2D.Shapes2D.create_pedestrian_shapes">
+<span class="sig-name descname"><span class="pre">create_pedestrian_shapes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">measurements</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#shapes.classes.measures.AgentMeasures" title="shapes.classes.measures.AgentMeasures"><span class="pre">AgentMeasures</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/shapes/classes/shapes2D.html#Shapes2D.create_pedestrian_shapes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.shapes2D.Shapes2D.create_pedestrian_shapes" title="Link to this definition"></a></dt>
+<dd><p>Create the shapes of a pedestrian based on the provided measures.</p>
+<p>This method generates the shapes of a pedestrian agent by scaling initial disk centers and radii
+according to the provided measurements. It uses an optimization algorithm to minimize the difference
+between the ndesired and actual chest depth and bideltoid breadth.</p>
+<section id="id53">
+<h3>Parameters<a class="headerlink" href="#id53" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>measurements<span class="classifier">AgentMeasures</span></dt><dd><p>An object containing the measurements of the pedestrian agent.</p>
+</dd>
+</dl>
+</section>
+<section id="id54">
+<h3>Raises<a class="headerlink" href="#id54" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>ValueError</dt><dd><p>If the agent type is not 'pedestrian'.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shapes.classes.shapes2D.Shapes2D.create_shape">
+<span class="sig-name descname"><span class="pre">create_shape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">young_modulus</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/shapes/classes/shapes2D.html#Shapes2D.create_shape"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.shapes2D.Shapes2D.create_shape" title="Link to this definition"></a></dt>
+<dd><p>Create a shape and add it to the shapes dictionary.</p>
+<section id="id55">
+<h3>Parameters<a class="headerlink" href="#id55" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>name<span class="classifier">str</span></dt><dd><p>The name of the shape.</p>
+</dd>
+<dt>shape_type<span class="classifier">str</span></dt><dd><p>The type of the shape. Must be one of {'circle', 'rectangle', 'polygon'}.</p>
+</dd>
+<dt>young_modulus<span class="classifier">float</span></dt><dd><p>The Young's modulus of the shape.</p>
+</dd>
+<dt>kwargs<span class="classifier">Any</span></dt><dd><p>Additional keyword arguments specific to the shape type.</p>
+</dd>
+</dl>
+</section>
+<section id="keyword-arguments">
+<h3>Keyword Arguments<a class="headerlink" href="#keyword-arguments" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>For 'circle':</dt><dd><dl class="simple">
+<dt>center<span class="classifier">tuple of (float, float)</span></dt><dd><p>The center of the circle.</p>
+</dd>
+<dt>radius<span class="classifier">float</span></dt><dd><p>The radius of the circle.</p>
+</dd>
+</dl>
+</dd>
+<dt>For 'rectangle':</dt><dd><dl class="simple">
+<dt>min_x<span class="classifier">float</span></dt><dd><p>The minimum x-coordinate of the rectangle.</p>
+</dd>
+<dt>min_y<span class="classifier">float</span></dt><dd><p>The minimum y-coordinate of the rectangle.</p>
+</dd>
+<dt>max_x<span class="classifier">float</span></dt><dd><p>The maximum x-coordinate of the rectangle.</p>
+</dd>
+<dt>max_y<span class="classifier">float</span></dt><dd><p>The maximum y-coordinate of the rectangle.</p>
+</dd>
+</dl>
+</dd>
+<dt>For 'polygon':</dt><dd><dl class="simple">
+<dt>points<span class="classifier">list of tuple of (float, float)</span></dt><dd><p>The vertices of the polygon. Must have at least 3 points, and the first and last points must match.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+<section id="id56">
+<h3>Raises<a class="headerlink" href="#id56" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>ValueError</dt><dd><p>If the shape type is unsupported or if the required keyword arguments are not provided or invalid.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shapes.classes.shapes2D.Shapes2D.get_additional_parameters">
+<span class="sig-name descname"><span class="pre">get_additional_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'circle'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'rectangle'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'ellipse'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'polygon'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'circle'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'rectangle'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'ellipse'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'polygon'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Polygon</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">MultiPolygon</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/shapes/classes/shapes2D.html#Shapes2D.get_additional_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.shapes2D.Shapes2D.get_additional_parameters" title="Link to this definition"></a></dt>
+<dd><p>Retrieve parameters of each stored shape.</p>
+<p>This method iterates through all stored shapes and extracts relevant
+parameters based on the shape type (circle, rectangle, or polygon).</p>
+<section id="id57">
+<h3>Returns<a class="headerlink" href="#id57" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>ShapeDataType</dt><dd><p>A dictionary containing the parameters of each shape. The keys are
+the shape names, and the values are dictionaries with the following
+structure:</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>For circles:</dt><dd><ul>
+<li><dl class="simple">
+<dt>'shape_type': str</dt><dd><p>The type of the shape (always 'circle').</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>'young_modulus': float</dt><dd><p>The Young's modulus of the material.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>'center': tuple of float</dt><dd><p>The (x, y) coordinates of the circle's center.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>'radius': float</dt><dd><p>The radius of the circle.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>For rectangles:</dt><dd><ul>
+<li><dl class="simple">
+<dt>'shape_type': str</dt><dd><p>The type of the shape (always 'rectangle').</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>'young_modulus': float</dt><dd><p>The Young's modulus of the material.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>'min_x', 'min_y', 'max_x', 'max_y': float</dt><dd><p>The coordinates of the rectangle's bounding box.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>For polygons:</dt><dd><ul>
+<li><dl class="simple">
+<dt>'shape_type': str</dt><dd><p>The type of the shape (always 'polygon').</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>'young_modulus': float</dt><dd><p>The Young's modulus of the material.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>'points': list of tuples</dt><dd><p>A list of (x, y) coordinates representing the polygon's vertices.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shapes.classes.shapes2D.Shapes2D.get_area">
+<span class="sig-name descname"><span class="pre">get_area</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/shapes/classes/shapes2D.html#Shapes2D.get_area"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.shapes2D.Shapes2D.get_area" title="Link to this definition"></a></dt>
+<dd><p>Calculate the area of the agent 2D representation.</p>
+<section id="id58">
+<h3>Returns<a class="headerlink" href="#id58" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>float</dt><dd><p>The area of the agent 2D representation (cm²).</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shapes.classes.shapes2D.Shapes2D.get_geometric_shape">
+<span class="sig-name descname"><span class="pre">get_geometric_shape</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Polygon</span></span></span><a class="reference internal" href="_modules/shapes/classes/shapes2D.html#Shapes2D.get_geometric_shape"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.shapes2D.Shapes2D.get_geometric_shape" title="Link to this definition"></a></dt>
+<dd><p>Return the union geometry of the stored shapes.</p>
+<p>This method computes the geometric union of all shapes stored in the
+instance and returns it as a single Polygon object.</p>
+<section id="id59">
+<h3>Returns<a class="headerlink" href="#id59" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>Polygon</dt><dd><p>The union of all stored shapes as a single Polygon object.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shapes.classes.shapes2D.Shapes2D.get_shape">
+<span class="sig-name descname"><span class="pre">get_shape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Polygon</span></span></span><a class="reference internal" href="_modules/shapes/classes/shapes2D.html#Shapes2D.get_shape"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.shapes2D.Shapes2D.get_shape" title="Link to this definition"></a></dt>
+<dd><p>Retrieve a shape by its name.</p>
+<p>This method returns the Shapely Polygon object associated with the given shape name.</p>
+<section id="id60">
+<h3>Parameters<a class="headerlink" href="#id60" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>name<span class="classifier">str</span></dt><dd><p>The name of the shape to retrieve.</p>
+</dd>
+</dl>
+</section>
+<section id="id61">
+<h3>Returns<a class="headerlink" href="#id61" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>Polygon</dt><dd><p>The Shapely Polygon object corresponding to the shape with the given name.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shapes.classes.shapes2D.Shapes2D.number_of_shapes">
+<span class="sig-name descname"><span class="pre">number_of_shapes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/shapes/classes/shapes2D.html#Shapes2D.number_of_shapes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.shapes2D.Shapes2D.number_of_shapes" title="Link to this definition"></a></dt>
+<dd><p>Return the total number of stored shapes.</p>
+<section id="id62">
+<h3>Returns<a class="headerlink" href="#id62" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>int</dt><dd><p>The total number of shapes stored in the <cite>shapes</cite> attribute.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="shapes.classes.shapes2D.Shapes2D.shapes">
+<span class="sig-name descname"><span class="pre">shapes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'circle'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'rectangle'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'ellipse'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'polygon'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'circle'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'rectangle'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'ellipse'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'polygon'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Polygon</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">MultiPolygon</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#shapes.classes.shapes2D.Shapes2D.shapes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-shapes.classes.shapes3D">
+<span id="shapes-classes-shapes3d-module"></span><h2>shapes.classes.shapes3D module<a class="headerlink" href="#module-shapes.classes.shapes3D" title="Link to this heading"></a></h2>
+<p>Class to store body shapes dynamically based on agent type.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="shapes.classes.shapes3D.Shapes3D">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">shapes.classes.shapes3D.</span></span><span class="sig-name descname"><span class="pre">Shapes3D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent_type:</span> <span class="pre">~shapes.utils.constants.AgentTypes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shapes:</span> <span class="pre">dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~typing.Literal['circle'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'rectangle'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'ellipse'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'polygon']</span> <span class="pre">|</span> <span class="pre">float</span> <span class="pre">|</span> <span class="pre">tuple[float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">float]]]</span> <span class="pre">|</span> <span class="pre">dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">~typing.Literal['circle'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'rectangle'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'ellipse'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'polygon']</span> <span class="pre">|</span> <span class="pre">float</span> <span class="pre">|</span> <span class="pre">~shapely.geometry.polygon.Polygon</span> <span class="pre">|</span> <span class="pre">~shapely.geometry.multipolygon.MultiPolygon]]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/shapes/classes/shapes3D.html#Shapes3D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.shapes3D.Shapes3D" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Store and manage 3D body shapes for different agent types.</p>
+<p>This class provides a flexible structure to either store pre-defined 3D shapes
+or dynamically create them based on agent measurements.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="shapes.classes.shapes3D.Shapes3D.agent_type">
+<span class="sig-name descname"><span class="pre">agent_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="shapes.utils.html#shapes.utils.constants.AgentTypes" title="shapes.utils.constants.AgentTypes"><span class="pre">AgentTypes</span></a></em><a class="headerlink" href="#shapes.classes.shapes3D.Shapes3D.agent_type" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="shapes.classes.shapes3D.Shapes3D.create_pedestrian3D">
+<span class="sig-name descname"><span class="pre">create_pedestrian3D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">measurements</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#shapes.classes.measures.AgentMeasures" title="shapes.classes.measures.AgentMeasures"><span class="pre">AgentMeasures</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/shapes/classes/shapes3D.html#Shapes3D.create_pedestrian3D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#shapes.classes.shapes3D.Shapes3D.create_pedestrian3D" title="Link to this definition"></a></dt>
+<dd><p>Create a 3D representation of a pedestrian based on provided measurements.</p>
+<p>This method generates a scaled 3D model of a pedestrian by applying
+dimension-specific scaling factors to a base model.</p>
+<section id="id63">
+<h3>Parameters<a class="headerlink" href="#id63" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>measurements<span class="classifier">AgentMeasures</span></dt><dd><p>An object containing the target measurements of the pedestrian,
+including sex, bideltoid breadth, chest depth, and height.</p>
+</dd>
+</dl>
+</section>
+<section id="id64">
+<h3>Raises<a class="headerlink" href="#id64" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>ValueError</dt><dd><p>If the provided sex is not &quot;male&quot; or &quot;female&quot;.</p>
+</dd>
+</dl>
+</section>
+<section id="id65">
+<h3>Notes<a class="headerlink" href="#id65" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>The method uses an initial pedestrian representation based on the provided sex.</p></li>
+<li><p>Scaling factors are calculated for each dimension (x, y, z) based on
+the ratio of target measurements to initial measurements.</p></li>
+<li><p>The scaling is performed around the centroid of all initial shapes.</p></li>
+</ul>
+</section>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="shapes.classes.shapes3D.Shapes3D.shapes">
+<span class="sig-name descname"><span class="pre">shapes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'circle'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'rectangle'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'ellipse'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'polygon'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'circle'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'rectangle'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'ellipse'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'polygon'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Polygon</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">MultiPolygon</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#shapes.classes.shapes3D.Shapes3D.shapes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-shapes.classes">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-shapes.classes" title="Link to this heading"></a></h2>
+<p>classes subpackage contains classes for the app.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="shapes.html" class="btn btn-neutral float-left" title="shapes package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="shapes.datafactory.html" class="btn btn-neutral float-right" title="shapes.datafactory package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Oscar Maxime Alexandre.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
