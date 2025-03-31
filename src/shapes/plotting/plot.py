@@ -20,16 +20,16 @@ import shapes.utils.functions as fun
 from shapes.classes.agents import Agent
 from shapes.classes.crowd import Crowd
 
-plt.rcParams.update(
-    {
-        "text.usetex": True,
-        "font.family": "serif",
-        "font.serif": ["Computer Modern Roman"],
-        "font.size": 23,
-        "text.latex.preamble": r"\usepackage{amsmath}",
-        "figure.dpi": 300,
-    }
-)
+# plt.rcParams.update(
+#     {
+#         "text.usetex": True,
+#         "font.family": "serif",
+#         "font.serif": ["Computer Modern Roman"],
+#         "font.size": 23,
+#         "text.latex.preamble": r"\usepackage{amsmath}",
+#         "figure.dpi": 300,
+#     }
+# )
 
 
 def display_shape2D(agents: list[Agent]) -> go.Figure:
