@@ -3,12 +3,11 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-shapes documentation
-====================
+The shapes documentation
+========================
 
-Add your content using ``reStructuredText`` syntax. See the
-`reStructuredText <https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html>`_
-documentation for details.
+
+Welcome to the official shapes package documentation! This guide provides comprehensive instructions on how to install and use the package. Additionally, it offers an overview of the package's functionalities and capabilities, complemented by an extensive API reference.
 
 
 .. toctree::

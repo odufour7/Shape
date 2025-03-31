@@ -13,8 +13,8 @@ smartquotes = False
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = "shapes project"
-copyright = "2025, Oscar Maxime Alexandre"
+project = "shapes"
+copyright = "2025, The SHAPE project"
 author = "Oscar Maxime Alexandre"
 release = "1.0.0"
 
@@ -39,5 +39,7 @@ language = "en"
 
 html_theme = "sphinx_rtd_theme"
 html_static_path = ["_static"]
+html_css_files = ["custom.css"]
+html_logo = "_static/README/art_light.png"
 
 suppress_warnings = ["config.cache"]
