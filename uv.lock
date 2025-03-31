@@ -1258,6 +1258,19 @@ wheels = [
 ]
 
 [[package]]
+name = "nbsphinx-link"
+version = "1.3.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "nbsphinx" },
+    { name = "sphinx" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/e6/d3/aabce2e96a7080b15a19342fa0839573463b9c3a8c57ee8e657a7ce9c176/nbsphinx-link-1.3.1.tar.gz", hash = "sha256:8b5a3f5279ba9e9f81c01309ff5436dfcc14c23f188ec8a04658f871a3860420", size = 16624 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/6e/8f/cd4bb6849fef05dafc02e38b3c9b9e985d266c3ca7cb485c3160ddeb96f2/nbsphinx_link-1.3.1-py3-none-any.whl", hash = "sha256:2188fc42294a38ba253eedd184dea8750ab035fd94fe63e855ff01f911631769", size = 5230 },
+]
+
+[[package]]
 name = "nest-asyncio"
 version = "1.6.0"
 source = { registry = "https://pypi.org/simple" }
@@ -1945,6 +1958,7 @@ dependencies = [
     { name = "mypy" },
     { name = "myst-nb" },
     { name = "nbsphinx" },
+    { name = "nbsphinx-link" },
     { name = "numpydoc" },
     { name = "pandas" },
     { name = "plotly" },
@@ -1978,6 +1992,7 @@ requires-dist = [
     { name = "mypy", marker = "extra == 'dev'", specifier = ">=1.15.0" },
     { name = "myst-nb", specifier = ">=1.2.0" },
     { name = "nbsphinx", specifier = ">=0.9.6" },
+    { name = "nbsphinx-link", specifier = ">=1.3.1" },
     { name = "numpydoc", specifier = ">=1.8.0" },
     { name = "pandas", specifier = ">=2.2.3" },
     { name = "plotly", specifier = ">=6.0.0" },

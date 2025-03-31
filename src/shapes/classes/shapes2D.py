@@ -61,7 +61,7 @@ class Shapes2D:
                 raise ValueError(f"Invalid shape type for '{shape_name}': {type(shape.get('object'))}")
 
     def create_shape(self, name: str, shape_type: str, young_modulus: float, **kwargs: Any) -> None:
-        """
+        r"""
         Create a shape and add it to the shapes dictionary.
 
         Parameters
@@ -72,33 +72,33 @@ class Shapes2D:
             The type of the shape. Must be one of {'circle', 'rectangle', 'polygon'}.
         young_modulus : float
             The Young's modulus of the shape.
-        **kwargs : Any
+        \*\*kwargs : Any
             Additional keyword arguments specific to the shape type.
+
+            - For 'circle':
+                - center : tuple of (float, float)
+                    The center of the circle.
+                - radius : float
+                    The radius of the circle.
+            - For 'rectangle':
+                - min_x : float
+                    The minimum x-coordinate of the rectangle.
+                - min_y : float
+                    The minimum y-coordinate of the rectangle.
+                - max_x : float
+                    The maximum x-coordinate of the rectangle.
+                - max_y : float
+                    The maximum y-coordinate of the rectangle.
+            - For 'polygon':
+                - points : list of tuple of (float, float)
+                    The vertices of the polygon. Must have at least 3 points, and
+                    the first and last points must match.
 
         Raises
         ------
         ValueError
-            If the shape type is unsupported or if the required keyword arguments are not provided or invalid.
-
-        Notes
-        -----
-        For 'circle':
-            center : tuple of (float, float)
-                The center of the circle.
-            radius : float
-                The radius of the circle.
-        For 'rectangle':
-            min_x : float
-                The minimum x-coordinate of the rectangle.
-            min_y : float
-                The minimum y-coordinate of the rectangle.
-            max_x : float
-                The maximum x-coordinate of the rectangle.
-            max_y : float
-                The maximum y-coordinate of the rectangle.
-        For 'polygon':
-            points : list of tuple of (float, float)
-                The vertices of the polygon. Must have at least 3 points, and the first and last points must match.
+            If the shape type is unsupported or if the required keyword arguments
+            are not provided or invalid.
         """
         if shape_type == cst.ShapeTypes.circle.name:
             center = kwargs.get("center")

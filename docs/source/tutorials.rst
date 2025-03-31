@@ -7,4 +7,4 @@ tutorials
    :caption: Contents:
 
    config_files_tutorials
-   mechanical_layer_tutorial
+   mechanical_layer_tutorials
