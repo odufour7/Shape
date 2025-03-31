@@ -418,7 +418,7 @@ def display_body3D_mesh(agent: Agent, extra_info: tuple[DeltaGenerator, DeltaGen
     logging.info("Number of layers: %d", len(new_body))
 
     # Sort the heights in descending order
-    sorted_heights = np.array(sorted(new_body.keys(), reverse=True))
+    sorted_heights = np.array(sorted(new_body.keys(), reverse=True, key=float))
 
     # Initialize arrays to store vertices and triangles
     all_points: NDArray[np.float64] = np.empty((0, 3), dtype=float)
@@ -427,9 +427,7 @@ def display_body3D_mesh(agent: Agent, extra_info: tuple[DeltaGenerator, DeltaGen
     # Loop through consecutive heights and connect contours with triangular meshes
     for h_idx in range(len(sorted_heights) - 1):
         # Update progress bar
-        percent_completed = (sorted_heights[0] - sorted_heights[h_idx] - sorted_heights[-1]) / (
-            sorted_heights[0] - sorted_heights[-1]
-        )
+        percent_completed = (sorted_heights[h_idx] - sorted_heights[0]) / (sorted_heights[-1] - sorted_heights[0])
         fun.update_progress_bar(extra_info[0], extra_info[1], percent_completed)
 
         # Extract high and low contours for the current height pair

@@ -158,7 +158,7 @@ def plot_and_download(current_crowd: Crowd) -> None:
     # Create a select box for format selection
     backup_data_type: BackupDataType = st.sidebar.selectbox(
         "Select backup format:",
-        options=[cst.BackupDataTypes.json.name, cst.BackupDataTypes.xml.name],
+        options=[cst.BackupDataTypes.xml.name, cst.BackupDataTypes.json.name],
         format_func=lambda x: x.upper(),
         help="Choose the format for your data backup.",
     )

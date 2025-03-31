@@ -134,10 +134,10 @@ def main() -> None:
     st.sidebar.header("Adjust position")
     # Input fields for translation and rotation
     x_translation = st.sidebar.slider(
-        "X-Translation (cm):", min_value=-cst.MAX_TRANSLATION_X, max_value=cst.MAX_TRANSLATION_X, value=0.0, step=1.0
+        "X-translation (cm):", min_value=-cst.MAX_TRANSLATION_X, max_value=cst.MAX_TRANSLATION_X, value=0.0, step=1.0
     )
     y_translation = st.sidebar.slider(
-        "Y-Translation (cm):", min_value=-cst.MAX_TRANSLATION_Y, max_value=cst.MAX_TRANSLATION_Y, value=0.0, step=1.0
+        "Y-translation (cm):", min_value=-cst.MAX_TRANSLATION_Y, max_value=cst.MAX_TRANSLATION_Y, value=0.0, step=1.0
     )
     rotation_angle = st.sidebar.slider(
         "Rotation angle (degrees):",
@@ -178,7 +178,7 @@ def main() -> None:
     # Create a select box for format selection
     backup_data_type: BackupDataType = st.sidebar.selectbox(
         "Select backup format:",
-        options=["json", "xml"],
+        options=[cst.BackupDataTypes.xml.name, cst.BackupDataTypes.json.name],
         format_func=lambda x: x.upper(),
         help="Choose the format for your data backup.",
     )

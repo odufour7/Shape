@@ -202,7 +202,7 @@ def main() -> None:
 
         # Translation and Rotation Sliders
         current_agent.x_translation = st.sidebar.slider(
-            "X-Translation (cm)",
+            "X-translation (cm)",
             -100.0,
             100.0,
             value=getattr(current_agent, "x_translation", 0.0),
@@ -212,7 +212,7 @@ def main() -> None:
         )
 
         current_agent.y_translation = st.sidebar.slider(
-            "Y-Translation (cm)",
+            "Y-translation (cm)",
             -100.0,
             100.0,
             value=getattr(current_agent, "y_translation", 0.0),
@@ -255,7 +255,7 @@ def main() -> None:
             st.sidebar.header("Download")
 
             st.sidebar.download_button(
-                label="Download Plot as PDF",
+                label="Download plot as PDF",
                 data=fig.to_image(format="pdf"),
                 file_name=f"scene_custom_crowd_{timestamp}.pdf",
                 mime="application/pdf",
@@ -264,7 +264,7 @@ def main() -> None:
             # Backup data download option
             backup_format: BackupDataType = st.sidebar.selectbox(
                 "Backup Format:",
-                [cst.BackupDataTypes.json.name, cst.BackupDataTypes.xml.name, cst.BackupDataTypes.pickle.name],
+                [cst.BackupDataTypes.xml.name, cst.BackupDataTypes.json.name, cst.BackupDataTypes.pickle.name],
                 format_func=lambda x: x.upper(),
                 help="Choose the format for your data backup.",
             )

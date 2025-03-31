@@ -444,7 +444,7 @@ class Agent:
         if self.shapes3D is None:
             raise ValueError("No 3D shapes available for the agent.")
         for height, multipolygon in self.shapes3D.shapes.items():
-            translated_body3D[f"{float(height) + dz}"] = affin.translate(multipolygon, dx, dy)
+            translated_body3D[float(height) + dz] = affin.translate(multipolygon, dx, dy)
         self.shapes3D.shapes = translated_body3D
 
     def rotate_body3D(self, angle: float) -> None:
