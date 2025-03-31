@@ -36,4 +36,6 @@ Thumbs.db
 # Miscellaneous temporary or log files
 *.log
 
-docs/build/
+/docs/build/doctrees/
+/docs/build/html/
+/docs/build/jupyter_execute/
