@@ -101,9 +101,6 @@ class Agent:
         """
         Initialize measures for an agent.
 
-        This method initializes the measures for an agent based on the provided input,
-        which can either be a dictionary of measures or an `AgentMeasures` instance.
-
         Parameters
         ----------
         agent_type : AgentTypes
@@ -133,10 +130,6 @@ class Agent:
     def _initialize_shapes2D(self, agent_type: cst.AgentTypes, shapes2D: Optional[Shapes2D | ShapeDataType | None]) -> Shapes2D:
         """
         Initialize 2D shapes for an agent.
-
-        This method initializes the 2D shapes associated with an agent based on the
-        provided input. If no shapes are provided, default shapes are created based
-        on the agent type.
 
         Parameters
         ----------

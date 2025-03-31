@@ -147,12 +147,6 @@ def wrap_angle(angle: float) -> float:
     -------
     float
         The wrapped angle in the range [-180, 180).
-
-    Examples
-    --------
-    >>> from your_module import wrap_angle
-    >>> wrap_angle(190)
-    -170.0
     """
     return (angle + 180.0) % 360.0 - 180.0
 
@@ -343,16 +337,6 @@ def update_progress_bar(progress_bar: DeltaGenerator, status_text: DeltaGenerato
     ------
     ValueError
         If `frac` is not between 0 and 1 (inclusive).
-
-    Examples
-    --------
-    >>> import streamlit as st
-    >>> from your_module import update_progress_bar
-    >>> progress_bar = st.progress(0)
-    >>> status_text = st.text("Starting operation...")
-    >>> update_progress_bar(progress_bar, status_text, 0.5)
-    # Updates the progress bar to 50% and sets the status text to:
-    # "Operation in progress. Please wait. ⏳ 50%"
     """
     if not 0 <= frac <= 1:
         raise ValueError("The completion fraction 'frac' must be between 0 and 1 (inclusive).")
@@ -395,15 +379,6 @@ def draw_from_trunc_normal(mean: float, std_dev: float, min_val: float, max_val:
     ValueError
         If `std_dev` is less than or equal to zero, or if `min_val` is greater than or equal
         to `max_val`.
-
-    Examples
-    --------
-    >>> import numpy as np
-    >>> from scipy.stats import truncnorm
-    >>> from your_module import draw_from_trunc_normal
-    >>> np.random.seed(42)  # Set seed for reproducibility
-    >>> draw_from_trunc_normal(mean=0.0, std_dev=1.0, min_val=-1.0, max_val=1.0)
-    0.4967141530112327
     """
     if std_dev <= 0:
         raise ValueError("Standard deviation must be greater than zero.")
@@ -426,8 +401,7 @@ def draw_sex(p: float) -> Sex:
     Parameters
     ----------
     p : float
-        A proportion value between 0 and 1 (inclusive), representing the likelihood
-        of selecting "male".
+        A proportion value between 0 and 1 (inclusive), representing the likelihood of selecting "male".
 
     Returns
     -------
@@ -438,16 +412,6 @@ def draw_sex(p: float) -> Sex:
     ------
     ValueError
         If the probability `p` is not between 0 and 1 (inclusive).
-
-    Examples
-    --------
-    >>> import numpy as np
-    >>> from your_module import draw_sex
-    >>> np.random.seed(42)  # Set seed for reproducibility
-    >>> draw_sex(0.7)
-    'male'
-    >>> draw_sex(0.3)
-    'female'
     """
     # Check if the probability is between 0 and 1
     if not 0 <= p <= 1:
@@ -461,11 +425,6 @@ def cross2d(Pn: NDArray[np.float64], Pn1: NDArray[np.float64]) -> float:
     """
     Compute the 2D cross product of two vectors.
 
-    This function calculates the scalar value of the 2D cross product
-    between two vectors in the XY-plane. The result represents the
-    magnitude of the perpendicular vector to the plane formed by the
-    input vectors.
-
     Parameters
     ----------
     Pn : NDArray[np.float64]
@@ -478,7 +437,7 @@ def cross2d(Pn: NDArray[np.float64], Pn1: NDArray[np.float64]) -> float:
     Returns
     -------
     float
-        The scalar value of the 2D cross product of the two vectors.
+        The magnitude of the perpendicular vector to the plane formed by the input vectors.
 
     Notes
     -----
@@ -486,15 +445,6 @@ def cross2d(Pn: NDArray[np.float64], Pn1: NDArray[np.float64]) -> float:
       `Pn[0] * Pn1[1] - Pn[1] * Pn1[0]`
       This operation computes a scalar rather than a vector, as it is
       specific to 2D vectors.
-
-    Examples
-    --------
-    >>> import numpy as np
-    >>> from your_module import cross2d
-    >>> Pn = np.array([1.0, 2.0])
-    >>> Pn1 = np.array([3.0, 4.0])
-    >>> cross2d(Pn, Pn1)
-    -2.0
     """
     return float(Pn[0] * Pn1[1] - Pn[1] * Pn1[0])
 
@@ -506,17 +456,14 @@ def compute_moment_of_inertia(vertices: NDArray[np.float64], weight: float) -> f
     This function calculates the moment of inertia (I_z) for a 2D shape
     represented as a polygon based on its vertices and weight. The calculation
     is performed using the second moment of area formula, assuming the polygon
-    is in the XY-plane.
-
-    For more details on the second moment of area, refer to:
+    is in the XY-plane. For more details on the second moment of area, refer to:
     https://en.wikipedia.org/wiki/Second_moment_of_area
 
     Parameters
     ----------
     vertices : NDArray[np.float64]
-        A 2D NumPy array of shape (N, 2), where each row represents the
-        (x, y) coordinates of a vertex of the polygon. The last vertex should
-        be identical to the first to close the polygon.
+        A 2D NumPy array of shape (N, 2), where each row represents the (x, y) coordinates
+        of a vertex of the polygon. The last vertex should be identical to the first to close the polygon.
     weight : float
         The mass or weight of the shape in kilograms (kg).
 

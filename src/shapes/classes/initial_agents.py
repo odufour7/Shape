@@ -18,7 +18,6 @@ class InitialPedestrian:
     ----------
     sex : Sex
             Biological sex of the pedestrian, must be either "male" or "female".
-            This affects 3D body shape loading and biomechanical calculations.
     """
 
     def __init__(self, sex: Sex) -> None:
@@ -29,7 +28,6 @@ class InitialPedestrian:
         ----------
         sex : Sex
             Biological sex of the pedestrian, must be either "male" or "female".
-            This affects 3D body shape loading and biomechanical calculations.
 
         Attributes
         ----------
@@ -38,7 +36,7 @@ class InitialPedestrian:
         _shapes2D : ShapeDataType
             2D shape data with disk components representing body parts
         _shapes3D : dict[float, MultiPolygon]
-            3D body layers mapped to z-height coordinates (in centimeters)
+            3D body layers mapped to z-height coordinates
         _measures : dict[str, float | Sex | None]
             Biomechanical measurements including:
             - sex: Biological sex (Literal["male","female"])
@@ -48,19 +46,9 @@ class InitialPedestrian:
             - weight: Default weight from constants file
             - moment_of_inertia: Initially uncalculated (None)
 
-        Raises
-        ------
-        ValueError
-            If provided sex is not "male" or "female"
-        TypeError
-            If sex argument is not a string
-
         Notes
         -----
-        - 3D shapes are loaded from sex-specific pickle files in data/pkl/
-        - 2D disk coordinates are in centimeters
-        - Height calculation uses maximum z-coordinate difference from 3D data
-        - Default weight from DEFAULT_PEDESTRIAN_WEIGHT
+        - 2D and 3D coordinates are in centimeters
         - the moment_of_inertia will computed later when the agent will be created
         """
         if isinstance(sex, str) and sex not in ["male", "female"]:
@@ -145,13 +133,15 @@ class InitialPedestrian:
 
         Returns
         -------
-        Literal["male", "female"]
+        Sex
             The biological sex of the pedestrian as either "male" or "female".
 
         Raises
         ------
+        ValueError
+            If provided value is not "male" or "female"
         TypeError
-            If the stored value is not a string or is not one of the allowed values
+            If non-string value is provided
         """
         sex_name = self._measures[cst.PedestrianParts.sex.name]
         if isinstance(sex_name, str) and sex_name in ["male", "female"]:
@@ -165,7 +155,7 @@ class InitialPedestrian:
 
         Parameters
         ----------
-        value : Literal["male", "female"]
+        value : Sex
             The biological sex to set. Must be exactly "male" or "female" (case-sensitive).
 
         Raises
@@ -220,7 +210,7 @@ class InitialPedestrian:
         -------
         dict[str, float | Sex | None]
             A dictionary containing the pedestrian's measures. The keys are measure names (str),
-            and the values are either floats, "Sex" Literal["male","female"] values, or None.
+            and the values are either floats, Sex or None.
         """
         return self._measures
 
@@ -228,10 +218,6 @@ class InitialPedestrian:
     def shapes3D(self) -> dict[float, MultiPolygon]:
         """
         Get the 3D body representation of the pedestrian.
-
-        This property provides access to the 3D shapes of the pedestrian, stored as a dictionary
-        where each key is a float representing a layer or pedestrian slice, and each value is a "MultiPolygon"
-        object representing the corresponding 2D geometry.
 
         Returns
         -------
@@ -245,10 +231,6 @@ class InitialPedestrian:
     def calculate_position(self) -> Point:
         """
         Calculate the pedestrian's position based on the center of disk2.
-
-        The position is determined by the center coordinates of the "disk2" shape
-        stored in the shapes2D attribute. This method assumes disk2 represents
-        the pedestrian's main body position.
 
         Returns
         -------
@@ -268,46 +250,24 @@ class InitialPedestrian:
 
     def get_disk_centers(self) -> list[Point]:
         """
-        Retrieve the center coordinates of all disks.
-
-        This method iterates through the predefined number of disks (specified by "DISK_NUMBER")
-        and extracts their center coordinates from the "shapes2D" attribute.
+        Retrieve the center coordinates of all disks of the agent physical shape.
 
         Returns
         -------
         list[Point]
             A list of Point objects representing the center coordinates of each disk in centimeters.
             The points are returned in the order of disk indices (disk0, disk1, ..., diskN-1).
-
-        Notes
-        -----
-        Requires disks to be named consecutively as 'disk0', 'disk1', ..., 'disk{DISK_NUMBER-1}'
-        in the shapes2D attribute
-        Each disk entry must contain a "center" key with coordinate data compatible with Point constructor
-        Returns empty Points for any missing or invalid disk entries
         """
         return [Point(self.shapes2D[f"disk{i}"]["center"]) for i in range(cst.DISK_NUMBER)]
 
     def get_disk_radii(self) -> list[float]:
         """
-        Retrieve the radii of all disks.
-
-        This method accesses the 'shapes2D' attribute of the instance and extracts the radius
-        of each disk based on a predefined number of disks specified by 'DISK_NUMBER'.
+        Retrieve the radii of all disks of the agent physical shape.
 
         Returns
         -------
         list[float]
-            A list containing the radii of the disks. Each element is a float
-            representing the radius of a disk in the order they are stored.
-
-        Notes
-        -----
-        - The method assumes that disk shapes are named 'disk0', 'disk1', etc., up to
-          'disk{DISK_NUMBER - 1}'.
-        - Only valid float radii are included in the returned list. If a disk's radius
-          is not a float, it will be skipped.
-        - If no valid radii are found, an empty list is returned.
+            A list containing the radii of the disks in the order they are stored.
         """
         list_of_radii: list[float] = []
         for i in range(cst.DISK_NUMBER):
@@ -342,7 +302,6 @@ class InitialBike:
         Notes
         -----
         - All measurements are calculated in centimeters.
-        - If shape data is invalid or missing, measurements default to 0.0.
         - The moment of inertia is initially set to None and should be calculated separately.
         """
         self._agent_type: cst.AgentTypes = cst.AgentTypes.bike
@@ -469,25 +428,17 @@ class InitialBike:
         """
         Get the measures of the pedestrian.
 
-        This property provides access to the measures of the pedestrian,
-        which are stored in a dictionary. The keys are strings representing
-        the names of the measures, and the values are floats or None
-        representing the measure values.
-
         Returns
         -------
         dict[str, float | None]
             A dictionary containing the measures of the pedestrian.
-            Keys are measure names (str) and values are measure values (float or None).
+            Keys are measure names and values are measure values.
         """
         return self._measures
 
     def calculate_position(self) -> Point:
         """
         Calculate the central position of the bike.
-
-        This method computes the central position of the bike based on the
-        minimum and maximum x and y coordinates of the bike's shape.
 
         Returns
         -------

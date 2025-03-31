@@ -18,7 +18,7 @@ def read_anthropometric_data(sex: Sex, data_dir_path: Path) -> pd.DataFrame:
 
     Parameters
     ----------
-    sex : Literal["male","female"]
+    sex : Sex
         The sex of the individuals whose data is to be read ("male" or "female").
     data_dir_path : Path
         Path to the root data directory containing the "csv" subdirectory.
@@ -46,13 +46,6 @@ def read_anthropometric_data(sex: Sex, data_dir_path: Path) -> pd.DataFrame:
         * Chest depth: millimeters → centimeters
         * Bideltoid breadth: millimeters → centimeters
     - Original column names are renamed to include units in brackets
-
-    Examples
-    --------
-    >>> from pathlib import Path
-    >>> data_path = Path("/path/to/data/directory")
-    >>> male_data = read_anthropometric_data("male", data_path)
-    >>> female_data = read_anthropometric_data("female", data_path)
     """
     # Check if the sex is valid
     if sex not in get_args(Sex):
@@ -105,9 +98,6 @@ def prepare_bike_data(data_dir_path: Path) -> None:
     """
     Prepare bike data by reading a CSV file, processing it, and saving as a pickle file.
 
-    This function reads bike data from a specific CSV file, processes it,
-    and saves the resulting DataFrame as a pickle file for faster future access.
-
     Parameters
     ----------
     data_dir_path : Path
@@ -130,12 +120,6 @@ def prepare_data() -> None:
     initiates the data preparation process. It performs the following steps:
     1. Prepares anthropometric data by calling `prepare_anthropometric_data()`.
     2. Prepares bike data by calling `prepare_bike_data()`.
-
-    Examples
-    --------
-    >>> prepare_data()
-    # If data files don"t exist, this will prepare the data and log a success message.
-    # If data files already exist, no action will be taken.
     """
     data_dir_path = Path(__file__).parent.parent.parent.parent.absolute() / "data"
     if not (data_dir_path / "pkl" / "bike_data.pkl").exists() or not (data_dir_path / "pkl" / "ANSUREIIPublic.pkl").exists():

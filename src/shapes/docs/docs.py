@@ -4,7 +4,7 @@ import streamlit as st
 
 
 def about() -> None:
-    """Write About text."""
+    """Write about text."""
     text = """
 
     ### Overview

@@ -9,26 +9,7 @@ import shapes.utils.constants as cst
 
 
 def setup_app() -> None:
-    """
-    Set up the Streamlit page configuration.
-
-    This function configures the Streamlit application with the following settings:
-
-    Notes
-    -----
-    Page title : str
-        The title of the page, set to "Shape Project".
-    Page icon : str
-        The icon of the page, set to a bar chart emoji 📊.
-    Layout : str
-        The layout of the page, set to "wide".
-    Initial sidebar state : str
-        The initial state of the sidebar, set to "expanded".
-    Menu items : dict
-        Custom menu items for the application:
-        - "Get Help": Links to the project's GitHub repository.
-        - "About": Includes a brief description and a French flag emoji 🇫🇷.
-    """
+    """Set up the Streamlit page configuration."""
     st.set_page_config(
         page_title="Shape Project",
         page_icon=":bar_chart:",

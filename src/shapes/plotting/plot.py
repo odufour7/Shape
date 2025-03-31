@@ -36,9 +36,6 @@ def display_shape2D(agents: list[Agent]) -> go.Figure:
     """
     Visualize 2D geometric shapes of agents using Plotly.
 
-    This function generates a 2D Plotly figure that displays the geometric shapes
-    of agents, which can be either `Polygon` or `MultiPolygon` geometries.
-
     Parameters
     ----------
     agents : list[Agent]
@@ -137,10 +134,6 @@ def display_shape2D(agents: list[Agent]) -> go.Figure:
 def display_body3D_orthogonal_projection(agent: Agent, extra_info: tuple[DeltaGenerator, DeltaGenerator]) -> Figure:
     """
     Visualize the orthogonal projection of a pedestrian's 3D body using Matplotlib.
-
-    This function generates a 2D orthogonal projection of a pedestrian's 3D body.
-    The projection is based on the agent's 2D shapes at various heights, which are
-    color-coded using a colormap to represent height values.
 
     Parameters
     ----------
@@ -260,9 +253,6 @@ def display_body3D_polygons(agent: Agent, extra_info: tuple[DeltaGenerator, Delt
     """
     Display a 3D representation of an agent body from the polygons that constitute it.
 
-    This function creates a 3D representation of an agent's body by plotting polygons
-    at different heights. The polygons are color-coded based on the agent's height and sex.
-
     Parameters
     ----------
     agent : Agent
@@ -281,13 +271,6 @@ def display_body3D_polygons(agent: Agent, extra_info: tuple[DeltaGenerator, Delt
     ValueError
         If agent.shapes3D or agent.shapes3D.shapes is None, or if any shape
         in agent.shapes3D.shapes is not a MultiPolygon.
-
-    Examples
-    --------
-    >>> agent = Agent(...)  # Agent with valid 3D shapes
-    >>> progress_bar, status_message = st.progress(0), st.empty()
-    >>> fig = display_body3D_polygons(agent, (progress_bar, status_message))
-    >>> st.plotly_chart(fig)
     """
     # Check if the agent's 3D shapes are available
     if agent.shapes3D is None or agent.shapes3D.shapes is None:
@@ -390,21 +373,6 @@ def display_body3D_mesh(agent: Agent, extra_info: tuple[DeltaGenerator, DeltaGen
     ------
     ValueError
         If agent.shapes3D or agent.shapes3D.shapes is None.
-
-    Notes
-    -----
-    - The function reduces the number of vertices by sampling heights based on the precision level.
-    - It uses a different color scale for male (viridis) and female (inferno) agents.
-    - The mesh is filled to close holes and filtered to remove artifacts below a certain height threshold.
-    - The resulting 3D plot is scaled to maintain equal aspect ratios across all axes.
-
-    Examples
-    --------
-    >>> agent = Agent(...)  # Agent with valid 3D shapes
-    >>> progress_bar, status_message = st.progress(0), st.empty()
-    >>> precision = 5
-    >>> fig = display_body3D_mesh(agent, (progress_bar, status_message, precision))
-    >>> st.plotly_chart(fig)
     """
     # Check if the agent's 3D shapes are available
     if agent.shapes3D is None or agent.shapes3D.shapes is None:
@@ -555,8 +523,6 @@ def display_crowd2D(crowd: Crowd) -> Figure:
     """
     Display a 2D plot of a crowd of agents.
 
-    It plots the 2D shapes of agents, with colors normalized based on their areas.
-
     Parameters
     ----------
     crowd : Crowd
@@ -633,7 +599,7 @@ def display_distribution(df: pd.DataFrame, column: str) -> go.Figure:
 
     Returns
     -------
-    plotly.graph_objs._figure.Figure
+    go.Figure
         A Plotly Figure object displaying the histograms.
 
     Raises

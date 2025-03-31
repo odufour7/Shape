@@ -1,4 +1,27 @@
+/* Styling for the side navigation search bar */
 .wy-side-nav-search {
-    background-color: grey; /* Replace #yourColorCode with your desired color */
-    padding: 10px; /* Optional: Adjust padding around the logo */
+    background-color: grey; /* Set the background color */
+}
+
+
+/* General body styling */
+body {
+    font-size: 16px; /* Base font size for readability */
+    line-height: 0. !important; /* Compact but readable line height */
+    padding: 0 !important; /* Remove padding */
+}
+
+/* Adjust headings (h2 to h6) */
+h2, h3, h4, h5, h6 {
+    padding: 0 !important; /* Remove padding */
+}
+
+/* Adjust spacing for list items */
+li {
+    padding: 0 !important;
+}
+
+/* Table cell adjustments (for td and th) */
+td, th {
+    padding: 0 !important; /* Minimal cell padding for compact tables */
 }

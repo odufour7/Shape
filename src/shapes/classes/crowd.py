@@ -230,20 +230,6 @@ class Crowd:
         1. Uses agent statistics if available (when custom database is empty)
         2. Uses custom database if available
         3. Falls back to default ANSURII database if no other data exists
-
-        Notes
-        -----
-        Agent creation logic:
-            Case 1 (Agent Statistics):
-                Uses `draw_agent_type` and `draw_agent_measures` to create agent.
-                Requires `measures.agent_statistics` to be populated.
-            Case 2 (Custom Database):
-                Randomly selects from `measures.custom_database`.
-                Creates specific agent types (pedestrian/bike) using `create_*_measures`.
-            Case 3 (Default Database):
-                Uses built-in ANSURII database.
-                Always creates pedestrian agents.
-                Relies on `create_pedestrian_measures`.
         """
         # Case 1: Use agent statistics if available and custom database is empty
         if self.measures.agent_statistics and not self.measures.custom_database:
@@ -286,9 +272,9 @@ class Crowd:
         for _ in range(number_agents):
             self.add_one_agent()
 
-    def get_crowd_measures(self) -> dict[str, float] | dict[int, dict[str, float]] | CrowdMeasures:
+    def get_crowd_measures(self) -> dict[str, float]:
         """
-        Calculate comprehensive statistics for the current crowd composition.
+        Compute comprehensive statistics for the current crowd composition.
 
         Returns
         -------
@@ -321,13 +307,13 @@ class Crowd:
 
         return crowd_measures
 
-    def get_agents_params(self) -> dict[str, dict[str, str | ShapeDataType]]:
+    def get_agents_params(self) -> dict[str, dict[str, str | float | ShapeDataType]]:
         """
         Retrieve physical parameters of all agents in a structured format.
 
         Returns
         -------
-        dict
+        dict[str, dict[str, str | float | ShapeDataType]]
             Dictionary with agent IDs as keys (format: "agent{N}") and values containing:
                 agent_type : str
                     Agent classification (e.g., "Pedestrian", "Bike")
@@ -338,7 +324,7 @@ class Crowd:
                 shapes : ShapeDataType
                     Geometric parameters of the agent's 2D representation
         """
-        crowd_dict: dict[str, dict[str, str | ShapeDataType]] = {
+        crowd_dict: dict[str, dict[str, str | float | ShapeDataType]] = {
             f"agent{id_agent}": {
                 "agent_type": f"{agent.agent_type.name}",
                 "weight_kg": agent.measures.measures[cst.CommonMeasures.weight.name],
@@ -350,18 +336,9 @@ class Crowd:
 
         return crowd_dict
 
-    def calculate_interpenetration(self, with_inflation: bool = False) -> float:
+    def calculate_interpenetration(self) -> float:
         """
-        Calculate the total interpenetration area between pedestrians.
-
-        This method computes the total area of interpenetration between the geometric shapes of pedestrians
-        in the crowd. Optionally, the geometric shapes can be inflated by a buffer before performing the calculation.
-
-        Parameters
-        ----------
-        with_inflation : bool, optional
-            If True, inflates the geometric shapes by a buffer of 5.0 units before calculating the interpenetration.
-            Default is False.
+        Compute the total interpenetration area between pedestrians and between pedestrians and boundaries.
 
         Returns
         -------
@@ -374,19 +351,13 @@ class Crowd:
         # Loop over all agents in the crowd
         for i_agent, current_agent in enumerate(self.agents):
             current_geometric = current_agent.shapes2D.get_geometric_shape()
-            # Inflate the geometric shape if required
-            if with_inflation:
-                current_geometric = current_geometric.buffer(5.0)
             # Loop over all other agents in the crowd
             for j in range(i_agent + 1, n_agents):
                 neigh_agent = self.agents[j]
                 neigh_geometric = neigh_agent.shapes2D.get_geometric_shape()
-                # Inflate the geometric shape if required
-                if with_inflation:
-                    neigh_geometric = neigh_geometric.buffer(5.0)
-                # Calculate interpenetration between current agent and neighbor
+                # Compute interpenetration between current agent and neighbor
                 interpenetration += current_geometric.intersection(neigh_geometric).area
-            # Calculate interpenetration with the boundaries
+            # Compute interpenetration with the boundaries
             interpenetration += current_geometric.difference(self.boundaries).area
 
         return interpenetration
@@ -394,14 +365,14 @@ class Crowd:
     @staticmethod
     def calculate_contact_force(agent_centroid: Point, other_centroid: Point) -> NDArray[np.float64]:
         """
-        Calculate the repulsive force between two centroids.
+        Compute the repulsive force between two centroids.
 
         Parameters
         ----------
         agent_centroid : Point
-            The centroid of the agent (Shapely Point object).
+            The centroid of the agent.
         other_centroid : Point
-            The centroid of the other agent (Shapely Point object).
+            The centroid of the other agent.
 
         Returns
         -------
@@ -413,7 +384,7 @@ class Crowd:
         agent_coords = np.array(agent_centroid.coords[0], dtype=np.float64)
         other_coords = np.array(other_centroid.coords[0], dtype=np.float64)
 
-        # Calculate the difference vector between centroids
+        # Compute the difference vector between centroids
         delta = agent_coords - other_coords
 
         # Compute the norm (magnitude) of the difference vector
@@ -433,14 +404,14 @@ class Crowd:
         repulsion_length: float,
     ) -> NDArray[np.float64]:
         """
-        Calculate the repulsive force between two centroids, exponentially decreasing with distance.
+        Compute the repulsive force between two centroids, exponentially decreasing with distance.
 
         Parameters
         ----------
         agent_centroid : Point
-            The centroid of the agent (Shapely Point object).
+            The centroid of the agent.
         other_centroid : Point
-            The centroid of the other agent (Shapely Point object).
+            The centroid of the other agent.
         repulsion_length : float
             Coefficient used to compute the magnitude of the repulsive force between agents.
             The force decreases exponentially with distance divided by this repulsion_length.
@@ -455,7 +426,7 @@ class Crowd:
         agent_coords = np.array(agent_centroid.coords[0], dtype=np.float64)
         other_coords = np.array(other_centroid.coords[0], dtype=np.float64)
 
-        # Calculate the difference vector between centroids
+        # Compute the difference vector between centroids
         delta = agent_coords - other_coords
 
         # Compute the norm (magnitude) of the difference vector
@@ -468,7 +439,7 @@ class Crowd:
         # Normalize the difference vector to get the direction of the force
         direction = delta / norm_delta
 
-        # Calculate the magnitude of the repulsive force (exponentially decreasing with distance)
+        # Compute the magnitude of the repulsive force (exponentially decreasing with distance)
         force_magnitude = np.exp(-norm_delta / repulsion_length)
 
         # Return the repulsive force vector as a NumPy array
@@ -482,7 +453,7 @@ class Crowd:
         Returns
         -------
         float
-            Random rotational force in degrees between -10.0 and 10.0, inclusive.
+            Random rotational force in degrees between -10.0° and 10.0°.
         """
         return np.random.uniform(-10.0, 10.0)
 
@@ -517,7 +488,7 @@ class Crowd:
                 current_geometric = current_agent.shapes2D.get_geometric_shape()
                 current_centroid: Point = current_geometric.centroid
 
-                # Calculate repulsive force between agents
+                # Compute repulsive force between agents
                 for j_agent, neigh_agent in enumerate(self.agents):
                     neigh_geometric = neigh_agent.shapes2D.get_geometric_shape()
                     if i_agent != j_agent:
@@ -528,14 +499,14 @@ class Crowd:
                             rotational_force += Crowd.calculate_rotational_force() * Temperature
 
                 if wall_interaction:
-                    # Calculate repulsive force between agent and wall
+                    # Compute repulsive force between agent and wall
                     if not self.boundaries.contains(current_geometric):
                         # Compute the nearest point on the agent between the agent and the boundary
                         nearest_point = Point(
                             self.boundaries.exterior.interpolate(
                                 self.boundaries.exterior.project(
                                     current_geometric.centroid
-                                )  # Calculate projection distance along boundary
+                                )  # Compute projection distance along boundary
                             ).coords[0]
                         )
                         force += Crowd.calculate_contact_force(current_centroid, nearest_point)
@@ -555,13 +526,7 @@ class Crowd:
             Temperature = max(0.0, Temperature)
 
     def unpack_crowd(self) -> None:
-        """
-        Translate all agents in the crowd to the origin (0, 0).
-
-        This method iterates over all agents in the crowd, retrieves their current
-        positions, and translates each agent to the origin by negating their current
-        x and y coordinates.
-        """
+        """Translate all agents in the crowd to the origin (0, 0)."""
         for agent in self.agents:
             current_position: Point = agent.get_position()
             translation_vector = np.array([-current_position.x, -current_position.y])

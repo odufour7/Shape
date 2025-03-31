@@ -196,20 +196,15 @@ def _draw_bike_measures(crowd_measures: CrowdMeasures) -> AgentMeasures:
     """
     Draw bike-specific measures from the crowd statistics.
 
-    This function generates random measurements for various bike components
-    based on the provided crowd measures.
-
     Parameters
     ----------
     crowd_measures : CrowdMeasures
-        An object containing statistical measures for the crowd, including
-        bike-specific measurements.
+        An object containing statistical measures for the crowd, including bike-specific measurements.
 
     Returns
     -------
     AgentMeasures
-        An object containing the randomly drawn measures for a bike agent,
-        including:
+        An object containing the randomly drawn measures for a bike agent, including:
         - wheel_width : float
         - total_length : float
         - handlebar_length : float
@@ -229,10 +224,7 @@ def _draw_bike_measures(crowd_measures: CrowdMeasures) -> AgentMeasures:
 
 def _draw_measure(crowd_measures: CrowdMeasures, sex: Sex | None, part_enum: cst.PedestrianParts | cst.BikeParts) -> float:
     """
-    Draw a measure from a truncated normal distribution.
-
-    This function generates a random measure for a specific body part or bike component
-    based on the provided crowd statistics.
+    Draw a measure for a specific body part or bike component, from a truncated normal distribution.
 
     Parameters
     ----------
@@ -270,9 +262,6 @@ def _draw_measure(crowd_measures: CrowdMeasures, sex: Sex | None, part_enum: cst
 def draw_agent_type(crowd_measures: CrowdMeasures) -> cst.AgentTypes:
     """
     Draw a random agent type using tower sampling.
-
-    This function selects a random agent type (pedestrian or bike) based on the
-    proportions specified in the crowd measures.
 
     Parameters
     ----------

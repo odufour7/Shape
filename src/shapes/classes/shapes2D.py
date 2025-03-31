@@ -33,9 +33,6 @@ class Shapes2D:
         """
         Validate the provided shapes and agent type after initialization.
 
-        This method is automatically called after the object is initialized. It performs
-        various checks to ensure the validity of the object's attributes.
-
         Raises
         ------
         ValueError
@@ -144,8 +141,6 @@ class Shapes2D:
         """
         Retrieve a shape by its name.
 
-        This method returns the Shapely Polygon object associated with the given shape name.
-
         Parameters
         ----------
         name : str
@@ -163,9 +158,6 @@ class Shapes2D:
     def get_additional_parameters(self) -> ShapeDataType:
         """
         Retrieve parameters of each stored shape.
-
-        This method iterates through all stored shapes and extracts relevant
-        parameters based on the shape type (circle, rectangle, or polygon).
 
         Returns
         -------
@@ -253,7 +245,7 @@ class Shapes2D:
 
         This method generates the shapes of a pedestrian agent by scaling initial disk centers and radii
         according to the provided measurements. It uses an optimization algorithm to minimize the difference
-        between the ndesired and actual chest depth and bideltoid breadth.
+        between the desired and actual chest depth and bideltoid breadth.
 
         Parameters
         ----------
@@ -296,7 +288,7 @@ class Shapes2D:
             wanted_chest_depth = measurements.measures[cst.PedestrianParts.chest_depth.name]
             wanted_bideltoid_breadth = measurements.measures[cst.PedestrianParts.bideltoid_breadth.name]
 
-            # Calculate the new measurements based on the scaling factors
+            # Compute the new measurements based on the scaling factors
             scale_factor_x, scale_factor_y = scaling_factor
             adjusted_centers = [
                 scale(disk_center, xfact=scale_factor_x, origin=homothety_center)
@@ -306,7 +298,7 @@ class Shapes2D:
             current_chest_depth = 2.0 * adjusted_radii[2]
             current_bideltoid_breadth = 2.0 * adjusted_centers[4].x + 2.0 * adjusted_radii[4]
 
-            # Calculate the penalty based on the difference between the new and old measurements
+            # Compute the penalty based on the difference between the new and old measurements
             penalty_chest = (current_chest_depth - wanted_chest_depth) ** 2
             penalty_shoulder_breadth = (current_bideltoid_breadth - wanted_bideltoid_breadth) ** 2
 
@@ -401,7 +393,7 @@ class Shapes2D:
             wanted_bike_width = measurements.measures[cst.BikeParts.wheel_width.name]
             wanted_bike_length = measurements.measures[cst.BikeParts.total_length.name]
 
-            # Calculate the new measurements based on the scaling factors
+            # Compute the new measurements based on the scaling factors
             new_shapes = {
                 "bike": {
                     "shape_type": cst.ShapeTypes.rectangle.name,
@@ -425,7 +417,7 @@ class Shapes2D:
             current_rider_length = abs(new_shapes["rider"]["max_y"] - new_shapes["rider"]["min_y"])
             current_bike_width = abs(new_shapes["bike"]["max_x"] - new_shapes["bike"]["min_x"])
 
-            # Calculate the penalty based on the difference between the current and wanted measurements
+            # Compute the penalty based on the difference between the current and wanted measurements
             penalty_rider_width = (wanted_rider_width - current_rider_width) ** 2
             penalty_rider_length = (wanted_rider_length - current_rider_length) ** 2
             penalty_bike_width = (wanted_bike_width - current_bike_width) ** 2
@@ -499,10 +491,7 @@ class Shapes2D:
 
     def get_geometric_shape(self) -> Polygon:
         """
-        Return the union geometry of the stored shapes.
-
-        This method computes the geometric union of all shapes stored in the
-        instance and returns it as a single Polygon object.
+        Return the geometric union of all shapes that constitute a pedestrian physical shape.
 
         Returns
         -------
@@ -513,7 +502,7 @@ class Shapes2D:
 
     def get_area(self) -> float:
         """
-        Calculate the area of the agent 2D representation.
+        Compute the area of the agent 2D representation.
 
         Returns
         -------

@@ -13,12 +13,7 @@ from shapes.utils.typing_custom import ShapeDataType
 
 @dataclass
 class Shapes3D:
-    """
-    Store and manage 3D body shapes for different agent types.
-
-    This class provides a flexible structure to either store pre-defined 3D shapes
-    or dynamically create them based on agent measurements.
-    """
+    """Store and manage 3D body shapes for different agent types."""
 
     agent_type: cst.AgentTypes
     shapes: ShapeDataType = field(default_factory=dict)
@@ -35,12 +30,6 @@ class Shapes3D:
             - Shapes container is not a dictionary
             - Shape values are not Shapely MultiPolygon objects
             - Height keys cannot be converted to float values
-
-        Notes
-        -----
-        - Automatically executes as part of dataclass initialization
-        - Maintains type safety for geometric operations and visualization
-        - Uses case-insensitive comparison for agent type validation
         """
         # Validate the provided agent type
         if not isinstance(self.agent_type, cst.AgentTypes):
@@ -63,9 +52,6 @@ class Shapes3D:
         """
         Create a 3D representation of a pedestrian based on provided measurements.
 
-        This method generates a scaled 3D model of a pedestrian by applying
-        dimension-specific scaling factors to a base model.
-
         Parameters
         ----------
         measurements : AgentMeasures
@@ -75,14 +61,13 @@ class Shapes3D:
         Raises
         ------
         ValueError
-            If the provided sex is not "male" or "female".
+            If the provided sex in "measurements" is not "male" or "female".
 
         Notes
         -----
         - The method uses an initial pedestrian representation based on the provided sex.
         - Scaling factors are calculated for each dimension (x, y, z) based on
           the ratio of target measurements to initial measurements.
-        - The scaling is performed around the centroid of all initial shapes.
         """
         # Extract sex from measurements and create initial pedestrian object
         sex_name = measurements.measures[cst.PedestrianParts.sex.name]
