@@ -22,6 +22,7 @@ from shapes.classes.crowd import Crowd
 
 plt.rcParams.update(
     {
+        "font.size": 25,
         "figure.dpi": 300,
     }
 )

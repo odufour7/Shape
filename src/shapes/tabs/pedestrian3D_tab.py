@@ -197,8 +197,6 @@ def run_tab_pedestrian3D() -> None:
         - Progress bars and status messages during computations.
     """
     initialize_session_state()
-
-    # Access the stored object
     current_pedestrian = st.session_state.current_pedestrian
 
     # Sidebar Sliders for Anthropometric Parameters
@@ -220,12 +218,11 @@ def run_tab_pedestrian3D() -> None:
     )
 
     if menu_option != "Display orthogonal projection":
-        # Input fields for translation and rotation
         x_translation, y_translation, rotation_angle = sliders_for_agent_position()
         current_pedestrian.translate_body3D(x_translation, y_translation, dz=0.0)
         current_pedestrian.rotate_body3D(rotation_angle)
 
-    col1, _ = st.columns([2.0, 1])  # Adjust proportions as needed
+    col1, _ = st.columns([2.0, 1])
     with col1:
         # Display content based on the selected menu option
         if menu_option == "Display orthogonal projection":
@@ -246,7 +243,7 @@ def run_tab_pedestrian3D() -> None:
             # Save the figure to a BytesIO object in PDF format
             body3D_orthogonal_projection = BytesIO()
             fig.savefig(body3D_orthogonal_projection, format="pdf")
-            body3D_orthogonal_projection.seek(0)  # Reset buffer pointer to the beginning
+            body3D_orthogonal_projection.seek(0)
 
             # Streamlit button in the sidebar to download the graph in PDF format
             st.sidebar.header("Download")
