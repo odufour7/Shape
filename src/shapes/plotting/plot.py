@@ -4,13 +4,13 @@ import logging
 from typing import Literal
 
 import cmcrameri as cram
+import matplotlib.figure as mfig
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 import pyvista as pv
 from matplotlib.colors import Normalize
-from matplotlib.figure import Figure
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from numpy.typing import NDArray
 from shapely.geometry import MultiPolygon, Polygon
@@ -20,16 +20,11 @@ import shapes.utils.functions as fun
 from shapes.classes.agents import Agent
 from shapes.classes.crowd import Crowd
 
-# plt.rcParams.update(
-#     {
-#         "text.usetex": True,
-#         "font.family": "serif",
-#         "font.serif": ["Computer Modern Roman"],
-#         "font.size": 23,
-#         "text.latex.preamble": r"\usepackage{amsmath}",
-#         "figure.dpi": 300,
-#     }
-# )
+plt.rcParams.update(
+    {
+        "figure.dpi": 300,
+    }
+)
 
 
 def display_shape2D(agents: list[Agent]) -> go.Figure:
@@ -131,7 +126,7 @@ def display_shape2D(agents: list[Agent]) -> go.Figure:
     return fig
 
 
-def display_body3D_orthogonal_projection(agent: Agent, extra_info: tuple[DeltaGenerator, DeltaGenerator]) -> Figure:
+def display_body3D_orthogonal_projection(agent: Agent, extra_info: tuple[DeltaGenerator, DeltaGenerator]) -> mfig.Figure:
     """
     Visualize the orthogonal projection of a pedestrian's 3D body using Matplotlib.
 
@@ -519,7 +514,7 @@ def display_body3D_mesh(agent: Agent, extra_info: tuple[DeltaGenerator, DeltaGen
     return fig
 
 
-def display_crowd2D(crowd: Crowd) -> Figure:
+def display_crowd2D(crowd: Crowd) -> mfig.Figure:
     """
     Display a 2D plot of a crowd of agents.
 

@@ -15,9 +15,8 @@ from shapes.plotting import plot
 from shapes.utils import functions as fun
 
 
-def main() -> None:
-    """Run the main function for the 3D pedestrian tab."""
-    # Initialize the object only if it doesn't exist
+def initialize_session_state() -> None:
+    """Initialize the session state for the pedestrian tab."""
     if "current_pedestrian" not in st.session_state:
         initial_pedestrian = InitialPedestrian(cst.DEFAULT_SEX)
         # Create a new pedestrian object
@@ -33,12 +32,26 @@ def main() -> None:
         )
         st.session_state.current_pedestrian = Agent(agent_type=cst.AgentTypes.pedestrian, measures=pedestrian_measures)
 
-    # Access the stored object
-    current_pedestrian = st.session_state.current_pedestrian
 
-    # Sidebar Sliders for Anthropometric Parameters
-    st.sidebar.header("Adjust parameters")
+def sliders_for_agent_parameters() -> AgentMeasures:
+    """
+    Create sliders in the sidebar for adjusting pedestrian parameters.
 
+    Attributes
+    ----------
+    Sidebar:
+        - Radio button for selecting sex (male or female).
+        - Sliders for anthropometric parameters:
+            - Bideltoid breadth (cm).
+            - Chest depth (cm).
+            - Height (cm).
+
+    Returns
+    -------
+    AgentMeasures
+        An object containing the updated measures for the pedestrian agent, including sex,
+        bideltoid breadth, chest depth, height, and weight.
+    """
     # Sex Selection
     sex_options = ["male", "female"]
     st.sidebar.radio(
@@ -49,6 +62,7 @@ def main() -> None:
     )
     initial_pedestrian = InitialPedestrian(st.session_state.sex)
 
+    # Sliders for anthropometric parameters
     bideltoid_breadth: float = st.sidebar.slider(
         "Bideltoid breadth (cm)",
         min_value=float(cst.DEFAULT_BIDELTOID_BREADTH_MIN),
@@ -70,6 +84,8 @@ def main() -> None:
         value=float(initial_pedestrian.measures[cst.PedestrianParts.height.name]),
         step=1.0,
     )
+
+    # Create the AgentMeasures object with the updated values
     pedestrian_measures = AgentMeasures(
         agent_type=cst.AgentTypes.pedestrian,
         measures={
@@ -80,10 +96,119 @@ def main() -> None:
             "weight": initial_pedestrian.measures[cst.CommonMeasures.weight.name],
         },
     )
+    return pedestrian_measures
+
+
+def sliders_for_agent_position() -> tuple[float, float, float]:
+    """
+    Create input fields in the sidebar for adjusting an agent's position and rotation.
+
+    Attributes
+    ----------
+    Sidebar:
+        - Number input fields for:
+            - X-translation (cm).
+            - Y-translation (cm).
+            - Rotation angle around the Z-axis (degrees).
+
+    Returns
+    -------
+    tuple[float, float, float]
+        A tuple containing:
+        - `x_translation` (float): The translation along the X-axis in centimeters.
+        - `y_translation` (float): The translation along the Y-axis in centimeters.
+        - `rotation_angle` (float): The rotation angle around the Z-axis in degrees.
+    """
+    x_translation = st.sidebar.number_input(
+        "X-translation (cm):",
+        min_value=-500.0,
+        max_value=500.0,
+        value=0.0,
+        step=1.0,
+    )
+    y_translation = st.sidebar.number_input(
+        "Y-translation (cm):",
+        min_value=-500.0,
+        max_value=500.0,
+        value=0.0,
+        step=1.0,
+    )
+    rotation_angle = st.sidebar.number_input(
+        "Rotation angle around z-axis (degrees):",
+        min_value=-360.0,
+        max_value=360.0,
+        value=0.0,
+        step=1.0,
+    )
+    return x_translation, y_translation, rotation_angle
+
+
+def download_data(current_pedestrian: Agent) -> None:
+    """
+    Provide a download button in the sidebar to export the agent's data as a pickle file.
+
+    Parameters
+    ----------
+    current_pedestrian : Agent
+        The agent object representing the current pedestrian. It contains the 3D shape
+        data (`shapes3D`) and anthropometric measures (`measures`) to be exported.
+
+    Attributes
+    ----------
+    Sidebar:
+        - Download button labeled "Download data as PKL".
+
+    Notes
+    -----
+    - The filename is dynamically generated using the agent type, sex, and a timestamp
+      in the format `YYYYMMDD_HHMMSS`.
+    """
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = f"agent3D_{current_pedestrian.agent_type}_{current_pedestrian.measures.measures['sex']}_{timestamp}.pkl"
+    data_to_download, mime_type = fun.get_shapes_data("pickle", current_pedestrian.shapes3D.shapes)
+    st.sidebar.download_button(
+        label="Download data as PKL",
+        data=data_to_download,
+        file_name=filename,
+        mime=mime_type,
+    )
+
+
+def run_tab_pedestrian3D() -> None:
+    """
+    Provide an interactive interface for visualizing and interacting with a 3D representation of a pedestrian agent.
+
+    Users can adjust anthropometric parameters, manipulate position and rotation, and choose from different visualization
+    modes. Download options for figures and data are also provided.
+
+    Attributes
+    ----------
+    Sidebar:
+        - Sliders for adjusting anthropometric parameters.
+        - Input fields for translation and rotation (for applicable modes).
+        - Slider for mesh precision (for "3D body with a mesh" mode).
+        - Download buttons for figures (PDF) and data (pickle).
+
+    Main Page:
+        - Visualization of the selected 3D representation mode:
+            - Orthogonal projection (matplotlib figure).
+            - 3D body as slices (Plotly figure).
+            - 3D body with a mesh (Plotly figure).
+        - Progress bars and status messages during computations.
+    """
+    initialize_session_state()
+
+    # Access the stored object
+    current_pedestrian = st.session_state.current_pedestrian
+
+    # Sidebar Sliders for Anthropometric Parameters
+    st.sidebar.header("Adjust parameters")
+    pedestrian_measures = sliders_for_agent_parameters()
     current_pedestrian.measures = pedestrian_measures
 
     # Main Page Content
     st.subheader("Visualisation")
+
     # Sidebar menu for selecting visualization type
     menu_option = st.selectbox(
         "Choose an option:",
@@ -96,28 +221,7 @@ def main() -> None:
 
     if menu_option != "Display orthogonal projection":
         # Input fields for translation and rotation
-        x_translation = st.sidebar.number_input(
-            "X-translation (cm):",
-            min_value=-500.0,
-            max_value=500.0,
-            value=0.0,
-            step=1.0,
-        )
-        y_translation = st.sidebar.number_input(
-            "Y-translation (cm):",
-            min_value=-500.0,
-            max_value=500.0,
-            value=0.0,
-            step=1.0,
-        )
-        rotation_angle = st.sidebar.number_input(
-            "Rotation angle around z-axis (degrees):",
-            min_value=-360.0,
-            max_value=360.0,
-            value=0.0,
-            step=1.0,
-        )
-
+        x_translation, y_translation, rotation_angle = sliders_for_agent_position()
         current_pedestrian.translate_body3D(x_translation, y_translation, dz=0.0)
         current_pedestrian.rotate_body3D(rotation_angle)
 
@@ -209,18 +313,5 @@ def main() -> None:
                 file_name="body3D_mesh.pdf",
             )
 
-    # Add a download button
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    filename = f"agent3D_{current_pedestrian.agent_type}_{current_pedestrian.measures.measures['sex']}_{timestamp}.pkl"
-    data_to_download, mime_type = fun.get_shapes_data("pickle", current_pedestrian.shapes3D.shapes)
-    st.sidebar.download_button(
-        label="Download data as PKL",
-        data=data_to_download,
-        file_name=filename,
-        mime=mime_type,
-    )
-
-
-def run_tab_pedestrian3D() -> None:
-    """Execute the main function for the 3D pedestrian tab."""
-    main()
+    # Download data button
+    download_data(current_pedestrian)

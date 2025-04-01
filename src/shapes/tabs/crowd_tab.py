@@ -57,12 +57,7 @@ def initialize_session_state() -> None:
 
 
 def parameter_changed() -> None:
-    """
-    Trigger actions when a parameter value changes.
-
-    This function updates the Streamlit session state to indicate that a
-    simulation should be run.
-    """
+    """Update the Streamlit session state to indicate that a simulation should be run."""
     st.session_state.simulation_run = True
 
 
@@ -430,11 +425,12 @@ def general_settings() -> tuple[Polygon, int, float, float]:
 
     Returns
     -------
-        tuple: A tuple containing:
-            - new_boundaries (Polygon): The updated boundaries of the simulation area.
-            - num_agents (int): The number of agents in the simulation.
-            - wall_interaction (bool): Whether wall interaction is enabled.
-            - repulsion_length (float): The repulsion length between agents.
+    tuple[Polygon, int, float, float]
+        A tuple containing:
+        - new_boundaries (Polygon): The updated boundaries of the simulation area.
+        - num_agents (int): The number of agents in the simulation.
+        - wall_interaction (bool): Whether wall interaction is enabled.
+        - repulsion_length (float): The repulsion length between agents.
     """
     new_boundaries = boundaries_state()
 
@@ -471,8 +467,39 @@ def general_settings() -> tuple[Polygon, int, float, float]:
     return new_boundaries, num_agents, wall_interaction, repulsion_length
 
 
-def main() -> None:
-    """Run the main function for the crowd tab."""
+def run_tab_crowd() -> None:
+    """
+    Provide an interactive interface for simulating and visualizing a crowd of agents.
+
+    Users can configure general settings, select databases, and control agent packing behavior.
+    The tab includes options for crowd visualization and downloading results.
+
+    Attributes
+    ----------
+    Sidebar:
+        - General settings:
+            - Toggle for packing agents.
+            - Input fields for boundaries, number of agents, wall interaction strength, and repulsion length.
+        - Database selection:
+            - Options: ANSURII database, Custom database, Custom statistics.
+            - Additional settings for custom databases/statistics.
+        - Download options:
+            - Export results as files.
+
+    Main Page:
+        - Crowd visualization using Plotly charts.
+        - Interpenetration warnings if applicable.
+
+    Notes
+    -----
+    - Three database options are available:
+        - ANSURII database.
+        - Custom database.
+        - Custom statistics.
+    - If agent packing is enabled, agents are packed using force-based interactions.
+      Otherwise, the crowd is unpacked.
+    - Interpenetration between agents is calculated and displayed as a warning if necessary.
+    """
     st.info(
         "The computation of the random packing of the crowd is ongoing and may take some time. Please be patient.",
         icon="⏳",
@@ -523,14 +550,3 @@ def main() -> None:
         display_interpenetration_warning(interpenetration)
 
     plot_and_download(st.session_state.current_crowd)
-
-
-def run_tab_crowd() -> None:
-    """
-    Run the crowd tab by invoking the main function.
-
-    This function is responsible for initializing and displaying the crowd tab
-    within the application. It calls the main function to perform the necessary
-    operations to set up and run the tab.
-    """
-    main()

@@ -1,4 +1,4 @@
-Mechanical Layer tutorial
+Mechanical layer tutorial
 =========================
 
 .. toctree::
