@@ -1,4 +1,4 @@
-"""2D Pedestrian Visualization Tab."""
+"""2D pedestrian visualization tab."""
 
 from datetime import datetime
 from pathlib import Path

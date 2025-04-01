@@ -1,4 +1,4 @@
-"""Custom Crowd Tab."""
+"""Custom crowd tab."""
 
 from datetime import datetime
 

@@ -1,4 +1,4 @@
-"""3D Pedestrian Visualization Tab."""
+"""3D pedestrian visualization tab."""
 
 from datetime import datetime
 from io import BytesIO

@@ -1,4 +1,4 @@
-"""Read the anthropometric data from the ANSUR II dataset and save it as a pandas DataFrame."""
+"""Visualise the anthropometric ANSURII dataset."""
 
 from pathlib import Path
 

@@ -1,4 +1,4 @@
-"""Pedestrian Visualization Tab."""
+"""Pedestrian visualization tab."""
 
 import json
 from datetime import datetime
