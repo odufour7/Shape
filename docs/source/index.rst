@@ -12,7 +12,14 @@ Welcome to the official shapes package documentation! This guide provides compre
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: TUTORIALS
 
-   tutorials
-   modules
+   tutorials_config_files
+   tutorials_mechanical_layer
+
+.. toctree::
+   :maxdepth: 2
+   :caption: API REFERENCES
+
+   modules_config_files
+   modules_mechanical_layer

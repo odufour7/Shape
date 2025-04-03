@@ -1,5 +1,5 @@
-src
-===
+Configuration Files
+===================
 
 .. toctree::
    :maxdepth: 4

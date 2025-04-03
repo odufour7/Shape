@@ -1,5 +1,5 @@
-Mechanical layer tutorial
-=========================
+Mechanical Layer
+================
 
 .. toctree::
    :maxdepth: 2

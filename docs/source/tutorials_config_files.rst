@@ -1,5 +1,5 @@
-Configuration files tutorials
-=============================
+Configuration Files
+===================
 
 .. toctree::
    :maxdepth: 2
