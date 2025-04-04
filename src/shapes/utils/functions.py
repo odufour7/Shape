@@ -275,7 +275,7 @@ def filter_mesh_by_z_threshold(
         An array representing the coordinates of the vertices in the mesh.
     all_triangles : numpy.ndarray of shape (M, 3), dtype=np.float64
         An array representing the indices of the vertices forming the triangles in the mesh.
-    z_threshold : float, optional
+    z_threshold : float
         The z-coordinate threshold below which vertices and associated triangles are removed.
         Default is 0.3.
 

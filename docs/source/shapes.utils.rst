@@ -1,45 +1,35 @@
-shapes.utils package
-====================
+utils
+=====
 
-Submodules
-----------
 
-shapes.utils.constants module
------------------------------
+constants
+---------
 
 .. automodule:: shapes.utils.constants
    :members:
    :show-inheritance:
    :undoc-members:
 
-shapes.utils.functions module
------------------------------
+functions
+---------
 
 .. automodule:: shapes.utils.functions
    :members:
    :show-inheritance:
    :undoc-members:
 
-shapes.utils.logging\_custom module
------------------------------------
+logging\_custom
+---------------
 
 .. automodule:: shapes.utils.logging_custom
    :members:
    :show-inheritance:
    :undoc-members:
 
-shapes.utils.typing\_custom module
-----------------------------------
+typing\_custom
+--------------
 
 .. automodule:: shapes.utils.typing_custom
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
-Module contents
----------------
-
-.. automodule:: shapes.utils
    :members:
    :show-inheritance:
    :undoc-members:

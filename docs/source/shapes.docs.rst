@@ -1,21 +1,11 @@
-shapes.docs package
-===================
+docs
+====
 
-Submodules
-----------
-
-shapes.docs.docs module
------------------------
+docs
+----
 
 .. automodule:: shapes.docs.docs
    :members:
    :show-inheritance:
    :undoc-members:
 
-Module contents
----------------
-
-.. automodule:: shapes.docs
-   :members:
-   :show-inheritance:
-   :undoc-members:

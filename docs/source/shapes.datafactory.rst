@@ -1,21 +1,11 @@
-shapes.datafactory package
-==========================
+datafactory
+===========
 
-Submodules
-----------
 
-shapes.datafactory.datafactory module
--------------------------------------
+datafactory
+-----------
 
 .. automodule:: shapes.datafactory.datafactory
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
-Module contents
----------------
-
-.. automodule:: shapes.datafactory
    :members:
    :show-inheritance:
    :undoc-members:

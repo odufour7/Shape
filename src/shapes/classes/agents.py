@@ -25,10 +25,10 @@ class Agent:
     measures : Union[dict[str, float | Sex], AgentMeasures]
         The measures associated with the agent. Can be a dictionary with measure
         names as keys and float values or Sex (Literal["male","female"]), or an AgentMeasures object.
-    shapes2D : Optional[Shapes2D | ShapeDataType], optional
+    shapes2D : Shapes2D | ShapeDataType, optional
         The 2D shapes associated with the agent. Can be a Shapes2D object or a
         dictionary of shape data. Default is None.
-    shapes3D : Optional[Shapes3D | dict[float, ShapeType | MultiPolygon]], optional
+    shapes3D : Shapes3D | dict[float, ShapeType | MultiPolygon], optional
         The 3D shapes associated with the agent. Can be a Shapes3D object or a
         dictionary with float keys and ShapeType or MultiPolygon values. Default is None.
     """
@@ -50,10 +50,10 @@ class Agent:
         measures : Union[dict[str, float | Sex], AgentMeasures]
             The measures associated with the agent. Can be a dictionary with measure
             names as keys and float values or Sex (Literal["male","female"]), or an AgentMeasures object.
-        shapes2D : Optional[Shapes2D | ShapeDataType], optional
+        shapes2D : Shapes2D | ShapeDataType, optional
             The 2D shapes associated with the agent. Can be a Shapes2D object or a
             dictionary of shape data. Default is None.
-        shapes3D : Optional[Shapes3D | dict[float, ShapeType | MultiPolygon]], optional
+        shapes3D : Shapes3D | dict[float, ShapeType | MultiPolygon], optional
             The 3D shapes associated with the agent. Can be a Shapes3D object or a
             dictionary with float keys and ShapeType or MultiPolygon values. Default is None.
 
@@ -135,7 +135,7 @@ class Agent:
         ----------
         agent_type : AgentTypes
             The type of the agent for which the 2D shapes are being initialized.
-        shapes2D : Optional[Shapes2D | ShapeDataType], optional
+        shapes2D : Shapes2D | ShapeDataType, optional
             The input shapes. This can be:
                 - None (default): Creates an empty `Shapes2D` instance for the agent.
                 - A dictionary (ShapeDataType) where keys are shape names (str) and
@@ -187,7 +187,7 @@ class Agent:
         ----------
         agent_type : AgentTypes
             The type of the agent (e.g., pedestrian, bike).
-        shapes3D : Optional[Shapes3D | dict[float, ShapeType | MultiPolygon]], optional
+        shapes3D : Shapes3D | dict[float, ShapeType | MultiPolygon], optional
             The 3D shapes input. Can be:
                 - None: Creates an empty `Shapes3D` instance
                 - Dictionary: Keys are sllice height (float), values are `ShapeType` or `MultiPolygon`

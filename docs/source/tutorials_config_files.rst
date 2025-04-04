@@ -3,7 +3,7 @@ Configuration Files
 
 .. toctree::
    :maxdepth: 2
-   :caption: Tutorials:
+   :caption: Tutorials
 
    create_crowd_ANSURII
    create2Dped

@@ -1,21 +1,11 @@
-shapes.ui package
-=================
+ui
+==
 
-Submodules
-----------
-
-shapes.ui.ui module
--------------------
+ui
+--
 
 .. automodule:: shapes.ui.ui
    :members:
    :show-inheritance:
    :undoc-members:
 
-Module contents
----------------
-
-.. automodule:: shapes.ui
-   :members:
-   :show-inheritance:
-   :undoc-members:

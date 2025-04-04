@@ -1,61 +1,51 @@
-shapes.classes package
-======================
+classes
+=======
 
-Submodules
-----------
 
-shapes.classes.agents module
-----------------------------
+agents
+------
 
 .. automodule:: shapes.classes.agents
    :members:
    :show-inheritance:
    :undoc-members:
 
-shapes.classes.crowd module
----------------------------
+crowd
+-----
 
 .. automodule:: shapes.classes.crowd
    :members:
    :show-inheritance:
    :undoc-members:
 
-shapes.classes.initial\_agents module
--------------------------------------
+initial\_agents
+---------------
 
 .. automodule:: shapes.classes.initial_agents
    :members:
    :show-inheritance:
    :undoc-members:
 
-shapes.classes.measures module
-------------------------------
+measures
+--------
 
 .. automodule:: shapes.classes.measures
    :members:
    :show-inheritance:
    :undoc-members:
 
-shapes.classes.shapes2D module
-------------------------------
+shapes2D
+--------
 
 .. automodule:: shapes.classes.shapes2D
    :members:
    :show-inheritance:
    :undoc-members:
 
-shapes.classes.shapes3D module
-------------------------------
+shapes3D
+--------
 
 .. automodule:: shapes.classes.shapes3D
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
-Module contents
----------------
-
-.. automodule:: shapes.classes
    :members:
    :show-inheritance:
    :undoc-members:

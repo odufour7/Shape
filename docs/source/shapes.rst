@@ -1,8 +1,5 @@
-shapes package
-==============
-
-Subpackages
------------
+shapes
+======
 
 .. toctree::
    :maxdepth: 4
@@ -15,10 +12,3 @@ Subpackages
    shapes.ui
    shapes.utils
 
-Module contents
----------------
-
-.. automodule:: shapes
-   :members:
-   :show-inheritance:
-   :undoc-members:

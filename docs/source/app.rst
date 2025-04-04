@@ -1,5 +1,5 @@
-app module
-==========
+streamlit app
+=============
 
 .. automodule:: app
    :members:
