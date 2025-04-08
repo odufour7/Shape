@@ -1,6 +1,9 @@
 """Module containing the Crowd class, which represents a crowd of pedestrians in a room."""
 
+from xml.dom.minidom import parseString
+
 import numpy as np
+from dicttoxml import dicttoxml
 from numpy.typing import NDArray
 from shapely.geometry import Point, Polygon
 
@@ -318,6 +321,30 @@ class Crowd:
         }
 
         return crowd_dict
+
+    def get_agents_params_in_xml(self) -> str:
+        """
+        Generate a pretty-printed XML string of agent parameters from a Crowd object.
+
+        Returns
+        -------
+        str
+            A pretty-printed XML string representing the agent parameters. Empty lines are removed for cleaner formatting.
+        """
+        # Get agent parameters as a dictionary
+        crowd_data_dict = self.get_agents_params()
+
+        # Convert dictionary to XML string without type attributes
+        xml_data = dicttoxml(crowd_data_dict, attr_type=False, root=False)
+
+        # Parse the XML string into a DOM object
+        dom = parseString(xml_data)
+
+        # Pretty-print the XML with indentation and remove empty lines
+        pretty_xml = dom.toprettyxml(indent="     ")
+        data = "\n".join([line for line in pretty_xml.split("\n") if line.strip()])
+
+        return data
 
     def get_static_pedestrians_params(self) -> StaticCrowdDataType:
         """

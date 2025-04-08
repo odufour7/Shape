@@ -160,27 +160,43 @@ def plot_and_download(current_crowd: Crowd) -> None:
 
     # Download all files as ZIP
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    filename = f"crowd2D_{timestamp}.zip"
 
-    static_data_bytes, dynamic_data_bytes, geometry_data_bytes, materials_data_bytes = current_crowd.get_all_crowd_params_in_xml()
-    # Create an in-memory ZIP file
-    zip_buffer = io.BytesIO()
-    with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zip_file:
-        zip_file.writestr("Agents.xml", static_data_bytes)
-        zip_file.writestr("AgentDynamics.xml", dynamic_data_bytes)
-        zip_file.writestr("Geometry.xml", geometry_data_bytes)
-        zip_file.writestr("Materials.xml", materials_data_bytes)
+    # check if all agents in the Crowd are pedestrian
+    if all(agent.agent_type == cst.AgentTypes.pedestrian for agent in current_crowd.agents):
+        filename = f"crowd2D_{timestamp}.zip"
 
-    # Move the buffer's pointer to the beginning
-    zip_buffer.seek(0)
+        static_data_bytes, dynamic_data_bytes, geometry_data_bytes, materials_data_bytes = (
+            current_crowd.get_all_crowd_params_in_xml()
+        )
+        # Create an in-memory ZIP file
+        zip_buffer = io.BytesIO()
+        with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zip_file:
+            zip_file.writestr("Agents.xml", static_data_bytes)
+            zip_file.writestr("AgentDynamics.xml", dynamic_data_bytes)
+            zip_file.writestr("Geometry.xml", geometry_data_bytes)
+            zip_file.writestr("Materials.xml", materials_data_bytes)
 
-    # Add download button for the ZIP file
-    st.sidebar.download_button(
-        label="Download all files as ZIP",
-        data=zip_buffer,
-        file_name=filename,
-        mime="application/zip",
-    )
+        # Move the buffer's pointer to the beginning
+        zip_buffer.seek(0)
+
+        # Add download button for the ZIP file
+        st.sidebar.download_button(
+            label="Download all files as ZIP",
+            data=zip_buffer,
+            file_name=filename,
+            mime="application/zip",
+        )
+    else:
+        filename = f"crowd2D_{timestamp}.xml"
+
+        data = current_crowd.get_agents_params_in_xml()
+
+        st.sidebar.download_button(
+            label="Download as XML",
+            data=data,
+            file_name=filename,
+            mime="application/xml",
+        )
 
 
 def boundaries_state() -> Polygon:
@@ -527,7 +543,6 @@ def run_tab_crowd() -> None:
     -----
     - Three database options are available:
         - ANSURII database.
-        - Custom database.
         - Custom statistics.
     - If agent packing is enabled, agents are packed using force-based interactions.
       Otherwise, the crowd is unpacked.
@@ -546,7 +561,8 @@ def run_tab_crowd() -> None:
 
     # Rolling menu to select between ANSURII database / custom Database / Custom Statistics
     database_option = st.sidebar.selectbox(
-        "Select database option:", options=["ANSURII database", "Custom database", "Custom statistics"]
+        "Select database option:",
+        options=["ANSURII database", "Custom statistics"],  # "Custom database"
     )
     if "database_option" not in st.session_state:
         st.session_state.database_option = database_option
@@ -557,9 +573,9 @@ def run_tab_crowd() -> None:
             current_crowd.create_agents(st.session_state.num_agents)
             st.session_state.current_crowd = current_crowd
 
-    elif database_option == "Custom database":
-        st.sidebar.header(f"{database_option} settings")
-        custom_database_state(new_boundaries, st.session_state.num_agents)
+    # elif database_option == "Custom database":
+    #     st.sidebar.header(f"{database_option} settings")
+    #     custom_database_state(new_boundaries, st.session_state.num_agents)
 
     else:  # Custom Statistics
         st.sidebar.header(f"{database_option} settings")

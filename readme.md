@@ -39,7 +39,7 @@ uv run python -m streamlit run src/app.py
 
 ## Documentation
 
-Further usage examples and a full API reference are available in our [documentation](https://gitpages.physik.uni-wuerzburg.de/hypertiling/hyperweb/doc/examples/quickstart.html).
+Further usage examples and a full API reference are available in our [documentation](https://shapes-crowd.readthedocs.io/en/latest/).
 
 ## Authors
 
@@ -56,7 +56,7 @@ If you use _shapes_, we encourage you to cite or reference this work as you woul
 
 Cite us:
 
-> Manuel Schrauth, Yanick Thurn, Florian Goth, Jefferson S.E. Portela, Dietmar Herdt and Felix Dusel. (2023). The _hypertiling_ project. Zenodo. https://doi.org/10.5281/zenodo.7559393
+> Oscar Dufour, Maxime Stapelle, Alexandre Nicolas. (2025). The _shapes_ project. Zenodo. https://doi.org/10.5281/zenodo.7559393
 
 ## Some use cases
 
@@ -64,7 +64,7 @@ Cite us:
 
 
 ## License
-Every part of hypertiling is available under the MIT license.
+Every part of shapes is available under the MIT license.
 
 
 

@@ -284,30 +284,44 @@ def run_tab_custom_crowd() -> None:
 
             # Download all files as ZIP
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            filename = f"crowd2D_{timestamp}.zip"
 
             current_crowd: Crowd = Crowd(agents=agents)
-            static_data_bytes, dynamic_data_bytes, geometry_data_bytes, materials_data_bytes = (
-                current_crowd.get_all_crowd_params_in_xml()
-            )
-            # Create an in-memory ZIP file
-            zip_buffer = io.BytesIO()
-            with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zip_file:
-                zip_file.writestr("Agents.xml", static_data_bytes)
-                zip_file.writestr("AgentDynamics.xml", dynamic_data_bytes)
-                zip_file.writestr("Geometry.xml", geometry_data_bytes)
-                zip_file.writestr("Materials.xml", materials_data_bytes)
 
-            # Move the buffer's pointer to the beginning
-            zip_buffer.seek(0)
+            # check if the agent type are only pedestrians :
+            if all(agent.agent_type == cst.AgentTypes.pedestrian for agent in agents):
+                filename = f"crowd2D_{timestamp}.zip"
+                static_data_bytes, dynamic_data_bytes, geometry_data_bytes, materials_data_bytes = (
+                    current_crowd.get_all_crowd_params_in_xml()
+                )
+                # Create an in-memory ZIP file
+                zip_buffer = io.BytesIO()
+                with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zip_file:
+                    zip_file.writestr("Agents.xml", static_data_bytes)
+                    zip_file.writestr("AgentDynamics.xml", dynamic_data_bytes)
+                    zip_file.writestr("Geometry.xml", geometry_data_bytes)
+                    zip_file.writestr("Materials.xml", materials_data_bytes)
 
-            # Add download button for the ZIP file
-            st.sidebar.download_button(
-                label="Download all files as ZIP",
-                data=zip_buffer,
-                file_name=filename,
-                mime="application/zip",
-            )
+                # Move the buffer's pointer to the beginning
+                zip_buffer.seek(0)
+
+                # Add download button for the ZIP file
+                st.sidebar.download_button(
+                    label="Download all files as ZIP",
+                    data=zip_buffer,
+                    file_name=filename,
+                    mime="application/zip",
+                )
+            else:
+                filename = f"crowd2D_{timestamp}.xml"
+
+                data = current_crowd.get_agents_params_in_xml()
+
+                st.sidebar.download_button(
+                    label="Download as XML",
+                    data=data,
+                    file_name=filename,
+                    mime="application/xml",
+                )
 
         else:
             st.write("No agents to display.")
