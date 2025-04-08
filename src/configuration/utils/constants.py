@@ -18,6 +18,10 @@ CM_TO_M: float = 0.01
 # Initial agents / measures
 DISK_NUMBER: int = 5
 
+DEFAULT_FLOOR_DAMPING: float = 2.0  # Damping coefficient for the floor
+DEFAULT_ANGULAR_DAMPING: float = 5.0  # Damping coefficient for the angular velocity
+
+# Material properties
 YOUNG_MODULUS_IRON: float = 1.0e6
 YOUNG_MODULUS_HUMAN: float = 1.0e6
 YOUNG_MODULUS_WOOD: float = 1.0e6
@@ -30,8 +34,10 @@ POISSON_RATIO_WOOD: float = 0.3
 POISSON_RATIO_STONE: float = 0.3
 POISSON_RATIO_ASPHALT: float = 0.3
 
-DEFAULT_FLOOR_DAMPING: float = 2.0  # Damping factor for the floor
-DEFAULT_ANGULAR_DAMPING: float = 5.0  # Damping factor for the angular velocity
+GAMMA_NORMAL: float = 1.3 * 10**4  # Damping coefficient for normal contact
+GAMMA_TANGENTIAL: float = 1.3 * 10**4  # Damping coefficient for tangential contact
+KINETIC_FRICTION: float = 0.5  # Coefficient of kinetic friction
+
 
 # Crowd class
 MAX_NB_ITERATIONS: int = 100  # Maximum number of iterations for the parking algorithm

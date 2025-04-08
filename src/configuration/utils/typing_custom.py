@@ -36,6 +36,7 @@ ShapeType: TypeAlias = Literal[
     "polygon",
 ]
 
+#: Represents common materials used in crowd simulations.
 MaterialType: TypeAlias = Literal[
     "asphalt",
     "stone",
@@ -52,9 +53,49 @@ BackupDataType: TypeAlias = Literal[
 
 #: Represents the structure of shape-related data.
 ShapeDataType: TypeAlias = (
-    dict[str, dict[str, ShapeType | float | tuple[float, float]]]
-    | dict[str, dict[str, ShapeType | float | Polygon | MultiPolygon]]
+    dict[str, dict[str, ShapeType | MaterialType | float]]
+    | dict[str, dict[str, ShapeType | MaterialType | float | Polygon | MultiPolygon]]
 )
 
 #: Represents the structure of acrowd-related data.
-CrowdDataType: TypeAlias = dict[str, dict[str, dict[str, float | int | ShapeDataType]]]
+StaticCrowdDataType: TypeAlias = dict[str, dict[str, dict[str, AgentType | float | int | ShapeDataType]]]
+
+#: Represents the structure of dynamic crowd-related data.
+DynamicCrowdDataType: TypeAlias = dict[
+    str,  # Top-level key ("Agents")
+    dict[
+        str,  # Keys inside "Agents" ("Agent0", "Agent1", ...)
+        dict[
+            str,  # Keys inside each agent ("id", "Kinematics", "Dynamics")
+            int | dict[str, float],
+        ],
+    ],
+]
+
+#: Represents the structure of geometry-related data.
+GeometryDataType: TypeAlias = dict[
+    str,  # Top-level key ("Geometry")
+    dict[
+        str,  # Keys inside "Geometry" ("Dimensions", "Wall")
+        dict[str, float]
+        | dict[
+            str,  # Keys inside "Wall" ("Wall0", "Wall1", ...)
+            dict[str, int | MaterialType | dict[str, dict[str, float]]],
+        ],
+    ],
+]
+
+#: Represents the intrinsic properties of each material.
+IntrinsicMaterialDataType = dict[str, dict[str, int | str | float]]
+
+#: Represents the properties associated with each pair of material.
+PairMaterialsDataType = dict[str, dict[str, int | float]]
+
+#: Represents the structure of material-related data.
+MaterialsDataType = dict[
+    str,  # Top-level key ("Material")
+    dict[
+        str,  # Keys inside "Material" ("Intrinsic", "Binary")
+        IntrinsicMaterialDataType | PairMaterialsDataType,
+    ],
+]

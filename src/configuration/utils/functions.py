@@ -1,106 +1,14 @@
 """Contains utility functions for data processing and manipulation."""
 
-import json
-import pickle
-import xml.etree.ElementTree as ET
-from pathlib import Path
-from typing import Any
-from xml.dom import minidom
+import itertools
 
 import numpy as np
-import pandas as pd
 from numpy.typing import NDArray
 from scipy.stats import truncnorm
 from shapely.geometry import Polygon
 
 import configuration.utils.constants as cst
-from configuration.utils.typing_custom import BackupDataType, CrowdDataType, Sex, ShapeDataType
-
-
-def load_pickle(file_path: Path) -> Any:
-    """
-    Load data from a pickle file.
-
-    This function deserializes and loads data from a specified pickle file.
-    Pickle files are commonly used to store Python objects in a serialized format.
-
-    Parameters
-    ----------
-    file_path : Path
-        A `Path` object representing the path to the pickle file to be loaded.
-
-    Returns
-    -------
-    Any
-        The deserialized data loaded from the pickle file. The type of the
-        returned object depends on what was serialized into the pickle file.
-    """
-    with open(file_path, "rb") as f:
-        data = pickle.load(f)
-    return data
-
-
-def save_pickle(data: Any, file_path: Path) -> None:
-    """
-    Save data to a pickle file.
-
-    This function serializes the given data and saves it to a specified file
-    in pickle format. Pickle files are commonly used to store Python objects
-    in a serialized format for later use.
-
-    Parameters
-    ----------
-    data : Any
-        The data to be serialized and saved. This can be any Python object
-        that is supported by the `pickle` module.
-    file_path : Path
-        A `Path` object representing the path where the pickle file will be saved.
-
-    Raises
-    ------
-    IOError
-        If there is an issue opening or writing to the file.
-    pickle.PicklingError
-        If the object cannot be pickled (e.g., unsupported data types).
-    """
-    with open(file_path, "wb") as f:
-        pickle.dump(data, f)
-
-
-def save_xml(data: str, file_path: Path) -> None:
-    """
-    Save data to an XML file.
-
-    This function writes a string containing XML data to a specified file.
-    The file is saved with UTF-8 encoding to ensure proper handling of
-    special characters.
-
-    Parameters
-    ----------
-    data : str
-        A string containing the XML data to be saved.
-    file_path : Path
-        A `Path` object representing the path where the XML file will be saved.
-    """
-    with open(file_path, "w", encoding="utf8") as f:
-        f.write(data)
-
-
-def load_csv(filename: Path) -> pd.DataFrame:
-    """
-    Load data from a CSV file into a pandas DataFrame.
-
-    Parameters
-    ----------
-    filename : Path
-        A `Path` object representing the path to the CSV file to be loaded.
-
-    Returns
-    -------
-    pd.DataFrame
-        A pandas DataFrame containing the data from the CSV file.
-    """
-    return pd.read_csv(filename)
+from configuration.utils.typing_custom import IntrinsicMaterialDataType, MaterialsDataType, PairMaterialsDataType, Sex
 
 
 def wrap_angle(angle: float) -> float:
@@ -118,217 +26,6 @@ def wrap_angle(angle: float) -> float:
         The wrapped angle in the range [-180, 180).
     """
     return (angle + 180.0) % 360.0 - 180.0
-
-
-def dict_to_xml(crowd_dict: CrowdDataType) -> ET.Element:
-    """
-    Convert a dictionary to an XML element.
-
-    Parameters
-    ----------
-    crowd_dict : dict
-        A dictionary containing crowd data with agents and their associated shapes.
-        The dictionary should have the following structure:
-            {
-                "Agents": {
-                    "AgentName": {
-                        "type": str,
-                        "id": int,
-                        "mass": float,
-                        "moi": float,
-                        "FloorDamping": float,
-                        "AngularDamping": float,
-                        "Shapes": {
-                            "ShapeName": {
-                                "type": str,
-                                "radius": float,
-                                "material": str,
-                                "x": float,
-                                "y": float
-                            }
-                        }
-                    }
-                }
-            }
-
-    Returns
-    -------
-    ET.Element
-        The root XML element representing the crowd data, with nested elements for agents and shapes.
-    """
-    # Create the root element <Agents>
-    root = ET.Element("Agents")
-
-    # Iterate through each agent in the dictionary
-    for agent_data in crowd_dict["Agents"].values():
-        # Create an <Agent> element with attributes
-        agent = ET.SubElement(
-            root,
-            "Agent",
-            {
-                "type": agent_data["type"],
-                "id": str(agent_data["id"]),
-                "mass": str(agent_data["mass"]),
-                "moi": str(agent_data["moi"]),
-                "FloorDamping": str(agent_data["FloorDamping"]),
-                "AngularDamping": str(agent_data["AngularDamping"]),
-            },
-        )
-
-        # Create a <Shapes> element under the current <Agent>
-        shapes = ET.SubElement(agent, "Shapes")
-
-        # Iterate through each shape in the agent's shapes
-        for shape_data in agent_data["Shapes"].values():
-            # Create a <Shape> element with attributes
-            ET.SubElement(
-                shapes,
-                "Shape",
-                {
-                    "type": shape_data["type"],
-                    "radius": str(shape_data["radius"]),
-                    "material": str(shape_data["material"]),
-                    "x": str(shape_data["x"]),
-                    "y": str(shape_data["y"]),
-                },
-            )
-
-    return root
-
-
-def prettify_xml(elem: ET.Element) -> str:
-    """
-    Convert an XML element into a pretty-printed XML string with proper indentation.
-
-    Parameters
-    ----------
-    elem : ET.Element
-        The root XML element to be converted into a pretty-printed string.
-
-    Returns
-    -------
-    str
-        A pretty-printed XML string representation of the input element.
-    """
-    rough_string = ET.tostring(elem, encoding="utf-8")
-    reparsed = minidom.parseString(rough_string)
-    return reparsed.toprettyxml(indent="    ")
-
-
-def get_shapes_data(
-    backup_data_type: BackupDataType,
-    shapes_data: CrowdDataType,
-) -> tuple[str, str]:
-    """
-    Serialize shapes data into the specified backup format.
-
-    This function serializes a given shapes data dictionary into one of the
-    supported formats: JSON, XML, or Pickle. It also returns the corresponding
-    MIME type for the serialized data.
-
-    Parameters
-    ----------
-    backup_data_type : BackupDataType
-        The format in which to serialize the data. Supported types are:
-        - `'json'` for JSON serialization.
-        - `'xml'` for XML serialization.
-        - `'pickle'` for Pickle serialization.
-    shapes_data : CrowdDataType
-        The shapes data to be serialized.
-
-    Returns
-    -------
-    tuple[str, str]
-        A tuple containing:
-        - The serialized data as a string (or hex-encoded string for Pickle).
-        - The corresponding MIME type for the serialized data: (`"application/json"` for JSON,
-        `"application/xml"` for XML,`"application/octet-stream"` for Pickle).
-
-    Raises
-    ------
-    ValueError
-        If the provided `backup_data_type` is not supported.
-    """
-    if backup_data_type == cst.BackupDataTypes.json.name:
-        # Convert the dictionary to JSON
-        data = json.dumps(shapes_data, indent=4)
-        mime_type = "application/json"
-
-    elif backup_data_type == cst.BackupDataTypes.xml.name:
-        # Convert the dictionary to XML
-        mime_type = "application/xml"
-
-        # Convert the dictionary to XML
-        xml_tree = dict_to_xml(shapes_data)
-
-        # Prettify and write the XML to a file
-        data = prettify_xml(xml_tree)
-
-    elif backup_data_type == cst.BackupDataTypes.pickle.name:
-        # Convert the dictionary to a pickle byte stream and hex-encode it
-        data = pickle.dumps(shapes_data).hex()
-        mime_type = "application/octet-stream"
-
-    else:
-        raise ValueError(f"Unsupported backup data type: {backup_data_type}")
-
-    return data, mime_type
-
-
-def xml_to_dict(xml_file: str) -> CrowdDataType:
-    """
-    Convert an XML file to a Python dictionary.
-
-    Parameters
-    ----------
-    xml_file : str
-        Path to the XML file to be converted.
-
-    Returns
-    -------
-    dict
-        A dictionary representation of the XML file with the same format as the input dictionary.
-    """
-    tree = ET.parse(xml_file)
-    root = tree.getroot()
-
-    # Initialize the main dictionary structure
-    crowd_dict: CrowdDataType = {"Agents": {}}
-
-    # Iterate over each <Agent> element in the XML
-    for agent in root.findall("Agent"):
-        agent_data: dict[str, int | float | ShapeDataType] = {
-            "type": agent.get("type"),
-            "id": int(agent.get("id") or 0),
-            "mass": float(agent.get("mass") or 0.0),
-            "moi": float(agent.get("moi") or 0.0),
-            "FloorDamping": float(agent.get("FloorDamping") or 0.0),
-            "AngularDamping": float(agent.get("AngularDamping") or 0.0),
-            # "Shapes": {},
-        }
-
-        # Find <Shapes> element and process each <Shape> inside it
-        shapes = agent.find("Shapes")
-        if shapes is not None:
-            shapes_dict: ShapeDataType = {}
-            for i, shape in enumerate(shapes.findall("Shape"), start=1):
-                shape_data = {
-                    "type": shape.get("type"),
-                    "radius": float(shape.get("radius")),
-                    "material": shape.get("material"),
-                    "x": float(shape.get("x")),
-                    "y": float(shape.get("y")),
-                }
-                # Assign a unique name to each shape (e.g., disk1, disk2)
-                shape_name = f"disk{i}"
-                shapes_dict[shape_name] = shape_data
-            agent_data["Shapes"] = shapes_dict
-
-        # Assign a unique name to each agent (e.g., Agent0, Agent1)
-        agent_name = f"Agent{len(crowd_dict['Agents'])}"
-        crowd_dict["Agents"][agent_name] = agent_data
-
-    return crowd_dict
 
 
 def draw_from_trunc_normal(mean: float, std_dev: float, min_val: float, max_val: float) -> float:
@@ -497,3 +194,46 @@ def validate_material(material: str) -> None:
         raise ValueError(
             f"Material '{material}' is not supported. Expected one of: {list(cst.MaterialNames.__members__.keys())}."
         )
+
+
+def get_materials_params() -> MaterialsDataType:
+    """
+    Get the parameters of the materials.
+
+    Returns
+    -------
+    MaterialsDataType
+        A dictionary containing the parameters of the materials.
+    """
+    # Intrinsic material properties
+    intrinsic_materials: IntrinsicMaterialDataType = {
+        f"Material{id_material}": {
+            "id": id_material,
+            "name": material,
+            "young_modulus": getattr(cst, f"YOUNG_MODULUS_{material.upper()}"),
+            "poisson_ratio": getattr(cst, f"POISSON_RATIO_{material.upper()}"),
+        }
+        for id_material, material in enumerate(cst.MaterialNames.__members__.keys())
+    }
+
+    # Binary material properties (pairwise interactions)
+    binary_materials: PairMaterialsDataType = {
+        f"Contact{id_contact}": {
+            "id1": id1,
+            "id2": id2,
+            "GammaNormal": cst.GAMMA_NORMAL,
+            "GammaTangential": cst.GAMMA_TANGENTIAL,
+            "KineticFriction": cst.KINETIC_FRICTION,
+        }
+        for id_contact, (id1, id2) in enumerate(itertools.combinations(range(len(cst.MaterialNames)), 2))
+    }
+
+    # Combine intrinsic and binary properties into a single dictionary
+    materials_dict: MaterialsDataType = {
+        "Materials": {
+            "Intrinsic": intrinsic_materials,
+            "Binary": binary_materials,
+        }
+    }
+
+    return materials_dict

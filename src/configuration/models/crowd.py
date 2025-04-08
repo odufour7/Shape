@@ -13,7 +13,7 @@ from configuration.models.measures import (
     draw_agent_measures,
     draw_agent_type,
 )
-from configuration.utils.typing_custom import CrowdDataType
+from configuration.utils.typing_custom import DynamicCrowdDataType, GeometryDataType, StaticCrowdDataType
 
 
 class Crowd:
@@ -291,36 +291,16 @@ class Crowd:
 
         return crowd_measures
 
-    def get_agents_params(self) -> CrowdDataType:
+    def get_agents_params(self) -> StaticCrowdDataType:
         """
         Retrieve the physical and geometric parameters of all agents in a structured format.
 
         Returns
         -------
         CrowdDataType
-            A dictionary containing agent data, structured as follows:
-                {
-                    "Agents": {
-                        "Agent{N}": {
-                            "type": str
-                                The classification of the agent (e.g., "Pedestrian", "Bike").
-                            "id": int
-                                The unique identifier of the agent.
-                            "mass": float
-                                The mass of the agent in kilograms (kg).
-                            "moi": float
-                                The moment of inertia of the agent in kilogram-square meters (kg·m²).
-                            "FloorDamping": float
-                                The floor damping coefficient for the agent.
-                            "AngularDamping": float
-                                The angular damping coefficient for the agent.
-                            "Shapes": ShapeDataType
-                                A dictionary containing geometric parameters of the agent's 2D representation.
-                        }
-                    }
-                }.
+            A dictionary containing agent data for all agents in the crowd.
         """
-        crowd_dict: CrowdDataType = {
+        crowd_dict: StaticCrowdDataType = {
             "Agents": {
                 f"Agent{id_agent}": {
                     "type": f"{agent.agent_type.name}",
@@ -337,42 +317,24 @@ class Crowd:
 
         return crowd_dict
 
-    def get_pedestrians_params(self) -> CrowdDataType:
+    def get_pedestrians_params(self) -> tuple[StaticCrowdDataType, DynamicCrowdDataType]:
         """
         Retrieve the physical and geometric parameters of all agents in a structured format.
 
         Returns
         -------
-        CrowdDataType
-            A dictionary containing agent data, structured as follows:
-                {
-                    "Agents": {
-                        "Agent{N}": {
-                            "type": str
-                                The classification of the agent (e.g., "Pedestrian", "Bike").
-                            "id": int
-                                The unique identifier of the agent.
-                            "mass": float
-                                The mass of the agent in kilograms (kg).
-                            "moi": float
-                                The moment of inertia of the agent in kilogram-square meters (kg·m²).
-                            "FloorDamping": float
-                                The floor damping coefficient for the agent.
-                            "AngularDamping": float
-                                The angular damping coefficient for the agent.
-                            "Shapes": ShapeDataType
-                                A dictionary containing geometric parameters of the agent's 2D representation.
-                        }
-                    }
-                }.
+        Tuple[StaticCrowdDataType, DynamicCrowdDataType]
+            A tuple containing:
+                - static parameters of all agents.
+                - dynamical parameters of all agents.
         """
-        dynamical_parameters_crowd = {
+        dynamical_parameters_crowd: DynamicCrowdDataType = {
             "Agents": {
                 f"Agent{id_agent}": {
                     "id": id_agent,
                     "Kinematics": {
-                        "x": agent.get_position().x,
-                        "y": agent.get_position().y,
+                        "x": agent.get_position().x * cst.CM_TO_M,
+                        "y": agent.get_position().y * cst.CM_TO_M,
                         "vx": cst.INITIAL_TRANSLATIONAL_VELOCITY_Y,
                         "vy": cst.INITIAL_TRANSLATIONAL_VELOCITY_Y,
                         "theta": agent.get_agent_orientation(),
@@ -389,7 +351,7 @@ class Crowd:
         }
 
         shapes_agents = {}
-        agents_data = {}
+        agents_data: StaticCrowdDataType = {}
 
         for agent_id, agent in enumerate(self.agents):
             # Extract agent parameters
@@ -401,8 +363,8 @@ class Crowd:
                 "type": shape_params["type"],
                 "radius": shape_params["radius"],
                 "material": shape_params["material"],
-                "x": delta_g_to_gi["x"],
-                "y": delta_g_to_gi["y"],
+                "x": delta_g_to_gi["x"] * cst.CM_TO_M,
+                "y": delta_g_to_gi["y"] * cst.CM_TO_M,
             }
 
             # Construct agent data
@@ -416,7 +378,55 @@ class Crowd:
                 "Shapes": shapes_agents[f"Agent{agent_id}"],
             }
 
-        return dynamical_parameters_crowd, agents_data
+        return agents_data, dynamical_parameters_crowd
+
+    def get_boundaries_params(self) -> GeometryDataType:
+        """
+        Retrieve the parameters of the boundaries.
+
+        Returns
+        -------
+        GeometryDataType
+            A dictionary containing the geometric parameters of the boundaries,
+            including dimensions (Lx and Ly) and wall corner data.
+        """
+        # Ensure self.boundaries is a Polygon
+        if not isinstance(self.boundaries, Polygon):
+            raise ValueError("self.boundaries must be a shapely Polygon object.")
+
+        # Extract coordinates from the polygon's exterior
+        coords = list(self.boundaries.exterior.coords)
+
+        # Calculate Lx and Ly as maximum distances between x and y coordinates
+        x_coords = [point[0] for point in coords]
+        y_coords = [point[1] for point in coords]
+        Lx = max(x_coords) - min(x_coords)
+        Ly = max(y_coords) - min(y_coords)
+
+        # Construct boundaries dictionary
+        boundaries_dict: GeometryDataType = {
+            "Geometry": {
+                "Dimensions": {
+                    "Lx": Lx,
+                    "Ly": Ly,
+                },
+                "Wall": {
+                    "Wall0": {
+                        "id": 0,
+                        "material": cst.MaterialNames.stone.name,
+                        "Corners": {
+                            f"Corner{id_corner}": {
+                                "x": coords[id_corner][0],
+                                "y": coords[id_corner][1],
+                            }
+                            for id_corner in range(len(coords))
+                        },
+                    }
+                },
+            }
+        }
+
+        return boundaries_dict
 
     def calculate_interpenetration(self) -> tuple[float, float]:
         """
