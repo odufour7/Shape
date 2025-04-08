@@ -1,1 +1,1 @@
-"""Src package provides the main modules of the app."""
+"""Src package provides the main packages the project."""
