@@ -1,5 +1,6 @@
 """3D pedestrian visualization tab."""
 
+import pickle
 from datetime import datetime
 from io import BytesIO
 
@@ -13,7 +14,6 @@ from configuration.models.agents import Agent
 from configuration.models.initial_agents import InitialPedestrian
 from configuration.models.measures import AgentMeasures
 from configuration.streamlit_app.plot import plot
-from configuration.utils import functions as fun
 
 
 def initialize_session_state() -> None:
@@ -165,12 +165,12 @@ def download_data(current_pedestrian: Agent) -> None:
     """
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     filename = f"agent3D_{current_pedestrian.agent_type}_{current_pedestrian.measures.measures['sex']}_{timestamp}.pkl"
-    data_to_download, mime_type = fun.get_shapes_data("pickle", current_pedestrian.shapes3D.shapes)
+    data_to_download = pickle.dumps(current_pedestrian.shapes3D.shapes)
     st.sidebar.download_button(
         label="Download data as PKL",
         data=data_to_download,
         file_name=filename,
-        mime=mime_type,
+        mime="application/octet-stream",
     )
 
 

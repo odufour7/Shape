@@ -5,7 +5,7 @@ from pathlib import Path
 from shapely.geometry import MultiPolygon, Point
 
 import configuration.utils.constants as cst
-import configuration.utils.functions as fun
+from configuration.utils import loading_backup_functions as lb_fun
 from configuration.utils.typing_custom import Sex, ShapeDataType, ShapeType
 
 
@@ -56,7 +56,7 @@ class InitialPedestrian:
         self._agent_type: cst.AgentTypes = cst.AgentTypes.pedestrian
         self._shapes2D: ShapeDataType = self._initialize_shapes()
         dir_path = Path(__file__).parent.parent.parent.parent.absolute() / "data" / "pkl"
-        self._shapes3D: dict[float, MultiPolygon] = fun.load_pickle(dir_path / f"{sex}_3dBody.pkl")
+        self._shapes3D: dict[float, MultiPolygon] = lb_fun.load_pickle(dir_path / f"{sex}_3dBody.pkl")
 
         # Initialize measures
         bideltoid_breadth: float = 0.0
@@ -175,7 +175,7 @@ class InitialPedestrian:
             raise ValueError("The sex should be either 'male' or 'female'.")
         self._measures[cst.PedestrianParts.sex.name] = value
         dir_path = Path(__file__).parent.parent.parent.parent.absolute() / "data" / "pkl"
-        self._body3D = fun.load_pickle(dir_path / f"{value}_3dBody.pkl")
+        self._body3D = lb_fun.load_pickle(dir_path / f"{value}_3dBody.pkl")
 
     @property
     def agent_type(self) -> cst.AgentTypes:

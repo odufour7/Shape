@@ -1,6 +1,8 @@
 """Pedestrian visualization tab."""
 
+import io
 import json
+import zipfile
 from datetime import datetime
 from io import BytesIO
 from pathlib import Path
@@ -14,8 +16,6 @@ import configuration.utils.constants as cst
 from configuration.models.crowd import Crowd
 from configuration.models.measures import CrowdMeasures
 from configuration.streamlit_app.plot import plot
-from configuration.utils import functions as fun
-from configuration.utils.typing_custom import BackupDataType
 
 
 def initialize_session_state() -> None:
@@ -157,23 +157,29 @@ def plot_and_download(current_crowd: Crowd) -> None:
             file_name="crowd.pdf",
             mime="application/pdf",
         )
-    # Create a select box for format selection
-    backup_data_type: BackupDataType = st.sidebar.selectbox(
-        "Select backup format:",
-        options=[cst.BackupDataTypes.xml.name, cst.BackupDataTypes.json.name],
-        format_func=lambda x: x.upper(),
-        help="Choose the format for your data backup.",
-    )
 
-    # Add a download button
+    # Download all files as ZIP
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    filename = f"crowd2D_{backup_data_type}_{timestamp}.{backup_data_type}"
-    data, mime_type = fun.get_shapes_data(backup_data_type, current_crowd.get_agents_params())
+    filename = f"crowd2D_{timestamp}.zip"
+
+    static_data_bytes, dynamic_data_bytes, geometry_data_bytes, materials_data_bytes = current_crowd.get_all_crowd_params_in_xml()
+    # Create an in-memory ZIP file
+    zip_buffer = io.BytesIO()
+    with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zip_file:
+        zip_file.writestr("Agents.xml", static_data_bytes)
+        zip_file.writestr("AgentDynamics.xml", dynamic_data_bytes)
+        zip_file.writestr("Geometry.xml", geometry_data_bytes)
+        zip_file.writestr("Materials.xml", materials_data_bytes)
+
+    # Move the buffer's pointer to the beginning
+    zip_buffer.seek(0)
+
+    # Add download button for the ZIP file
     st.sidebar.download_button(
-        label=f"Download data as {backup_data_type.upper()}",
-        data=data,
+        label="Download all files as ZIP",
+        data=zip_buffer,
         file_name=filename,
-        mime=mime_type,
+        mime="application/zip",
     )
 
 

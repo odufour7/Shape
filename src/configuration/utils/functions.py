@@ -237,3 +237,31 @@ def get_materials_params() -> MaterialsDataType:
     }
 
     return materials_dict
+
+
+def rotate_vectors(vector_dict: dict[str, tuple[float, float]], theta: float) -> dict[str, tuple[float, float]]:
+    """
+    Rotate 2D vectors in a dictionary by a given angle.
+
+    Parameters
+    ----------
+    vector_dict : dict[str, tuple[float, float]]
+        A dictionary where each key maps to a 2D vector represented as a tuple (x, y).
+    theta : float
+        The angle in degrees by which to rotate the vectors.
+
+    Returns
+    -------
+    dict[str, tuple[float, float]]
+        A dictionary with the same keys, where each vector has been rotated by the given angle.
+    """
+    theta_rad = np.radians(theta)  # Convert angle to radians
+
+    rotated_dict = {}
+    for key, (x, y) in vector_dict.items():
+        # Apply rotation matrix
+        x_rot = x * np.cos(theta_rad) - y * np.sin(theta_rad)
+        y_rot = x * np.sin(theta_rad) + y * np.cos(theta_rad)
+        rotated_dict[key] = (x_rot, y_rot)
+
+    return rotated_dict

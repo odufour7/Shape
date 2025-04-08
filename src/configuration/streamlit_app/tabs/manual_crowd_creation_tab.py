@@ -1,5 +1,7 @@
 """Custom crowd tab."""
 
+import io
+import zipfile
 from datetime import datetime
 
 import streamlit as st
@@ -7,13 +9,12 @@ import streamlit as st
 import configuration.streamlit_app.utils.constants as cst_app
 import configuration.utils.constants as cst
 from configuration.models.agents import Agent
+from configuration.models.crowd import Crowd
 from configuration.models.measures import AgentMeasures
 from configuration.streamlit_app.plot import plot
-from configuration.utils import functions as fun
-from configuration.utils.typing_custom import BackupDataType, Sex, ShapeDataType
+from configuration.utils.typing_custom import Sex
 
 
-# Helper function to initialize session state
 def initialize_session_state() -> None:
     """Initialize the session state variables."""
     if "agents" not in st.session_state:
@@ -29,7 +30,6 @@ def parameter_changed() -> None:
     st.session_state.simulation_run = True
 
 
-# Helper function to add a new agent
 def add_agent(agent_type: cst.AgentTypes) -> None:
     """
     Add a new agent of the specified type to the session state.
@@ -65,7 +65,6 @@ def add_agent(agent_type: cst.AgentTypes) -> None:
     st.session_state.current_agent_id = len(st.session_state.agents) - 1
 
 
-# Helper function to remove an agent safely
 def remove_agent(selected_id: int) -> None:
     """
     Remove an agent from the session state by its ID.
@@ -283,29 +282,31 @@ def run_tab_custom_crowd() -> None:
                 mime="application/pdf",
             )
 
-            # Backup data download option
-            backup_format: BackupDataType = st.sidebar.selectbox(
-                "Backup Format:",
-                [cst.BackupDataTypes.xml.name, cst.BackupDataTypes.json.name, cst.BackupDataTypes.pickle.name],
-                format_func=lambda x: x.upper(),
-                help="Choose the format for your data backup.",
+            # Download all files as ZIP
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = f"crowd2D_{timestamp}.zip"
+
+            current_crowd: Crowd = Crowd(agents=agents)
+            static_data_bytes, dynamic_data_bytes, geometry_data_bytes, materials_data_bytes = (
+                current_crowd.get_all_crowd_params_in_xml()
             )
+            # Create an in-memory ZIP file
+            zip_buffer = io.BytesIO()
+            with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zip_file:
+                zip_file.writestr("Agents.xml", static_data_bytes)
+                zip_file.writestr("AgentDynamics.xml", dynamic_data_bytes)
+                zip_file.writestr("Geometry.xml", geometry_data_bytes)
+                zip_file.writestr("Materials.xml", materials_data_bytes)
 
-            crowd_dict: dict[str, dict[str, ShapeDataType | str]] = {
-                f"agent{id}": {
-                    "agent_type": agent.agent_type.name,
-                    "shapes": agent.shapes2D.get_additional_parameters(),
-                }
-                for id, agent in enumerate(agents)
-            }
+            # Move the buffer's pointer to the beginning
+            zip_buffer.seek(0)
 
-            backup_data, mime_type = fun.get_shapes_data(backup_format, crowd_dict)
-
+            # Add download button for the ZIP file
             st.sidebar.download_button(
-                label=f"Download Data as {backup_format.upper()}",
-                data=backup_data,
-                file_name=f"custom_crowd_{backup_format}_{timestamp}.{backup_format}",
-                mime=mime_type,
+                label="Download all files as ZIP",
+                data=zip_buffer,
+                file_name=filename,
+                mime="application/zip",
             )
 
         else:

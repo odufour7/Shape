@@ -10,8 +10,6 @@ import configuration.utils.constants as cst
 from configuration.models.agents import Agent
 from configuration.models.measures import AgentMeasures
 from configuration.streamlit_app.plot import plot
-from configuration.utils import functions as fun
-from configuration.utils.typing_custom import BackupDataType
 
 
 def init_session_state() -> AgentMeasures:
@@ -215,7 +213,6 @@ def run_tab_agent2D() -> None:
         - Agent type selection.
         - Sliders for anthropometric parameters (e.g., measures).
         - Sliders for position and rotation.
-        - Download options (plot as PDF or data backup in XML/JSON).
     Main Page:
         - Visualization of the 2D agent shape.
         - Display of current agent measures with corresponding images.
@@ -261,22 +258,4 @@ def run_tab_agent2D() -> None:
         data=fig.to_image(format="pdf"),
         file_name=f"body2D_orthogonal_projection_{timestamp}.pdf",
         mime="application/pdf",
-    )
-
-    # Create a select box for format selection
-    backup_data_type: BackupDataType = st.sidebar.selectbox(
-        "Select backup format:",
-        options=[cst.BackupDataTypes.xml.name, cst.BackupDataTypes.json.name],
-        format_func=lambda x: x.upper(),
-        help="Choose the format for your data backup.",
-    )
-
-    # Add a download button
-    filename = f"agent2D_{current_agent.agent_type}_{backup_data_type}_{timestamp}.{backup_data_type}"
-    data, mime_type = fun.get_shapes_data(backup_data_type, current_agent.shapes2D.get_additional_parameters())
-    st.sidebar.download_button(
-        label=f"Download data as {backup_data_type.upper()}",
-        data=data,
-        file_name=filename,
-        mime=mime_type,
     )

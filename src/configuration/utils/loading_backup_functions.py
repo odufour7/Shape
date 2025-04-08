@@ -8,9 +8,7 @@ from xml.dom import minidom
 
 import pandas as pd
 
-import configuration.utils.constants as cst
 from configuration.utils.typing_custom import (
-    BackupDataType,
     DynamicCrowdDataType,
     GeometryDataType,
     IntrinsicMaterialDataType,
@@ -88,55 +86,6 @@ def load_csv(filename: Path) -> pd.DataFrame:
     return pd.read_csv(filename)
 
 
-def get_shapes_data(
-    backup_data_type: BackupDataType,
-    shapes_data: StaticCrowdDataType,
-) -> tuple[bytes, str]:
-    """
-    Serialize shapes data into the specified backup format.
-
-    This function serializes a given shapes data dictionary into one of the
-    supported formats: JSON, XML, or Pickle. It also returns the corresponding
-    MIME type for the serialized data.
-
-    Parameters
-    ----------
-    backup_data_type : BackupDataType
-        The format in which to serialize the data. Supported types are:
-        - `'xml'` for XML serialization.
-        - `'pickle'` for Pickle serialization.
-    shapes_data : CrowdDataType
-        The shapes data to be serialized.
-
-    Returns
-    -------
-    tuple[bytes, str]
-        A tuple containing:
-        - The serialized data as a bytes.
-        - The corresponding MIME type for the serialized data: (`"application/xml"` for XML,`"application/octet-stream"`
-        for Pickle).
-
-    Raises
-    ------
-    ValueError
-        If the provided `backup_data_type` is not supported.
-    """
-    if backup_data_type == cst.BackupDataTypes.xml.name:
-        # Convert the dictionary to XML
-        data = static_parameters_pedestrians_dict_to_xml(shapes_data)
-        mime_type = "application/xml"
-
-    elif backup_data_type == cst.BackupDataTypes.pickle.name:
-        # Convert the dictionary to a pickle byte stream and hex-encode it
-        data = pickle.dumps(shapes_data)  # .hex()
-        mime_type = "application/octet-stream"
-
-    else:
-        raise ValueError(f"Unsupported backup data type: {backup_data_type}")
-
-    return data, mime_type
-
-
 def static_parameters_pedestrians_dict_to_xml(crowd_dict: StaticCrowdDataType) -> bytes:
     """
     Convert a dictionary containing static parameters of agents into an XML representation.
@@ -175,12 +124,15 @@ def static_parameters_pedestrians_dict_to_xml(crowd_dict: StaticCrowdDataType) -
 
         # Iterate through each shape in the agent's shapes
         for shape_data in agent_data["Shapes"].values():
+            shape_type = shape_data["type"]
+            if shape_type == "circle":
+                shape_type = "disk"
             # Create a <Shape> element with attributes
             ET.SubElement(
                 shapes,
                 "Shape",
                 {
-                    "type": shape_data["type"],
+                    "type": shape_type,
                     "radius": str(shape_data["radius"]),
                     "material": str(shape_data["material"]),
                     "x": str(shape_data["x"]),
@@ -375,8 +327,11 @@ def static_parameters_pedestrians_xml_to_dict(xml_file: str) -> StaticCrowdDataT
         if shapes is not None:
             shapes_dict: ShapeDataType = {}
             for i, shape in enumerate(shapes.findall("Shape"), start=1):
+                shape_type = shape.get("type", default="circle")
+                if shape_type == "disk":
+                    shape_type = "circle"
                 shape_data = {
-                    "type": shape.get("type", default="circle"),
+                    "type": shape_type,
                     "radius": float(shape.get("radius", default=0.0)),
                     "material": shape.get("material", default="human"),
                     "x": float(shape.get("x", default=0.0)),

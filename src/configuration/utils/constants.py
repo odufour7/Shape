@@ -4,7 +4,7 @@ from enum import Enum, auto
 
 import numpy as np
 
-# fix the seed
+# Fix the seed
 np.random.seed(0)
 
 # Conversion factors
@@ -38,12 +38,12 @@ GAMMA_NORMAL: float = 1.3 * 10**4  # Damping coefficient for normal contact
 GAMMA_TANGENTIAL: float = 1.3 * 10**4  # Damping coefficient for tangential contact
 KINETIC_FRICTION: float = 0.5  # Coefficient of kinetic friction
 
-
 # Crowd class
 MAX_NB_ITERATIONS: int = 100  # Maximum number of iterations for the parking algorithm
 DEFAULT_REPULSION_LENGTH: float = 15.0  # cm
 DEFAULT_DESIRED_DIRECTION: float = 0.0  # degrees
 DEFAULT_RANDOM_PACKING: bool = False
+INFINITE: float = 1.0e10  # Infinite value for the simulation
 
 # Crowd Statistics
 DEFAULT_PEDESTRIAN_HEIGHT: float = 170.0  # cm

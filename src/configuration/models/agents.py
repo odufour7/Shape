@@ -477,9 +477,11 @@ class Agent:
             the centroid of each shape.
         """
         delta_GtoGi = {}
+        agent_center: Point = self.get_position()
         for name, shape in self.shapes2D.shapes.items():
-            shape_object = shape["object"]
-            delta_GtoGi[name] = (shape_object.centroid.x - self.get_position().x, shape_object.centroid.y - self.get_position().y)
+            shape_center_x: float = shape["object"].centroid.x
+            shape_center_y: float = shape["object"].centroid.y
+            delta_GtoGi[name] = (shape_center_x - agent_center.x, shape_center_y - agent_center.y)
         return delta_GtoGi
 
     def get_agent_orientation(self) -> float:
