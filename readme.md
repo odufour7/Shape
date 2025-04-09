@@ -33,7 +33,7 @@ uv sync
 Start the app with the following command:
 
 ```bash
-uv run python -m streamlit run src/app.py
+uv run streamlit run src/configuration/streamlit_app/app/app.py
 ```
 
 

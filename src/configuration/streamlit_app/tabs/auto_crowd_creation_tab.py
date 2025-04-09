@@ -16,6 +16,7 @@ import configuration.utils.constants as cst
 from configuration.models.crowd import Crowd
 from configuration.models.measures import CrowdMeasures
 from configuration.streamlit_app.plot import plot
+from configuration.utils.typing_custom import BackupDataType
 
 
 def initialize_session_state() -> None:
@@ -163,34 +164,50 @@ def plot_and_download(current_crowd: Crowd) -> None:
 
     # check if all agents in the Crowd are pedestrian
     if all(agent.agent_type == cst.AgentTypes.pedestrian for agent in current_crowd.agents):
-        filename = f"crowd2D_{timestamp}.zip"
-
-        static_data_bytes, dynamic_data_bytes, geometry_data_bytes, materials_data_bytes = (
-            current_crowd.get_all_crowd_params_in_xml()
+        # Create a select box for format selection
+        backup_data_type: BackupDataType = st.sidebar.selectbox(
+            "Select backup format:",
+            options=[cst.BackupDataTypes.xml.name, cst.BackupDataTypes.zip.name],
+            format_func=lambda x: x.upper(),
+            help="Choose the format for your data backup.",
         )
-        # Create an in-memory ZIP file
-        zip_buffer = io.BytesIO()
-        with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zip_file:
-            zip_file.writestr("Agents.xml", static_data_bytes)
-            zip_file.writestr("AgentDynamics.xml", dynamic_data_bytes)
-            zip_file.writestr("Geometry.xml", geometry_data_bytes)
-            zip_file.writestr("Materials.xml", materials_data_bytes)
+        if backup_data_type == cst.BackupDataTypes.zip.name:
+            filename = f"crowd2D_{timestamp}.zip"
 
-        # Move the buffer's pointer to the beginning
-        zip_buffer.seek(0)
+            static_data_bytes, dynamic_data_bytes, geometry_data_bytes, materials_data_bytes = (
+                current_crowd.get_all_crowd_params_in_xml()
+            )
+            # Create an in-memory ZIP file
+            zip_buffer = io.BytesIO()
+            with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zip_file:
+                zip_file.writestr("Agents.xml", static_data_bytes)
+                zip_file.writestr("AgentDynamics.xml", dynamic_data_bytes)
+                zip_file.writestr("Geometry.xml", geometry_data_bytes)
+                zip_file.writestr("Materials.xml", materials_data_bytes)
 
-        # Add download button for the ZIP file
-        st.sidebar.download_button(
-            label="Download all files as ZIP",
-            data=zip_buffer,
-            file_name=filename,
-            mime="application/zip",
-        )
+            # Move the buffer's pointer to the beginning
+            zip_buffer.seek(0)
+
+            # Add download button for the ZIP file
+            st.sidebar.download_button(
+                label="Download all files as ZIP",
+                data=zip_buffer,
+                file_name=filename,
+                mime="application/zip",
+            )
+        else:
+            filename = f"crowd2D_{timestamp}.xml"
+            data = current_crowd.get_agents_params_in_xml()
+            st.sidebar.download_button(
+                label="Download as XML",
+                data=data,
+                file_name=filename,
+                mime="application/xml",
+            )
+
     else:
         filename = f"crowd2D_{timestamp}.xml"
-
         data = current_crowd.get_agents_params_in_xml()
-
         st.sidebar.download_button(
             label="Download as XML",
             data=data,

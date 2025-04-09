@@ -64,7 +64,7 @@ INITIAL_ROTATIONAL_VELOCITY: float = 0.0  # rad/s
 class BackupDataTypes(Enum):
     """Enum for backup data types."""
 
-    json = auto()
+    zip = auto()
     pickle = auto()
     xml = auto()
 
