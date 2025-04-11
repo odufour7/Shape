@@ -325,7 +325,7 @@ def static_parameters_pedestrians_xml_to_dict(xml_file: str) -> StaticCrowdDataT
         shapes = agent.find("Shapes")
         if shapes is not None:
             shapes_dict: ShapeDataType = {}
-            for i, shape in enumerate(shapes.findall("Shape"), start=1):
+            for i, shape in enumerate(shapes.findall("Shape"), start=0):
                 shape_type = shape.get("type", default="disk")
 
                 shape_data = {

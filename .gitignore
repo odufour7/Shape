@@ -41,3 +41,5 @@ Thumbs.db
 /docs/build/doctrees/
 /docs/build/html/
 /docs/build/jupyter_execute/
+
+/tests/.pytest_cache/

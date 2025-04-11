@@ -82,7 +82,6 @@ def boundaries_dict_one_wall() -> GeometryDataType:
     }
 
 
-# Parametrize test cases using lazy_fixture
 @pytest.mark.parametrize(
     "boundaries_dict, output_file_name",
     [

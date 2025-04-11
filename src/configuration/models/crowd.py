@@ -1,5 +1,8 @@
 """Module containing the Crowd class, which represents a crowd of pedestrians in a room."""
 
+import io
+import zipfile
+from pathlib import Path
 from xml.dom.minidom import parseString
 
 import numpy as np
@@ -292,222 +295,6 @@ class Crowd:
 
         return crowd_measures
 
-    def get_agents_params(self) -> StaticCrowdDataType:
-        """
-        Retrieve the physical and geometric parameters of all agents in a structured format.
-
-        Returns
-        -------
-        CrowdDataType
-            A dictionary containing agent data for all agents in the crowd.
-        """
-        crowd_dict: StaticCrowdDataType = {
-            "Agents": {
-                f"Agent{id_agent}": {
-                    "type": f"{agent.agent_type.name}",
-                    "id": id_agent,
-                    "mass": agent.measures.measures[cst.CommonMeasures.weight.name],  # in kg
-                    "MOI": agent.measures.measures["moment_of_inertia"],  # in kg*m^2
-                    "FloorDamping": cst.DEFAULT_FLOOR_DAMPING,
-                    "AngularDamping": cst.DEFAULT_ANGULAR_DAMPING,
-                    "Shapes": agent.shapes2D.get_additional_parameters(),
-                }
-                for id_agent, agent in enumerate(self.agents)
-            }
-        }
-
-        return crowd_dict
-
-    def get_agents_params_in_xml(self) -> str:
-        """
-        Generate a pretty-printed XML string of agent parameters from a Crowd object.
-
-        Returns
-        -------
-        str
-            A pretty-printed XML string representing the agent parameters. Empty lines are removed for cleaner formatting.
-        """
-        # Get agent parameters as a dictionary
-        crowd_data_dict = self.get_agents_params()
-
-        # Convert dictionary to XML string without type attributes
-        xml_data = dicttoxml(crowd_data_dict, attr_type=False, root=False)
-
-        # Parse the XML string into a DOM object
-        dom = parseString(xml_data)
-
-        # Pretty-print the XML with indentation and remove empty lines
-        pretty_xml = dom.toprettyxml(indent="     ")
-        data = "\n".join([line for line in pretty_xml.split("\n") if line.strip()])
-
-        return data
-
-    def get_static_pedestrians_params(self) -> StaticCrowdDataType:
-        """
-        Retrieve the physical and geometric parameters of all agents in a structured format.
-
-        Returns
-        -------
-        StaticCrowdDataType
-            Static parameters of all agents in a nested dictionary format.
-        """
-        crowd_dict: StaticCrowdDataType = {"Agents": {}}
-
-        for agent_id, agent in enumerate(self.agents):
-            # Initialize shapes dictionary for the current agent
-            shapes_dict = {}
-            all_shape_params = agent.shapes2D.get_additional_parameters()
-            delta_g_to_gi: dict[str, tuple[float, float]] = agent.get_delta_GtoGi()
-            theta: float = agent.get_agent_orientation()
-            delta_g_to_gi_rotated = fun.rotate_vectors(delta_g_to_gi, -theta)
-
-            # Extract all shape parameters for the current agent
-            for shape_name, shape_params in all_shape_params.items():
-                delta_g_to_gi_shape = delta_g_to_gi_rotated[shape_name]
-
-                # Add shape information to shapes_dict
-                shapes_dict[f"{shape_name}"] = {
-                    "type": shape_params["type"],
-                    "IdMaterial": getattr(cst.MaterialNames, shape_params["material"]).value,
-                    "radius": shape_params["radius"],
-                    "x": delta_g_to_gi_shape[0] * cst.CM_TO_M,
-                    "y": delta_g_to_gi_shape[1] * cst.CM_TO_M,
-                }
-
-            # Add agent data to crowd_dict
-            crowd_dict["Agents"][f"Agent{agent_id}"] = {
-                "type": agent.agent_type.name,
-                "id": agent_id,
-                "mass": agent.measures.measures[cst.CommonMeasures.weight.name],  # in kg
-                "MOI": agent.measures.measures["moment_of_inertia"],  # in kg*m^2
-                "FloorDamping": cst.DEFAULT_FLOOR_DAMPING,
-                "AngularDamping": cst.DEFAULT_ANGULAR_DAMPING,
-                "Shapes": shapes_dict,
-            }
-
-        return crowd_dict
-
-    def get_dynamic_pedestrians_params(self) -> DynamicCrowdDataType:
-        """
-        Retrieve the physical and geometric parameters of all agents in a structured format.
-
-        Returns
-        -------
-        DynamicCrowdDataType
-            Dynamical parameters of all agents.
-        """
-        dynamical_parameters_crowd: DynamicCrowdDataType = {
-            "Agents": {
-                f"Agent{id_agent}": {
-                    "id": id_agent,
-                    "Kinematics": {
-                        "x": agent.get_position().x * cst.CM_TO_M,
-                        "y": agent.get_position().y * cst.CM_TO_M,
-                        "vx": cst.INITIAL_TRANSLATIONAL_VELOCITY_Y,
-                        "vy": cst.INITIAL_TRANSLATIONAL_VELOCITY_Y,
-                        "theta": np.radians(agent.get_agent_orientation()),
-                        "omega": cst.INITIAL_ROTATIONAL_VELOCITY,
-                    },
-                    "Dynamics": {
-                        "Fpx": cst.DECISIONAL_TRANSLATIONAL_FORCE_X,
-                        "Fpy": cst.DECISIONAL_TRANSLATIONAL_FORCE_Y,
-                        "Mp": cst.DECISIONAL_TORQUE,
-                    },
-                }
-                for id_agent, agent in enumerate(self.agents)
-            }
-        }
-
-        return dynamical_parameters_crowd
-
-    def get_geometry_params(self) -> GeometryDataType:
-        """
-        Retrieve the parameters of the boundaries.
-
-        Returns
-        -------
-        GeometryDataType
-            A dictionary containing the geometric parameters of the boundaries,
-            including dimensions (Lx and Ly) and wall corner data.
-        """
-        # Ensure self.boundaries is a Polygon
-        if not isinstance(self.boundaries, Polygon):
-            raise ValueError("self.boundaries must be a shapely Polygon object.")
-        if self.boundaries.is_empty:
-            # create a boundaries with a large square
-            self.boundaries = Polygon(
-                [
-                    Point(-cst.INFINITE, -cst.INFINITE),
-                    Point(-cst.INFINITE, cst.INFINITE),
-                    Point(cst.INFINITE, cst.INFINITE),
-                    Point(cst.INFINITE, -cst.INFINITE),
-                ]
-            )
-        # Extract coordinates from the polygon's exterior
-        coords = list(self.boundaries.exterior.coords)
-
-        # Calculate Lx and Ly as maximum distances between x and y coordinates
-        x_coords = [point[0] for point in coords]
-        y_coords = [point[1] for point in coords]
-        Lx = max(x_coords) - min(x_coords)
-        Ly = max(y_coords) - min(y_coords)
-
-        # Construct boundaries dictionary
-        boundaries_dict: GeometryDataType = {
-            "Geometry": {
-                "Dimensions": {
-                    "Lx": Lx,
-                    "Ly": Ly,
-                },
-                "Wall": {
-                    "Wall0": {
-                        "id": 0,
-                        "IdMaterial": cst.MaterialNames.stone.value,
-                        "Corners": {
-                            f"Corner{id_corner}": {
-                                "x": coords[id_corner][0],
-                                "y": coords[id_corner][1],
-                            }
-                            for id_corner in range(len(coords))
-                        },
-                    }
-                },
-            }
-        }
-
-        return boundaries_dict
-
-    def get_all_crowd_params_in_xml(self) -> tuple[bytes, bytes, bytes, bytes]:
-        """
-        Generate XML data for all crowd parameters.
-
-        Returns
-        -------
-        tuple of bytes
-            A tuple containing four byte objects:
-            - static_data_bytes: XML representation of static pedestrian parameters.
-            - dynamic_data_bytes: XML representation of dynamic pedestrian parameters.
-            - geometry_data_bytes: XML representation of geometry parameters.
-            - materials_data_bytes: XML representation of material parameters.
-        """
-        # Extract static pedestrian parameters and convert to XML
-        static_data_dict = self.get_static_pedestrians_params()
-        static_data_bytes = lb_fun.static_parameters_pedestrians_dict_to_xml(static_data_dict)
-
-        # Extract dynamic pedestrian parameters and convert to XML
-        dynamic_data_dict = self.get_dynamic_pedestrians_params()
-        dynamic_data_bytes = lb_fun.dynamic_parameters_dict_to_xml(dynamic_data_dict)
-
-        # Extract geometry parameters and convert to XML
-        geometry_data_dict = self.get_geometry_params()
-        geometry_data_bytes = lb_fun.geometry_dict_to_xml(geometry_data_dict)
-
-        # Extract material parameters and convert to XML
-        materials_data_dict = fun.get_materials_params()
-        materials_data_bytes = lb_fun.materials_dict_to_xml(materials_data_dict)
-
-        return static_data_bytes, dynamic_data_bytes, geometry_data_bytes, materials_data_bytes
-
     def calculate_interpenetration(self) -> tuple[float, float]:
         """
         Compute the total interpenetration area between pedestrians and between pedestrians and boundaries.
@@ -789,3 +576,247 @@ class Crowd:
             current_position: Point = agent.get_position()
             translation_vector = np.array([-current_position.x, -current_position.y])
             agent.translate(*translation_vector)
+
+    def get_agents_params(self) -> StaticCrowdDataType:
+        """
+        Retrieve the physical and geometric parameters of all agents in a structured format.
+
+        Returns
+        -------
+        CrowdDataType
+            A dictionary containing agent data for all agents in the crowd.
+        """
+        crowd_dict: StaticCrowdDataType = {
+            "Agents": {
+                f"Agent{id_agent}": {
+                    "type": f"{agent.agent_type.name}",
+                    "id": id_agent,
+                    "mass": agent.measures.measures[cst.CommonMeasures.weight.name],  # in kg
+                    "MOI": agent.measures.measures["moment_of_inertia"],  # in kg*m^2
+                    "FloorDamping": cst.DEFAULT_FLOOR_DAMPING,
+                    "AngularDamping": cst.DEFAULT_ANGULAR_DAMPING,
+                    "Shapes": agent.shapes2D.get_additional_parameters(),
+                }
+                for id_agent, agent in enumerate(self.agents)
+            }
+        }
+
+        return crowd_dict
+
+    def get_agents_params_in_xml(self) -> str:
+        """
+        Generate a pretty-printed XML string of agent parameters from a Crowd object.
+
+        Returns
+        -------
+        str
+            A pretty-printed XML string representing the agent parameters. Empty lines are removed for cleaner formatting.
+        """
+        # Get agent parameters as a dictionary
+        crowd_data_dict = self.get_agents_params()
+
+        # Convert dictionary to XML string without type attributes
+        xml_data = dicttoxml(crowd_data_dict, attr_type=False, root=False)
+
+        # Parse the XML string into a DOM object
+        dom = parseString(xml_data)
+
+        # Pretty-print the XML with indentation and remove empty lines
+        pretty_xml = dom.toprettyxml(indent="     ")
+        data = "\n".join([line for line in pretty_xml.split("\n") if line.strip()])
+
+        return data
+
+    def get_static_pedestrians_params(self) -> StaticCrowdDataType:
+        """
+        Retrieve the physical and geometric parameters of all agents in a structured format.
+
+        Returns
+        -------
+        StaticCrowdDataType
+            Static parameters of all agents in a nested dictionary format.
+        """
+        crowd_dict: StaticCrowdDataType = {"Agents": {}}
+
+        for agent_id, agent in enumerate(self.agents):
+            # Initialize shapes dictionary for the current agent
+            shapes_dict = {}
+            all_shape_params = agent.shapes2D.get_additional_parameters()
+            delta_g_to_gi: dict[str, tuple[float, float]] = agent.get_delta_GtoGi()
+            theta: float = agent.get_agent_orientation()
+            delta_g_to_gi_rotated = fun.rotate_vectors(delta_g_to_gi, -theta)
+
+            # Extract all shape parameters for the current agent
+            for shape_name, shape_params in all_shape_params.items():
+                delta_g_to_gi_shape = delta_g_to_gi_rotated[shape_name]
+
+                # Add shape information to shapes_dict
+                shapes_dict[f"{shape_name}"] = {
+                    "type": shape_params["type"],
+                    "radius": shape_params["radius"],
+                    "IdMaterial": getattr(cst.MaterialNames, shape_params["material"]).value,
+                    "x": float(delta_g_to_gi_shape[0] * cst.CM_TO_M),
+                    "y": float(delta_g_to_gi_shape[1] * cst.CM_TO_M),
+                }
+
+            # Add agent data to crowd_dict
+            crowd_dict["Agents"][f"Agent{agent_id}"] = {
+                "type": agent.agent_type.name,
+                "id": agent_id,
+                "mass": agent.measures.measures[cst.CommonMeasures.weight.name],  # in kg
+                "MOI": float(agent.measures.measures["moment_of_inertia"]),  # in kg*m^2
+                "FloorDamping": cst.DEFAULT_FLOOR_DAMPING,
+                "AngularDamping": cst.DEFAULT_ANGULAR_DAMPING,
+                "Shapes": shapes_dict,
+            }
+
+        return crowd_dict
+
+    def get_dynamic_pedestrians_params(self) -> DynamicCrowdDataType:
+        """
+        Retrieve the physical and geometric parameters of all agents in a structured format.
+
+        Returns
+        -------
+        DynamicCrowdDataType
+            Dynamical parameters of all agents.
+        """
+        dynamical_parameters_crowd: DynamicCrowdDataType = {
+            "Agents": {
+                f"Agent{id_agent}": {
+                    "id": id_agent,
+                    "Kinematics": {
+                        "x": agent.get_position().x * cst.CM_TO_M,
+                        "y": agent.get_position().y * cst.CM_TO_M,
+                        "vx": cst.INITIAL_TRANSLATIONAL_VELOCITY_Y,
+                        "vy": cst.INITIAL_TRANSLATIONAL_VELOCITY_Y,
+                        "theta": np.radians(agent.get_agent_orientation()),
+                        "omega": cst.INITIAL_ROTATIONAL_VELOCITY,
+                    },
+                    "Dynamics": {
+                        "Fpx": cst.DECISIONAL_TRANSLATIONAL_FORCE_X,
+                        "Fpy": cst.DECISIONAL_TRANSLATIONAL_FORCE_Y,
+                        "Mp": cst.DECISIONAL_TORQUE,
+                    },
+                }
+                for id_agent, agent in enumerate(self.agents)
+            }
+        }
+
+        return dynamical_parameters_crowd
+
+    def get_geometry_params(self) -> GeometryDataType:
+        """
+        Retrieve the parameters of the boundaries.
+
+        Returns
+        -------
+        GeometryDataType
+            A dictionary containing the geometric parameters of the boundaries,
+            including dimensions (Lx and Ly) and wall corner data.
+        """
+        # Ensure self.boundaries is a Polygon
+        if not isinstance(self.boundaries, Polygon):
+            raise ValueError("self.boundaries must be a shapely Polygon object.")
+        if self.boundaries.is_empty:
+            # create a boundaries with a large square
+            self.boundaries = Polygon(
+                [
+                    Point(-cst.INFINITE, -cst.INFINITE),
+                    Point(-cst.INFINITE, cst.INFINITE),
+                    Point(cst.INFINITE, cst.INFINITE),
+                    Point(cst.INFINITE, -cst.INFINITE),
+                ]
+            )
+        # Extract coordinates from the polygon's exterior
+        coords = list(self.boundaries.exterior.coords)
+
+        # Calculate Lx and Ly as maximum distances between x and y coordinates
+        x_coords = [point[0] for point in coords]
+        y_coords = [point[1] for point in coords]
+        Lx = max(x_coords) - min(x_coords)
+        Ly = max(y_coords) - min(y_coords)
+
+        # Construct boundaries dictionary
+        boundaries_dict: GeometryDataType = {
+            "Geometry": {
+                "Dimensions": {
+                    "Lx": Lx,
+                    "Ly": Ly,
+                },
+                "Wall": {
+                    "Wall0": {
+                        "id": 0,
+                        "IdMaterial": cst.MaterialNames.stone.value,
+                        "Corners": {
+                            f"Corner{id_corner}": {
+                                "x": coords[id_corner][0],
+                                "y": coords[id_corner][1],
+                            }
+                            for id_corner in range(len(coords))
+                        },
+                    }
+                },
+            }
+        }
+
+        return boundaries_dict
+
+    def get_all_crowd_params_in_xml(self) -> tuple[bytes, bytes, bytes, bytes]:
+        """
+        Generate XML data for all crowd parameters.
+
+        Returns
+        -------
+        tuple of bytes
+            A tuple containing four byte objects:
+            - static_data_bytes: XML representation of static pedestrian parameters.
+            - dynamic_data_bytes: XML representation of dynamic pedestrian parameters.
+            - geometry_data_bytes: XML representation of geometry parameters.
+            - materials_data_bytes: XML representation of material parameters.
+        """
+        # Extract static pedestrian parameters and convert to XML
+        static_data_dict = self.get_static_pedestrians_params()
+        static_data_bytes = lb_fun.static_parameters_pedestrians_dict_to_xml(static_data_dict)
+
+        # Extract dynamic pedestrian parameters and convert to XML
+        dynamic_data_dict = self.get_dynamic_pedestrians_params()
+        dynamic_data_bytes = lb_fun.dynamic_parameters_dict_to_xml(dynamic_data_dict)
+
+        # Extract geometry parameters and convert to XML
+        geometry_data_dict = self.get_geometry_params()
+        geometry_data_bytes = lb_fun.geometry_dict_to_xml(geometry_data_dict)
+
+        # Extract material parameters and convert to XML
+        materials_data_dict = fun.get_materials_params()
+        materials_data_bytes = lb_fun.materials_dict_to_xml(materials_data_dict)
+
+        return static_data_bytes, dynamic_data_bytes, geometry_data_bytes, materials_data_bytes
+
+    def save_crowd_data_to_zip(self, output_zip_path: Path) -> None:
+        """
+        Save crowd data as a ZIP file containing multiple XML files.
+
+        Parameters
+        ----------
+        output_zip_path : Path
+            The path where the ZIP file will be saved.
+        """
+        static_data_bytes, dynamic_data_bytes, geometry_data_bytes, materials_data_bytes = self.get_all_crowd_params_in_xml()
+        # Create an in-memory ZIP file
+        zip_buffer = io.BytesIO()
+        with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zip_file:
+            # Write each XML file into the ZIP archive
+            zip_file.writestr("Agents.xml", static_data_bytes)
+            zip_file.writestr("AgentDynamics.xml", dynamic_data_bytes)
+            zip_file.writestr("Geometry.xml", geometry_data_bytes)
+            zip_file.writestr("Materials.xml", materials_data_bytes)
+
+        # Move the buffer's pointer to the beginning
+        zip_buffer.seek(0)
+
+        # Write the in-memory ZIP file to the specified output path
+        with open(output_zip_path, "wb") as output_file:
+            output_file.write(zip_buffer.read())
+
+        print(f"ZIP file successfully saved to {output_zip_path}")
