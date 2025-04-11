@@ -31,7 +31,7 @@ AgentPart: TypeAlias = Literal[
 
 #: Represents different types of shapes used in geometry.
 ShapeType: TypeAlias = Literal[
-    "circle",
+    "disk",
     "rectangle",
     "polygon",
 ]
@@ -46,7 +46,6 @@ MaterialType: TypeAlias = Literal[
 
 #: Represents supported backup data formats.
 BackupDataType: TypeAlias = Literal[
-    "json",
     "pickle",
     "xml",
 ]

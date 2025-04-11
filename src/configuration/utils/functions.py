@@ -210,8 +210,8 @@ def get_materials_params() -> MaterialsDataType:
         f"Material{id_material}": {
             "id": id_material,
             "name": material,
-            "young_modulus": getattr(cst, f"YOUNG_MODULUS_{material.upper()}"),
-            "poisson_ratio": getattr(cst, f"POISSON_RATIO_{material.upper()}"),
+            "YoungModulus": getattr(cst, f"YOUNG_MODULUS_{material.upper()}"),
+            "PoissonRatio": getattr(cst, f"POISSON_RATIO_{material.upper()}"),
         }
         for id_material, material in enumerate(cst.MaterialNames.__members__.keys())
     }

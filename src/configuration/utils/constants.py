@@ -1,6 +1,7 @@
 """Constants used in the project."""
 
 from enum import Enum, auto
+from types import MappingProxyType
 
 import numpy as np
 
@@ -39,6 +40,7 @@ GAMMA_TANGENTIAL: float = 1.3 * 10**4  # Damping coefficient for tangential cont
 KINETIC_FRICTION: float = 0.5  # Coefficient of kinetic friction
 
 # Crowd class
+DEFAULT_AGENT_NUMBER: int = 4
 MAX_NB_ITERATIONS: int = 100  # Maximum number of iterations for the parking algorithm
 DEFAULT_REPULSION_LENGTH: float = 15.0  # cm
 DEFAULT_DESIRED_DIRECTION: float = 0.0  # degrees
@@ -80,7 +82,7 @@ class AgentTypes(Enum):
 class ShapeTypes(Enum):
     """Enum for shape types."""
 
-    circle = auto()
+    disk = auto()
     rectangle = auto()
     polygon = auto()
 
@@ -119,57 +121,61 @@ class StatType(Enum):
     max = auto()
 
 
-class CrowdStat(Enum):
-    """Enum for crowd statistics."""
-
-    male_proportion = auto()
-    pedestrian_proportion = auto()
-    bike_proportion = auto()
-
-    pedestrian_weight_min = auto()
-    pedestrian_weight_max = auto()
-    pedestrian_weight_mean = auto()
-    pedestrian_weight_std_dev = auto()
-
-    bike_weight_min = auto()
-    bike_weight_max = auto()
-    bike_weight_mean = auto()
-    bike_weight_std_dev = auto()
-
-    male_bideltoid_breadth_mean = auto()
-    male_bideltoid_breadth_std_dev = auto()
-    male_bideltoid_breadth_min = auto()
-    male_bideltoid_breadth_max = auto()
-    male_chest_depth_mean = auto()
-    male_chest_depth_std_dev = auto()
-    male_chest_depth_min = auto()
-    male_chest_depth_max = auto()
-
-    female_bideltoid_breadth_mean = auto()
-    female_bideltoid_breadth_std_dev = auto()
-    female_bideltoid_breadth_min = auto()
-    female_bideltoid_breadth_max = auto()
-    female_chest_depth_mean = auto()
-    female_chest_depth_std_dev = auto()
-    female_chest_depth_min = auto()
-    female_chest_depth_max = auto()
-
-    wheel_width_mean = auto()
-    wheel_width_std_dev = auto()
-    wheel_width_min = auto()
-    wheel_width_max = auto()
-    total_length_mean = auto()
-    total_length_std_dev = auto()
-    total_length_min = auto()
-    total_length_max = auto()
-    handlebar_length_mean = auto()
-    handlebar_length_std_dev = auto()
-    handlebar_length_min = auto()
-    handlebar_length_max = auto()
-    top_tube_length_mean = auto()
-    top_tube_length_std_dev = auto()
-    top_tube_length_min = auto()
-    top_tube_length_max = auto()
+CrowdStat = MappingProxyType(
+    {
+        "male_proportion": 0.5,
+        "pedestrian_proportion": 1.0,
+        "bike_proportion": 0.0,
+        # Pedestrian weights (in kg)
+        "pedestrian_weight_min": 10.0,  # kg
+        "pedestrian_weight_max": 100.0,  # kg
+        "pedestrian_weight_mean": 70.0,  # kg
+        "pedestrian_weight_std_dev": 5.0,  # kg
+        # Bike weights (in kg)
+        "bike_weight_min": 10.0,  # kg
+        "bike_weight_max": 100.0,  # kg
+        "bike_weight_mean": 30.0,  # kg
+        "bike_weight_std_dev": 5.0,  # kg
+        # Male measurements (in cm)
+        "male_bideltoid_breadth_min": 30.0,  # cm
+        "male_bideltoid_breadth_max": 90.0,  # cm
+        "male_bideltoid_breadth_mean": 51.0,  # cm
+        "male_bideltoid_breadth_std_dev": 2.0,  # cm
+        "male_chest_depth_min": 15.0,  # cm
+        "male_chest_depth_max": 50.0,  # cm
+        "male_chest_depth_mean": 26.0,  # cm
+        "male_chest_depth_std_dev": 2.0,  # cm
+        # Female measurements (in cm)
+        "female_bideltoid_breadth_min": 30.0,  # cm
+        "female_bideltoid_breadth_max": 90.0,  # cm
+        "female_bideltoid_breadth_mean": 45.0,  # cm
+        "female_bideltoid_breadth_std_dev": 1.5,  # cm
+        "female_chest_depth_min": 15.0,  # cm
+        "female_chest_depth_max": 50.0,  # cm
+        "female_chest_depth_mean": 24.0,  # cm
+        "female_chest_depth_std_dev": 1.5,  # cm
+        # Wheel dimensions (in cm)
+        "wheel_width_min": 5.0,  # cm
+        "wheel_width_max": 30.0,  # cm
+        "wheel_width_mean": 10.0,  # cm
+        "wheel_width_std_dev": 2.0,  # cm
+        # Total length (in cm)
+        "total_length_min": 100.0,  # cm
+        "total_length_max": 200.0,  # cm
+        "total_length_mean": 142.0,  # cm
+        "total_length_std_dev": 5.0,  # cm
+        # Handlebar dimensions (in cm)
+        "handlebar_length_min": 30.0,  # cm
+        "handlebar_length_max": 90.0,  # cm
+        "handlebar_length_mean": 45.0,  # cm
+        "handlebar_length_std_dev": 5.0,  # cm
+        # Top tube dimensions (in cm)
+        "top_tube_length_min": 40.0,  # cm
+        "top_tube_length_max": 90.0,  # cm
+        "top_tube_length_mean": 61.0,  # cm
+        "top_tube_length_std_dev": 5.0,  # cm
+    }
+)
 
 
 class MaterialNames(Enum):

@@ -96,7 +96,7 @@ class InitialPedestrian:
             Nested dictionary containing circular shape data with:
                 - Outer keys: Component IDs (e.g., "disk0" to "disk4")
                 - Inner dictionaries containing:
-                    * type: "circle" (str from ShapeTypes enum name)
+                    * type: "disk" (str from ShapeTypes enum name)
                     * radius: Disk radius in centimeters (float)
                     * material: Material name (str from MaterialNames enum)
                     * x: x-coordinate in centimeters (float)
@@ -123,7 +123,7 @@ class InitialPedestrian:
         # Convert disk data into a structured dictionary
         return {
             f"disk{i}": {
-                "type": cst.ShapeTypes.circle.name,
+                "type": cst.ShapeTypes.disk.name,
                 "radius": disk["radius"] * cst.PIXEL_TO_CM_PEDESTRIAN if isinstance(disk["radius"], float) else 0.0,
                 "material": cst.MaterialNames.human.name,
                 "x": disk["center"][0] * cst.PIXEL_TO_CM_PEDESTRIAN if isinstance(disk["center"], tuple) else 0.0,
@@ -200,7 +200,7 @@ class InitialPedestrian:
             Dictionary containing circular disk representations of body parts with:
                 - Keys: Format "disk{N}" where N ranges 0-4 (e.g., "disk0", "disk1")
                 - Values: Dictionaries with properties:
-                    * type: "circle" (str from ShapeTypes enum name)
+                    * type: "disk" (str from ShapeTypes enum name)
                     * radius: Disk radius in centimeters (float)
                     * material: Material name (str from MaterialNames enum)
                     * x: x-coordinate in centimeters (float)

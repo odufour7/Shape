@@ -67,21 +67,21 @@ class Shapes2D:
         name : str
             The name of the shape.
         shape_type : str
-            The type of the shape. Must be one of the following: {'circle', 'rectangle', 'polygon'}.
+            The type of the shape. Must be one of the following: {'disk', 'rectangle', 'polygon'}.
         material : float
             The material of the shape.
         \*\*kwargs : Any
             Additional keyword arguments specific to the shape type.
 
-            - For 'circle':
+            - For 'disk':
                 - x : float
-                    The x coordinate of the circle center.
+                    The x coordinate of the disk center.
                 - y : float
-                    The y coordinate of the circle center.
+                    The y coordinate of the disk center.
                 - radius : float
-                    The radius of the circle.
+                    The radius of the disk.
                 - material : str
-                    The material of the circle.
+                    The material of the disk.
             - For 'rectangle':
                 - min_x : float
                     The minimum x-coordinate of the rectangle.
@@ -109,15 +109,15 @@ class Shapes2D:
         material = kwargs.get("material")
         fun.validate_material(material)
 
-        if shape_type == cst.ShapeTypes.circle.name:
+        if shape_type == cst.ShapeTypes.disk.name:
             center = (kwargs.get("x"), kwargs.get("y"))
             radius = kwargs.get("radius")
             if not isinstance(center, tuple) or not isinstance(radius, (int, float)):
-                raise ValueError("For a circle, 'center' must be a tuple and 'radius' must be a number.")
+                raise ValueError("For a disk, 'center' must be a tuple and 'radius' must be a number.")
             if not isinstance(material, str):
                 raise ValueError("'material' must be a string.")
             self.shapes[name] = {
-                "type": cst.ShapeTypes.circle.name,
+                "type": cst.ShapeTypes.disk.name,
                 "material": material,
                 "object": Point(center).buffer(radius),
             }
@@ -180,17 +180,17 @@ class Shapes2D:
             the shape names, and the values are dictionaries with the following
             structure:
 
-            - For circles:
+            - For disks:
                 - 'type': str
-                    The type of the shape (always 'circle').
+                    The type of the shape (always 'disk').
                 - 'radius': float
-                    The radius of the circle.
+                    The radius of the disk.
                 - 'material': str
-                    The material of the circle interior.
+                    The material of the disk interior.
                 - 'x': float
-                    The x coordinate of the circle's center.
+                    The x coordinate of the disk's center.
                 - 'y': float
-                    The y coordinate of the circle's center.
+                    The y coordinate of the disk's center.
 
             - For rectangles:
                 - 'type': str
@@ -213,12 +213,12 @@ class Shapes2D:
         for name, shape in self.shapes.items():
             material = shape.get("material")
             # Retrieve the parameters of each shape according to its type
-            if shape["type"] == cst.ShapeTypes.circle.name:
+            if shape["type"] == cst.ShapeTypes.disk.name:
                 disk: Polygon = shape["object"]
                 disk_center = disk.centroid
                 disk_radius = disk.exterior.distance(disk.centroid)
                 params[name] = {
-                    "type": cst.ShapeTypes.circle.name,
+                    "type": cst.ShapeTypes.disk.name,
                     "radius": disk_radius * cst.CM_TO_M,
                     "material": material,
                     "x": disk_center.x * cst.CM_TO_M,
@@ -345,7 +345,7 @@ class Shapes2D:
         disks = [{"center": center, "radius": radius} for center, radius in zip(adjusted_centers, adjusted_radii, strict=False)]
         adjusted_shapes = {
             f"disk{i}": {
-                "type": cst.ShapeTypes.circle.name,
+                "type": cst.ShapeTypes.disk.name,
                 "material": cst.MaterialNames.human.name,
                 "object": Point(disk["center"]).buffer(disk["radius"]),
             }

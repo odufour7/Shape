@@ -107,16 +107,12 @@ class Crowd:
         Parameters
         ----------
         value : list[Agent]
-            A list of Agent instances to set as the agents of the crowd.
+            A list of Agent instances.
 
         Raises
         ------
         ValueError
             If `value` is not a list or if any element in `value` is not an instance of Agent.
-
-        Notes
-        -----
-        This setter replaces the entire list of agents in the crowd with the provided list.
         """
         if not isinstance(value, list) or not all(isinstance(agent, Agent) for agent in value):
             raise ValueError("'agents' should be a list of Agent instances")
@@ -249,7 +245,7 @@ class Crowd:
         if self.agents:
             self.agents.pop()
 
-    def create_agents(self, number_agents: int) -> None:
+    def create_agents(self, number_agents: int = cst.DEFAULT_AGENT_NUMBER) -> None:
         """
         Create multiple agents in the crowd through repeated additions.
 
@@ -311,7 +307,7 @@ class Crowd:
                     "type": f"{agent.agent_type.name}",
                     "id": id_agent,
                     "mass": agent.measures.measures[cst.CommonMeasures.weight.name],  # in kg
-                    "moi": agent.measures.measures["moment_of_inertia"],  # in kg*m^2
+                    "MOI": agent.measures.measures["moment_of_inertia"],  # in kg*m^2
                     "FloorDamping": cst.DEFAULT_FLOOR_DAMPING,
                     "AngularDamping": cst.DEFAULT_ANGULAR_DAMPING,
                     "Shapes": agent.shapes2D.get_additional_parameters(),
@@ -372,7 +368,7 @@ class Crowd:
                 # Add shape information to shapes_dict
                 shapes_dict[f"{shape_name}"] = {
                     "type": shape_params["type"],
-                    "material": shape_params["material"],
+                    "IdMaterial": getattr(cst.MaterialNames, shape_params["material"]).value,
                     "radius": shape_params["radius"],
                     "x": delta_g_to_gi_shape[0] * cst.CM_TO_M,
                     "y": delta_g_to_gi_shape[1] * cst.CM_TO_M,
@@ -383,7 +379,7 @@ class Crowd:
                 "type": agent.agent_type.name,
                 "id": agent_id,
                 "mass": agent.measures.measures[cst.CommonMeasures.weight.name],  # in kg
-                "moi": agent.measures.measures["moment_of_inertia"],  # in kg*m^2
+                "MOI": agent.measures.measures["moment_of_inertia"],  # in kg*m^2
                 "FloorDamping": cst.DEFAULT_FLOOR_DAMPING,
                 "AngularDamping": cst.DEFAULT_ANGULAR_DAMPING,
                 "Shapes": shapes_dict,
@@ -409,7 +405,7 @@ class Crowd:
                         "y": agent.get_position().y * cst.CM_TO_M,
                         "vx": cst.INITIAL_TRANSLATIONAL_VELOCITY_Y,
                         "vy": cst.INITIAL_TRANSLATIONAL_VELOCITY_Y,
-                        "theta": agent.get_agent_orientation(),
+                        "theta": np.radians(agent.get_agent_orientation()),
                         "omega": cst.INITIAL_ROTATIONAL_VELOCITY,
                     },
                     "Dynamics": {
@@ -424,7 +420,7 @@ class Crowd:
 
         return dynamical_parameters_crowd
 
-    def get_boundaries_params(self) -> GeometryDataType:
+    def get_geometry_params(self) -> GeometryDataType:
         """
         Retrieve the parameters of the boundaries.
 
@@ -466,7 +462,7 @@ class Crowd:
                 "Wall": {
                     "Wall0": {
                         "id": 0,
-                        "material": cst.MaterialNames.stone.name,
+                        "IdMaterial": cst.MaterialNames.stone.value,
                         "Corners": {
                             f"Corner{id_corner}": {
                                 "x": coords[id_corner][0],
@@ -503,7 +499,7 @@ class Crowd:
         dynamic_data_bytes = lb_fun.dynamic_parameters_dict_to_xml(dynamic_data_dict)
 
         # Extract geometry parameters and convert to XML
-        geometry_data_dict = self.get_boundaries_params()
+        geometry_data_dict = self.get_geometry_params()
         geometry_data_bytes = lb_fun.geometry_dict_to_xml(geometry_data_dict)
 
         # Extract material parameters and convert to XML

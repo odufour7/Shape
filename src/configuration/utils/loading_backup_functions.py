@@ -113,7 +113,7 @@ def static_parameters_pedestrians_dict_to_xml(crowd_dict: StaticCrowdDataType) -
                 "type": agent_data["type"],
                 "id": str(agent_data["id"]),
                 "mass": str(agent_data["mass"]),
-                "moi": str(agent_data["moi"]),
+                "MOI": str(agent_data["MOI"]),
                 "FloorDamping": str(agent_data["FloorDamping"]),
                 "AngularDamping": str(agent_data["AngularDamping"]),
             },
@@ -125,8 +125,7 @@ def static_parameters_pedestrians_dict_to_xml(crowd_dict: StaticCrowdDataType) -
         # Iterate through each shape in the agent's shapes
         for shape_data in agent_data["Shapes"].values():
             shape_type = shape_data["type"]
-            if shape_type == "circle":
-                shape_type = "disk"
+
             # Create a <Shape> element with attributes
             ET.SubElement(
                 shapes,
@@ -134,7 +133,7 @@ def static_parameters_pedestrians_dict_to_xml(crowd_dict: StaticCrowdDataType) -
                 {
                     "type": shape_type,
                     "radius": str(shape_data["radius"]),
-                    "material": str(shape_data["material"]),
+                    "IdMaterial": str(shape_data["IdMaterial"]),
                     "x": str(shape_data["x"]),
                     "y": str(shape_data["y"]),
                 },
@@ -224,7 +223,7 @@ def geometry_dict_to_xml(boundaries_dict: GeometryDataType) -> bytes:
     # Iterate over all walls in the dictionary
     for wall_data in boundaries_dict["Geometry"]["Wall"].values():
         # Add Wall element
-        wall_element = ET.SubElement(root, "Wall", id=str(wall_data["id"]), material=f"{wall_data['material']}")
+        wall_element = ET.SubElement(root, "Wall", id=str(wall_data["id"]), IdMaterial=f"{wall_data['IdMaterial']}")
 
         # Add Corners element
         corners_element = ET.SubElement(wall_element, "Corners")
@@ -265,8 +264,8 @@ def materials_dict_to_xml(material_dict: MaterialsDataType) -> bytes:
             "Material",
             id=str(material_data["id"]),
             name=material_data["name"],
-            YoungModulus=f"{material_data['young_modulus']:.1f}",
-            PoissonRatio=f"{material_data['poisson_ratio']:.1f}",
+            YoungModulus=f"{material_data['YoungModulus']:.1f}",
+            PoissonRatio=f"{material_data['PoissonRatio']:.1f}",
         )
 
     # Add Binary contacts
@@ -305,8 +304,8 @@ def static_parameters_pedestrians_xml_to_dict(xml_file: str) -> StaticCrowdDataT
     StaticCrowdDataType
         A dictionary representation of the XML file with the same format as the input dictionary.
     """
-    tree = ET.parse(xml_file)
-    root = tree.getroot()
+    # Parse the XML file
+    root = ET.fromstring(xml_file)
 
     # Initialize the main dictionary structure
     crowd_dict: StaticCrowdDataType = {"Agents": {}}
@@ -317,7 +316,7 @@ def static_parameters_pedestrians_xml_to_dict(xml_file: str) -> StaticCrowdDataT
             "type": agent.get("type"),
             "id": int(agent.get("id", default=0)),
             "mass": float(agent.get("mass", default=0.0)),
-            "moi": float(agent.get("moi", default=0.0)),
+            "MOI": float(agent.get("MOI", default=0.0)),
             "FloorDamping": float(agent.get("FloorDamping", default=0.0)),
             "AngularDamping": float(agent.get("AngularDamping", default=0.0)),
         }
@@ -327,13 +326,12 @@ def static_parameters_pedestrians_xml_to_dict(xml_file: str) -> StaticCrowdDataT
         if shapes is not None:
             shapes_dict: ShapeDataType = {}
             for i, shape in enumerate(shapes.findall("Shape"), start=1):
-                shape_type = shape.get("type", default="circle")
-                if shape_type == "disk":
-                    shape_type = "circle"
+                shape_type = shape.get("type", default="disk")
+
                 shape_data = {
                     "type": shape_type,
                     "radius": float(shape.get("radius", default=0.0)),
-                    "material": shape.get("material", default="human"),
+                    "IdMaterial": int(shape.get("IdMaterial", default=0)),
                     "x": float(shape.get("x", default=0.0)),
                     "y": float(shape.get("y", default=0.0)),
                 }
@@ -436,7 +434,7 @@ def geometry_xml_to_dict(xml_data: str) -> GeometryDataType:
 
     for wall in root.findall("Wall"):
         wall_id = int(wall.get("id", default=0))
-        material = wall.get("material")
+        id_material = int(wall.get("IdMaterial", 0))
 
         corners: dict[str, dict[str, float]] = {}
         corners_element = wall.find("Corners")
@@ -447,7 +445,7 @@ def geometry_xml_to_dict(xml_data: str) -> GeometryDataType:
 
         walls[f"Wall{wall_id}"] = {
             "id": wall_id,
-            "material": material,
+            "IdMaterial": id_material,
             "Corners": corners,
         }
 
@@ -483,14 +481,13 @@ def materials_xml_to_dict(xml_data: str) -> MaterialsDataType:
         {
             "id": int(material.get("id", default=0)),
             "name": material.get("name", default="iron"),
-            "young_modulus": float(material.get("YoungModulus", default=0.0)),
-            "poisson_ratio": float(material.get("PoissonRatio", default=0.0)),
+            "YoungModulus": float(material.get("YoungModulus", default=0.0)),
+            "PoissonRatio": float(material.get("PoissonRatio", default=0.0)),
         }
         for material in intrinsic_element
     ]
 
     # Extract binary contacts
-
     binary_element = root.find("Binary")
     if binary_element is None:
         raise ValueError("Binary contacts data not found in XML.")

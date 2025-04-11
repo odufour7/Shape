@@ -124,7 +124,7 @@ class CrowdMeasures:
 
         # Check if the agent statistics are provided for all parts
         if self.agent_statistics:
-            required_parts = {part.name for part in cst.CrowdStat}
+            required_parts = cst.CrowdStat.keys()
             missing_parts = required_parts - self.agent_statistics.keys()
             if missing_parts:
                 raise ValueError(f"Missing statistics for the crowd: {', '.join(missing_parts)}")
@@ -181,7 +181,7 @@ def _draw_pedestrian_measures(crowd_measures: CrowdMeasures) -> AgentMeasures:
         - weight : float
             The weight of the pedestrian.
     """
-    agent_sex = fun.draw_sex(crowd_measures.agent_statistics[cst.CrowdStat.male_proportion.name])
+    agent_sex = fun.draw_sex(crowd_measures.agent_statistics["male_proportion"])
     measures = {
         cst.PedestrianParts.sex.name: agent_sex,
         cst.PedestrianParts.bideltoid_breadth.name: _draw_measure(
@@ -283,8 +283,8 @@ def draw_agent_type(crowd_measures: CrowdMeasures) -> cst.AgentTypes:
         If the sum of pedestrian and bike proportions is not equal to 1.
     """
     # Get the proportions of pedestrian and bike agents
-    pedestrian_proportion = crowd_measures.agent_statistics[cst.CrowdStat.pedestrian_proportion.name]
-    bike_proportion = crowd_measures.agent_statistics[cst.CrowdStat.bike_proportion.name]
+    pedestrian_proportion = crowd_measures.agent_statistics["pedestrian_proportion"]
+    bike_proportion = crowd_measures.agent_statistics["bike_proportion"]
 
     # Check if the proportions sum to 1
     if pedestrian_proportion + bike_proportion != 1.0:
