@@ -66,44 +66,41 @@ class Shapes2D:
         ----------
         name : str
             The name of the shape.
-        shape_type : str
+        shape_type : ShapeType
             The type of the shape. Must be one of the following: {'disk', 'rectangle', 'polygon'}.
-        material : float
+        material : MaterialType
             The material of the shape.
         \*\*kwargs : Any
             Additional keyword arguments specific to the shape type:
-                - For 'disk':
-                    - x : float
-                        The x coordinate of the disk center.
-                    - y : float
-                        The y coordinate of the disk center.
-                    - radius : float
-                        The radius of the disk.
-                    - material : str
-                        The material of the disk.
-                - For 'rectangle':
-                    - min_x : float
-                        The minimum x-coordinate of the rectangle.
-                    - min_y : float
-                        The minimum y-coordinate of the rectangle.
-                    - max_x : float
-                        The maximum x-coordinate of the rectangle.
-                    - max_y : float
-                        The maximum y-coordinate of the rectangle.
-                    - material : str
-                        The material of the rectangle.
-                - For 'polygon':
-                    - points : list of tuple of (float, float)
-                        The vertices of the polygon. Must have at least 3 points, and
-                        the first and last points must match.
-                    - material : str
-                        The material of the polygon.
+
+            - **Disk**:
+                - `x` (float): The x-coordinate of the disk's center.
+                - `y` (float): The y-coordinate of the disk's center.
+                - `radius` (float): The radius of the disk.
+                - `material` (str): The material of the disk.
+
+            - **Rectangle**:
+                - `min_x` (float): The minimum x-coordinate of the rectangle.
+                - `min_y` (float): The minimum y-coordinate of the rectangle.
+                - `max_x` (float): The maximum x-coordinate of the rectangle.
+                - `max_y` (float): The maximum y-coordinate of the rectangle.
+                - `material` (str): The material of the rectangle.
+
+            - **Polygon**:
+                - `points` (list of tuple[float, float]): A list of `(x, y)` coordinates representing
+                    the vertices of the polygon. Must contain at least 3 points, and the first and last
+                    points must match to close the polygon.
+                - `material` (str): The material of the polygon.
 
         Raises
         ------
         ValueError
-            If the shape type is unsupported or if the required keyword arguments
-            are not provided or invalid.
+            If the shape type is unsupported or if required keyword arguments are missing or invalid.
+
+        Notes
+        -----
+        This method validates that all required parameters are provided and ensures that
+        shapes are correctly formatted before adding them to the dictionary.
         """
         fun.validate_material(material)
 
@@ -169,41 +166,39 @@ class Shapes2D:
 
     def get_additional_parameters(self) -> ShapeDataType:
         """
-        Retrieve parameters of each stored shape.
+        Retrieve the parameters for each stored shape.
 
         Returns
         -------
         ShapeDataType
-            A dictionary containing the parameters of each shape. The keys are
-            the shape names, and the values are dictionaries with the following
-            structure:
-                - For disks:
-                    - 'type': str
-                        The type of the shape (always 'disk').
-                    - 'radius': float
-                        The radius of the disk.
-                    - 'material': str
-                        The material of the disk interior.
-                    - 'x': float
-                        The x coordinate of the disk's center.
-                    - 'y': float
-                        The y coordinate of the disk's center.
+            A dictionary where each key is the name of a shape, and the corresponding value is a dictionary
+            containing the parameters for that shape. The structure of the parameter dictionary depends on
+            the type of shape:
 
-                - For rectangles:
-                    - 'type': str
-                        The type of the shape (always 'rectangle').
-                    - 'material': str
-                        The material of the rectangle interior.
-                    - 'min_x', 'min_y', 'max_x', 'max_y': float
-                        The coordinates of the rectangle's bounding box.
+            - **Disk**:
+                - `type` (str): The type of the shape (always `'disk'`).
+                - `radius` (float): The radius of the disk.
+                - `material` (str): The material of the disk's interior.
+                - `x` (float): The x-coordinate of the disk's center.
+                - `y` (float): The y-coordinate of the disk's center.
 
-                - For polygons:
-                    - 'type': str
-                        The type of the shape (always 'polygon').
-                    - 'material': str
-                        The material of the polygon interior.
-                    - 'points': list of tuples
-                        A list of (x, y) coordinates representing the polygon's vertices.
+            - **Rectangle**:
+                - `type` (str): The type of the shape (always `'rectangle'`).
+                - `material` (str): The material of the rectangle's interior.
+                - `min_x` (float): The x-coordinate of the rectangle's minimum bound.
+                - `min_y` (float): The y-coordinate of the rectangle's minimum bound.
+                - `max_x` (float): The x-coordinate of the rectangle's maximum bound.
+                - `max_y` (float): The y-coordinate of the rectangle's maximum bound.
+
+            - **Polygon**:
+                - `type` (str): The type of the shape (always `'polygon'`).
+                - `material` (str): The material of the polygon's interior.
+                - `points` (list of tuple[float, float]): A list of `(x, y)` coordinates representing
+                    the vertices of the polygon.
+
+        Notes
+        -----
+        This method assumes that all shapes are stored with their respective parameters in a consistent format.
         """
         # Create a dictionary to store the parameters of each shape
         params: ShapeDataType = {}

@@ -30,10 +30,10 @@ class Shapes3D:
         ------
         ValueError
             If any of the following validation checks fail:
-            - Agent type is not a member of `AgentTypes`
-            - Shapes container is not a dictionary
-            - Shape values are not Shapely MultiPolygon objects
-            - Height keys cannot be converted to float values
+                - Agent type is not a member of `AgentTypes`
+                - Shapes container is not a dictionary
+                - Shape values are not Shapely MultiPolygon objects
+                - Height keys cannot be converted to float values
         """
         # Validate the provided agent type
         if not isinstance(self.agent_type, cst.AgentTypes):
@@ -59,8 +59,7 @@ class Shapes3D:
         Parameters
         ----------
         measurements : AgentMeasures
-            An object containing the target measurements of the pedestrian,
-            including sex, bideltoid breadth, chest depth, and height.
+            An object containing the target measurements of the pedestrian, including sex, bideltoid breadth, chest depth, and height.
 
         Raises
         ------

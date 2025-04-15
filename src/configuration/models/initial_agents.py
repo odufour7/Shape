@@ -38,12 +38,12 @@ class InitialPedestrian:
             3D body layers mapped to z-height coordinates
         _measures : dict[str, float | Sex | None]
             Biomechanical measurements including:
-            - sex: Biological sex (Literal["male","female"])
-            - bideltoid_breadth: Shoulder width derived from disk4
-            - chest_depth: Torso depth from disk2
-            - height: Vertical span of 3D body
-            - weight: Default weight from constants file
-            - moment_of_inertia: Initially uncalculated (None)
+                - sex: Biological sex (Literal["male","female"])
+                - bideltoid_breadth: Shoulder width derived from disk4
+                - chest_depth: Torso depth from disk2
+                - height: Vertical span of 3D body
+                - weight: Default weight from constants file
+                - moment_of_inertia: Initially uncalculated (None)
 
         Notes
         -----
@@ -84,11 +84,11 @@ class InitialPedestrian:
         Initialize shape data for pedestrian body components.
 
         Creates and configures five circular disks representing key body features:
-        - Disk0: Left arm
-        - Disk1: Left pectoral muscle
-        - Disk2: Central belly
-        - Disk3: Right pectoral muscle
-        - Disk4: Right arm
+            - Disk0: Left arm
+            - Disk1: Left pectoral muscle
+            - Disk2: Central belly
+            - Disk3: Right pectoral muscle
+            - Disk4: Right arm
 
         Returns
         -------
@@ -318,12 +318,12 @@ class InitialBike:
         _measures : dict[str, float | None]
             A dictionary containing measurements derived from the shape data.
             Keys are defined in BikeParts and CommonMeasures enums:
-            - 'wheel_width': The width of the bike's wheel.
-            - 'total_length': The total length of the bike.
-            - 'handlebar_length': The length of the rider's handlebar.
-            - 'top_tube_length': The length of the rider's top tube.
-            - 'weight': The default weight of the bike (set to DEFAULT_BIKE_WEIGHT).
-            - 'moment_of_inertia': The moment of inertia (initially set to None).
+                - 'wheel_width': The width of the bike's wheel.
+                - 'total_length': The total length of the bike.
+                - 'handlebar_length': The length of the rider's handlebar.
+                - 'top_tube_length': The length of the rider's top tube.
+                - 'weight': The default weight of the bike (set to DEFAULT_BIKE_WEIGHT).
+                - 'moment_of_inertia': The moment of inertia (initially set to None).
 
         Notes
         -----
@@ -369,16 +369,15 @@ class InitialBike:
         -------
         dict[str, dict[str, ShapeType | float]]
             Nested dictionary containing shape data with two keys:
-            - "bike": Dictionary of bicycle shape properties
-            - "rider": Dictionary of rider shape properties
-
+                - "bike": Dictionary of bicycle shape properties
+                - "rider": Dictionary of rider shape properties
             Each shape dictionary contains:
-            - type: ShapeTypes.rectangle.name (str)
-            - material: MaterialNames.iron.name (str)
-            - min_x: Minimum x-coordinate in cm (float)
-            - min_y: Minimum y-coordinate in cm (float)
-            - max_x: Maximum x-coordinate in cm (float)
-            - max_y: Maximum y-coordinate in cm (float)
+                - type: ShapeTypes.rectangle.name (str)
+                - material: MaterialNames.iron.name (str)
+                - min_x: Minimum x-coordinate in cm (float)
+                - min_y: Minimum y-coordinate in cm (float)
+                - max_x: Maximum x-coordinate in cm (float)
+                - max_y: Maximum y-coordinate in cm (float)
         """
         # define the bike as a rectangle
         rider = {
