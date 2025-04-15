@@ -220,13 +220,13 @@ def get_interactions_params(current_crowd: Crowd) -> InteractionsDataType:
     InteractionsDataType
         A dictionary containing the parameters for agent interactions, structured to be saved as XML.
     """
-    interactions_dict: InteractionsDataType = {"Interactions": {}}
+    interactions_dict: InteractionsDataType = {"Interactions": defaultdict(dict)}
 
     # Loop through all agents
     for id_agent1, agent1 in enumerate(current_crowd.agents):
         agent1_data: dict[str, Any] = {
             "Id": id_agent1,
-            "NeighbouringAgents": {},  # Initialize as an empty dictionary
+            "NeighbouringAgents": defaultdict(dict),  # Initialize as an empty dictionary
         }
         shapes_agent1 = agent1.shapes2D.get_geometric_shapes()
 
@@ -259,58 +259,6 @@ def get_interactions_params(current_crowd: Crowd) -> InteractionsDataType:
         interactions_dict["Interactions"][f"Agent{id_agent1}"] = agent1_data
 
     return interactions_dict
-
-
-# def get_interactions_params(current_crowd: Crowd) -> InteractionsDataType:
-#     """
-#     Retrieve the parameters for agent interactions.
-
-#     Parameters
-#     ----------
-#     current_crowd : Crowd
-#         The current crowd object containing agent data.
-
-#     Returns
-#     -------
-#     InteractionsDataType
-#         A dictionary containing the parameters for agent interactions, structured to be saved as XML.
-#     """
-#     interactions_dict: InteractionsDataType = {"Interactions": defaultdict(dict)}
-
-#     # Loop through all agents
-#     for id_agent1, agent1 in enumerate(current_crowd.agents):
-#         agent1_data: dict[str, int | dict[str, int | dict[str, dict[str, int | float]]]] = {
-#             "Id": id_agent1,
-#             "NeighbouringAgents": defaultdict(dict),
-#         }
-#         shapes_agent1: list[Polygon] = agent1.shapes2D.get_geometric_shapes()
-
-#         for id_agent2, agent2 in enumerate(current_crowd.agents):
-#             if id_agent1 == id_agent2:
-#                 continue  # Skip self-interactions
-
-#             shapes_agent2: list[Polygon] = agent2.shapes2D.get_geometric_shapes()
-#             interactions: dict[str, dict[str, int | float]] = {
-#                 f"Interaction_{p_id}_{c_id}": {
-#                     "ParentShapeId": p_id,
-#                     "ChildShapeId": c_id,
-#                     "Ftx": cst.INITIAL_TANGENTIAL_FORCE_X,
-#                     "Fty": cst.INITIAL_TANGENTIAL_FORCE_Y,
-#                     "Fnx": cst.INITIAL_NORMAL_FORCE_X,
-#                     "Fny": cst.INITIAL_NORMAL_FORCE_Y,
-#                     "TangentialRelativeDisplacementNorm": cst.INITIAL_TANGENTIAL_RELATIVE_DISPLACEMENT_NORM,
-#                 }
-#                 for p_id, shape1 in enumerate(shapes_agent1)
-#                 for c_id, shape2 in enumerate(shapes_agent2)
-#                 if p_id <= c_id and shape1.intersects(shape2)
-#             }
-
-#             if interactions:  # Only add if there are interactions
-#                 agent1_data["NeighbouringAgents"][f"Agent{id_agent2}"] = {"Id": id_agent2, "Interactions": interactions}
-
-#         interactions_dict["Interactions"][f"Agent{id_agent1}"] = agent1_data
-
-#     return interactions_dict
 
 
 def get_materials_params() -> MaterialsDataType:
