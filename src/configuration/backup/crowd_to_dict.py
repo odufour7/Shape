@@ -2,7 +2,7 @@
 
 import itertools
 from collections import defaultdict
-from typing import Any, Dict
+from typing import Any
 
 import numpy as np
 from shapely.geometry import Point, Polygon
@@ -13,6 +13,7 @@ from configuration.models.crowd import Crowd
 from configuration.utils.typing_custom import (
     DynamicCrowdDataType,
     GeometryDataType,
+    InteractionsDataType,
     IntrinsicMaterialDataType,
     MaterialsDataType,
     PairMaterialsDataType,
@@ -205,7 +206,7 @@ def get_geometry_params(current_crowd: Crowd) -> GeometryDataType:
     return boundaries_dict
 
 
-def get_interactions_params(current_crowd: Crowd) -> Dict[str, Any]:
+def get_interactions_params(current_crowd: Crowd) -> InteractionsDataType:
     """
     Retrieve the parameters for agent interactions.
 
@@ -216,14 +217,14 @@ def get_interactions_params(current_crowd: Crowd) -> Dict[str, Any]:
 
     Returns
     -------
-    Dict[str, Any]
+    InteractionsDataType
         A dictionary containing the parameters for agent interactions, structured to be saved as XML.
     """
-    interactions_dict: Dict[str, Dict[str, Any]] = {"Interactions": {}}
+    interactions_dict: InteractionsDataType = {"Interactions": {}}
 
     # Loop through all agents
     for id_agent1, agent1 in enumerate(current_crowd.agents):
-        agent1_data: Dict[str, Any] = {
+        agent1_data: dict[str, Any] = {
             "Id": id_agent1,
             "NeighbouringAgents": {},  # Initialize as an empty dictionary
         }
@@ -234,7 +235,7 @@ def get_interactions_params(current_crowd: Crowd) -> Dict[str, Any]:
                 continue  # Skip self-interactions
 
             shapes_agent2 = agent2.shapes2D.get_geometric_shapes()
-            interactions: Dict[str, Dict[str, int | float]] = {
+            interactions: dict[str, dict[str, int | float]] = {
                 f"Interaction_{p_id}_{c_id}": {
                     "ParentShapeId": p_id,
                     "ChildShapeId": c_id,
