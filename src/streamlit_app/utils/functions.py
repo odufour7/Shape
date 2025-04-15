@@ -19,8 +19,8 @@ def extract_coordinates(multi_polygon: MultiPolygon) -> tuple[NDArray[np.float64
     -------
     tuple[NDArray[np.float64], NDArray[np.float64]]
         A tuple of two numpy arrays:
-        - The first array contains the x-coordinates.
-        - The second array contains the y-coordinates.
+            - The first array contains the x-coordinates.
+            - The second array contains the y-coordinates.
 
     Examples
     --------
@@ -111,14 +111,11 @@ def update_progress_bar(progress_bar: DeltaGenerator, status_text: DeltaGenerato
     Parameters
     ----------
     progress_bar : DeltaGenerator
-        The Streamlit progress bar object to be updated. Typically created using
-        `st.progress()`.
+        The Streamlit progress bar object to be updated. Typically created using `st.progress()`.
     status_text : DeltaGenerator
-        The Streamlit text object to display the status message. Typically created
-        using `st.text()`.
+        The Streamlit text object to display the status message. Typically created using `st.text()`.
     frac : float
-        A value between 0 and 1 representing the completion fraction of the task.
-        For example, `frac=0.5` indicates 50% completion.
+        A value between 0 and 1 representing the completion fraction of the task. For example, `frac=0.5` indicates 50% completion.
 
     Raises
     ------

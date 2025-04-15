@@ -139,8 +139,8 @@ def display_body3D_orthogonal_projection(
         where keys are heights (as strings) and values are `MultiPolygon`.
     extra_info : tuple[DeltaGenerator, DeltaGenerator], optional
         A tuple containing:
-        - DeltaGenerator: Streamlit object for updating the progress bar.
-        - DeltaGenerator: Streamlit object for displaying status messages.
+            - DeltaGenerator: Streamlit object for updating the progress bar.
+            - DeltaGenerator: Streamlit object for displaying status messages.
 
     Returns
     -------
@@ -256,8 +256,8 @@ def display_body3D_polygons(agent: Agent, extra_info: Optional[tuple[DeltaGenera
         The agent object containing 3D shapes (agent.shapes3D) and associated measurements.
     extra_info : tuple[DeltaGenerator, DeltaGenerator], optional
         A tuple containing:
-        - DeltaGenerator: Streamlit object for updating the progress bar.
-        - DeltaGenerator: Streamlit object for displaying status messages.
+            - DeltaGenerator: Streamlit object for updating the progress bar.
+            - DeltaGenerator: Streamlit object for displaying status messages.
 
     Returns
     -------
@@ -363,8 +363,8 @@ def display_body3D_mesh(
         The number of layers to be displayed in the mesh.
     extra_info : tuple[DeltaGenerator, DeltaGenerator], optional
         A tuple containing:
-        - DeltaGenerator: Streamlit object for updating the progress bar.
-        - DeltaGenerator: Streamlit object for displaying status messages.
+            - DeltaGenerator: Streamlit object for updating the progress bar.
+            - DeltaGenerator: Streamlit object for displaying status messages.
 
     Returns
     -------

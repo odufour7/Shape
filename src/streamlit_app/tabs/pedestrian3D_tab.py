@@ -147,8 +147,7 @@ def download_data(current_pedestrian: Agent) -> None:
 
     Notes
     -----
-    - The filename is dynamically generated using the agent type, sex, and a timestamp
-      in the format `YYYYMMDD_HHMMSS`.
+    - The filename is dynamically generated using the agent type, sex, and a timestamp in the format `YYYYMMDD_HHMMSS`.
     """
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     filename = f"agent3D_{current_pedestrian.agent_type}_{current_pedestrian.measures.measures['sex']}_{timestamp}.pkl"
