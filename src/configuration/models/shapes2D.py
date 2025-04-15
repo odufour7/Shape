@@ -71,34 +71,33 @@ class Shapes2D:
         material : float
             The material of the shape.
         \*\*kwargs : Any
-            Additional keyword arguments specific to the shape type.
-
-            - For 'disk':
-                - x : float
-                    The x coordinate of the disk center.
-                - y : float
-                    The y coordinate of the disk center.
-                - radius : float
-                    The radius of the disk.
-                - material : str
-                    The material of the disk.
-            - For 'rectangle':
-                - min_x : float
-                    The minimum x-coordinate of the rectangle.
-                - min_y : float
-                    The minimum y-coordinate of the rectangle.
-                - max_x : float
-                    The maximum x-coordinate of the rectangle.
-                - max_y : float
-                    The maximum y-coordinate of the rectangle.
-                - material : str
-                    The material of the rectangle.
-            - For 'polygon':
-                - points : list of tuple of (float, float)
-                    The vertices of the polygon. Must have at least 3 points, and
-                    the first and last points must match.
-                - material : str
-                    The material of the polygon.
+            Additional keyword arguments specific to the shape type:
+                - For 'disk':
+                    - x : float
+                        The x coordinate of the disk center.
+                    - y : float
+                        The y coordinate of the disk center.
+                    - radius : float
+                        The radius of the disk.
+                    - material : str
+                        The material of the disk.
+                - For 'rectangle':
+                    - min_x : float
+                        The minimum x-coordinate of the rectangle.
+                    - min_y : float
+                        The minimum y-coordinate of the rectangle.
+                    - max_x : float
+                        The maximum x-coordinate of the rectangle.
+                    - max_y : float
+                        The maximum y-coordinate of the rectangle.
+                    - material : str
+                        The material of the rectangle.
+                - For 'polygon':
+                    - points : list of tuple of (float, float)
+                        The vertices of the polygon. Must have at least 3 points, and
+                        the first and last points must match.
+                    - material : str
+                        The material of the polygon.
 
         Raises
         ------
@@ -178,34 +177,33 @@ class Shapes2D:
             A dictionary containing the parameters of each shape. The keys are
             the shape names, and the values are dictionaries with the following
             structure:
+                - For disks:
+                    - 'type': str
+                        The type of the shape (always 'disk').
+                    - 'radius': float
+                        The radius of the disk.
+                    - 'material': str
+                        The material of the disk interior.
+                    - 'x': float
+                        The x coordinate of the disk's center.
+                    - 'y': float
+                        The y coordinate of the disk's center.
 
-            - For disks:
-                - 'type': str
-                    The type of the shape (always 'disk').
-                - 'radius': float
-                    The radius of the disk.
-                - 'material': str
-                    The material of the disk interior.
-                - 'x': float
-                    The x coordinate of the disk's center.
-                - 'y': float
-                    The y coordinate of the disk's center.
+                - For rectangles:
+                    - 'type': str
+                        The type of the shape (always 'rectangle').
+                    - 'material': str
+                        The material of the rectangle interior.
+                    - 'min_x', 'min_y', 'max_x', 'max_y': float
+                        The coordinates of the rectangle's bounding box.
 
-            - For rectangles:
-                - 'type': str
-                    The type of the shape (always 'rectangle').
-                - 'material': str
-                    The material of the rectangle interior.
-                - 'min_x', 'min_y', 'max_x', 'max_y': float
-                    The coordinates of the rectangle's bounding box.
-
-            - For polygons:
-                - 'type': str
-                    The type of the shape (always 'polygon').
-                - 'material': str
-                    The material of the polygon interior.
-                - 'points': list of tuples
-                    A list of (x, y) coordinates representing the polygon's vertices.
+                - For polygons:
+                    - 'type': str
+                        The type of the shape (always 'polygon').
+                    - 'material': str
+                        The material of the polygon interior.
+                    - 'points': list of tuples
+                        A list of (x, y) coordinates representing the polygon's vertices.
         """
         # Create a dictionary to store the parameters of each shape
         params: ShapeDataType = {}
@@ -364,8 +362,7 @@ class Shapes2D:
         Parameters
         ----------
         measurements : AgentMeasures
-            An object containing the target measurements for various bike parts and
-            rider dimensions.
+            An object containing the target measurements for various bike parts and rider dimensions.
 
         Raises
         ------

@@ -8,3 +8,4 @@ Configuration
    configuration.data
    configuration.models
    configuration.utils
+   configuration.backup

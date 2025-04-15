@@ -138,11 +138,9 @@ def draw_agent_measures(agent_type: cst.AgentTypes, crowd_measures: CrowdMeasure
     Parameters
     ----------
     agent_type : AgentTypes
-        The type of agent for which to draw measures. Must be either
-        AgentTypes.pedestrian or AgentTypes.bike.
+        The type of agent for which to draw measures. Must be either AgentTypes.pedestrian or AgentTypes.bike.
     crowd_measures : CrowdMeasures
-        An object containing statistical measures for the crowd, including
-        both pedestrian and bike-specific measurements.
+        An object containing statistical measures for the crowd, including both pedestrian and bike-specific measurements.
 
     Returns
     -------
@@ -169,18 +167,17 @@ def _draw_pedestrian_measures(crowd_measures: CrowdMeasures) -> AgentMeasures:
     Returns
     -------
     AgentMeasures
-        An object containing the randomly drawn measures for a pedestrian agent,
-        including:
-        - sex : Literal["male","female"]
-            The randomly drawn sex of the pedestrian ("male" or "female").
-        - bideltoid_breadth : float
-            The shoulder width of the pedestrian.
-        - chest_depth : float
-            The chest depth of the pedestrian.
-        - height : float
-            The height of the pedestrian (set to a default value).
-        - weight : float
-            The weight of the pedestrian.
+        An object containing the randomly drawn measures for a pedestrian agent, including:
+            - sex : Literal["male","female"]
+                The randomly drawn sex of the pedestrian ("male" or "female").
+            - bideltoid_breadth : float
+                The shoulder width of the pedestrian.
+            - chest_depth : float
+                The chest depth of the pedestrian.
+            - height : float
+                The height of the pedestrian (set to a default value).
+            - weight : float
+                The weight of the pedestrian.
     """
     agent_sex = fun.draw_sex(crowd_measures.agent_statistics["male_proportion"])
     measures = {
@@ -206,11 +203,11 @@ def _draw_bike_measures(crowd_measures: CrowdMeasures) -> AgentMeasures:
     -------
     AgentMeasures
         An object containing the randomly drawn measures for a bike agent, including:
-        - wheel_width : float
-        - total_length : float
-        - handlebar_length : float
-        - top_tube_length : float
-        - weight : float
+            - wheel_width : float
+            - total_length : float
+            - handlebar_length : float
+            - top_tube_length : float
+            - weight : float
     """
     measures: Mapping[str, float | Sex] = {
         cst.BikeParts.wheel_width.name: _draw_measure(crowd_measures, None, cst.BikeParts.wheel_width),
@@ -267,14 +264,12 @@ def draw_agent_type(crowd_measures: CrowdMeasures) -> cst.AgentTypes:
     Parameters
     ----------
     crowd_measures : CrowdMeasures
-        An instance of CrowdMeasures containing the statistics of different
-        agent types in the crowd.
+        An instance of CrowdMeasures containing the statistics of different agent types in the crowd.
 
     Returns
     -------
     AgentTypes
-        The randomly selected agent type (pedestrian or bike) based on the
-        given proportions.
+        The randomly selected agent type (pedestrian or bike) based on the given proportions.
 
     Raises
     ------
@@ -318,18 +313,18 @@ def create_pedestrian_measures(agent_data: dict[str, float]) -> AgentMeasures:
     ----------
     agent_data : dict[str, float]
         A dictionary containing pedestrian measurements. Expected keys are:
-        - "sex": The sex of the pedestrian (either "male" or "female").
-        - "bideltoid breadth [cm]": Shoulder width in centimeters.
-        - "chest depth [cm]": Depth of the chest in centimeters.
-        - "height [cm]": Height of the pedestrian in centimeters.
-        - "weight [kg]": Weight of the pedestrian in kilograms.
+            - "sex": The sex of the pedestrian (either "male" or "female").
+            - "bideltoid breadth [cm]": Shoulder width in centimeters.
+            - "chest depth [cm]": Depth of the chest in centimeters.
+            - "height [cm]": Height of the pedestrian in centimeters.
+            - "weight [kg]": Weight of the pedestrian in kilograms.
 
     Returns
     -------
     AgentMeasures
         An AgentMeasures object with the following attributes:
-        - agent_type: Set to AgentTypes.pedestrian
-        - measures: A dictionary mapping pedestrian parts to their measurements
+            - agent_type: Set to AgentTypes.pedestrian
+            - measures: A dictionary mapping pedestrian parts to their measurements
     """
     return AgentMeasures(
         agent_type=cst.AgentTypes.pedestrian,
@@ -351,17 +346,17 @@ def create_bike_measures(agent_data: dict[str, float]) -> AgentMeasures:
     ----------
     agent_data : dict[str, float]
         A dictionary containing bike measurements. Expected keys are:
-        - "wheel width [cm]": Width of the bike's wheel in centimeters.
-        - "total length [cm]": Total length of the bike in centimeters.
-        - "handlebar length [cm]": Length of the bike's handlebar in centimeters.
-        - "top tube length [cm]": Length of the bike's top tube in centimeters.
+            - "wheel width [cm]": Width of the bike's wheel in centimeters.
+            - "total length [cm]": Total length of the bike in centimeters.
+            - "handlebar length [cm]": Length of the bike's handlebar in centimeters.
+            - "top tube length [cm]": Length of the bike's top tube in centimeters.
 
     Returns
     -------
     AgentMeasures
         An AgentMeasures object with the following attributes:
-        - agent_type: Set to AgentTypes.bike
-        - measures: A dictionary mapping bike parts to their measurements
+            - agent_type: Set to AgentTypes.bike
+            - measures: A dictionary mapping bike parts to their measurements
     """
     return AgentMeasures(
         agent_type=cst.AgentTypes.bike,

@@ -18,13 +18,6 @@ functions
    :show-inheritance:
    :undoc-members:
 
-loading\_backup\_functions
---------------------------
-
-.. automodule:: configuration.utils.loading_backup_functions
-   :members:
-   :show-inheritance:
-   :undoc-members:
 
 typing\_custom
 --------------

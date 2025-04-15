@@ -671,8 +671,7 @@ class Crowd:
         Returns
         -------
         dict[str, float | int | None]
-            A dictionary containing the computed statistics for the crowd.
-            The keys are formatted as follows:
+            A dictionary containing the computed statistics for the crowd. The keys are formatted as follows:
                 - "{kind}_proportion": Count of agents (e.g., "male_proportion" or "bike_proportion" or "pedestrian_proportion")
                 - "{part}_mean": Mean value for each body/bike part measurement
                 - "{part}_std_dev": Sample standard deviation for each part
@@ -734,7 +733,6 @@ class Crowd:
         }
 
         # Compute detailed statistics for relevant keys
-
         for part_key in [
             "pedestrian_weight",
             "bike_weight",
