@@ -2,10 +2,14 @@
 
 from dataclasses import dataclass, field
 
+import numpy as np
+from numpy.typing import NDArray
+from scipy.optimize import dual_annealing
 from shapely.affinity import scale
 from shapely.geometry import MultiPoint, MultiPolygon
 
 import configuration.utils.constants as cst
+import configuration.utils.functions as fun
 from configuration.models.initial_agents import InitialPedestrian
 from configuration.models.measures import AgentMeasures
 from configuration.utils.typing_custom import ShapeDataType
@@ -86,6 +90,46 @@ class Shapes3D:
         scale_factor_z = float(measurements.measures[cst.PedestrianParts.height.name]) / float(
             initial_pedestrian.measures[cst.PedestrianParts.height.name]
         )
+        reference_multipolygon = initial_pedestrian.get_reference_multipolygon()
+        wanted_chest_depth = float(measurements.measures[cst.PedestrianParts.chest_depth.name])
+        wanted_bideltoid_breadth = float(measurements.measures[cst.PedestrianParts.bideltoid_breadth.name])
+
+        def objectif_fun(scaling_factor: NDArray[np.float64]) -> float:
+            """
+            Objective function to minimize the difference between the scaled bideltoid breadth and the target value.
+
+            Parameters
+            ----------
+            scaling_factor : NDArray[np.float64]
+                The scaling factor for the x, y, and z dimensions.
+
+            Returns
+            -------
+            float
+                The absolute difference between the scaled bideltoid breadth and the target value.
+            """
+            # Extract scaling factors for x, y, and z dimensions
+            scale_factor_x = scaling_factor[0]
+            scale_factor_y = scaling_factor[1]
+            homothety_center = reference_multipolygon.centroid
+            scaled_multipolygon = scale(
+                reference_multipolygon,
+                xfact=scale_factor_x,
+                yfact=scale_factor_y,
+                origin=homothety_center,
+            )
+            # Compute the scaled bideltoid breadth
+            scaled_bideltoid_breadth = fun.get_bideltoid_breadth_from_multipolygon(scaled_multipolygon)
+            scaled_chest_depth = fun.get_chest_depth_from_multipolygon(scaled_multipolygon)
+            penalty_chest: float = (scaled_chest_depth - wanted_chest_depth) ** 2
+            penalty_bideltoid: float = (scaled_bideltoid_breadth - wanted_bideltoid_breadth) ** 2
+            return float(penalty_chest + penalty_bideltoid)
+
+        # Optimize the scaling factors to minimize the penalty
+        bounds = np.array([[1e-5, 3.0], [1e-5, 3.0]])
+        guess_parameters = np.array([scale_factor_x, scale_factor_y])
+        optimized_scaling = dual_annealing(objectif_fun, bounds=bounds, x0=guess_parameters, maxfun=100)
+        optimized_scale_factor_x, optimized_scale_factor_y = optimized_scaling.x
 
         # Initialize dictionary to store scaled 3D shapes
         current_body3D: ShapeDataType = {}
@@ -97,8 +141,8 @@ class Shapes3D:
         for height, multipolygon in initial_pedestrian.shapes3D.items():
             scaled_multipolygon = scale(
                 multipolygon,
-                xfact=scale_factor_x,
-                yfact=scale_factor_y,
+                xfact=optimized_scale_factor_x,
+                yfact=optimized_scale_factor_y,
                 origin=homothety_center,
             )
             scaled_height = height * scale_factor_z
@@ -106,3 +150,63 @@ class Shapes3D:
 
         # Update the shapes attribute with the new 3D representation
         self.shapes = current_body3D
+
+    def get_height(self) -> float:
+        """
+        Compute the height of the agent in meters.
+
+        Returns
+        -------
+        float
+            The height of the agent in meters.
+        """
+        if self.agent_type != cst.AgentTypes.pedestrian:
+            raise ValueError("get_height() can only be used for pedestrian agents.")
+        shapes3D_dict = self.shapes
+        lowest_height = min(float(height) for height in shapes3D_dict.keys())
+        highest_height = max(float(height) for height in shapes3D_dict.keys())
+        return highest_height - lowest_height
+
+    def get_reference_multipolygon(self) -> MultiPolygon:
+        """
+        Get the reference multipolygon of the agent.
+
+        Returns
+        -------
+        MultiPolygon
+            The reference multipolygon of the agent.
+        """
+        smallest_height = min(self.shapes.keys())
+        largest_height = max(self.shapes.keys()) - smallest_height
+        largest_height_3_4 = largest_height * 3 / 4 + smallest_height
+        closest_height = min(self.shapes.keys(), key=lambda x: abs(float(x) - largest_height_3_4))
+        multip = self.shapes[closest_height]
+        return multip
+
+    def get_bideltoid_breadth(self) -> float:
+        """
+        Compute the bideltoid breadth of the agent (that has not rotated) in cm.
+
+        Returns
+        -------
+        float
+            The bideltoid breadth of the agent in cm.
+        """
+        if self.agent_type != cst.AgentTypes.pedestrian:
+            raise ValueError("get_bideltoid_breadth() can only be used for pedestrian agents.")
+        reference_multipolygon = self.get_reference_multipolygon()
+        return float(fun.get_bideltoid_breadth_from_multipolygon(reference_multipolygon))
+
+    def get_chest_depth(self) -> float:
+        """
+        Compute the chest depth of the agent (that has not rotated) in cm.
+
+        Returns
+        -------
+        float
+            The chest depth of the agent in cm.
+        """
+        if self.agent_type != cst.AgentTypes.pedestrian:
+            raise ValueError("get_chest_depth() can only be used for pedestrian agents.")
+        reference_multipolygon = self.get_reference_multipolygon()
+        return float(fun.get_chest_depth_from_multipolygon(reference_multipolygon))

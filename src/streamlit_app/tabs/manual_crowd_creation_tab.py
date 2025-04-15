@@ -1,11 +1,12 @@
 """Custom crowd tab."""
 
-import io
-import zipfile
 from datetime import datetime
 
 import streamlit as st
 
+import configuration.backup.crowd_to_dict as fun_dict
+import configuration.backup.crowd_to_zip_and_reverse as fun_zip
+import configuration.backup.dict_to_xml_and_reverse as fun_xml
 import configuration.utils.constants as cst
 import streamlit_app.utils.constants as cst_app
 from configuration.models.agents import Agent
@@ -42,16 +43,16 @@ def add_agent(agent_type: cst.AgentTypes) -> None:
     default_measures: dict[cst.AgentTypes, dict[str, float | Sex]] = {
         cst.AgentTypes.pedestrian: {
             "sex": cst_app.DEFAULT_SEX,
-            "bideltoid_breadth": cst_app.DEFAULT_MALE_BIDELTOID_BREADTH_MEAN,
-            "chest_depth": cst_app.DEFAULT_MALE_CHEST_DEPTH_MEAN,
+            "bideltoid_breadth": cst.CrowdStat["male_bideltoid_breadth_mean"],
+            "chest_depth": cst.CrowdStat["male_chest_depth_mean"],
             "height": cst_app.DEFAULT_PEDESTRIAN_HEIGHT,
             "weight": cst.DEFAULT_PEDESTRIAN_WEIGHT,
         },
         cst.AgentTypes.bike: {
-            "wheel_width": cst_app.DEFAULT_WHEEL_WIDTH_MEAN,
-            "total_length": cst_app.DEFAULT_TOTAL_LENGTH_MEAN,
-            "handlebar_length": cst_app.DEFAULT_HANDLEBAR_LENGTH_MEAN,
-            "top_tube_length": cst_app.DEFAULT_TOP_TUBE_LENGTH_MEAN,
+            "wheel_width": cst.CrowdStat["wheel_width_mean"],
+            "total_length": cst.CrowdStat["total_length_mean"],
+            "handlebar_length": cst.CrowdStat["handlebar_length_mean"],
+            "top_tube_length": cst.CrowdStat["top_tube_length_mean"],
             "weight": cst.DEFAULT_BIKE_WEIGHT,
         },
     }
@@ -112,8 +113,8 @@ def sliders_for_agent_parameters(selected_id: int, current_agent: Agent) -> None
     if current_agent.agent_type.name == cst.AgentTypes.pedestrian.name:
         current_agent.measures.measures["bideltoid_breadth"] = st.sidebar.slider(
             "Bideltoid breadth (cm)",
-            cst_app.DEFAULT_BIDELTOID_BREADTH_MIN,
-            cst_app.DEFAULT_BIDELTOID_BREADTH_MAX,
+            cst.CrowdStat["male_bideltoid_breadth_min"],
+            cst.CrowdStat["male_bideltoid_breadth_max"],
             value=current_agent.measures.measures["bideltoid_breadth"],
             step=1.0,
             key=f"bideltoid_{selected_id}",
@@ -121,8 +122,8 @@ def sliders_for_agent_parameters(selected_id: int, current_agent: Agent) -> None
         )
         current_agent.measures.measures["chest_depth"] = st.sidebar.slider(
             "Chest depth (cm)",
-            cst_app.DEFAULT_CHEST_DEPTH_MIN,
-            cst_app.DEFAULT_CHEST_DEPTH_MAX,
+            cst.CrowdStat["male_chest_depth_min"],
+            cst.CrowdStat["male_chest_depth_max"],
             value=current_agent.measures.measures["chest_depth"],
             step=1.0,
             key=f"chest_{selected_id}",
@@ -130,8 +131,8 @@ def sliders_for_agent_parameters(selected_id: int, current_agent: Agent) -> None
         )
         current_agent.measures.measures["weight"] = st.sidebar.slider(
             "Weight (kg)",
-            cst_app.DEFAULT_PEDESTRIAN_WEIGHT_MIN,
-            cst_app.DEFAULT_PEDESTRIAN_WEIGHT_MAX,
+            cst.CrowdStat["pedestrian_weight_min"],
+            cst.CrowdStat["pedestrian_weight_max"],
             value=current_agent.measures.measures["weight"],
             step=1.0,
             key=f"weight_{selected_id}",
@@ -141,11 +142,11 @@ def sliders_for_agent_parameters(selected_id: int, current_agent: Agent) -> None
     elif current_agent.agent_type.name == cst.AgentTypes.bike.name:
         bike_params = ["wheel_width", "total_length", "handlebar_length", "top_tube_length", "weight"]
         defaults_min_max_step = {
-            "wheel_width": (cst_app.DEFAULT_WHEEL_WIDTH_MIN, cst_app.DEFAULT_WHEEL_WIDTH_MAX, 0.5),
-            "total_length": (cst_app.DEFAULT_TOTAL_LENGTH_MIN, cst_app.DEFAULT_TOTAL_LENGTH_MAX, 1.0),
-            "handlebar_length": (cst_app.DEFAULT_HANDLEBAR_LENGTH_MIN, cst_app.DEFAULT_HANDLEBAR_LENGTH_MAX, 1.0),
-            "top_tube_length": (cst_app.DEFAULT_TOP_TUBE_LENGTH_MIN, cst_app.DEFAULT_TOP_TUBE_LENGTH_MAX, 1.0),
-            "weight": (cst_app.DEFAULT_BIKE_WEIGHT_MIN, cst_app.DEFAULT_BIKE_WEIGHT_MAX, 1.0),
+            "wheel_width": (cst.CrowdStat["wheel_width_min"], cst.CrowdStat["wheel_width_max"], 0.5),
+            "total_length": (cst.CrowdStat["total_length_min"], cst.CrowdStat["total_length_max"], 1.0),
+            "handlebar_length": (cst.CrowdStat["handlebar_length_min"], cst.CrowdStat["handlebar_length_max"], 1.0),
+            "top_tube_length": (cst.CrowdStat["top_tube_length_min"], cst.CrowdStat["top_tube_length_max"], 1.0),
+            "weight": (cst.CrowdStat["bike_weight_min"], cst.CrowdStat["bike_weight_max"], 1.0),
         }
         for param in bike_params:
             current_agent.measures.measures[param] = st.sidebar.slider(
@@ -290,19 +291,8 @@ def run_tab_custom_crowd() -> None:
             # check if the agent type are only pedestrians :
             if all(agent.agent_type == cst.AgentTypes.pedestrian for agent in agents):
                 filename = f"crowd2D_{timestamp}.zip"
-                static_data_bytes, dynamic_data_bytes, geometry_data_bytes, materials_data_bytes = (
-                    current_crowd.get_all_crowd_params_in_xml()
-                )
-                # Create an in-memory ZIP file
-                zip_buffer = io.BytesIO()
-                with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zip_file:
-                    zip_file.writestr("Agents.xml", static_data_bytes)
-                    zip_file.writestr("AgentDynamics.xml", dynamic_data_bytes)
-                    zip_file.writestr("Geometry.xml", geometry_data_bytes)
-                    zip_file.writestr("Materials.xml", materials_data_bytes)
 
-                # Move the buffer's pointer to the beginning
-                zip_buffer.seek(0)
+                zip_buffer = fun_zip.write_crowd_data_to_zip(current_crowd)
 
                 # Add download button for the ZIP file
                 st.sidebar.download_button(
@@ -314,7 +304,8 @@ def run_tab_custom_crowd() -> None:
             else:
                 filename = f"crowd2D_{timestamp}.xml"
 
-                data = current_crowd.get_agents_params_in_xml()
+                data_dict = fun_dict.get_light_agents_params(current_crowd)
+                data = fun_xml.save_light_agents_params_dict_to_xml(data_dict)
 
                 st.sidebar.download_button(
                     label="Download as XML",

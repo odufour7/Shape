@@ -1,13 +1,14 @@
 """Pedestrian visualization tab."""
 
-import io
-import zipfile
 from datetime import datetime
 from io import BytesIO
 
 import streamlit as st
 from shapely.geometry import Polygon
 
+import configuration.backup.crowd_to_dict as fun_dict
+import configuration.backup.crowd_to_zip_and_reverse as fun_zip
+import configuration.backup.dict_to_xml_and_reverse as fun_xml
 import configuration.utils.constants as cst
 import streamlit_app.utils.constants as cst_app
 from configuration.models.crowd import Crowd
@@ -111,19 +112,17 @@ def update_crowd(boundaries: Polygon, num_agents: int) -> Crowd:
 
 def display_interpenetration_warning() -> None:
     """Display a warning if interpenetration is too high."""
-    interpenetration_between_agents, interpenetration_with_boundaries = (
-        st.session_state.current_crowd.calculate_interpenetration()
-    )
+    interpenetration_between_agents, interpenetration_with_boundaries = st.session_state.current_crowd.calculate_interpenetration()
     if interpenetration_between_agents > 1e-4:
         st.warning(
-            f"The interpenetration area between agents is {interpenetration_between_agents:.2f} cm².\n"
+            f"The interpenetration area **between agents** is {interpenetration_between_agents:.2f} cm².\n"
             + "Please rerun or increase the boundaries.",
             icon="⚠️",
         )
     if st.session_state.wall_interaction:
         if interpenetration_with_boundaries > 1e-4:
             st.warning(
-                f"The interpenetration area with boundaries is {interpenetration_with_boundaries:.2f} cm².\n"
+                f"The interpenetration area **with boundaries** is {interpenetration_with_boundaries:.2f} cm².\n"
                 + "Please rerun or increase the boundaries.",
                 icon="⚠️",
             )
@@ -171,19 +170,7 @@ def plot_and_download(current_crowd: Crowd) -> None:
         if backup_data_type == cst.BackupDataTypes.zip.name:
             filename = f"crowd2D_{timestamp}.zip"
 
-            static_data_bytes, dynamic_data_bytes, geometry_data_bytes, materials_data_bytes = (
-                current_crowd.get_all_crowd_params_in_xml()
-            )
-            # Create an in-memory ZIP file
-            zip_buffer = io.BytesIO()
-            with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zip_file:
-                zip_file.writestr("Agents.xml", static_data_bytes)
-                zip_file.writestr("AgentDynamics.xml", dynamic_data_bytes)
-                zip_file.writestr("Geometry.xml", geometry_data_bytes)
-                zip_file.writestr("Materials.xml", materials_data_bytes)
-
-            # Move the buffer's pointer to the beginning
-            zip_buffer.seek(0)
+            zip_buffer = fun_zip.write_crowd_data_to_zip(current_crowd)
 
             # Add download button for the ZIP file
             st.sidebar.download_button(
@@ -194,7 +181,8 @@ def plot_and_download(current_crowd: Crowd) -> None:
             )
         else:
             filename = f"crowd2D_{timestamp}.xml"
-            data = current_crowd.get_agents_params_in_xml()
+            data_dict = fun_dict.get_light_agents_params(current_crowd)
+            data = fun_xml.save_light_agents_params_dict_to_xml(data_dict)
             st.sidebar.download_button(
                 label="Download as XML",
                 data=data,
@@ -204,7 +192,8 @@ def plot_and_download(current_crowd: Crowd) -> None:
 
     else:
         filename = f"crowd2D_{timestamp}.xml"
-        data = current_crowd.get_agents_params_in_xml()
+        data_dict = fun_dict.get_light_agents_params(current_crowd)
+        data = fun_xml.save_light_agents_params_dict_to_xml(data_dict)
         st.sidebar.download_button(
             label="Download as XML",
             data=data,
@@ -547,7 +536,6 @@ def run_tab_crowd() -> None:
 #     uploaded_file = st.sidebar.file_uploader("Upload custom dataset", type=["xml"])
 
 #     # Provide an example dataset for download
-#     # TODO: function never used, the path may be wrong
 #     data_path = Path(__file__).parent.parent.parent.parent / "data"
 #     xml_path = data_path / "xml" / "custom_crowd_example.xml"
 #     with open(xml_path, "r", encoding="utf8") as f:

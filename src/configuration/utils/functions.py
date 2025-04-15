@@ -1,14 +1,110 @@
 """Contains utility functions for data processing and manipulation."""
 
-import itertools
+import pickle
+from pathlib import Path
+from typing import Any
 
 import numpy as np
+import pandas as pd
 from numpy.typing import NDArray
 from scipy.stats import truncnorm
-from shapely.geometry import Polygon
+from shapely.geometry import MultiPolygon, Polygon
 
 import configuration.utils.constants as cst
-from configuration.utils.typing_custom import IntrinsicMaterialDataType, MaterialsDataType, PairMaterialsDataType, Sex
+from configuration.utils.typing_custom import Sex
+
+
+def load_pickle(file_path: Path) -> Any:
+    """
+    Load data from a pickle file.
+
+    This function deserializes and loads data from a specified pickle file.
+    Pickle files are commonly used to store Python objects in a serialized format.
+
+    Parameters
+    ----------
+    file_path : Path
+        A `Path` object representing the path to the pickle file to be loaded.
+
+    Returns
+    -------
+    Any
+        The deserialized data loaded from the pickle file. The type of the
+        returned object depends on what was serialized into the pickle file.
+
+    Raises
+    ------
+    TypeError
+        If `file_path` is not a `Path` object.
+    FileNotFoundError
+        If the specified file does not exist.
+    """
+    if not isinstance(file_path, Path):
+        raise TypeError("file_path must be a Path object.")
+    if not file_path.exists():
+        raise FileNotFoundError(f"The file {file_path} does not exist.")
+    with open(file_path, "rb") as f:
+        data = pickle.load(f)
+    return data
+
+
+def save_pickle(data: Any, file_path: Path) -> None:
+    """
+    Save data to a pickle file.
+
+    Parameters
+    ----------
+    data : Any
+        The data to be serialized and saved. This can be any Python object
+        that is supported by the `pickle` module.
+    file_path : Path
+        A `Path` object representing the path where the pickle file will be saved.
+
+    Raises
+    ------
+    TypeError
+        If `file_path` is not a `Path` object.
+    FileNotFoundError
+        If the directory for `file_path` does not exist.
+    """
+    if not isinstance(file_path, Path):
+        raise TypeError("file_path must be a Path object.")
+    if not file_path.parent.exists():
+        raise FileNotFoundError(f"The directory {file_path.parent} does not exist.")
+    with open(file_path, "wb") as f:
+        pickle.dump(data, f)
+
+
+def load_csv(filename: Path) -> pd.DataFrame:
+    """
+    Load data from a CSV file into a pandas DataFrame.
+
+    Parameters
+    ----------
+    filename : Path
+        A `Path` object representing the path to the CSV file to be loaded.
+
+    Returns
+    -------
+    pd.DataFrame
+        A pandas DataFrame containing the data from the CSV file.
+
+    Raises
+    ------
+    TypeError
+        If `filename` is not a `Path` object.
+    FileNotFoundError
+        If the specified file does not exist.
+    ValueError
+        If the file does not have a `.csv` extension.
+    """
+    if not isinstance(filename, Path):
+        raise TypeError("filename must be a Path object.")
+    if not filename.exists():
+        raise FileNotFoundError(f"The file {filename} does not exist.")
+    if not filename.suffix == ".csv":
+        raise ValueError(f"The file {filename} is not a CSV file.")
+    return pd.read_csv(filename)
 
 
 def wrap_angle(angle: float) -> float:
@@ -96,7 +192,7 @@ def draw_sex(p: float) -> Sex:
         raise ValueError("Probability p must be between 0 and 1.")
 
     # Draw a random number and return the sex
-    return "male" if np.random.random() < p else "female"
+    return np.random.choice(["male", "female"], p=[p, 1 - p])
 
 
 def cross2d(Pn: NDArray[np.float64], Pn1: NDArray[np.float64]) -> float:
@@ -191,52 +287,7 @@ def validate_material(material: str) -> None:
         If the material is not in MaterialNames.
     """
     if material not in cst.MaterialNames.__members__:
-        raise ValueError(
-            f"Material '{material}' is not supported. Expected one of: {list(cst.MaterialNames.__members__.keys())}."
-        )
-
-
-def get_materials_params() -> MaterialsDataType:
-    """
-    Get the parameters of the materials.
-
-    Returns
-    -------
-    MaterialsDataType
-        A dictionary containing the parameters of the materials.
-    """
-    # Intrinsic material properties
-    intrinsic_materials: IntrinsicMaterialDataType = {
-        f"Material{id_material}": {
-            "id": id_material,
-            "name": material,
-            "YoungModulus": getattr(cst, f"YOUNG_MODULUS_{material.upper()}"),
-            "PoissonRatio": getattr(cst, f"POISSON_RATIO_{material.upper()}"),
-        }
-        for id_material, material in enumerate(cst.MaterialNames.__members__.keys())
-    }
-
-    # Binary material properties (pairwise interactions)
-    binary_materials: PairMaterialsDataType = {
-        f"Contact{id_contact}": {
-            "id1": id1,
-            "id2": id2,
-            "GammaNormal": cst.GAMMA_NORMAL,
-            "GammaTangential": cst.GAMMA_TANGENTIAL,
-            "KineticFriction": cst.KINETIC_FRICTION,
-        }
-        for id_contact, (id1, id2) in enumerate(itertools.combinations(range(len(cst.MaterialNames)), 2))
-    }
-
-    # Combine intrinsic and binary properties into a single dictionary
-    materials_dict: MaterialsDataType = {
-        "Materials": {
-            "Intrinsic": intrinsic_materials,
-            "Binary": binary_materials,
-        }
-    }
-
-    return materials_dict
+        raise ValueError(f"Material '{material}' is not supported. Expected one of: {list(cst.MaterialNames.__members__.keys())}.")
 
 
 def rotate_vectors(vector_dict: dict[str, tuple[float, float]], theta: float) -> dict[str, tuple[float, float]]:
@@ -265,3 +316,140 @@ def rotate_vectors(vector_dict: dict[str, tuple[float, float]], theta: float) ->
         rotated_dict[key] = (x_rot, y_rot)
 
     return rotated_dict
+
+
+def get_bideltoid_breadth_from_multipolygon(multi_polygon: MultiPolygon) -> float:
+    """
+    Compute the largest horizontal distance (bideltoid breadth) between points in a MultiPolygon object.
+
+    Only pairs of points with almost the same y-coordinate are considered.
+
+    Parameters
+    ----------
+    multi_polygon : MultiPolygon
+        A Shapely MultiPolygon object.
+
+    Returns
+    -------
+    float
+        The largest horizontal distance.
+
+    Notes
+    -----
+    This function assumes that the input is a MultiPolygon object coming from the body3D of a pedestrian that has not been rotated.
+    """
+    if not isinstance(multi_polygon, MultiPolygon):
+        raise ValueError("Input must be a Shapely MultiPolygon object.")
+
+    # Assuming multi_polygon is a Shapely MultiPolygon object
+    center_of_mass = multi_polygon.centroid
+
+    # Combine boundary coordinates from all polygons, subtracting centroid
+    all_coords = np.array(
+        [(coord[0] - center_of_mass.x, coord[1] - center_of_mass.y) for poly in multi_polygon.geoms for coord in poly.boundary.coords]
+    )[::5]
+
+    # Sort points by their y-coordinate
+    sorted_coords = all_coords[np.argsort(all_coords[:, 1])]
+
+    # Use a sliding window to find pairs of points with similar y-coordinates
+    tolerance = 1e-1  # Adjust this value based on precision needs
+    max_distance = 0.0
+    i = 0
+    while i < len(sorted_coords):
+        j = i + 1
+        while j < len(sorted_coords) and abs(sorted_coords[j, 1] - sorted_coords[i, 1]) <= tolerance:
+            # Compute horizontal distance (x-difference)
+            distance = abs(sorted_coords[j, 0] - sorted_coords[i, 0])
+            max_distance = max(max_distance, distance)
+            j += 1
+        i += 1
+
+    return max_distance
+
+
+def get_chest_depth_from_multipolygon(multi_polygon: MultiPolygon) -> float:
+    """
+    Compute the largest vertical distance (chest depth) in a MultiPolygon object.
+
+    Only pairs of points with similar x-coordinates are considered.
+
+    Parameters
+    ----------
+    multi_polygon : MultiPolygon
+        A Shapely MultiPolygon object.
+
+    Returns
+    -------
+    float
+        The largest vertical distance (chest depth).
+
+    Notes
+    -----
+    This function assumes that the input is a MultiPolygon object coming from the body3D of a pedestrian that has not been rotated.
+    """
+    if not isinstance(multi_polygon, MultiPolygon):
+        raise ValueError("Input must be a Shapely MultiPolygon object.")
+
+    # Assuming multi_polygon is a Shapely MultiPolygon object
+    center_of_mass = multi_polygon.centroid
+
+    # Combine boundary coordinates from all polygons, subtracting centroid
+    all_coords = np.array(
+        [(coord[0] - center_of_mass.x, coord[1] - center_of_mass.y) for poly in multi_polygon.geoms for coord in poly.boundary.coords]
+    )[::5]
+
+    # Sort points by their x-coordinate
+    sorted_coords = all_coords[np.argsort(all_coords[:, 0])]
+
+    # Use a sliding window to find pairs of points with similar x-coordinates
+    tolerance = 1e-1  # Adjust this value based on precision needs
+    max_distance = 0.0
+    i = 0
+    while i < len(sorted_coords):
+        j = i + 1
+        while j < len(sorted_coords) and abs(sorted_coords[j, 0] - sorted_coords[i, 0]) <= tolerance:
+            # Compute vertical distance (y-difference)
+            distance = abs(sorted_coords[j, 1] - sorted_coords[i, 1])
+            max_distance = max(max_distance, distance)
+            j += 1
+        i += 1
+
+    return max_distance
+
+
+def from_string_to_tuple(string: str) -> tuple[float, float]:
+    """
+    Convert a string representation of a tuple to an actual tuple of two floats.
+
+    Parameters
+    ----------
+    string : str
+        The string representation of the tuple, e.g., "1.0, 2.0" or "(1.0, 2.0)".
+
+    Returns
+    -------
+    tuple[float, float]
+        The converted tuple of floats, e.g., (1.0, 2.0).
+
+    Raises
+    ------
+    ValueError
+        If the string is not in the expected format.
+    """
+    if not isinstance(string, str):
+        raise ValueError("Input must be a string.")
+
+    # Remove optional parentheses and strip whitespace
+    s = string.strip()
+    if s.startswith("(") and s.endswith(")"):
+        s = s[1:-1].strip()
+
+    parts = [x.strip() for x in s.split(",")]
+    if len(parts) != 2:
+        raise ValueError("String must contain exactly two numbers separated by a comma.")
+
+    try:
+        return float(parts[0]), float(parts[1])
+    except ValueError as exc:
+        raise ValueError("Both elements must be convertible to float.") from exc

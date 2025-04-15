@@ -4,7 +4,7 @@ from pathlib import Path
 
 import streamlit as st
 
-from configuration.utils import loading_backup_functions as lb_fun
+from configuration.backup import dict_to_xml_and_reverse as lb_fun
 from streamlit_app.plot import plot
 
 

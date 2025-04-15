@@ -1,17 +1,10 @@
 """Module containing the Crowd class, which represents a crowd of pedestrians in a room."""
 
-import io
-import zipfile
-from pathlib import Path
-from xml.dom.minidom import parseString
-
 import numpy as np
-from dicttoxml import dicttoxml
 from numpy.typing import NDArray
 from shapely.geometry import Point, Polygon
 
 import configuration.utils.constants as cst
-import configuration.utils.functions as fun
 from configuration.models.agents import Agent
 from configuration.models.measures import (
     CrowdMeasures,
@@ -20,7 +13,7 @@ from configuration.models.measures import (
     draw_agent_measures,
     draw_agent_type,
 )
-from configuration.utils import loading_backup_functions as lb_fun
+from configuration.models.shapes2D import Shapes2D
 from configuration.utils.typing_custom import DynamicCrowdDataType, GeometryDataType, StaticCrowdDataType
 
 
@@ -260,6 +253,75 @@ class Crowd:
         for _ in range(number_agents):
             self.add_one_agent()
 
+    def create_agents_from_dynamic_static_geometry_parameters(
+        self, static_dict: StaticCrowdDataType, dynamic_dict: DynamicCrowdDataType, geometry_dict: GeometryDataType
+    ) -> None:
+        """
+        Create agents from dynamic and static geometry parameters.
+
+        Parameters
+        ----------
+        static_dict : StaticCrowdDataType
+            Dictionary containing static crowd data.
+        dynamic_dict : DynamicCrowdDataType
+            Dictionary containing dynamic crowd data.
+        geometry_dict : GeometryDataType
+            Dictionary containing geometry data.
+        """
+        # --- Extract wall polygons and set boundaries ---
+        wall_polygons = [
+            Polygon(
+                [
+                    [corner["Coordinates"][0] * cst.M_TO_CM, corner["Coordinates"][1] * cst.M_TO_CM]
+                    for corner in wall_data["Corners"].values()
+                ]
+            )
+            for wall_data in geometry_dict.get("Geometry", {}).get("Wall", {}).values()
+        ]
+        if not wall_polygons:
+            raise ValueError("No wall polygons found in geometry_dict.")
+        self.boundaries = max(wall_polygons, key=lambda polygon: polygon.area)  # Set the largest polygon as boundaries
+
+        # --- Extract agent positions and orientations ---
+        agent_positions = {agent["Id"]: agent["Kinematics"]["Position"] for agent in dynamic_dict.get("Agents", {}).values()}
+        agent_orientations = {agent["Id"]: agent["Kinematics"]["theta"] for agent in dynamic_dict.get("Agents", {}).values()}
+
+        # --- Create agents ---
+        for agent_data in static_dict.get("Agents", {}).values():
+            if agent_data.get("Type") != cst.AgentTypes.pedestrian.name.lower():  # Skip non-pedestrian agents
+                continue
+
+            agent_id: int = agent_data["Id"]
+            center_of_mass: tuple[float, float] = agent_positions.get(agent_id, (0.0, 0.0))  # m
+            orientation: float = agent_orientations.get(agent_id, 0.0)  # radian
+
+            agent_shape2D = Shapes2D(agent_type=cst.AgentTypes.pedestrian)
+
+            for shape_name, shape_data in agent_data.get("Shapes", {}).items():
+                # Calculate global position of the shape
+                rel_x, rel_y = shape_data["Position"]  # m
+                x_shape = (center_of_mass[0] + rel_x) * cst.M_TO_CM
+                y_shape = (center_of_mass[1] + rel_y) * cst.M_TO_CM
+                agent_shape2D.add_shape(
+                    name=shape_name,
+                    shape_type=cst.ShapeTypes.disk.name,
+                    material=cst.MaterialNames.human.name,
+                    radius=shape_data["Radius"] * cst.M_TO_CM,
+                    x=x_shape,
+                    y=y_shape,
+                )
+
+            agent_measures = {
+                "sex": "male",
+                "bideltoid_breadth": agent_shape2D.get_bideltoid_breadth(),
+                "chest_depth": agent_shape2D.get_chest_depth(),
+                "height": cst.DEFAULT_PEDESTRIAN_HEIGHT,
+                "weight": cst.DEFAULT_PEDESTRIAN_WEIGHT,
+            }
+            new_agent = Agent(agent_type=cst.AgentTypes.pedestrian, measures=agent_measures, shapes2D=agent_shape2D)
+            new_agent.rotate(np.degrees(orientation))
+            self.agents.append(new_agent)
+
     def get_crowd_measures(self) -> dict[str, float]:
         """
         Compute comprehensive statistics for the current crowd composition.
@@ -352,7 +414,7 @@ class Crowd:
 
         # If the norm is greater than zero, normalize the difference vector
         if norm_delta > 0:
-            return 8.0 * delta / norm_delta  # Return normalized direction of the force
+            return delta / norm_delta  # Return normalized direction of the force
 
         # If centroids coincide, return a small random force as a fallback
         return np.random.rand(2).astype(np.float64)
@@ -417,9 +479,7 @@ class Crowd:
         """
         return np.random.uniform(-20.0, 20.0)
 
-    def calculate_boundary_forces(
-        self, forces: NDArray[np.float64], current_geo: Polygon, temperature: float
-    ) -> NDArray[np.float64]:
+    def calculate_boundary_forces(self, forces: NDArray[np.float64], current_geo: Polygon, temperature: float) -> NDArray[np.float64]:
         """
         Compute boundary interaction forces for an agent near environment edges.
 
@@ -525,7 +585,7 @@ class Crowd:
             random_packing=random_packing,
         )
 
-        # Initial rotation of the agent to the desired direction
+        # Initially, all agents have 90° orientation (head facing up), so we need to rotate them to the desired direction
         for current_agent in self.agents:
             current_agent.rotate(desired_direction - 90.0)
 
@@ -577,246 +637,117 @@ class Crowd:
             translation_vector = np.array([-current_position.x, -current_position.y])
             agent.translate(*translation_vector)
 
-    def get_agents_params(self) -> StaticCrowdDataType:
+    @staticmethod
+    def compute_stats(data: list[float], stats_key: str) -> float | None:
         """
-        Retrieve the physical and geometric parameters of all agents in a structured format.
-
-        Returns
-        -------
-        CrowdDataType
-            A dictionary containing agent data for all agents in the crowd.
-        """
-        crowd_dict: StaticCrowdDataType = {
-            "Agents": {
-                f"Agent{id_agent}": {
-                    "type": f"{agent.agent_type.name}",
-                    "id": id_agent,
-                    "mass": agent.measures.measures[cst.CommonMeasures.weight.name],  # in kg
-                    "MOI": agent.measures.measures["moment_of_inertia"],  # in kg*m^2
-                    "FloorDamping": cst.DEFAULT_FLOOR_DAMPING,
-                    "AngularDamping": cst.DEFAULT_ANGULAR_DAMPING,
-                    "Shapes": agent.shapes2D.get_additional_parameters(),
-                }
-                for id_agent, agent in enumerate(self.agents)
-            }
-        }
-
-        return crowd_dict
-
-    def get_agents_params_in_xml(self) -> str:
-        """
-        Generate a pretty-printed XML string of agent parameters from a Crowd object.
-
-        Returns
-        -------
-        str
-            A pretty-printed XML string representing the agent parameters. Empty lines are removed for cleaner formatting.
-        """
-        # Get agent parameters as a dictionary
-        crowd_data_dict = self.get_agents_params()
-
-        # Convert dictionary to XML string without type attributes
-        xml_data = dicttoxml(crowd_data_dict, attr_type=False, root=False)
-
-        # Parse the XML string into a DOM object
-        dom = parseString(xml_data)
-
-        # Pretty-print the XML with indentation and remove empty lines
-        pretty_xml = dom.toprettyxml(indent="     ")
-        data = "\n".join([line for line in pretty_xml.split("\n") if line.strip()])
-
-        return data
-
-    def get_static_pedestrians_params(self) -> StaticCrowdDataType:
-        """
-        Retrieve the physical and geometric parameters of all agents in a structured format.
-
-        Returns
-        -------
-        StaticCrowdDataType
-            Static parameters of all agents in a nested dictionary format.
-        """
-        crowd_dict: StaticCrowdDataType = {"Agents": {}}
-
-        for agent_id, agent in enumerate(self.agents):
-            # Initialize shapes dictionary for the current agent
-            shapes_dict = {}
-            all_shape_params = agent.shapes2D.get_additional_parameters()
-            delta_g_to_gi: dict[str, tuple[float, float]] = agent.get_delta_GtoGi()
-            theta: float = agent.get_agent_orientation()
-            delta_g_to_gi_rotated = fun.rotate_vectors(delta_g_to_gi, -theta)
-
-            # Extract all shape parameters for the current agent
-            for shape_name, shape_params in all_shape_params.items():
-                delta_g_to_gi_shape = delta_g_to_gi_rotated[shape_name]
-
-                # Add shape information to shapes_dict
-                shapes_dict[f"{shape_name}"] = {
-                    "type": shape_params["type"],
-                    "radius": shape_params["radius"],
-                    "IdMaterial": getattr(cst.MaterialNames, shape_params["material"]).value,
-                    "x": float(delta_g_to_gi_shape[0] * cst.CM_TO_M),
-                    "y": float(delta_g_to_gi_shape[1] * cst.CM_TO_M),
-                }
-
-            # Add agent data to crowd_dict
-            crowd_dict["Agents"][f"Agent{agent_id}"] = {
-                "type": agent.agent_type.name,
-                "id": agent_id,
-                "mass": agent.measures.measures[cst.CommonMeasures.weight.name],  # in kg
-                "MOI": float(agent.measures.measures["moment_of_inertia"]),  # in kg*m^2
-                "FloorDamping": cst.DEFAULT_FLOOR_DAMPING,
-                "AngularDamping": cst.DEFAULT_ANGULAR_DAMPING,
-                "Shapes": shapes_dict,
-            }
-
-        return crowd_dict
-
-    def get_dynamic_pedestrians_params(self) -> DynamicCrowdDataType:
-        """
-        Retrieve the physical and geometric parameters of all agents in a structured format.
-
-        Returns
-        -------
-        DynamicCrowdDataType
-            Dynamical parameters of all agents.
-        """
-        dynamical_parameters_crowd: DynamicCrowdDataType = {
-            "Agents": {
-                f"Agent{id_agent}": {
-                    "id": id_agent,
-                    "Kinematics": {
-                        "x": agent.get_position().x * cst.CM_TO_M,
-                        "y": agent.get_position().y * cst.CM_TO_M,
-                        "vx": cst.INITIAL_TRANSLATIONAL_VELOCITY_Y,
-                        "vy": cst.INITIAL_TRANSLATIONAL_VELOCITY_Y,
-                        "theta": np.radians(agent.get_agent_orientation()),
-                        "omega": cst.INITIAL_ROTATIONAL_VELOCITY,
-                    },
-                    "Dynamics": {
-                        "Fpx": cst.DECISIONAL_TRANSLATIONAL_FORCE_X,
-                        "Fpy": cst.DECISIONAL_TRANSLATIONAL_FORCE_Y,
-                        "Mp": cst.DECISIONAL_TORQUE,
-                    },
-                }
-                for id_agent, agent in enumerate(self.agents)
-            }
-        }
-
-        return dynamical_parameters_crowd
-
-    def get_geometry_params(self) -> GeometryDataType:
-        """
-        Retrieve the parameters of the boundaries.
-
-        Returns
-        -------
-        GeometryDataType
-            A dictionary containing the geometric parameters of the boundaries,
-            including dimensions (Lx and Ly) and wall corner data.
-        """
-        # Ensure self.boundaries is a Polygon
-        if not isinstance(self.boundaries, Polygon):
-            raise ValueError("self.boundaries must be a shapely Polygon object.")
-        if self.boundaries.is_empty:
-            # create a boundaries with a large square
-            self.boundaries = Polygon(
-                [
-                    Point(-cst.INFINITE, -cst.INFINITE),
-                    Point(-cst.INFINITE, cst.INFINITE),
-                    Point(cst.INFINITE, cst.INFINITE),
-                    Point(cst.INFINITE, -cst.INFINITE),
-                ]
-            )
-        # Extract coordinates from the polygon's exterior
-        coords = list(self.boundaries.exterior.coords)
-
-        # Calculate Lx and Ly as maximum distances between x and y coordinates
-        x_coords = [point[0] for point in coords]
-        y_coords = [point[1] for point in coords]
-        Lx = max(x_coords) - min(x_coords)
-        Ly = max(y_coords) - min(y_coords)
-
-        # Construct boundaries dictionary
-        boundaries_dict: GeometryDataType = {
-            "Geometry": {
-                "Dimensions": {
-                    "Lx": Lx,
-                    "Ly": Ly,
-                },
-                "Wall": {
-                    "Wall0": {
-                        "id": 0,
-                        "IdMaterial": cst.MaterialNames.stone.value,
-                        "Corners": {
-                            f"Corner{id_corner}": {
-                                "x": coords[id_corner][0],
-                                "y": coords[id_corner][1],
-                            }
-                            for id_corner in range(len(coords))
-                        },
-                    }
-                },
-            }
-        }
-
-        return boundaries_dict
-
-    def get_all_crowd_params_in_xml(self) -> tuple[bytes, bytes, bytes, bytes]:
-        """
-        Generate XML data for all crowd parameters.
-
-        Returns
-        -------
-        tuple of bytes
-            A tuple containing four byte objects:
-            - static_data_bytes: XML representation of static pedestrian parameters.
-            - dynamic_data_bytes: XML representation of dynamic pedestrian parameters.
-            - geometry_data_bytes: XML representation of geometry parameters.
-            - materials_data_bytes: XML representation of material parameters.
-        """
-        # Extract static pedestrian parameters and convert to XML
-        static_data_dict = self.get_static_pedestrians_params()
-        static_data_bytes = lb_fun.static_parameters_pedestrians_dict_to_xml(static_data_dict)
-
-        # Extract dynamic pedestrian parameters and convert to XML
-        dynamic_data_dict = self.get_dynamic_pedestrians_params()
-        dynamic_data_bytes = lb_fun.dynamic_parameters_dict_to_xml(dynamic_data_dict)
-
-        # Extract geometry parameters and convert to XML
-        geometry_data_dict = self.get_geometry_params()
-        geometry_data_bytes = lb_fun.geometry_dict_to_xml(geometry_data_dict)
-
-        # Extract material parameters and convert to XML
-        materials_data_dict = fun.get_materials_params()
-        materials_data_bytes = lb_fun.materials_dict_to_xml(materials_data_dict)
-
-        return static_data_bytes, dynamic_data_bytes, geometry_data_bytes, materials_data_bytes
-
-    def save_crowd_data_to_zip(self, output_zip_path: Path) -> None:
-        """
-        Save crowd data as a ZIP file containing multiple XML files.
+        Compute statistics for a given data list and stats key.
 
         Parameters
         ----------
-        output_zip_path : Path
-            The path where the ZIP file will be saved.
+        data : list[float]
+            The list of numerical values to compute statistics for.
+        stats_key : str
+            The type of statistic to compute ('mean', 'std_dev', 'min', 'max').
+
+        Returns
+        -------
+        float | None
+            The computed statistic or None if data is empty or invalid.
         """
-        static_data_bytes, dynamic_data_bytes, geometry_data_bytes, materials_data_bytes = self.get_all_crowd_params_in_xml()
-        # Create an in-memory ZIP file
-        zip_buffer = io.BytesIO()
-        with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zip_file:
-            # Write each XML file into the ZIP archive
-            zip_file.writestr("Agents.xml", static_data_bytes)
-            zip_file.writestr("AgentDynamics.xml", dynamic_data_bytes)
-            zip_file.writestr("Geometry.xml", geometry_data_bytes)
-            zip_file.writestr("Materials.xml", materials_data_bytes)
+        if "mean" in stats_key:
+            return float(np.mean(data, dtype=float)) if data else None
+        if "std_dev" in stats_key:
+            return float(np.std(data, ddof=1, dtype=float)) if len(data) >= 2 else None
+        if "min" in stats_key:
+            return float(np.min(data)) if data else None
+        if "max" in stats_key:
+            return float(np.max(data)) if data else None
+        raise ValueError(f"Unknown stats key: {stats_key}")
 
-        # Move the buffer's pointer to the beginning
-        zip_buffer.seek(0)
+    def measure_crowd_statistics(self) -> dict[str, float | int | None]:
+        """
+        Measure the statistics of the crowd.
 
-        # Write the in-memory ZIP file to the specified output path
-        with open(output_zip_path, "wb") as output_file:
-            output_file.write(zip_buffer.read())
+        Returns
+        -------
+        dict[str, float | int | None]
+            A dictionary containing the computed statistics for the crowd.
+            The keys are formatted as follows:
+                - "{kind}_proportion": Count of agents (e.g., "male_proportion" or "bike_proportion" or "pedestrian_proportion")
+                - "{part}_mean": Mean value for each body/bike part measurement
+                - "{part}_std_dev": Sample standard deviation for each part
+                - "{part}_min": Minimum observed value for each part
+                - "{part}_max": Maximum observed value for each part
+        """
+        # Initialize statistics dictionary
+        stats_counts: dict[str, int] = {
+            "pedestrian_number": 0,
+            "male_number": 0,
+            "bike_number": 0,
+        }
+        stats_lists: dict[str, list[float]] = {
+            "pedestrian_weight": [],
+            "bike_weight": [],
+            "male_bideltoid_breadth": [],
+            "male_chest_depth": [],
+            "female_bideltoid_breadth": [],
+            "female_chest_depth": [],
+            "wheel_width": [],
+            "total_length": [],
+            "handlebar_length": [],
+            "top_tube_length": [],
+        }
 
-        print(f"ZIP file successfully saved to {output_zip_path}")
+        # Collect data from agents
+        for agent in self.agents:
+            weight = agent.measures.measures[cst.CommonMeasures.weight.name]
+            if agent.agent_type == cst.AgentTypes.pedestrian:
+                stats_counts["pedestrian_number"] += 1
+                bideltoid_breadth = agent.measures.measures[cst.PedestrianParts.bideltoid_breadth.name]
+                chest_depth = agent.measures.measures[cst.PedestrianParts.chest_depth.name]
+                if agent.measures.measures["sex"] == "male":
+                    stats_counts["male_number"] += 1
+                    stats_lists["male_bideltoid_breadth"].append(bideltoid_breadth)
+                    stats_lists["male_chest_depth"].append(chest_depth)
+                else:
+                    stats_lists["female_bideltoid_breadth"].append(bideltoid_breadth)
+                    stats_lists["female_chest_depth"].append(chest_depth)
+
+                stats_lists["pedestrian_weight"].append(weight)
+
+            elif agent.agent_type == cst.AgentTypes.bike:
+                stats_counts["bike_number"] += 1
+                stats_lists["bike_weight"].append(weight)
+                stats_lists["wheel_width"].append(agent.measures.measures[cst.BikeParts.wheel_width.name])
+                stats_lists["total_length"].append(agent.measures.measures[cst.BikeParts.total_length.name])
+                stats_lists["handlebar_length"].append(agent.measures.measures[cst.BikeParts.handlebar_length.name])
+                stats_lists["top_tube_length"].append(agent.measures.measures[cst.BikeParts.top_tube_length.name])
+
+        # Compute proportions
+        total_agents: int = self.get_number_agents()
+        measures: dict[str, float | int | None] = {
+            "male_proportion": stats_counts["male_number"] / stats_counts["pedestrian_number"]
+            if stats_counts["pedestrian_number"] > 0
+            else None,
+            "pedestrian_proportion": stats_counts["pedestrian_number"] / total_agents if total_agents > 0 else None,
+            "bike_proportion": stats_counts["bike_number"] / total_agents if total_agents > 0 else None,
+        }
+
+        # Compute detailed statistics for relevant keys
+
+        for part_key in [
+            "pedestrian_weight",
+            "bike_weight",
+            "male_bideltoid_breadth",
+            "male_chest_depth",
+            "female_bideltoid_breadth",
+            "female_chest_depth",
+            "wheel_width",
+            "total_length",
+            "handlebar_length",
+            "top_tube_length",
+        ]:
+            for stats_key in ["_min", "_max", "_mean", "_std_dev"]:
+                measures[part_key + stats_key] = Crowd.compute_stats(stats_lists[part_key], stats_key)
+
+        return measures

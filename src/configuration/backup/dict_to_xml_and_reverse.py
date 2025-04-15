@@ -1,16 +1,16 @@
-"""Contains functions to save to xml, json, and pickle formats and also to load from them."""
+"""Contains functions to save to different formats including xml, zip and also to load from them."""
 
-import pickle
 import xml.etree.ElementTree as ET
-from pathlib import Path
-from typing import Any
 from xml.dom import minidom
+from xml.dom.minidom import parseString
 
-import pandas as pd
+from dicttoxml import dicttoxml
 
+import configuration.utils.functions as fun
 from configuration.utils.typing_custom import (
     DynamicCrowdDataType,
     GeometryDataType,
+    InteractionsDataType,
     IntrinsicMaterialDataType,
     MaterialsDataType,
     PairMaterialsDataType,
@@ -19,74 +19,34 @@ from configuration.utils.typing_custom import (
 )
 
 
-def load_pickle(file_path: Path) -> Any:
+def save_light_agents_params_dict_to_xml(crowd_data_dict: StaticCrowdDataType) -> str:
     """
-    Load data from a pickle file.
-
-    This function deserializes and loads data from a specified pickle file.
-    Pickle files are commonly used to store Python objects in a serialized format.
+    Generate a pretty-printed XML string of agent parameters from a Crowd object.
 
     Parameters
     ----------
-    file_path : Path
-        A `Path` object representing the path to the pickle file to be loaded.
+    crowd_data_dict : StaticCrowdDataType
+        A dictionary containing agent data for all agents in the crowd.
 
     Returns
     -------
-    Any
-        The deserialized data loaded from the pickle file. The type of the
-        returned object depends on what was serialized into the pickle file.
+    str
+        A string representation of the XML data.
     """
-    with open(file_path, "rb") as f:
-        data = pickle.load(f)
+    # Convert dictionary to XML string without type attributes
+    xml_data = dicttoxml(crowd_data_dict, attr_type=False, root=False)
+
+    # Parse the XML string into a DOM object
+    dom = parseString(xml_data)
+
+    # Pretty-print the XML with indentation and remove empty lines
+    pretty_xml = dom.toprettyxml(indent="     ")
+    data = "\n".join([line for line in pretty_xml.split("\n") if line.strip()])
+
     return data
 
 
-def save_pickle(data: Any, file_path: Path) -> None:
-    """
-    Save data to a pickle file.
-
-    This function serializes the given data and saves it to a specified file
-    in pickle format. Pickle files are commonly used to store Python objects
-    in a serialized format for later use.
-
-    Parameters
-    ----------
-    data : Any
-        The data to be serialized and saved. This can be any Python object
-        that is supported by the `pickle` module.
-    file_path : Path
-        A `Path` object representing the path where the pickle file will be saved.
-
-    Raises
-    ------
-    IOError
-        If there is an issue opening or writing to the file.
-    pickle.PicklingError
-        If the object cannot be pickled (e.g., unsupported data types).
-    """
-    with open(file_path, "wb") as f:
-        pickle.dump(data, f)
-
-
-def load_csv(filename: Path) -> pd.DataFrame:
-    """
-    Load data from a CSV file into a pandas DataFrame.
-
-    Parameters
-    ----------
-    filename : Path
-        A `Path` object representing the path to the CSV file to be loaded.
-
-    Returns
-    -------
-    pd.DataFrame
-        A pandas DataFrame containing the data from the CSV file.
-    """
-    return pd.read_csv(filename)
-
-
-def static_parameters_pedestrians_dict_to_xml(crowd_dict: StaticCrowdDataType) -> bytes:
+def static_dict_to_xml(crowd_dict: StaticCrowdDataType) -> bytes:
     """
     Convert a dictionary containing static parameters of agents into an XML representation.
 
@@ -110,10 +70,10 @@ def static_parameters_pedestrians_dict_to_xml(crowd_dict: StaticCrowdDataType) -
             root,
             "Agent",
             {
-                "type": agent_data["type"],
-                "id": str(agent_data["id"]),
-                "mass": str(agent_data["mass"]),
-                "MOI": str(agent_data["MOI"]),
+                "Type": agent_data["Type"],
+                "Id": str(agent_data["Id"]),
+                "Mass": str(agent_data["Mass"]),
+                "MomentOfInertia": str(agent_data["MomentOfInertia"]),
                 "FloorDamping": str(agent_data["FloorDamping"]),
                 "AngularDamping": str(agent_data["AngularDamping"]),
             },
@@ -124,18 +84,18 @@ def static_parameters_pedestrians_dict_to_xml(crowd_dict: StaticCrowdDataType) -
 
         # Iterate through each shape in the agent's shapes
         for shape_data in agent_data["Shapes"].values():
-            shape_type = shape_data["type"]
+            shape_type = shape_data["Type"]
 
             # Create a <Shape> element with attributes
             ET.SubElement(
                 shapes,
                 "Shape",
                 {
-                    "type": shape_type,
-                    "radius": str(shape_data["radius"]),
-                    "IdMaterial": str(shape_data["IdMaterial"]),
-                    "x": str(shape_data["x"]),
-                    "y": str(shape_data["y"]),
+                    "Id": str(shape_data["Id"]),
+                    "Type": shape_type,
+                    "Radius": str(shape_data["Radius"]),
+                    "MaterialId": str(shape_data["MaterialId"]),
+                    "Position": f"{shape_data['Position'][0]},{shape_data['Position'][1]}",
                 },
             )
 
@@ -145,7 +105,7 @@ def static_parameters_pedestrians_dict_to_xml(crowd_dict: StaticCrowdDataType) -
     return reparsed
 
 
-def dynamic_parameters_dict_to_xml(dynamical_parameters_crowd: DynamicCrowdDataType) -> bytes:
+def dynamic_dict_to_xml(dynamical_parameters_crowd: DynamicCrowdDataType) -> bytes:
     """
     Convert a dictionary containing dynamic parameters of agents into an XML representation.
 
@@ -165,17 +125,15 @@ def dynamic_parameters_dict_to_xml(dynamical_parameters_crowd: DynamicCrowdDataT
     # Iterate through agents in the dictionary
     for agent_data in dynamical_parameters_crowd["Agents"].values():
         # Create an Agent element
-        agent_element = ET.SubElement(root, "Agent", id=str(agent_data["id"]))
+        agent_element = ET.SubElement(root, "Agent", Id=str(agent_data["Id"]))
 
         # Create Kinematics element
         kinematics_data = agent_data["Kinematics"]
         ET.SubElement(
             agent_element,
             "Kinematics",
-            x=f"{kinematics_data['x']}",
-            y=f"{kinematics_data['y']}",
-            vx=f"{kinematics_data['vx']}",
-            vy=f"{kinematics_data['vy']}",
+            Position=f"{kinematics_data['Position'][0]},{kinematics_data['Position'][1]}",
+            Velocity=f"{kinematics_data['Velocity'][0]},{kinematics_data['Velocity'][1]}",
             theta=f"{kinematics_data['theta']}",
             omega=f"{kinematics_data['omega']}",
         )
@@ -185,8 +143,7 @@ def dynamic_parameters_dict_to_xml(dynamical_parameters_crowd: DynamicCrowdDataT
         ET.SubElement(
             agent_element,
             "Dynamics",
-            Fpx=f"{dynamics_data['Fpx']}",
-            Fpy=f"{dynamics_data['Fpy']}",
+            Fp=f"{dynamics_data['Fp'][0]},{dynamics_data['Fp'][1]}",
             Mp=f"{dynamics_data['Mp']}",
         )
 
@@ -223,12 +180,12 @@ def geometry_dict_to_xml(boundaries_dict: GeometryDataType) -> bytes:
     # Iterate over all walls in the dictionary
     for wall_data in boundaries_dict["Geometry"]["Wall"].values():
         # Add Wall element
-        wall_element = ET.SubElement(root, "Wall", id=str(wall_data["id"]), IdMaterial=f"{wall_data['IdMaterial']}")
+        wall_element = ET.SubElement(root, "Wall", Id=str(wall_data["Id"]), MaterialId=f"{wall_data['MaterialId']}")
 
         # Add Corners element
         corners_element = ET.SubElement(wall_element, "Corners")
         for corner_data in wall_data["Corners"].values():
-            ET.SubElement(corners_element, "Corner", x=f"{corner_data['x']}", y=f"{corner_data['y']}")
+            ET.SubElement(corners_element, "Corner", Coordinates=f"{corner_data['Coordinates'][0]},{corner_data['Coordinates'][1]}")
 
     # Convert the tree to a string
     xml_str = ET.tostring(root, encoding="utf-8")
@@ -262,10 +219,10 @@ def materials_dict_to_xml(material_dict: MaterialsDataType) -> bytes:
         ET.SubElement(
             intrinsic_element,
             "Material",
-            id=str(material_data["id"]),
-            name=material_data["name"],
+            Id=str(material_data["Id"]),
+            Name=material_data["Name"],
             YoungModulus=f"{material_data['YoungModulus']:.1f}",
-            PoissonRatio=f"{material_data['PoissonRatio']:.1f}",
+            ShearModulus=f"{material_data['ShearModulus']:.1f}",
         )
 
     # Add Binary contacts
@@ -274,8 +231,8 @@ def materials_dict_to_xml(material_dict: MaterialsDataType) -> bytes:
         ET.SubElement(
             binary_element,
             "Contact",
-            id1=str(contact_data["id1"]),
-            id2=str(contact_data["id2"]),
+            Id1=str(contact_data["Id1"]),
+            Id2=str(contact_data["Id2"]),
             GammaNormal=f"{contact_data['GammaNormal']:.3e}",
             GammaTangential=f"{contact_data['GammaTangential']:.3e}",
             KineticFriction=f"{contact_data['KineticFriction']:.5f}",
@@ -290,7 +247,54 @@ def materials_dict_to_xml(material_dict: MaterialsDataType) -> bytes:
     return pretty_xml_str
 
 
-def static_parameters_pedestrians_xml_to_dict(xml_file: str) -> StaticCrowdDataType:
+def interactions_dict_to_xml(data: InteractionsDataType) -> bytes:
+    """
+    Save the given interactions dictionary to an XML file with UTF-8 encoding.
+
+    Parameters
+    ----------
+    data : InteractionsDataType
+        A dictionary containing interactions data.
+
+    Returns
+    -------
+    bytes
+        A prettified XML string in UTF-8 encoding representing the interactions.
+    """
+    # Create the root element
+    root = ET.Element("Interactions")
+
+    # Iterate through agents in the dictionary
+    for agent_data in data["Interactions"].values():
+        agent_element = ET.SubElement(root, "Agent", Id=str(agent_data["Id"]))
+        # Iterate through neighboring agents
+        if "NeighbouringAgents" in agent_data:
+            for neighbor_data in agent_data["NeighbouringAgents"].values():
+                neighbor_element = ET.SubElement(agent_element, "Agent", Id=str(neighbor_data["Id"]))
+
+                # Iterate through interactions
+                for interaction_data in neighbor_data["Interactions"].values():
+                    ET.SubElement(
+                        neighbor_element,
+                        "Interaction",
+                        ParentShapeId=str(interaction_data["ParentShapeId"]),
+                        ChildShapeId=str(interaction_data["ChildShapeId"]),
+                        Ftx=str(interaction_data["Ftx"]),
+                        Fty=str(interaction_data["Fty"]),
+                        Fnx=str(interaction_data["Fnx"]),
+                        Fny=str(interaction_data["Fny"]),
+                        TangentialRelativeDisplacementNorm=str(interaction_data["TangentialRelativeDisplacementNorm"]),
+                    )
+    # Convert the tree to a string
+    xml_str = ET.tostring(root, encoding="utf-8")
+
+    # Prettify the XML string
+    pretty_xml_str = minidom.parseString(xml_str).toprettyxml(indent="    ", encoding="utf-8")
+
+    return pretty_xml_str
+
+
+def static_xml_to_dict(xml_file: str) -> StaticCrowdDataType:
     """
     Convert an XML file to a Python dictionary.
 
@@ -313,10 +317,10 @@ def static_parameters_pedestrians_xml_to_dict(xml_file: str) -> StaticCrowdDataT
     # Iterate over each <Agent> element in the XML
     for agent in root.findall("Agent"):
         agent_data: dict[str, int | float | ShapeDataType] = {
-            "type": agent.get("type"),
-            "id": int(agent.get("id", default=0)),
-            "mass": float(agent.get("mass", default=0.0)),
-            "MOI": float(agent.get("MOI", default=0.0)),
+            "Type": agent.get("Type"),
+            "Id": int(agent.get("Id", default=0)),
+            "Mass": float(agent.get("Mass", default=0.0)),
+            "MomentOfInertia": float(agent.get("MomentOfInertia", default=0.0)),
             "FloorDamping": float(agent.get("FloorDamping", default=0.0)),
             "AngularDamping": float(agent.get("AngularDamping", default=0.0)),
         }
@@ -326,14 +330,13 @@ def static_parameters_pedestrians_xml_to_dict(xml_file: str) -> StaticCrowdDataT
         if shapes is not None:
             shapes_dict: ShapeDataType = {}
             for i, shape in enumerate(shapes.findall("Shape"), start=0):
-                shape_type = shape.get("type", default="disk")
-
+                shape_type = shape.get("Type", default="disk")
                 shape_data = {
-                    "type": shape_type,
-                    "radius": float(shape.get("radius", default=0.0)),
-                    "IdMaterial": int(shape.get("IdMaterial", default=0)),
-                    "x": float(shape.get("x", default=0.0)),
-                    "y": float(shape.get("y", default=0.0)),
+                    "Id": int(shape.get("Id", default=0)),
+                    "Type": shape_type,
+                    "Radius": float(shape.get("Radius", default=0.0)),
+                    "MaterialId": int(shape.get("MaterialId", default=0)),
+                    "Position": fun.from_string_to_tuple(shape.get("Position", default="0.0,0.0")),
                 }
                 # Assign a unique name to each shape (e.g., disk1, disk2)
                 shape_name = f"disk{i}"
@@ -347,7 +350,7 @@ def static_parameters_pedestrians_xml_to_dict(xml_file: str) -> StaticCrowdDataT
     return crowd_dict
 
 
-def dynamic_parameters_xml_to_dict(xml_data: str) -> DynamicCrowdDataType:
+def dynamic_xml_to_dict(xml_data: str) -> DynamicCrowdDataType:
     """
     Convert an XML string representing dynamic parameters of agents into a dictionary.
 
@@ -368,17 +371,15 @@ def dynamic_parameters_xml_to_dict(xml_data: str) -> DynamicCrowdDataType:
     agents: DynamicCrowdDataType = {}
 
     for agent in root.findall("Agent"):
-        agent_id = int(agent.get("id", default=0))
+        agent_id = int(agent.get("Id", default=0))
 
         # Extract kinematics
         kinematics = agent.find("Kinematics")
         if kinematics is None:
             raise ValueError("Kinematics data not found for agent.")
         kinematics_dict = {
-            "x": float(kinematics.get("x", default=0.0)),
-            "y": float(kinematics.get("y", default=0.0)),
-            "vx": float(kinematics.get("vx", default=0.0)),
-            "vy": float(kinematics.get("vy", default=0.0)),
+            "Position": fun.from_string_to_tuple(kinematics.get("Position", default="0.0,0.0")),
+            "Velocity": fun.from_string_to_tuple(kinematics.get("Velocity", default="0.0,0.0")),
             "theta": float(kinematics.get("theta", default=0.0)),
             "omega": float(kinematics.get("omega", default=0.0)),
         }
@@ -388,14 +389,13 @@ def dynamic_parameters_xml_to_dict(xml_data: str) -> DynamicCrowdDataType:
         if dynamics is None:
             raise ValueError("Dynamics data not found for agent.")
         dynamics_dict = {
-            "Fpx": float(dynamics.get("Fpx", default=0.0)),
-            "Fpy": float(dynamics.get("Fpy", default=0.0)),
+            "Fp": fun.from_string_to_tuple(dynamics.get("Fp", default="0.0,0.0")),
             "Mp": float(dynamics.get("Mp", default=0.0)),
         }
 
         # Combine into agent dictionary
         agents[f"Agent{agent_id}"] = {
-            "id": agent_id,
+            "Id": agent_id,
             "Kinematics": kinematics_dict,
             "Dynamics": dynamics_dict,
         }
@@ -433,19 +433,19 @@ def geometry_xml_to_dict(xml_data: str) -> GeometryDataType:
     walls: GeometryDataType = {}
 
     for wall in root.findall("Wall"):
-        wall_id = int(wall.get("id", default=0))
-        id_material = int(wall.get("IdMaterial", 0))
+        wall_id = int(wall.get("Id", default=0))
+        id_material = int(wall.get("MaterialId", 0))
 
         corners: dict[str, dict[str, float]] = {}
         corners_element = wall.find("Corners")
         if corners_element is None:
             raise ValueError("Corners data not found for wall.")
         for i, corner in enumerate(corners_element.findall("Corner")):
-            corners[f"Corner{i}"] = {"x": float(corner.get("x", default=0.0)), "y": float(corner.get("y", default=0.0))}
+            corners[f"Corner{i}"] = {"Coordinates": fun.from_string_to_tuple(corner.get("Coordinates", default="0.0,0.0"))}
 
         walls[f"Wall{wall_id}"] = {
-            "id": wall_id,
-            "IdMaterial": id_material,
+            "Id": wall_id,
+            "MaterialId": id_material,
             "Corners": corners,
         }
 
@@ -479,10 +479,10 @@ def materials_xml_to_dict(xml_data: str) -> MaterialsDataType:
 
     intrinsic_materials: IntrinsicMaterialDataType = [
         {
-            "id": int(material.get("id", default=0)),
-            "name": material.get("name", default="iron"),
+            "Id": int(material.get("Id", default=0)),
+            "Name": material.get("Name", default="iron"),
             "YoungModulus": float(material.get("YoungModulus", default=0.0)),
-            "PoissonRatio": float(material.get("PoissonRatio", default=0.0)),
+            "ShearModulus": float(material.get("ShearModulus", default=0.0)),
         }
         for material in intrinsic_element
     ]
@@ -494,8 +494,8 @@ def materials_xml_to_dict(xml_data: str) -> MaterialsDataType:
 
     binary_contacts: PairMaterialsDataType = [
         {
-            "id1": int(contact.get("id1", default=0)),
-            "id2": int(contact.get("id2", default=1)),
+            "Id1": int(contact.get("Id1", default=0)),
+            "Id2": int(contact.get("Id2", default=1)),
             "GammaNormal": float(contact.get("GammaNormal", default=0.0)),
             "GammaTangential": float(contact.get("GammaTangential", default=0.0)),
             "KineticFriction": float(contact.get("KineticFriction", default=0.0)),
@@ -506,9 +506,59 @@ def materials_xml_to_dict(xml_data: str) -> MaterialsDataType:
     # Transform the data into the specified dictionary format
     material_dict: MaterialsDataType = {
         "Materials": {
-            "Intrinsic": {f"Material{material['id']}": material for material in intrinsic_materials},
+            "Intrinsic": {f"Material{material['Id']}": material for material in intrinsic_materials},
             "Binary": {f"Contact{i}": contact for i, contact in enumerate(binary_contacts)},
         }
     }
 
     return material_dict
+
+
+def interactions_xml_to_dict(xml_data: str) -> InteractionsDataType:
+    """
+    Convert an XML file describing interactions into a nested dictionary structure.
+
+    Parameters
+    ----------
+    xml_data : str
+        A string containing XML data.
+
+    Returns
+    -------
+    InteractionsDataType
+        A dictionary representation of the XML data.
+    """
+    root = ET.fromstring(xml_data)
+
+    interactions_dict: InteractionsDataType = {"Interactions": {}}
+
+    # Iterate through all Agent elements in the XML
+    for agent in root.findall("Agent"):
+        agent_id = int(agent.attrib["Id"])
+        agent_key = f"Agent{agent_id}"
+        interactions_dict["Interactions"][agent_key] = {"Id": agent_id, "NeighbouringAgents": {}}
+
+        # Iterate through neighboring agents
+        for neighbor_agent in agent.findall("Agent"):
+            neighbor_id = int(neighbor_agent.attrib["Id"])
+            neighbor_key = f"Agent{neighbor_id}"
+            interactions_dict["Interactions"][agent_key]["NeighbouringAgents"][neighbor_key] = {"Id": neighbor_id, "Interactions": {}}
+
+            # Iterate through interactions
+            for interaction in neighbor_agent.findall("Interaction"):
+                parent_shape_id = int(interaction.attrib["ParentShapeId"])
+                child_shape_id = int(interaction.attrib["ChildShapeId"])
+                interaction_key = f"Interaction_{parent_shape_id}_{child_shape_id}"
+
+                # Add interaction details to the dictionary
+                interactions_dict["Interactions"][agent_key]["NeighbouringAgents"][neighbor_key]["Interactions"][interaction_key] = {
+                    "ParentShapeId": parent_shape_id,
+                    "ChildShapeId": child_shape_id,
+                    "Ftx": float(interaction.attrib["Ftx"]),
+                    "Fty": float(interaction.attrib["Fty"]),
+                    "Fnx": float(interaction.attrib["Fnx"]),
+                    "Fny": float(interaction.attrib["Fny"]),
+                    "TangentialRelativeDisplacementNorm": float(interaction.attrib["TangentialRelativeDisplacementNorm"]),
+                }
+
+    return interactions_dict

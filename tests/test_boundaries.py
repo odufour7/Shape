@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 from pytest_lazyfixture import lazy_fixture
 
-import configuration.utils.loading_backup_functions as lb_fun
+import configuration.backup.dict_to_xml_and_reverse as lb_fun
 from configuration.utils.typing_custom import GeometryDataType
 
 
@@ -25,25 +25,25 @@ def boundaries_dict_two_walls() -> GeometryDataType:
             "Dimensions": {"Lx": 6.08, "Ly": 5.08},
             "Wall": {
                 "Wall0": {
-                    "id": 0,
-                    "IdMaterial": 0,
+                    "Id": 0,
+                    "MaterialId": 0,
                     "Corners": {
-                        "Corner0": {"x": 0.0, "y": 0.0},
-                        "Corner1": {"x": 6.04, "y": 0.0},
-                        "Corner2": {"x": 6.04, "y": 5.04},
-                        "Corner3": {"x": 0.0, "y": 5.04},
-                        "Corner4": {"x": 0.0, "y": 0.0},
+                        "Corner0": {"Coordinates": (0.0, 0.0)},
+                        "Corner1": {"Coordinates": (0.0, 0.0)},
+                        "Corner2": {"Coordinates": (0.0, 0.0)},
+                        "Corner3": {"Coordinates": (0.0, 0.0)},
+                        "Corner4": {"Coordinates": (0.0, 0.0)},
                     },
                 },
                 "Wall1": {
-                    "id": 1,
-                    "IdMaterial": 0,
+                    "Id": 1,
+                    "MaterialId": 0,
                     "Corners": {
-                        "Corner0": {"x": 0.0, "y": 0.0},
-                        "Corner1": {"x": 6.04, "y": 0.0},
-                        "Corner2": {"x": 6.04, "y": 5.04},
-                        "Corner3": {"x": 0.0, "y": 5.04},
-                        "Corner4": {"x": 0.0, "y": 0.0},
+                        "Corner0": {"Coordinates": (0.0, 0.0)},
+                        "Corner1": {"Coordinates": (0.0, 0.0)},
+                        "Corner2": {"Coordinates": (0.0, 0.0)},
+                        "Corner3": {"Coordinates": (0.0, 0.0)},
+                        "Corner4": {"Coordinates": (0.0, 0.0)},
                     },
                 },
             },
@@ -67,14 +67,14 @@ def boundaries_dict_one_wall() -> GeometryDataType:
             "Dimensions": {"Lx": 6.08, "Ly": 5.08},
             "Wall": {
                 "Wall0": {
-                    "id": 0,
-                    "IdMaterial": 0,
+                    "Id": 0,
+                    "MaterialId": 0,
                     "Corners": {
-                        "Corner0": {"x": 0.0, "y": 0.0},
-                        "Corner1": {"x": 6.04, "y": 0.0},
-                        "Corner2": {"x": 6.04, "y": 5.04},
-                        "Corner3": {"x": 0.0, "y": 5.04},
-                        "Corner4": {"x": 0.0, "y": 0.0},
+                        "Corner0": {"Coordinates": (0.0, 0.0)},
+                        "Corner1": {"Coordinates": (0.0, 0.0)},
+                        "Corner2": {"Coordinates": (0.0, 0.0)},
+                        "Corner3": {"Coordinates": (0.0, 0.0)},
+                        "Corner4": {"Coordinates": (0.0, 0.0)},
                     },
                 },
             },

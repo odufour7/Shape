@@ -10,3 +10,4 @@ Configuration Files
    create2Dped
    create3Dped
    read_database
+   read_configuration_files

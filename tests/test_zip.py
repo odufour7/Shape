@@ -6,9 +6,17 @@ from typing import Callable, Optional
 
 import pytest
 
-import configuration.utils.functions as fun
-import configuration.utils.loading_backup_functions as lb_fun
+import configuration.backup.crowd_to_dict as fun_dict
+import configuration.backup.crowd_to_zip_and_reverse as fun_zip
+import configuration.backup.dict_to_xml_and_reverse as fun_xml
 from configuration.models.crowd import Crowd
+from configuration.utils.typing_custom import (
+    DynamicCrowdDataType,
+    GeometryDataType,
+    InteractionsDataType,
+    MaterialsDataType,
+    StaticCrowdDataType,
+)
 
 
 @pytest.fixture(name="crowd_fixture")
@@ -44,13 +52,15 @@ def output_zip_path_fixture(crowd_fixture: Crowd) -> Path:
     Path
         The path to the saved zip file.
     """
-    path = Path.cwd().parent / "data" / "xml" / "crowd_ANSURII.zip"
-    crowd_fixture.save_crowd_data_to_zip(path)
-    return path
+    output_file_path = Path.cwd().parent / "data" / "xml" / "crowd_ANSURII.zip"
+    fun_zip.save_crowd_data_to_zip(crowd_fixture, output_file_path)
+    return output_file_path
 
 
 @pytest.fixture(name="original_data_dicts_fixture")
-def original_data_dicts_fixture(crowd_fixture: Crowd) -> dict[str, dict[str, float]]:
+def original_data_dicts_fixture(
+    crowd_fixture: Crowd,
+) -> dict[str, StaticCrowdDataType | MaterialsDataType | DynamicCrowdDataType | GeometryDataType | InteractionsDataType]:
     """
     Retrieve original data dictionaries from the Crowd object.
 
@@ -63,15 +73,15 @@ def original_data_dicts_fixture(crowd_fixture: Crowd) -> dict[str, dict[str, flo
 
     Returns
     -------
-    dict[str, dict[str, float]]
+    dict[str, StaticCrowdDataType | MaterialsDataType | DynamicCrowdDataType | GeometryDataType | InteractionsDataType]
         A dictionary containing original simulation data categorized by type.
-        Keys include "static", "materials", "dynamic", and "geometry".
+        Keys include "static", "materials", "dynamic", "geometry" and "interactions".
     """
     return {
-        "static": crowd_fixture.get_static_pedestrians_params(),
-        "materials": fun.get_materials_params(),
-        "dynamic": crowd_fixture.get_dynamic_pedestrians_params(),
-        "geometry": crowd_fixture.get_geometry_params(),
+        "static": fun_dict.get_static_params(crowd_fixture),
+        "materials": fun_dict.get_materials_params(),
+        "dynamic": fun_dict.get_dynamic_params(crowd_fixture),
+        "geometry": fun_dict.get_geometry_params(crowd_fixture),
     }
 
 
@@ -128,16 +138,19 @@ def loaded_xml_data_fixture(output_zip_path_fixture: Path) -> dict[str, Optional
 @pytest.mark.parametrize(
     "key, parse_function",
     [
-        ("static", lb_fun.static_parameters_pedestrians_xml_to_dict),
-        ("materials", lb_fun.materials_xml_to_dict),
-        ("dynamic", lb_fun.dynamic_parameters_xml_to_dict),
-        ("geometry", lb_fun.geometry_xml_to_dict),
+        ("static", fun_xml.static_xml_to_dict),
+        ("materials", fun_xml.materials_xml_to_dict),
+        ("dynamic", fun_xml.dynamic_xml_to_dict),
+        ("geometry", fun_xml.geometry_xml_to_dict),
     ],
 )
 def test_crowd_data_integrity(
     key: str,
-    parse_function: Callable[[Optional[bytes]], dict[str, float]],
-    original_data_dicts_fixture: dict[str, dict[str, float]],
+    parse_function: Callable[
+        [Optional[bytes]],
+        dict[str, StaticCrowdDataType | MaterialsDataType | DynamicCrowdDataType | GeometryDataType],
+    ],
+    original_data_dicts_fixture: dict[str, StaticCrowdDataType | MaterialsDataType | DynamicCrowdDataType | GeometryDataType],
     loaded_xml_data_fixture: dict[str, Optional[bytes]],
 ) -> None:
     """
@@ -147,13 +160,12 @@ def test_crowd_data_integrity(
     ----------
     key : str
         The key representing a specific type of data (e.g., static, materials).
-
-    parse_function :  Callable[[Optional[bytes]], Dict[str, float]]
+    parse_function :  Callable[[Optional[bytes]], dict[str, StaticCrowdDataType | MaterialsDataType |
+                                                            DynamicCrowdDataType | GeometryDataType]]
         The function used to parse the XML data into a dictionary.
-
-    original_data_dicts_fixture : dict[str, dict[str, float]]
+    original_data_dicts_fixture : dict[str, StaticCrowdDataType | MaterialsDataType | DynamicCrowdDataType |
+                                            GeometryDataType ]
         The original data dictionaries categorized by type.
-
     loaded_xml_data_fixture : dict[str, Optional[bytes]]
         The XML data loaded from the zip file categorized by type.
     """
@@ -161,4 +173,5 @@ def test_crowd_data_integrity(
 
     parsed_data = parse_function(loaded_xml_data_fixture[key])
 
+    assert parsed_data == original_data_dicts_fixture[key], f"{key} data mismatch!"
     assert parsed_data == original_data_dicts_fixture[key], f"{key} data mismatch!"

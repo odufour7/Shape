@@ -15,6 +15,7 @@ MM_TO_CM: float = 0.1
 INCH_TO_CM: float = 2.54
 LB_TO_KG: float = 0.453592
 CM_TO_M: float = 0.01
+M_TO_CM: float = 100.0
 
 # Initial agents / measures
 DISK_NUMBER: int = 5
@@ -29,11 +30,11 @@ YOUNG_MODULUS_WOOD: float = 1.0e6
 YOUNG_MODULUS_STONE: float = 1.0e6
 YOUNG_MODULUS_ASPHALT: float = 1.0e6
 
-POISSON_RATIO_IRON: float = 0.3
-POISSON_RATIO_HUMAN: float = 0.3
-POISSON_RATIO_WOOD: float = 0.3
-POISSON_RATIO_STONE: float = 0.3
-POISSON_RATIO_ASPHALT: float = 0.3
+SHEAR_MODULUS_IRON: float = 1.0e6
+SHEAR_MODULUS_HUMAN: float = 1.0e6
+SHEAR_MODULUS_WOOD: float = 1.0e6
+SHEAR_MODULUS_STONE: float = 1.0e6
+SHEAR_MODULUS_ASPHALT: float = 1.0e6
 
 GAMMA_NORMAL: float = 1.3 * 10**4  # Damping coefficient for normal contact
 GAMMA_TANGENTIAL: float = 1.3 * 10**4  # Damping coefficient for tangential contact
@@ -53,14 +54,21 @@ DEFAULT_BIKE_WEIGHT: float = 30.0  # kg
 DEFAULT_PEDESTRIAN_WEIGHT: float = 70.0  # kg
 
 # Decisional force and torque
-DECISIONAL_TRANSLATIONAL_FORCE_X: float = 0.0  # N
-DECISIONAL_TRANSLATIONAL_FORCE_Y: float = 0.0  # N
+DECISIONAL_TRANSLATIONAL_FORCE_X: float = 10.0**3  # N
+DECISIONAL_TRANSLATIONAL_FORCE_Y: float = 10.0**3  # N
 DECISIONAL_TORQUE: float = 0.0  # N.m
 
 # Initial velocity
 INITIAL_TRANSLATIONAL_VELOCITY_X: float = 0.0  # m/s
 INITIAL_TRANSLATIONAL_VELOCITY_Y: float = 0.0  # m/s
 INITIAL_ROTATIONAL_VELOCITY: float = 0.0  # rad/s
+
+# Agent Interactions
+INITIAL_TANGENTIAL_FORCE_X: float = 0.0  # N
+INITIAL_TANGENTIAL_FORCE_Y: float = 0.0  # N
+INITIAL_NORMAL_FORCE_X: float = 0.0  # N
+INITIAL_NORMAL_FORCE_Y: float = 0.0  # N
+INITIAL_TANGENTIAL_RELATIVE_DISPLACEMENT_NORM: float = 0.0  # m
 
 
 class BackupDataTypes(Enum):
@@ -192,7 +200,7 @@ class MaterialProperties(Enum):
     """Enum for material properties."""
 
     young_modulus = auto()
-    poisson_ratio = auto()
+    shear_modulus = auto()
 
 
 class MaterialsContactProperties(Enum):

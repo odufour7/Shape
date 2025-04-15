@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 from pytest_lazyfixture import lazy_fixture
 
-import configuration.utils.loading_backup_functions as lb_fun
+import configuration.backup.dict_to_xml_and_reverse as lb_fun
 from configuration.utils.typing_custom import MaterialsDataType
 
 
@@ -15,28 +15,28 @@ def materials_dict() -> MaterialsDataType:
     return {
         "Materials": {
             "Intrinsic": {
-                "Material0": {"id": 0, "name": "Steel", "YoungModulus": 68.0, "PoissonRatio": 25.5},
-                "Material1": {"id": 1, "name": "Aluminum", "YoungModulus": 200.0, "PoissonRatio": 79.3},
-                "Material2": {"id": 2, "name": "Copper", "YoungModulus": 116, "PoissonRatio": 41.4},
+                "Material0": {"Id": 0, "Name": "Steel", "YoungModulus": 68.0, "ShearModulus": 25.5},
+                "Material1": {"Id": 1, "Name": "Aluminum", "YoungModulus": 200.0, "ShearModulus": 79.3},
+                "Material2": {"Id": 2, "Name": "Copper", "YoungModulus": 116, "ShearModulus": 41.4},
             },
             "Binary": {
                 "Contact0": {
-                    "id1": 0,
-                    "id2": 1,
+                    "Id1": 0,
+                    "Id2": 1,
                     "GammaNormal": 1.3 * 10**4,
                     "GammaTangential": 1.3 * 10**4,
                     "KineticFriction": 0.5,
                 },
                 "Contact1": {
-                    "id1": 0,
-                    "id2": 2,
+                    "Id1": 0,
+                    "Id2": 2,
                     "GammaNormal": 1.3 * 10**4,
                     "GammaTangential": 1.3 * 10**4,
                     "KineticFriction": 0.5,
                 },
                 "Contact2": {
-                    "id1": 1,
-                    "id2": 2,
+                    "Id1": 1,
+                    "Id2": 2,
                     "GammaNormal": 1.3 * 10**4,
                     "GammaTangential": 1.3 * 10**4,
                     "KineticFriction": 0.5,

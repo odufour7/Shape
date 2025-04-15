@@ -47,14 +47,11 @@ class Agent:
         agent_type : AgentTypes
             The type of the agent.
         measures : dict[str, float | Sex] | AgentMeasures
-            The measures associated with the agent. Can be a dictionary with measure
-            names as keys and float values or Sex (Literal["male","female"]), or an AgentMeasures object.
+            The measures associated with the agent.
         shapes2D : Shapes2D | ShapeDataType
-            The 2D shapes associated with the agent. Can be a Shapes2D object or a
-            dictionary of shape data. Default is None.
+            The 2D shapes associated with the agent. Default is None.
         shapes3D : Shapes3D | dict[float, ShapeType | MultiPolygon]
-            The 3D shapes associated with the agent. Can be a Shapes3D object or a
-            dictionary with float keys and ShapeType or MultiPolygon values. Default is None.
+            The 3D shapes associated with the agent. Default is None.
 
         Raises
         ------
@@ -189,7 +186,7 @@ class Agent:
         shapes3D : Shapes3D | dict[float, ShapeType | MultiPolygon]
             The 3D shapes input. Can be:
                 - None: Creates an empty `Shapes3D` instance
-                - Dictionary: Keys are sllice height (float), values are `ShapeType` or `MultiPolygon`
+                - Dictionary: Keys are height (float), values are `ShapeType` or `MultiPolygon`
                 - `Shapes3D` instance
             Default is None.
 
@@ -453,7 +450,34 @@ class Agent:
         ValueError
             If shapes3D is None or contains no rotatable shapes.
         """
-        rotated_body3D = {}
+        rotated_body3D: dict[float, MultiPolygon] = {}
+        centroid_body = self.get_centroid_body3D()
+        # check if self.shapes3D is shapes3D object
+        if self.shapes3D is None:
+            raise ValueError("No 3D shapes available for the agent.")
+        if not isinstance(self.shapes3D, Shapes3D):
+            raise ValueError("shapes3D should be an instance of Shapes3D.")
+        if not self.shapes3D.shapes:
+            raise ValueError("No 3D shapes available for rotation.")
+        for height, multipolygon in self.shapes3D.shapes.items():
+            rotated_body3D[height] = affin.rotate(multipolygon, angle, origin=centroid_body, use_radians=False)
+        self.shapes3D.shapes = rotated_body3D
+
+    def get_centroid_body3D(self) -> MultiPoint:
+        """
+        Calculate the centroid of the agent's 3D body.
+
+        Returns
+        -------
+        MultiPoint
+            The centroid of the agent's 3D body, calculated as the centroid of
+            all 3D shapes.
+
+        Raises
+        ------
+        ValueError
+            If shapes3D is None or contains no 3D shapes.
+        """
         centroid_body = []
         if self.shapes3D is None:
             raise ValueError("No 3D shapes available for the agent.")
@@ -461,9 +485,7 @@ class Agent:
             if isinstance(multipolygon, (MultiPolygon, Polygon)):
                 centroid_body.append(multipolygon.centroid)
         centroid_body = MultiPoint(centroid_body).centroid
-        for height, multipolygon in self.shapes3D.shapes.items():
-            rotated_body3D[height] = affin.rotate(multipolygon, angle, origin=centroid_body, use_radians=False)
-        self.shapes3D.shapes = rotated_body3D
+        return centroid_body
 
     def get_delta_GtoGi(self) -> dict[str, tuple[float, float]]:
         """
@@ -486,7 +508,9 @@ class Agent:
 
     def get_agent_orientation(self) -> float:
         """
-        Get the agent's orientation angle as the direction of delta_GtoG0 - delta_GtoG-1 (the first shape minus the last shape).
+        Get the agent's orientation angle as the direction orthogonal to the one given by the shoulders.
+
+        The shoulders direction is computed from the first shape minus the last shape position.
 
         Returns
         -------

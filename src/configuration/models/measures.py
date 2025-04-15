@@ -8,7 +8,6 @@ import numpy as np
 
 import configuration.utils.constants as cst
 from configuration.utils import functions as fun
-from configuration.utils import loading_backup_functions as lb_fun
 from configuration.utils.typing_custom import Sex
 
 
@@ -63,6 +62,8 @@ class AgentMeasures:
 
         # Validate that no extra measures are provided
         extra_parts = self.measures.keys() - required_parts
+        # Do not care about the moment of inertia measure if it exists as it will be computed a posteriori
+        extra_parts.discard(cst.CommonMeasures.moment_of_inertia.name)
         if extra_parts and self.agent_type != cst.AgentTypes.custom:
             raise ValueError(f"Extra measures provided for {self.agent_type}: {', '.join(extra_parts)}")
 
@@ -120,7 +121,7 @@ class CrowdMeasures:
 
         # Fill the default database with the ANSURII dataset
         dir_path = Path(__file__).parent.parent.parent.parent.absolute() / "data" / "pkl"
-        self.default_database = (lb_fun.load_pickle(dir_path / "ANSUREIIPublic.pkl")).transpose().to_dict()
+        self.default_database = (fun.load_pickle(dir_path / "ANSUREIIPublic.pkl")).transpose().to_dict()
 
         # Check if the agent statistics are provided for all parts
         if self.agent_statistics:
@@ -184,9 +185,7 @@ def _draw_pedestrian_measures(crowd_measures: CrowdMeasures) -> AgentMeasures:
     agent_sex = fun.draw_sex(crowd_measures.agent_statistics["male_proportion"])
     measures = {
         cst.PedestrianParts.sex.name: agent_sex,
-        cst.PedestrianParts.bideltoid_breadth.name: _draw_measure(
-            crowd_measures, agent_sex, cst.PedestrianParts.bideltoid_breadth
-        ),
+        cst.PedestrianParts.bideltoid_breadth.name: _draw_measure(crowd_measures, agent_sex, cst.PedestrianParts.bideltoid_breadth),
         cst.PedestrianParts.chest_depth.name: _draw_measure(crowd_measures, agent_sex, cst.PedestrianParts.chest_depth),
         cst.PedestrianParts.height.name: cst.DEFAULT_PEDESTRIAN_HEIGHT,
         cst.CommonMeasures.weight.name: _draw_measure(crowd_measures, agent_sex, cst.CommonMeasures.weight),

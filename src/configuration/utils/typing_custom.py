@@ -98,3 +98,26 @@ MaterialsDataType = dict[
         IntrinsicMaterialDataType | PairMaterialsDataType,
     ],
 ]
+
+#: Represents the structure of interaction-related data.
+InteractionsDataType: TypeAlias = dict[
+    str,  # Top-level key ("Interactions")
+    dict[
+        str,  # Keys inside "Interactions" ("Agent0", "Agent1", ...)
+        dict[
+            str,  # Keys inside each agent ("Id", "NeighbouringAgents")
+            int
+            | dict[
+                str,  # Keys inside "NeighbouringAgents" ("Id", "Interactions"
+                int
+                | dict[
+                    str,  # Keys inside "Interactions" ("Interaction_0_0", "Interaction_0_1", ...)
+                    dict[
+                        str,  # Keys inside each interaction ("ParentShapeId", "ChildShapeId", "Ftx", ...)
+                        int | float,
+                    ],
+                ],
+            ],
+        ],
+    ],
+]

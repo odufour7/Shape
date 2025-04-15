@@ -58,7 +58,7 @@ class Shapes2D:
             if not isinstance(shape.get("object"), (Point, Polygon)):
                 raise ValueError(f"Invalid shape type for '{shape_name}': {type(shape.get('object'))}")
 
-    def create_shape(self, name: str, shape_type: ShapeType, material: MaterialType, **kwargs: Any) -> None:
+    def add_shape(self, name: str, shape_type: ShapeType, material: MaterialType, **kwargs: Any) -> None:
         r"""
         Create a shape and add it to the shapes dictionary.
 
@@ -106,7 +106,6 @@ class Shapes2D:
             If the shape type is unsupported or if the required keyword arguments
             are not provided or invalid.
         """
-        material = kwargs.get("material")
         fun.validate_material(material)
 
         if shape_type == cst.ShapeTypes.disk.name:
@@ -209,7 +208,7 @@ class Shapes2D:
                     A list of (x, y) coordinates representing the polygon's vertices.
         """
         # Create a dictionary to store the parameters of each shape
-        params = {}
+        params: ShapeDataType = {}
         for name, shape in self.shapes.items():
             material = shape.get("material")
             # Retrieve the parameters of each shape according to its type
@@ -519,6 +518,17 @@ class Shapes2D:
         """
         return unary_union([shape["object"] for shape in self.shapes.values()])
 
+    def get_geometric_shapes(self) -> list[Polygon]:
+        """
+        Return the geometric shapes that constitute a pedestrian physical shape.
+
+        Returns
+        -------
+        list[Polygon]
+            A list of Polygon objects representing the individual shapes.
+        """
+        return [shape["object"] for shape in self.shapes.values()]
+
     def get_area(self) -> float:
         """
         Compute the area of the agent 2D representation.
@@ -529,3 +539,78 @@ class Shapes2D:
             The area of the agent 2D representation (cm²).
         """
         return float(self.get_geometric_shape().area)
+
+    def get_chest_depth(self) -> float:
+        """
+        Compute the chest depth (anterior-posterior diameter) of a pedestrian agent in centimeters.
+
+        The chest depth is defined as twice the radius of 'disk2', converted from meters to centimeters.
+
+        Returns
+        -------
+        float
+            The chest depth of the agent in centimeters.
+
+        Raises
+        ------
+        ValueError
+            If the agent is not a pedestrian or required parameters are missing.
+        """
+        if self.agent_type != cst.AgentTypes.pedestrian:
+            raise ValueError("get_chest_depth() can only be used for pedestrian agents.")
+
+        parameters_shapes = self.get_additional_parameters()
+
+        # Ensure 'disk2' and 'radius' are present
+        if "disk2" not in parameters_shapes:
+            raise ValueError("Missing required parameter: 'disk2' in agent shape parameters.")
+        if "radius" not in parameters_shapes["disk2"]:
+            raise ValueError("Missing 'radius' in 'disk2' parameters.")
+
+        radius_m = parameters_shapes["disk2"]["radius"]
+        chest_depth_cm = 2.0 * radius_m * cst.M_TO_CM
+
+        return float(chest_depth_cm)
+
+    def get_bideltoid_breadth(self) -> float:
+        """
+        Compute the bideltoid breadth (shoulder width) of a pedestrian agent in centimeters.
+
+        Returns
+        -------
+        float
+            The bideltoid breadth of the agent in centimeters.
+
+        Raises
+        ------
+        ValueError
+            If the agent is not a pedestrian or required parameters are missing.
+        """
+        if self.agent_type != cst.AgentTypes.pedestrian:
+            raise ValueError("get_bideltoid_breadth() can only be used for pedestrian agents.")
+
+        parameters_shapes = self.get_additional_parameters()
+
+        # Ensure required disks are present
+        for disk in ("disk0", "disk4"):
+            if disk not in parameters_shapes:
+                raise ValueError(f"Missing required parameter: '{disk}' in agent shape parameters.")
+
+        disk0 = parameters_shapes["disk0"]
+        disk4 = parameters_shapes["disk4"]
+
+        # Ensure required keys are present in each disk
+        for key in ("x", "y", "radius"):
+            if key not in disk0 or key not in disk4:
+                raise ValueError(f"Missing '{key}' in disk parameters.")
+
+        # Calculate the center-to-center distance between disk0 and disk4
+        dx = disk4["x"] - disk0["x"]
+        dy = disk4["y"] - disk0["y"]
+        center_distance = np.hypot(dx, dy)
+
+        # Total breadth is the sum of both radii and the center distance, converted to cm
+        total_breadth_m = disk0["radius"] + center_distance + disk4["radius"]
+        bideltoid_breadth_cm = total_breadth_m * cst.M_TO_CM
+
+        return float(bideltoid_breadth_cm)

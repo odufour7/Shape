@@ -16,6 +16,7 @@ from numpy.typing import NDArray
 from shapely.geometry import MultiPolygon, Polygon
 from streamlit.delta_generator import DeltaGenerator
 
+import configuration.utils.constants as cst
 import streamlit_app.utils.functions as fun
 from configuration.models.agents import Agent
 from configuration.models.crowd import Crowd
@@ -382,9 +383,7 @@ def display_body3D_mesh(
     # Extract every nth height to reduce the number of vertices
     skip_every = len(agent.shapes3D.shapes.keys()) // precision
     new_body: dict[float, MultiPolygon] = {
-        height: multi_polygon
-        for idx, (height, multi_polygon) in enumerate(agent.shapes3D.shapes.items())
-        if idx % skip_every == 0
+        height: multi_polygon for idx, (height, multi_polygon) in enumerate(agent.shapes3D.shapes.items()) if idx % skip_every == 0
     }
     logging.info("Number of layers: %d", len(new_body))
 
@@ -573,18 +572,24 @@ def display_crowd2D(crowd: Crowd) -> mfig.Figure:
                 ax.fill(x, y, alpha=0.8, color=color)
                 ax.plot(x, y, color="black", linewidth=0.5)
 
-    # Determine the x and y limits based on the agents' shapes
-    x_agent_min = np.min([agent.shapes2D.get_geometric_shape().bounds[0] for agent in crowd.agents])
-    x_agent_max = np.max([agent.shapes2D.get_geometric_shape().bounds[2] for agent in crowd.agents])
-    y_agent_min = np.min([agent.shapes2D.get_geometric_shape().bounds[1] for agent in crowd.agents])
-    y_agent_max = np.max([agent.shapes2D.get_geometric_shape().bounds[3] for agent in crowd.agents])
+    bounds = np.array([agent.shapes2D.get_geometric_shape().bounds for agent in crowd.agents])
+    x_min, y_min = bounds[:, [0, 1]].min(axis=0)
+    x_max, y_max = bounds[:, [2, 3]].max(axis=0)
+
+    # If boundaries exist, include them in the limits
+    if not crowd.boundaries.is_empty:
+        bx, by = crowd.boundaries.exterior.xy
+        ax.plot(bx, by, color="grey", linewidth=1, linestyle="dashed")
+        # Update limits to include boundaries if they are not too large
+        if not np.isclose(np.max(by), cst.INFINITE) and not np.isclose(np.max(bx), cst.INFINITE):
+            x_min = min(x_min, np.min(bx))
+            y_min = min(y_min, np.min(by))
+            x_max = max(x_max, np.max(bx))
+            y_max = max(y_max, np.max(by))
 
     # Set plot properties
-    ax.set_xlim(x_agent_min, x_agent_max)
-    ax.set_ylim(y_agent_min, y_agent_max)
+    ax.set(xlim=(x_min, x_max), ylim=(y_min, y_max), aspect="equal", xlabel="x [cm]", ylabel="y [cm]")
     ax.set_aspect("equal", "box")
-    plt.xlabel("x [cm]")
-    plt.ylabel("y [cm]")
     fig.tight_layout()
 
     return fig
