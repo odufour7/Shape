@@ -83,19 +83,19 @@ def boundaries_dict_one_wall() -> GeometryDataType:
 
 
 @pytest.mark.parametrize(
-    "boundaries_dict, output_file_name",
+    "boundaries_dict",
     [
-        (lazy_fixture("boundaries_dict_two_walls"), Path("output_boundaries_two_walls.xml")),
-        (lazy_fixture("boundaries_dict_one_wall"), Path("output_boundaries_one_wall.xml")),
+        lazy_fixture("boundaries_dict_two_walls"),
+        lazy_fixture("boundaries_dict_one_wall"),
     ],
 )
-def test_geometry_dict_to_xml_and_back(boundaries_dict: GeometryDataType, output_file_name: Path) -> None:
+def test_geometry_dict_to_xml_and_back(boundaries_dict: GeometryDataType, tmp_path: Path) -> None:
     """Test the loading and saving of boundaries parameters in XML format."""
     # Convert dictionary to XML
     xml_data = fun_xml.geometry_dict_to_xml(boundaries_dict)
 
     # Save XML to a temporary file
-    temp_file_path = Path(__file__).resolve().parent / output_file_name
+    temp_file_path = tmp_path / "output_boundaries.xml"
     with open(temp_file_path, "wb") as file:
         file.write(xml_data)
 
