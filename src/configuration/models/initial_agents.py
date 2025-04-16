@@ -291,7 +291,7 @@ class InitialPedestrian:
         if self.agent_type != cst.AgentTypes.pedestrian:
             raise ValueError("get_bideltoid_breadth() can only be used for pedestrian agents.")
         reference_multipolygon = self.get_reference_multipolygon()
-        return float(fun.get_bideltoid_breadth_from_multipolygon(reference_multipolygon))
+        return float(fun.compute_bideltoid_breadth_from_multipolygon(reference_multipolygon))
 
     def get_chest_depth(self) -> float:
         """
@@ -305,7 +305,7 @@ class InitialPedestrian:
         if self.agent_type != cst.AgentTypes.pedestrian:
             raise ValueError("get_chest_depth() can only be used for pedestrian agents.")
         reference_multipolygon = self.get_reference_multipolygon()
-        return float(fun.get_chest_depth_from_multipolygon(reference_multipolygon))
+        return float(fun.compute_chest_depth_from_multipolygon(reference_multipolygon))
 
     def get_height(self) -> float:
         """

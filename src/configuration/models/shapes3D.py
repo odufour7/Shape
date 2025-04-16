@@ -118,8 +118,8 @@ class Shapes3D:
                 origin=homothety_center,
             )
             # Compute the scaled bideltoid breadth
-            scaled_bideltoid_breadth = fun.get_bideltoid_breadth_from_multipolygon(scaled_multipolygon)
-            scaled_chest_depth = fun.get_chest_depth_from_multipolygon(scaled_multipolygon)
+            scaled_bideltoid_breadth = fun.compute_bideltoid_breadth_from_multipolygon(scaled_multipolygon)
+            scaled_chest_depth = fun.compute_chest_depth_from_multipolygon(scaled_multipolygon)
             penalty_chest: float = (scaled_chest_depth - wanted_chest_depth) ** 2
             penalty_bideltoid: float = (scaled_bideltoid_breadth - wanted_bideltoid_breadth) ** 2
             return float(penalty_chest + penalty_bideltoid)
@@ -194,7 +194,7 @@ class Shapes3D:
         if self.agent_type != cst.AgentTypes.pedestrian:
             raise ValueError("get_bideltoid_breadth() can only be used for pedestrian agents.")
         reference_multipolygon = self.get_reference_multipolygon()
-        return float(fun.get_bideltoid_breadth_from_multipolygon(reference_multipolygon))
+        return float(fun.compute_bideltoid_breadth_from_multipolygon(reference_multipolygon))
 
     def get_chest_depth(self) -> float:
         """
@@ -208,4 +208,4 @@ class Shapes3D:
         if self.agent_type != cst.AgentTypes.pedestrian:
             raise ValueError("get_chest_depth() can only be used for pedestrian agents.")
         reference_multipolygon = self.get_reference_multipolygon()
-        return float(fun.get_chest_depth_from_multipolygon(reference_multipolygon))
+        return float(fun.compute_chest_depth_from_multipolygon(reference_multipolygon))

@@ -225,9 +225,9 @@ def cross2d(Pn: NDArray[np.float64], Pn1: NDArray[np.float64]) -> float:
     return float(Pn[0] * Pn1[1] - Pn[1] * Pn1[0])
 
 
-def compute_moment_of_inertia(geometric_shape: Polygon, weight: float) -> float:
+def compute_moment_of_inertia(geometric_shape: Polygon | MultiPolygon, weight: float) -> float:
     """
-    Compute the moment of inertia for a 2D polygon.
+    Compute the moment of inertia for a 2D Polygon or MultiPolygon.
 
     This function calculates the moment of inertia (I_z) for a 2D shape
     represented as a polygon based on its vertices and weight. The calculation
@@ -237,8 +237,8 @@ def compute_moment_of_inertia(geometric_shape: Polygon, weight: float) -> float:
 
     Parameters
     ----------
-    geometric_shape : Polygon
-        The geometrical representation of a pedestrian as a shapely Polygon object.
+    geometric_shape : Polygon | MultiPolygon
+        The geometrical representation as a shapely Polygon or MultiPolygon object. Units: cm.
     weight : float
         The mass or weight of the shape in kilograms (kg).
 
@@ -249,29 +249,53 @@ def compute_moment_of_inertia(geometric_shape: Polygon, weight: float) -> float:
 
     Notes
     -----
-    - The vertices must form a closed polygon. If not, the function assumes
-      that the last vertex is implicitly connected to the first.
-    - This function assumes a uniform mass distribution over the area of
-      the polygon.
+    - For the MultiPolygon case, the function computes the moment of inertia
+      for each polygon and sums them up, weighted by their respective areas.
     """
-    vertices = np.array(geometric_shape.exterior.coords)
-    N: int = len(vertices) - 1  # Last point is a repeat of the first
-    rho: float = weight / geometric_shape.area  # Density (mass per unit area)
-    I_z: float = 0.0
-    for n in range(len(vertices) - 1):
-        Pn = np.array(vertices[n])
-        Pn1 = np.array(vertices[(n + 1) % N])
-        cross_product_magnitude = abs(cross2d(Pn, Pn1))
-        dot_product_terms = np.dot(Pn, Pn) + np.dot(Pn, Pn1) + np.dot(Pn1, Pn1)
 
-        I_z += cross_product_magnitude * dot_product_terms
+    def polygon_inertia(polygon: Polygon, poly_weight: float) -> float:
+        """
+        Compute the moment of inertia for a 2D Polygon.
 
-    moment_of_inertia: float = rho * I_z / 12.0
+        Parameters
+        ----------
+        polygon : Polygon
+            The geometrical representation as a shapely Polygon object. Units: cm.
+        poly_weight : float
+            The mass or weight of the polygon in kilograms (kg).
 
-    # convert to kg·m^2
-    moment_of_inertia *= 1e-4
+        Returns
+        -------
+        float
+            The computed moment of inertia for the polygon in kg·m².
+        """
+        vertices = np.array(polygon.exterior.coords)
+        centroid = np.array(polygon.centroid.coords[0])
+        vertices = vertices - centroid  # Shift to centroid
+        N = len(vertices) - 1  # Last point repeats the first
+        rho = poly_weight / polygon.area  # Density (mass per unit area)
+        I_z = 0.0
+        for n in range(N):
+            Pn = np.array(vertices[n])
+            Pn1 = np.array(vertices[(n + 1) % N])
+            cross_product_magnitude = abs(cross2d(Pn, Pn1))
+            dot_product_terms = np.dot(Pn, Pn) + np.dot(Pn, Pn1) + np.dot(Pn1, Pn1)
+            I_z += cross_product_magnitude * dot_product_terms
+        moment_of_inertia: float = rho * I_z / 12.0
+        moment_of_inertia *= 1e-4  # convert to kg·m^2
+        return moment_of_inertia
 
-    return moment_of_inertia
+    if isinstance(geometric_shape, Polygon):
+        return polygon_inertia(geometric_shape, weight)
+    if isinstance(geometric_shape, MultiPolygon):
+        total_area = geometric_shape.area
+        moment = 0.0
+        for poly in geometric_shape.geoms:
+            poly_area = poly.area
+            poly_weight = weight * (poly_area / total_area)
+            moment += polygon_inertia(poly, poly_weight)
+        return moment
+    raise TypeError("Input must be a Shapely Polygon or MultiPolygon.")
 
 
 def validate_material(material: str) -> None:
@@ -320,7 +344,7 @@ def rotate_vectors(vector_dict: dict[str, tuple[float, float]], theta: float) ->
     return rotated_dict
 
 
-def get_bideltoid_breadth_from_multipolygon(multi_polygon: MultiPolygon) -> float:
+def compute_bideltoid_breadth_from_multipolygon(multi_polygon: MultiPolygon) -> float:
     """
     Compute the largest horizontal distance (bideltoid breadth) between points in a MultiPolygon object.
 
@@ -349,7 +373,7 @@ def get_bideltoid_breadth_from_multipolygon(multi_polygon: MultiPolygon) -> floa
     # Combine boundary coordinates from all polygons, subtracting centroid
     all_coords = np.array(
         [(coord[0] - center_of_mass.x, coord[1] - center_of_mass.y) for poly in multi_polygon.geoms for coord in poly.boundary.coords]
-    )[::7]
+    )  # [::7]
 
     # Sort points by their y-coordinate
     sorted_coords = all_coords[np.argsort(all_coords[:, 1])]
@@ -370,7 +394,7 @@ def get_bideltoid_breadth_from_multipolygon(multi_polygon: MultiPolygon) -> floa
     return max_distance
 
 
-def get_chest_depth_from_multipolygon(multi_polygon: MultiPolygon) -> float:
+def compute_chest_depth_from_multipolygon(multi_polygon: MultiPolygon) -> float:
     """
     Compute the largest vertical distance (chest depth) in a MultiPolygon object.
 
@@ -399,7 +423,7 @@ def get_chest_depth_from_multipolygon(multi_polygon: MultiPolygon) -> float:
     # Combine boundary coordinates from all polygons, subtracting centroid
     all_coords = np.array(
         [(coord[0] - center_of_mass.x, coord[1] - center_of_mass.y) for poly in multi_polygon.geoms for coord in poly.boundary.coords]
-    )[::7]
+    )  # [::7]
 
     # Sort points by their x-coordinate
     sorted_coords = all_coords[np.argsort(all_coords[:, 0])]
