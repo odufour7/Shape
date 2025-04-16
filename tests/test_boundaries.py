@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 from pytest_lazyfixture import lazy_fixture
 
-import configuration.backup.dict_to_xml_and_reverse as lb_fun
+import configuration.backup.dict_to_xml_and_reverse as fun_xml
 from configuration.utils.typing_custom import GeometryDataType
 
 
@@ -92,7 +92,7 @@ def boundaries_dict_one_wall() -> GeometryDataType:
 def test_geometry_dict_to_xml_and_back(boundaries_dict: GeometryDataType, output_file_name: Path) -> None:
     """Test the loading and saving of boundaries parameters in XML format."""
     # Convert dictionary to XML
-    xml_data = lb_fun.geometry_dict_to_xml(boundaries_dict)
+    xml_data = fun_xml.geometry_dict_to_xml(boundaries_dict)
 
     # Save XML to a temporary file
     temp_file_path = Path(__file__).resolve().parent / output_file_name
@@ -104,7 +104,7 @@ def test_geometry_dict_to_xml_and_back(boundaries_dict: GeometryDataType, output
         loaded_xml_data = file.read()
 
     # Parse the XML string back to a dictionary
-    parsed_boundaries = lb_fun.geometry_xml_to_dict(loaded_xml_data)
+    parsed_boundaries = fun_xml.geometry_xml_to_dict(loaded_xml_data)
 
     # Assert that the original dictionary matches the parsed dictionary
     assert boundaries_dict == parsed_boundaries

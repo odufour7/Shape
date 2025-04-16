@@ -4,7 +4,7 @@ from pathlib import Path
 
 import streamlit as st
 
-from configuration.backup import dict_to_xml_and_reverse as lb_fun
+import configuration.utils.functions as fun
 from streamlit_app.plot import plot
 
 
@@ -21,7 +21,7 @@ def run_tab_anthropometry() -> None:
     """
     # Load the dataset from a pickle file
     path_file = Path(__file__).parent.parent.parent.parent / "data" / "pkl"
-    df = lb_fun.load_pickle(path_file / "ANSUREIIPublic.pkl")
+    df = fun.load_pickle(path_file / "ANSUREIIPublic.pkl")
 
     # Define default attributes to display
     default_attributes = [
@@ -92,7 +92,7 @@ def run_tab_anthropometry() -> None:
         "Female": path_file / "ANSURIIFEMALEPublic.csv",
         "Male": path_file / "ANSURIIMALEPublic.csv",
     }
-    df = lb_fun.load_csv(filename_dict[dataset_choice])
+    df = fun.load_csv(filename_dict[dataset_choice])
     download_filename = f"anthropometric_data_{filename_dict[dataset_choice].stem}.csv"
     # Prepare the data for download
     data_to_download = df.to_csv(index=False).encode("utf-8")

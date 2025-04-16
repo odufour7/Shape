@@ -290,7 +290,7 @@ def get_materials_params() -> MaterialsDataType:
             "GammaTangential": cst.GAMMA_TANGENTIAL,
             "KineticFriction": cst.KINETIC_FRICTION,
         }
-        for id_contact, (id1, id2) in enumerate(itertools.combinations(range(len(cst.MaterialNames)), 2))
+        for id_contact, (id1, id2) in enumerate(itertools.combinations_with_replacement(range(len(cst.MaterialNames)), 2))
     }
 
     # Combine intrinsic and binary properties into a single dictionary

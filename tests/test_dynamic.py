@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 from pytest_lazyfixture import lazy_fixture
 
-import configuration.backup.dict_to_xml_and_reverse as lb_fun
+import configuration.backup.dict_to_xml_and_reverse as fun_xml
 from configuration.utils.typing_custom import DynamicCrowdDataType
 
 
@@ -56,7 +56,7 @@ def test_dynamic_parameters_dict_to_xml_and_back(dynamical_parameters_crowd_dict
     that the parsed dictionary matches the original.
     """
     # Convert the dictionary to XML format
-    xml_data = lb_fun.dynamic_dict_to_xml(dynamical_parameters_crowd_dict)
+    xml_data = fun_xml.dynamic_dict_to_xml(dynamical_parameters_crowd_dict)
 
     # Save XML to a temporary file
     temp_file_path = tmp_path / "output_dynamic_crowd.xml"
@@ -68,7 +68,7 @@ def test_dynamic_parameters_dict_to_xml_and_back(dynamical_parameters_crowd_dict
         loaded_xml_data = file.read()
 
     # Parse the XML string back into a dictionary
-    parsed_data = lb_fun.dynamic_xml_to_dict(loaded_xml_data)
+    parsed_data = fun_xml.dynamic_xml_to_dict(loaded_xml_data)
 
     # Assert that the parsed dictionary matches the original one
     assert parsed_data == dynamical_parameters_crowd_dict, "Parsed data does not match original data."
