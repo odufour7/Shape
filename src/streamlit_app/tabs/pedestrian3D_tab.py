@@ -67,21 +67,21 @@ def sliders_for_agent_parameters() -> AgentMeasures:
         "Bideltoid breadth (cm)",
         min_value=cst.CrowdStat["male_bideltoid_breadth_min"],
         max_value=cst.CrowdStat["male_bideltoid_breadth_max"],
-        value=float(initial_pedestrian.measures[cst.PedestrianParts.bideltoid_breadth.name]),
+        value=float(initial_pedestrian.get_bideltoid_breadth()),
         step=1.0,
     )
     chest_depth: float = st.sidebar.slider(
         "Chest depth (cm)",
         min_value=cst.CrowdStat["male_chest_depth_min"],
         max_value=cst.CrowdStat["male_chest_depth_max"],
-        value=float(initial_pedestrian.measures[cst.PedestrianParts.chest_depth.name]),
+        value=float(initial_pedestrian.get_chest_depth()),
         step=1.0,
     )
     height: float = st.sidebar.slider(
         "Height (cm)",
         min_value=float(cst_app.DEFAULT_HEIGHT_MIN),
         max_value=float(cst_app.DEFAULT_HEIGHT_MAX),
-        value=float(initial_pedestrian.measures[cst.PedestrianParts.height.name]),
+        value=float(initial_pedestrian.get_height()),
         step=1.0,
     )
 

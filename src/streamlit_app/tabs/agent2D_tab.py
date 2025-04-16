@@ -58,10 +58,10 @@ def init_session_state() -> AgentMeasures:
             agent_measures = AgentMeasures(
                 agent_type=cst.AgentTypes.bike,
                 measures={
-                    "wheel_width": cst.CrowdStat["wheel_width"],
-                    "total_length": cst.CrowdStat["total_length"],
-                    "handlebar_length": cst.CrowdStat["handlebar_length"],
-                    "top_tube_length": cst.CrowdStat["top_tube_length"],
+                    "wheel_width": cst.CrowdStat["wheel_width_mean"],
+                    "total_length": cst.CrowdStat["total_length_mean"],
+                    "handlebar_length": cst.CrowdStat["handlebar_length_mean"],
+                    "top_tube_length": cst.CrowdStat["top_tube_length_mean"],
                     "weight": cst.CrowdStat["bike_weight_mean"],
                 },
             )

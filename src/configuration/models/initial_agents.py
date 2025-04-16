@@ -154,29 +154,6 @@ class InitialPedestrian:
             return sex_name
         raise TypeError(f"Expected type 'str' with value 'male' or 'female', but got {type(sex_name).__name__}")
 
-    @sex.setter
-    def sex(self, value: Sex) -> None:
-        """
-        Set the biological sex of the pedestrian and update associated 3D body model.
-
-        Parameters
-        ----------
-        value : Sex
-            The biological sex to set. Must be exactly "male" or "female" (case-sensitive).
-
-        Raises
-        ------
-        ValueError
-            If provided value is not "male" or "female"
-        TypeError
-            If non-string value is provided
-        """
-        if isinstance(value, str) and value not in ["male", "female"]:
-            raise ValueError("The sex should be either 'male' or 'female'.")
-        self._measures[cst.PedestrianParts.sex.name] = value
-        dir_path = Path(__file__).parent.parent.parent.parent.absolute() / "data" / "pkl"
-        self._body3D = fun.load_pickle(str(dir_path / f"{value}_3dBody.pkl"))
-
     @property
     def agent_type(self) -> cst.AgentTypes:
         """
@@ -295,11 +272,56 @@ class InitialPedestrian:
         MultiPolygon
             The reference multipolygon of the agent.
         """
-        largest_height = max(self.shapes3D.keys())
-        largest_height_3_4 = largest_height * 3 / 4
+        smallest_height = min(self.shapes3D.keys())
+        largest_height = max(self.shapes3D.keys()) - smallest_height
+        largest_height_3_4 = largest_height * 3 / 4 + smallest_height
         closest_height = min(self.shapes3D.keys(), key=lambda x: abs(float(x) - largest_height_3_4))
         multip = self.shapes3D[closest_height]
         return multip
+
+    def get_bideltoid_breadth(self) -> float:
+        """
+        Compute the bideltoid breadth of the agent (that has not rotated) in cm.
+
+        Returns
+        -------
+        float
+            The bideltoid breadth of the agent in cm.
+        """
+        if self.agent_type != cst.AgentTypes.pedestrian:
+            raise ValueError("get_bideltoid_breadth() can only be used for pedestrian agents.")
+        reference_multipolygon = self.get_reference_multipolygon()
+        return float(fun.get_bideltoid_breadth_from_multipolygon(reference_multipolygon))
+
+    def get_chest_depth(self) -> float:
+        """
+        Compute the chest depth of the agent (that has not rotated) in cm.
+
+        Returns
+        -------
+        float
+            The chest depth of the agent in cm.
+        """
+        if self.agent_type != cst.AgentTypes.pedestrian:
+            raise ValueError("get_chest_depth() can only be used for pedestrian agents.")
+        reference_multipolygon = self.get_reference_multipolygon()
+        return float(fun.get_chest_depth_from_multipolygon(reference_multipolygon))
+
+    def get_height(self) -> float:
+        """
+        Compute the height of the agent in meters.
+
+        Returns
+        -------
+        float
+            The height of the agent in meters.
+        """
+        if self.agent_type != cst.AgentTypes.pedestrian:
+            raise ValueError("get_height() can only be used for pedestrian agents.")
+        shapes3D_dict = self.shapes3D
+        lowest_height = min(float(height) for height in shapes3D_dict.keys())
+        highest_height = max(float(height) for height in shapes3D_dict.keys())
+        return highest_height - lowest_height
 
 
 class InitialBike:
