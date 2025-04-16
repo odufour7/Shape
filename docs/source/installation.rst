@@ -10,6 +10,7 @@ To set up, follow these steps after downloading the repository:
 Create and activate a virtual environment to manage dependencies efficiently:
 
 .. code-block:: bash
+
    python -m pip install --upgrade pip
    pip install uv
    uv sync
