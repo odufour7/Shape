@@ -1,8 +1,6 @@
 Installation
 ============
 
-``shapes`` package is available in the `PyPI <https://pypi.org/>`__ package index and can be installed using ...
-
 To set up, follow these steps after downloading the repository:
 
 **1. Environment Setup**
