@@ -6,13 +6,7 @@ from shapely.geometry import Point, Polygon
 
 import configuration.utils.constants as cst
 from configuration.models.agents import Agent
-from configuration.models.measures import (
-    CrowdMeasures,
-    create_bike_measures,
-    create_pedestrian_measures,
-    draw_agent_measures,
-    draw_agent_type,
-)
+from configuration.models.measures import CrowdMeasures, create_pedestrian_measures, draw_agent_measures, draw_agent_type
 from configuration.models.shapes2D import Shapes2D
 from configuration.utils.typing_custom import DynamicCrowdDataType, GeometryDataType, StaticCrowdDataType
 
@@ -23,14 +17,14 @@ class Crowd:
 
     Parameters
     ----------
-    measures : dict[str, float] | dict[int, dict[str, float]] | CrowdMeasures | None
+    measures : dict[str, float] | CrowdMeasures | None
         Crowd measures data. Can be:
             - A dictionary of agent statistics (str keys, float values)
-            - A custom database (int keys, dict values)
             - A CrowdMeasures instance
-            - None (default), which creates a default CrowdMeasures object
+            - None (default) when agents are provided instead
     agents : list[Agent] | None
-        List of Agent instances. If None, an empty list is used.
+        List of Agent instances. If None, measures must be provided.
+        When agents are provided, crowd statistics will be calculated from them.
     boundaries : Polygon | None
         A shapely Polygon instance defining the boundaries.
         If None, a default large square boundary is created.
@@ -38,7 +32,7 @@ class Crowd:
 
     def __init__(
         self,
-        measures: dict[str, float] | dict[int, dict[str, float]] | CrowdMeasures | None = None,
+        measures: dict[str, float] | CrowdMeasures | None = None,
         agents: list[Agent] | None = None,
         boundaries: Polygon | None = None,
     ) -> None:
@@ -47,41 +41,64 @@ class Crowd:
 
         Parameters
         ----------
-        measures : dict[str, float] | dict[int, dict[str, float]] | CrowdMeasures | None
+        measures : dict[str, float] | CrowdMeasures | None
             Crowd measures data. Can be:
                 - A dictionary of agent statistics (str keys, float values)
-                - A custom database (int keys, dict values)
                 - A CrowdMeasures instance
-                - None (default), which creates a default CrowdMeasures object
+                - None (default) when agents are provided instead
         agents : list[Agent] | None
-            List of Agent instances. If None, an empty list is used.
+            List of Agent instances. If None, measures must be provided or default will be used.
+            When agents are provided, crowd statistics will be calculated from them.
         boundaries : Polygon | None
             A shapely Polygon instance defining the boundaries.
             If None, a default large square boundary is created.
+
+        Raises
+        ------
+        ValueError
+            If both measures and agents are provided,
+            or if the provided arguments are of incorrect types.
         """
-        if isinstance(measures, dict) and isinstance(list(measures.keys())[0], int):
-            measures = CrowdMeasures(custom_database=measures)
-        if isinstance(measures, dict) and isinstance(list(measures.keys())[0], str):
-            measures = CrowdMeasures(agent_statistics=measures)
-        elif measures is None:
-            measures = CrowdMeasures()  # Create a default CrowdMeasures object
-        elif not isinstance(measures, CrowdMeasures):
-            raise ValueError("`measures` should be an instance of Measures or a dictionary.")
+        # Only allow one of: (measures is not None and agents is None), (measures is None and agents is not None),
+        # or (measures is None and agents is None)
+        if measures is not None and agents is not None:
+            raise ValueError("You must provide only one of 'measures' or 'agents', or neither (not both).")
 
-        if agents is None:
-            agents = []
-
-        if not isinstance(agents, list) or not all(isinstance(agent, Agent) for agent in agents):
-            raise ValueError("'agents' should be a list of Agent instances")
-
+        # Boundaries validation
         if boundaries is None:
             boundaries = Polygon()
-        if not isinstance(boundaries, Polygon):
-            raise ValueError("'boundaries' should be a shapely Polygon instance")
+        elif not isinstance(boundaries, Polygon):
+            raise ValueError("'boundaries' should be a shapely Polygon instance even if empty")
 
-        self._measures: CrowdMeasures = measures
-        self._agents: list[Agent] = agents
-        self._boundaries: Polygon = boundaries
+        # If agents are provided (measures must be None)
+        if agents is not None:
+            if not isinstance(agents, list):
+                raise ValueError("'agents' should be a list of Agent instances")
+            if agents and not all(isinstance(agent, Agent) for agent in agents):
+                raise ValueError("All elements in 'agents' must be Agent instances")
+            self._agents = agents
+            # Calculate measures from agents
+            self._measures = CrowdMeasures(agent_statistics=self.get_crowd_statistics())
+        # If measures are provided (agents must be None)
+        elif measures is not None:
+            if isinstance(measures, CrowdMeasures):
+                self._measures = measures
+            elif isinstance(measures, dict):
+                if not measures:
+                    self._measures = CrowdMeasures()
+                elif all(isinstance(k, str) and isinstance(v, (int, float)) for k, v in measures.items()):
+                    self._measures = CrowdMeasures(agent_statistics=measures)
+                else:
+                    raise ValueError("If 'measures' is a dictionary, it must have string keys and numeric values")
+            else:
+                raise ValueError("'measures' should be None, a dict[str, float] or a CrowdMeasures instance")
+            self._agents = []
+        # If both are None, use defaults
+        else:
+            self._measures = CrowdMeasures()
+            self._agents = []
+
+        self._boundaries = boundaries
 
     @property
     def agents(self) -> list[Agent]:
@@ -113,6 +130,7 @@ class Crowd:
         if not isinstance(value, list) or not all(isinstance(agent, Agent) for agent in value):
             raise ValueError("'agents' should be a list of Agent instances")
         self._agents = value
+        self._measures.agent_statistics = self.get_crowd_statistics()
 
     @property
     def measures(self) -> CrowdMeasures:
@@ -125,41 +143,6 @@ class Crowd:
             A CrowdMeasures object containing the measures of the crowd.
         """
         return self._measures
-
-    @measures.setter
-    def measures(self, value: dict[str, float] | dict[int, dict[str, float]] | CrowdMeasures) -> None:
-        """
-        Set the measures of the crowd.
-
-        Parameters
-        ----------
-        value : dict[str, float] | dict[int, dict[str, float]] | CrowdMeasures | None
-            The measures to set for the crowd. Can be:
-                - A dictionary with string keys and float values (agent statistics)
-                - A dictionary with integer keys and dictionary values (custom database)
-                - An instance of CrowdMeasures
-                - None (creates a new default CrowdMeasures instance)
-
-        Raises
-        ------
-        ValueError
-            If `value` is a dictionary with keys that are neither all integers nor all strings.
-            If `value` is neither a dictionary, an instance of CrowdMeasures, nor None.
-        """
-        if value is None:
-            value = CrowdMeasures()
-        elif isinstance(value, dict):
-            first_key = next(iter(value))
-            if isinstance(first_key, int):
-                value = CrowdMeasures(custom_database=value)
-            elif isinstance(first_key, str):
-                value = CrowdMeasures(agent_statistics=value)
-            else:
-                raise ValueError("Dictionary keys must be either all integers or all strings.")
-        elif not isinstance(value, CrowdMeasures):
-            raise ValueError("`measures` should be an instance of CrowdMeasures or a dictionary or None.")
-
-        self._measures = value
 
     @property
     def boundaries(self) -> Polygon:
@@ -213,37 +196,20 @@ class Crowd:
         3. Falls back to default ANSURII database if no other data exists
         """
         # Case 1: Use agent statistics if available and custom database is empty
-        if self.measures.agent_statistics and not self.measures.custom_database:
+        if self.measures.agent_statistics:
             drawn_agent_type = draw_agent_type(self.measures)
             drawn_agent_measures = draw_agent_measures(drawn_agent_type, self.measures)
             self.agents.append(Agent(agent_type=drawn_agent_type, measures=drawn_agent_measures))
 
-        # Case 2: Use the custom database if available
-        elif self.measures.custom_database:
-            drawn_agent = np.random.choice(np.array(self.measures.custom_database.values(), dtype="object"))
-
-            if drawn_agent["agent_type"] == cst.AgentTypes.pedestrian.name:
-                agent_measures = create_pedestrian_measures(drawn_agent)
-                self.agents.append(Agent(agent_type=drawn_agent["agent_type"], measures=agent_measures))
-
-            elif drawn_agent["agent_type"] == cst.AgentTypes.bike.name:
-                agent_measures = create_bike_measures(drawn_agent)
-                self.agents.append(Agent(agent_type=drawn_agent["agent_type"], measures=agent_measures))
-
         # Case 3: Use the default ANSURII database if no other data is available
-        elif not self.measures.agent_statistics and not self.measures.custom_database:
+        elif not self.measures.agent_statistics:
             drawn_agent = np.random.choice(np.array(list(self.measures.default_database.values()), dtype="object"))
             agent_measures = create_pedestrian_measures(drawn_agent)
             self.agents.append(Agent(agent_type=cst.AgentTypes.pedestrian, measures=agent_measures))
 
-    def remove_one_agent(self) -> None:
-        """Remove the most recently added agent from the crowd."""
-        if self.agents:
-            self.agents.pop()
-
     def create_agents(self, number_agents: int = cst.DEFAULT_AGENT_NUMBER) -> None:
         """
-        Create multiple agents in the crowd through repeated additions.
+        Create multiple agents in the crowd from the given CrowdMeasures (ANSURII database by default).
 
         Parameters
         ----------
@@ -252,110 +218,6 @@ class Crowd:
         """
         for _ in range(number_agents):
             self.add_one_agent()
-
-    def create_agents_from_dynamic_static_geometry_parameters(
-        self, static_dict: StaticCrowdDataType, dynamic_dict: DynamicCrowdDataType, geometry_dict: GeometryDataType
-    ) -> None:
-        """
-        Create agents from dynamic and static geometry parameters.
-
-        Parameters
-        ----------
-        static_dict : StaticCrowdDataType
-            Dictionary containing static crowd data.
-        dynamic_dict : DynamicCrowdDataType
-            Dictionary containing dynamic crowd data.
-        geometry_dict : GeometryDataType
-            Dictionary containing geometry data.
-        """
-        # --- Extract wall polygons and set boundaries ---
-        wall_polygons = [
-            Polygon(
-                [
-                    [corner["Coordinates"][0] * cst.M_TO_CM, corner["Coordinates"][1] * cst.M_TO_CM]
-                    for corner in wall_data["Corners"].values()
-                ]
-            )
-            for wall_data in geometry_dict.get("Geometry", {}).get("Wall", {}).values()
-        ]
-        if not wall_polygons:
-            raise ValueError("No wall polygons found in geometry_dict.")
-        self.boundaries = max(wall_polygons, key=lambda polygon: polygon.area)  # Set the largest polygon as boundaries
-
-        # --- Extract agent positions and orientations ---
-        agent_positions = {agent["Id"]: agent["Kinematics"]["Position"] for agent in dynamic_dict.get("Agents", {}).values()}
-        agent_orientations = {agent["Id"]: agent["Kinematics"]["theta"] for agent in dynamic_dict.get("Agents", {}).values()}
-
-        # --- Create agents ---
-        for agent_data in static_dict.get("Agents", {}).values():
-            if agent_data.get("Type") != cst.AgentTypes.pedestrian.name.lower():  # Skip non-pedestrian agents
-                continue
-
-            agent_id: int = agent_data["Id"]
-            center_of_mass: tuple[float, float] = agent_positions.get(agent_id, (0.0, 0.0))  # m
-            orientation: float = agent_orientations.get(agent_id, 0.0)  # radian
-
-            agent_shape2D = Shapes2D(agent_type=cst.AgentTypes.pedestrian)
-
-            for shape_name, shape_data in agent_data.get("Shapes", {}).items():
-                # Calculate global position of the shape
-                rel_x, rel_y = shape_data["Position"]  # m
-                x_shape = (center_of_mass[0] + rel_x) * cst.M_TO_CM
-                y_shape = (center_of_mass[1] + rel_y) * cst.M_TO_CM
-                agent_shape2D.add_shape(
-                    name=shape_name,
-                    shape_type=cst.ShapeTypes.disk.name,
-                    material=cst.MaterialNames.human.name,
-                    radius=shape_data["Radius"] * cst.M_TO_CM,
-                    x=x_shape,
-                    y=y_shape,
-                )
-
-            agent_measures = {
-                "sex": "male",
-                "bideltoid_breadth": agent_shape2D.get_bideltoid_breadth(),
-                "chest_depth": agent_shape2D.get_chest_depth(),
-                "height": cst.DEFAULT_PEDESTRIAN_HEIGHT,
-                "weight": cst.DEFAULT_PEDESTRIAN_WEIGHT,
-            }
-            new_agent = Agent(agent_type=cst.AgentTypes.pedestrian, measures=agent_measures, shapes2D=agent_shape2D)
-            new_agent.rotate(np.degrees(orientation))
-            self.agents.append(new_agent)
-
-    def get_crowd_measures(self) -> dict[str, float]:
-        """
-        Compute comprehensive statistics for the current crowd composition.
-
-        Returns
-        -------
-        dict[str, float]
-            Dictionary containing aggregated crowd statistics with keys formatted as:
-                - "num_{agent_type}": Count of agents per type (e.g., "num_pedestrian")
-                - "{part}_mean": Mean value for each body/bike part measurement
-                - "{part}_std_dev": Sample standard deviation for each part
-                - "{part}_min": Minimum observed value for each part
-                - "{part}_max": Maximum observed value for each part
-        """
-        crowd_measures = {}
-
-        # Loop over the enumeration of AgentTypes to get the number of pedestrians and bikes
-        for agent_type in cst.AgentTypes:
-            count = sum(1 for agent in self.agents if agent.agent_type == agent_type)
-            crowd_measures[f"num_{agent_type.name}"] = float(count)
-
-        # Loop over PedestrianParts and BikeParts to get statistics for each measure
-        for parts_enum in [cst.PedestrianParts, cst.BikeParts]:
-            for part in parts_enum:
-                measures = [agent.measures.__dict__[part.name] for agent in self.agents if hasattr(agent.measures, part.name)]
-                if measures:
-                    crowd_measures[f"{part.name}_mean"] = float(sum(measures) / len(measures))
-                    crowd_measures[f"{part.name}_std_dev"] = float(
-                        (sum((x - crowd_measures[f"{part.name}_mean"]) ** 2 for x in measures) / (len(measures) - 1)) ** 0.5
-                    )
-                    crowd_measures[f"{part.name}_min"] = float(min(measures))
-                    crowd_measures[f"{part.name}_max"] = float(max(measures))
-
-        return crowd_measures
 
     def calculate_interpenetration(self) -> tuple[float, float]:
         """
@@ -664,7 +526,7 @@ class Crowd:
             return float(np.max(data)) if data else None
         raise ValueError(f"Unknown stats key: {stats_key}")
 
-    def measure_crowd_statistics(self) -> dict[str, float | int | None]:
+    def get_crowd_statistics(self) -> dict[str, float | int | None]:
         """
         Measure the statistics of the crowd.
 
@@ -749,3 +611,83 @@ class Crowd:
                 measures[part_key + stats_key] = Crowd.compute_stats(stats_lists[part_key], stats_key)
 
         return measures
+
+
+def create_agents_from_dynamic_static_geometry_parameters(
+    static_dict: StaticCrowdDataType, dynamic_dict: DynamicCrowdDataType, geometry_dict: GeometryDataType
+) -> Crowd:
+    """
+    Create agents from dynamic and static geometry parameters.
+
+    Parameters
+    ----------
+    static_dict : StaticCrowdDataType
+        Dictionary containing static crowd data.
+    dynamic_dict : DynamicCrowdDataType
+        Dictionary containing dynamic crowd data.
+    geometry_dict : GeometryDataType
+        Dictionary containing geometry data.
+
+    Returns
+    -------
+    Crowd
+        A Crowd object containing the created agents and the scene boundaries.
+    """
+    # --- Extract wall polygons and set boundaries ---
+    wall_polygons = [
+        Polygon(
+            [
+                [corner["Coordinates"][0] * cst.M_TO_CM, corner["Coordinates"][1] * cst.M_TO_CM]
+                for corner in wall_data["Corners"].values()
+            ]
+        )
+        for wall_data in geometry_dict.get("Geometry", {}).get("Wall", {}).values()
+    ]
+    if not wall_polygons:
+        raise ValueError("No wall polygons found in geometry_dict.")
+    boundaries: Polygon = max(wall_polygons, key=lambda polygon: polygon.area)  # Set the largest polygon as boundaries
+
+    # --- Extract agent positions and orientations ---
+    agent_positions = {agent["Id"]: agent["Kinematics"]["Position"] for agent in dynamic_dict.get("Agents", {}).values()}
+    agent_orientations = {agent["Id"]: agent["Kinematics"]["theta"] for agent in dynamic_dict.get("Agents", {}).values()}
+
+    # --- Create agents ---
+    all_agents = []
+    for agent_data in static_dict.get("Agents", {}).values():
+        if agent_data.get("Type") != cst.AgentTypes.pedestrian.name.lower():  # Skip non-pedestrian agents
+            continue
+
+        agent_id: int = agent_data["Id"]
+        wanted_center_of_mass: tuple[float, float] = agent_positions.get(agent_id, (0.0, 0.0))  # m
+        wanted_center_of_mass = np.array(wanted_center_of_mass) * cst.M_TO_CM  # cm
+        wanted_orientation: float = np.degrees(agent_orientations.get(agent_id, 0.0))  # radian
+
+        agent_shape2D = Shapes2D(agent_type=cst.AgentTypes.pedestrian)
+
+        for shape_name, shape_data in agent_data.get("Shapes", {}).items():
+            # Calculate global position of the shape
+            rel_x, rel_y = shape_data["Position"]  # m
+            agent_shape2D.add_shape(
+                name=shape_name,
+                shape_type=cst.ShapeTypes.disk.name,
+                material=cst.MaterialNames.human.name,
+                radius=shape_data["Radius"] * cst.M_TO_CM,
+                x=rel_x * cst.M_TO_CM,
+                y=rel_y * cst.M_TO_CM,
+            )
+
+        agent_measures = {
+            "sex": "male",
+            "bideltoid_breadth": agent_shape2D.get_bideltoid_breadth(),
+            "chest_depth": agent_shape2D.get_chest_depth(),
+            "height": cst.DEFAULT_PEDESTRIAN_HEIGHT,
+            "weight": cst.DEFAULT_PEDESTRIAN_WEIGHT,
+        }
+        new_agent = Agent(agent_type=cst.AgentTypes.pedestrian, measures=agent_measures)
+        actual_position = new_agent.get_position()
+        actual_orientation = new_agent.get_agent_orientation()
+        new_agent.translate(wanted_center_of_mass[0] - actual_position.x, wanted_center_of_mass[1] - actual_position.y)
+        new_agent.rotate(wanted_orientation - actual_orientation)
+        all_agents.append(new_agent)
+
+    return Crowd(agents=all_agents, boundaries=boundaries)

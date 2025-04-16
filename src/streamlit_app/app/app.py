@@ -39,7 +39,6 @@ from streamlit_app.app import documentation, ui
 from streamlit_app.tabs.agent2D_tab import run_tab_agent2D
 from streamlit_app.tabs.anthropometry_tab import run_tab_anthropometry
 from streamlit_app.tabs.auto_crowd_creation_tab import run_tab_crowd
-from streamlit_app.tabs.manual_crowd_creation_tab import run_tab_custom_crowd
 from streamlit_app.tabs.pedestrian3D_tab import run_tab_pedestrian3D
 from streamlit_app.utils.logging import setup_logging
 
@@ -63,6 +62,3 @@ if __name__ == "__main__":
 
     if selected_tab == cst_app.FIFTH_TAB_NAME:
         run_tab_crowd()
-
-    if selected_tab == cst_app.SIXTH_TAB_NAME:
-        run_tab_custom_crowd()

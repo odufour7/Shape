@@ -8,7 +8,6 @@ SECOND_TAB_NAME: str = "2D agent"
 THIRD_TAB_NAME: str = "3D pedestrian"
 FOURTH_TAB_NAME: str = "Anthropometry"
 FIFTH_TAB_NAME: str = "Crowd"
-SIXTH_TAB_NAME: str = "Custom crowd"
 
 # 2D / 3D shapes tab
 DEFAULT_PEDESTRIAN_HEIGHT: float = 170.0  # cm

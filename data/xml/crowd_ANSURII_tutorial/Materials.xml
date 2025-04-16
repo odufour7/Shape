@@ -8,15 +8,20 @@
         <Material Id="4" Name="human" YoungModulus="1000000.0" ShearModulus="1000000.0"/>
     </Intrinsic>
     <Binary>
+        <Contact Id1="0" Id2="0" GammaNormal="1.300e+04" GammaTangential="1.300e+04" KineticFriction="0.50000"/>
         <Contact Id1="0" Id2="1" GammaNormal="1.300e+04" GammaTangential="1.300e+04" KineticFriction="0.50000"/>
         <Contact Id1="0" Id2="2" GammaNormal="1.300e+04" GammaTangential="1.300e+04" KineticFriction="0.50000"/>
         <Contact Id1="0" Id2="3" GammaNormal="1.300e+04" GammaTangential="1.300e+04" KineticFriction="0.50000"/>
         <Contact Id1="0" Id2="4" GammaNormal="1.300e+04" GammaTangential="1.300e+04" KineticFriction="0.50000"/>
+        <Contact Id1="1" Id2="1" GammaNormal="1.300e+04" GammaTangential="1.300e+04" KineticFriction="0.50000"/>
         <Contact Id1="1" Id2="2" GammaNormal="1.300e+04" GammaTangential="1.300e+04" KineticFriction="0.50000"/>
         <Contact Id1="1" Id2="3" GammaNormal="1.300e+04" GammaTangential="1.300e+04" KineticFriction="0.50000"/>
         <Contact Id1="1" Id2="4" GammaNormal="1.300e+04" GammaTangential="1.300e+04" KineticFriction="0.50000"/>
+        <Contact Id1="2" Id2="2" GammaNormal="1.300e+04" GammaTangential="1.300e+04" KineticFriction="0.50000"/>
         <Contact Id1="2" Id2="3" GammaNormal="1.300e+04" GammaTangential="1.300e+04" KineticFriction="0.50000"/>
         <Contact Id1="2" Id2="4" GammaNormal="1.300e+04" GammaTangential="1.300e+04" KineticFriction="0.50000"/>
+        <Contact Id1="3" Id2="3" GammaNormal="1.300e+04" GammaTangential="1.300e+04" KineticFriction="0.50000"/>
         <Contact Id1="3" Id2="4" GammaNormal="1.300e+04" GammaTangential="1.300e+04" KineticFriction="0.50000"/>
+        <Contact Id1="4" Id2="4" GammaNormal="1.300e+04" GammaTangential="1.300e+04" KineticFriction="0.50000"/>
     </Binary>
 </Materials>

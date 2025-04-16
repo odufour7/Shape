@@ -26,14 +26,6 @@ auto\_crowd\_creation\_tab
    :show-inheritance:
    :undoc-members:
 
-manual\_crowd\_creation\_tab
-----------------------------
-
-.. automodule:: streamlit_app.tabs.manual_crowd_creation_tab
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
 pedestrian3D\_tab
 -----------------
 

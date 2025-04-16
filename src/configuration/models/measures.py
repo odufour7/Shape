@@ -13,7 +13,7 @@ from configuration.utils.typing_custom import Sex
 
 @dataclass
 class AgentMeasures:
-    """Class to store body measures dynamically based on agent type."""
+    """Class to store body charasteristics dynamically based on agent type, used to create a specific agent."""
 
     agent_type: cst.AgentTypes
     measures: dict[str, float | Sex] = field(default_factory=dict)
@@ -87,11 +87,10 @@ class AgentMeasures:
 
 @dataclass
 class CrowdMeasures:
-    """Class to store crowd measures based on agent type."""
+    """Collection of dictionaries (databases and statistics) representing the characteristics of the crowd, used to create agents."""
 
     # ANSURII dataset by default (for men and women)
     default_database: dict[int, dict[str, float]] = field(default_factory=dict)
-    custom_database: dict[int, dict[str, float]] = field(default_factory=dict)
     agent_statistics: dict[str, float] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
@@ -99,7 +98,7 @@ class CrowdMeasures:
         Validate the crowd measures after the dataclass initialization.
 
         This method performs the following validations and operations:
-        1. Ensures that `default_database`, `custom_database`, and `agent_statistics` are dictionaries.
+        1. Ensures that `default_database`, and `agent_statistics` are dictionaries.
         2. Loads the ANSURII dataset into the `default_database` from a pickle file located in the data directory.
         3. Checks if the `agent_statistics` dictionary contains statistics for all required parts of the crowd.
            Raises a ValueError if any required statistics are missing.
@@ -107,15 +106,13 @@ class CrowdMeasures:
         Raises
         ------
         ValueError
-            If `default_database`, `custom_database`, or `agent_statistics` are not dictionaries.
+            If `default_database`, or `agent_statistics` are not dictionaries.
         ValueError
             If any required statistics are missing in `agent_statistics`.
         """
         # Check if the provided databases are dictionaries
         if not isinstance(self.default_database, dict):
             raise ValueError("default_database should be a dictionary.")
-        if not isinstance(self.custom_database, dict):
-            raise ValueError("custom_database should be a dictionary.")
         if not isinstance(self.agent_statistics, dict):
             raise ValueError("agent_statistics should be a dictionary.")
 

@@ -24,20 +24,12 @@ class Agent:
     measures : dict[str, float | Sex] | AgentMeasures
         The measures associated with the agent. Can be a dictionary with measure
         names as keys and float values or Sex (Literal["male","female"]), or an AgentMeasures object.
-    shapes2D : Shapes2D | ShapeDataType
-        The 2D shapes associated with the agent. Can be a Shapes2D object or a
-        dictionary of shape data. Default is None.
-    shapes3D : Shapes3D | dict[float, ShapeType | MultiPolygon]
-        The 3D shapes associated with the agent. Can be a Shapes3D object or a
-        dictionary with float keys and ShapeType or MultiPolygon values. Default is None.
     """
 
     def __init__(
         self,
         agent_type: cst.AgentTypes,
         measures: dict[str, float | Sex] | AgentMeasures,
-        shapes2D: Shapes2D | ShapeDataType | None = None,
-        shapes3D: Shapes3D | dict[float, ShapeType | MultiPolygon] | None = None,
     ) -> None:
         """
         Initialize an Agent instance.
@@ -48,10 +40,6 @@ class Agent:
             The type of the agent.
         measures : dict[str, float | Sex] | AgentMeasures
             The measures associated with the agent.
-        shapes2D : Shapes2D | ShapeDataType
-            The 2D shapes associated with the agent. Default is None.
-        shapes3D : Shapes3D | dict[float, ShapeType | MultiPolygon]
-            The 3D shapes associated with the agent. Default is None.
 
         Raises
         ------
@@ -60,8 +48,8 @@ class Agent:
         """
         self._agent_type = self._validate_agent_type(agent_type)
         self._measures = self._initialize_measures(agent_type, measures)
-        self._shapes2D = self._initialize_shapes2D(agent_type, shapes2D)
-        self._shapes3D = self._initialize_shapes3D(agent_type, shapes3D)
+        self._shapes2D = self._initialize_shapes2D(agent_type)
+        self._shapes3D = self._initialize_shapes3D(agent_type)
 
         if self._shapes2D.shapes:
             # Compute the moment of inertia of the agent being created
@@ -123,59 +111,28 @@ class Agent:
             return measures
         raise ValueError("`measures` should be an instance of AgentMeasures or a dictionary.")
 
-    def _initialize_shapes2D(self, agent_type: cst.AgentTypes, shapes2D: Shapes2D | ShapeDataType | None) -> Shapes2D:
+    def _initialize_shapes2D(self, agent_type: cst.AgentTypes) -> Shapes2D:
         """
-        Initialize 2D shapes for an agent.
+        Initialize 2D shapes for an agent depending on its type.
 
         Parameters
         ----------
         agent_type : AgentTypes
-            The type of the agent for which the 2D shapes are being initialized.
-        shapes2D : Shapes2D | ShapeDataType
-            The input shapes. This can be:
-                - None (default): Creates an empty `Shapes2D` instance for the agent.
-                - A dictionary (ShapeDataType) where keys are shape names (str) and
-                    values are their corresponding shape types (ShapeType).
-                - An instance of `Shapes2D`.
+            The type of the agent (e.g., pedestrian, bike).
 
         Returns
         -------
         Shapes2D
             A `Shapes2D` object initialized with the provided input or default shapes.
-
-        Raises
-        ------
-        ValueError
-            If `shapes2D` is neither None, a dictionary, nor an instance of `Shapes2D`.
-
-        Notes
-        -----
-        - If `shapes2D` is None, an empty `Shapes2D` instance is created.
-        - If `shapes2D` is a dictionary, it's used to create a new `Shapes2D` instance.
-        - If `shapes2D` is already a `Shapes2D` instance, it's used as-is.
-        - If no shapes are provided (empty `Shapes2D`), default shapes are created
-          based on the agent type:
-            - For pedestrians: `create_pedestrian_shapes` is called.
-            - For bikes: `create_bike_shapes` is called.
         """
-        if shapes2D is None:
-            shapes2D = Shapes2D(agent_type=agent_type)
-        elif isinstance(shapes2D, dict):
-            shapes2D = Shapes2D(agent_type=agent_type, shapes=shapes2D)
-        elif not isinstance(shapes2D, Shapes2D):
-            raise ValueError("`shapes2D` should be an instance of Shapes2D or a dictionary or None.")
-        if not shapes2D.shapes:
-            if agent_type == cst.AgentTypes.pedestrian:
-                shapes2D.create_pedestrian_shapes(self._measures)
-            elif agent_type == cst.AgentTypes.bike:
-                shapes2D.create_bike_shapes(self._measures)
+        shapes2D = Shapes2D(agent_type=agent_type)
+        if agent_type == cst.AgentTypes.pedestrian:
+            shapes2D.create_pedestrian_shapes(self._measures)
+        elif agent_type == cst.AgentTypes.bike:
+            shapes2D.create_bike_shapes(self._measures)
         return shapes2D
 
-    def _initialize_shapes3D(
-        self,
-        agent_type: cst.AgentTypes,
-        shapes3D: Shapes3D | dict[float, ShapeType | MultiPolygon],
-    ) -> Shapes3D:
+    def _initialize_shapes3D(self, agent_type: cst.AgentTypes) -> Shapes3D:
         """
         Initialize the 3D shapes for the agent.
 
@@ -183,35 +140,15 @@ class Agent:
         ----------
         agent_type : AgentTypes
             The type of the agent (e.g., pedestrian, bike).
-        shapes3D : Shapes3D | dict[float, ShapeType | MultiPolygon]
-            The 3D shapes input. Can be:
-                - None: Creates an empty `Shapes3D` instance
-                - Dictionary: Keys are height (float), values are `ShapeType` or `MultiPolygon`
-                - `Shapes3D` instance
-            Default is None.
 
         Returns
         -------
         Shapes3D
-            Initialized 3D shapes for the agent. Returns:
-                - Empty `Shapes3D` if input is None
-                - New `Shapes3D` from dict if input is dictionary
-                - Original `Shapes3D` if input is already instance
-
-        Raises
-        ------
-        ValueError
-            If `shapes3D` is not None, dict, or Shapes3D instance.
+            Initialized 3D shapes for the agent.
         """
-        if shapes3D is None:
-            shapes3D = Shapes3D(agent_type=agent_type)
-        elif isinstance(shapes3D, dict):
-            shapes3D = Shapes3D(agent_type=agent_type, shapes=shapes3D)
-        elif not isinstance(shapes3D, Shapes3D):
-            raise ValueError("`shapes3D` should be an instance of Shapes3D or a dictionary or None.")
-        if isinstance(shapes3D, Shapes3D) and not shapes3D.shapes:
-            if agent_type == cst.AgentTypes.pedestrian:
-                shapes3D.create_pedestrian3D(self._measures)
+        shapes3D = Shapes3D(agent_type=agent_type)
+        if agent_type == cst.AgentTypes.pedestrian:
+            shapes3D.create_pedestrian3D(self._measures)
         return shapes3D
 
     @property
@@ -225,25 +162,6 @@ class Agent:
             The current agent type from the enumeration of valid types.
         """
         return self._agent_type
-
-    @agent_type.setter
-    def agent_type(self, value: cst.AgentTypes) -> None:
-        """
-        Set a new agent type with validation.
-
-        Parameters
-        ----------
-        value : AgentTypes
-            New agent type to assign. Must be a valid member of the AgentTypes enumeration.
-
-        Raises
-        ------
-        ValueError
-            If input is not a valid member of AgentTypes.
-        """
-        if not isinstance(value, cst.AgentTypes):
-            raise ValueError(f"Agent type should be one of: {[member.name for member in cst.AgentTypes]}.")
-        self._agent_type = value
 
     @property
     def measures(self) -> AgentMeasures:
@@ -315,32 +233,6 @@ class Agent:
             spatial boundaries.
         """
         return self._shapes2D
-
-    @shapes2D.setter
-    def shapes2D(self, value: Shapes2D | ShapeDataType) -> None:
-        """
-        Update the agent's 2D geometric configuration.
-
-        Parameters
-        ----------
-        value : Shapes2D | ShapeDataType
-            New 2D shape configuration. Can be:
-                - Shapes2D instance
-                - Dictionary: Shape definitions (str keys with ShapeType/Polygon/float values)
-
-        Raises
-        ------
-        TypeError
-            If input cannot initialize a valid Shapes2D object
-        """
-        if isinstance(value, dict):
-            value = Shapes2D(agent_type=self.agent_type, shapes=value)
-        self._shapes2D = value
-
-        self._measures.measures[cst.CommonMeasures.moment_of_inertia.name] = fun.compute_moment_of_inertia(
-            self._shapes2D.get_geometric_shape(),
-            self._measures.measures[cst.CommonMeasures.weight.name],
-        )
 
     @property
     def shapes3D(self) -> Shapes3D | None:

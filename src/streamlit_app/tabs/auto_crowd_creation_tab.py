@@ -496,10 +496,6 @@ def run_tab_crowd() -> None:
             current_crowd.create_agents(st.session_state.num_agents)
             st.session_state.current_crowd = current_crowd
 
-    # elif database_option == "Custom database":
-    #     st.sidebar.header(f"{database_option} settings")
-    #     custom_database_state(new_boundaries, st.session_state.num_agents)
-
     else:  # Custom Statistics
         st.sidebar.header(f"{database_option} settings")
         agent_statistics_state(new_boundaries, st.session_state.num_agents)
@@ -519,51 +515,3 @@ def run_tab_crowd() -> None:
         display_interpenetration_warning()
 
     plot_and_download(st.session_state.current_crowd)
-
-
-# def custom_database_state(new_boundaries: Polygon, num_agents: int) -> None:
-#     """
-#     Create custom database and update the session state.
-
-#     Parameters
-#     ----------
-#     new_boundaries : Polygon
-#         The new boundaries for the simulation area.
-#     num_agents : int
-#         The number of agents in the simulation.
-#     """
-#     # Ask to upload a file with the desired dataset
-#     uploaded_file = st.sidebar.file_uploader("Upload custom dataset", type=["xml"])
-
-#     # Provide an example dataset for download
-#     data_path = Path(__file__).parent.parent.parent.parent / "data"
-#     xml_path = data_path / "xml" / "custom_crowd_example.xml"
-#     with open(xml_path, "r", encoding="utf8") as f:
-#         xml_content = f.read()
-#     # Sidebar download buttons
-#     st.sidebar.download_button(
-#         label="Download XML example dataset", data=xml_content, file_name="custom_crowd_example.xml", mime="application/xml"
-#     )
-
-#     if uploaded_file is not None:
-#         st.sidebar.success("File successfully uploaded!")
-
-#         # Convert uploaded file to dictionary
-#         uploaded_dict = None
-#         if uploaded_file.type == "application/json":
-#             uploaded_dict = json.load(uploaded_file)
-#             parameter_changed()
-#         elif uploaded_file.type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
-#             df = pd.read_excel(uploaded_file)
-#             uploaded_dict = df.to_dict(orient="records")
-#             parameter_changed()
-#         st.sidebar.write("Uploaded file converted to dictionary successfully!")
-
-#         # Create the Crowd from the dictionary
-#         if uploaded_dict is not None:
-#             # uploaded_file should be a dictionary
-#             if st.session_state.simulation_run:
-#                 crowd_measures = CrowdMeasures(custom_database=uploaded_dict)
-#                 current_crowd = Crowd(boundaries=new_boundaries, measures=crowd_measures)
-#                 current_crowd.create_agents(num_agents)
-#                 st.session_state.current_crowd = current_crowd
