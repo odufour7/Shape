@@ -32,7 +32,7 @@ def agent() -> Agent:
 
 def test_translate_position(agent: Agent) -> None:
     """
-    Test that the agent's position is correctly updated after translation.
+    Test that the agent's position is correctly updated after translation of the 2D shapes.
 
     Parameters
     ----------

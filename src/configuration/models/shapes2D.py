@@ -321,7 +321,7 @@ class Shapes2D:
         optimized_scaling = dual_annealing(
             objectif_fun,
             bounds=bounds,
-            maxiter=100,
+            maxfun=100,
             x0=guess_parameters,
         )
         optimized_scale_factor_x, optimized_scale_factor_y = optimized_scaling.x
@@ -441,7 +441,7 @@ class Shapes2D:
         optimised_scaling = dual_annealing(
             objective_fun,
             bounds=bounds,
-            maxiter=100,
+            maxfun=100,
             x0=guess_parameters,
         )
         opt_bike_sfx, opt_bike_sfy, opt_rider_sfx, opt_rider_sfy = optimised_scaling.x  # optimised scaling factors

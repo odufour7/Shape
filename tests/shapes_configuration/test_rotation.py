@@ -87,6 +87,14 @@ def test_center_of_mass_invariance_on_rotation(agent: Agent) -> None:
     final_position = agent.get_position()
     assert np.isclose(initial_position.x, final_position.x, atol=0.05), "The center of mass x should not change after rotation."
     assert np.isclose(initial_position.y, final_position.y, atol=0.05), "The center of mass y should not change after rotation."
+    agent.rotate(380)
+    final_position = agent.get_position()
+    assert np.isclose(initial_position.x, final_position.x, atol=0.05), "The center of mass x should not change after rotation."
+    assert np.isclose(initial_position.y, final_position.y, atol=0.05), "The center of mass y should not change after rotation."
+    agent.rotate(-400)
+    final_position = agent.get_position()
+    assert np.isclose(initial_position.x, final_position.x, atol=0.05), "The center of mass x should not change after rotation."
+    assert np.isclose(initial_position.y, final_position.y, atol=0.05), "The center of mass y should not change after rotation."
 
 
 def test_centroid_body3d_invariance_on_rotation(agent: Agent) -> None:
@@ -100,6 +108,10 @@ def test_centroid_body3d_invariance_on_rotation(agent: Agent) -> None:
     """
     initial_centroid = agent.get_centroid_body3D()
     agent.rotate_body3D(-90)
+    final_centroid = agent.get_centroid_body3D()
+    assert np.isclose(initial_centroid.x, final_centroid.x, atol=0.05), "The centroid body x should not change after rotation."
+    assert np.isclose(initial_centroid.y, final_centroid.y, atol=0.05), "The centroid body y should not change after rotation."
+    agent.rotate_body3D(380)
     final_centroid = agent.get_centroid_body3D()
     assert np.isclose(initial_centroid.x, final_centroid.x, atol=0.05), "The centroid body x should not change after rotation."
     assert np.isclose(initial_centroid.y, final_centroid.y, atol=0.05), "The centroid body y should not change after rotation."

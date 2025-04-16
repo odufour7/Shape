@@ -9,16 +9,17 @@ To set up, follow these steps after downloading the repository:
 
 Create and activate a virtual environment to manage dependencies efficiently:
 
-```bash
-pip install uv
-uv sync
-```
+.. code-block:: bash
+
+   pip install uv
+   uv sync
+
 
 **2. Launch the App**
 
 Start the app with the following command:
 
-```bash
-uv run streamlit run src/configuration/streamlit_app/app/app.py
-```
+.. code-block:: bash
+
+   uv run streamlit run src/streamlit_app/app/app.py
 
