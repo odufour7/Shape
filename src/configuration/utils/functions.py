@@ -1,6 +1,7 @@
 """Contains utility functions for data processing and manipulation."""
 
 import pickle
+from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
@@ -14,7 +15,8 @@ import configuration.utils.constants as cst
 from configuration.utils.typing_custom import Sex
 
 
-def load_pickle(file_path: Path) -> Any:
+@lru_cache(maxsize=4)
+def load_pickle(file_path: str) -> Any:
     """
     Load data from a pickle file.
 
@@ -23,8 +25,8 @@ def load_pickle(file_path: Path) -> Any:
 
     Parameters
     ----------
-    file_path : Path
-        A `Path` object representing the path to the pickle file to be loaded.
+    file_path : str
+        A string object representing the path to the pickle file to be loaded.
 
     Returns
     -------
@@ -39,9 +41,9 @@ def load_pickle(file_path: Path) -> Any:
     FileNotFoundError
         If the specified file does not exist.
     """
-    if not isinstance(file_path, Path):
-        raise TypeError("file_path must be a Path object.")
-    if not file_path.exists():
+    if not isinstance(file_path, str):
+        raise TypeError("file_path must be a string.")
+    if not Path(file_path).exists():
         raise FileNotFoundError(f"The file {file_path} does not exist.")
     with open(file_path, "rb") as f:
         data = pickle.load(f)
@@ -347,7 +349,7 @@ def get_bideltoid_breadth_from_multipolygon(multi_polygon: MultiPolygon) -> floa
     # Combine boundary coordinates from all polygons, subtracting centroid
     all_coords = np.array(
         [(coord[0] - center_of_mass.x, coord[1] - center_of_mass.y) for poly in multi_polygon.geoms for coord in poly.boundary.coords]
-    )[::5]
+    )[::7]
 
     # Sort points by their y-coordinate
     sorted_coords = all_coords[np.argsort(all_coords[:, 1])]
@@ -397,7 +399,7 @@ def get_chest_depth_from_multipolygon(multi_polygon: MultiPolygon) -> float:
     # Combine boundary coordinates from all polygons, subtracting centroid
     all_coords = np.array(
         [(coord[0] - center_of_mass.x, coord[1] - center_of_mass.y) for poly in multi_polygon.geoms for coord in poly.boundary.coords]
-    )[::5]
+    )[::7]
 
     # Sort points by their x-coordinate
     sorted_coords = all_coords[np.argsort(all_coords[:, 0])]

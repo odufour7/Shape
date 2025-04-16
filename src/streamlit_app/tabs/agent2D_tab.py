@@ -52,6 +52,7 @@ def init_session_state() -> AgentMeasures:
             )
             st.session_state.agent_type_measures = cst.AgentTypes.pedestrian
             st.session_state.current_agent = Agent(agent_type=cst.AgentTypes.pedestrian, measures=agent_measures)
+            st.session_state.current_agent.rotate(-90.0)  # rotate the pedestrian to face the positive x-axis
         elif agent_type == cst.AgentTypes.bike.name:
             # Create a new bike object
             agent_measures = AgentMeasures(

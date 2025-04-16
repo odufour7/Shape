@@ -56,7 +56,7 @@ class InitialPedestrian:
         self._agent_type: cst.AgentTypes = cst.AgentTypes.pedestrian
         self._shapes2D: ShapeDataType = self._initialize_shapes()
         dir_path = Path(__file__).parent.parent.parent.parent.absolute() / "data" / "pkl"
-        self._shapes3D: dict[float, MultiPolygon] = fun.load_pickle(dir_path / f"{sex}_3dBody.pkl")
+        self._shapes3D: dict[float, MultiPolygon] = fun.load_pickle(str(dir_path / f"{sex}_3dBody.pkl"))
 
         # Initialize measures
         bideltoid_breadth: float = 0.0
@@ -175,7 +175,7 @@ class InitialPedestrian:
             raise ValueError("The sex should be either 'male' or 'female'.")
         self._measures[cst.PedestrianParts.sex.name] = value
         dir_path = Path(__file__).parent.parent.parent.parent.absolute() / "data" / "pkl"
-        self._body3D = fun.load_pickle(dir_path / f"{value}_3dBody.pkl")
+        self._body3D = fun.load_pickle(str(dir_path / f"{value}_3dBody.pkl"))
 
     @property
     def agent_type(self) -> cst.AgentTypes:

@@ -321,7 +321,7 @@ class Shapes2D:
         optimized_scaling = dual_annealing(
             objectif_fun,
             bounds=bounds,
-            maxfun=100,
+            maxfun=70,
             x0=guess_parameters,
         )
         optimized_scale_factor_x, optimized_scale_factor_y = optimized_scaling.x

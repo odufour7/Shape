@@ -21,7 +21,7 @@ def run_tab_anthropometry() -> None:
     """
     # Load the dataset from a pickle file
     path_file = Path(__file__).parent.parent.parent.parent / "data" / "pkl"
-    df = fun.load_pickle(path_file / "ANSUREIIPublic.pkl")
+    df = fun.load_pickle(str(path_file / "ANSUREIIPublic.pkl"))
 
     # Define default attributes to display
     default_attributes = [

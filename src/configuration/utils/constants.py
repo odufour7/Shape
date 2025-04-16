@@ -42,7 +42,7 @@ KINETIC_FRICTION: float = 0.5  # Coefficient of kinetic friction
 
 # Crowd class
 DEFAULT_AGENT_NUMBER: int = 4
-MAX_NB_ITERATIONS: int = 100  # Maximum number of iterations for the parking algorithm
+MAX_NB_ITERATIONS: int = 80  # Maximum number of iterations for the parking algorithm
 DEFAULT_REPULSION_LENGTH: float = 15.0  # cm
 DEFAULT_DESIRED_DIRECTION: float = 0.0  # degrees
 DEFAULT_RANDOM_PACKING: bool = False

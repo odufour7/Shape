@@ -31,6 +31,11 @@ def parameter_changed() -> None:
     st.session_state.simulation_run = True
 
 
+def parameter_not_changed() -> None:
+    """Update the Streamlit session state to indicate that a simulation should not be run."""
+    st.session_state.simulation_run = False
+
+
 def add_agent(agent_type: cst.AgentTypes) -> None:
     """
     Add a new agent of the specified type to the session state.
@@ -62,8 +67,12 @@ def add_agent(agent_type: cst.AgentTypes) -> None:
         measures=default_measures[agent_type],
     )
     new_agent = Agent(agent_type=agent_type, measures=agent_measures)
+    new_agent.rotate(-90.0)  # Rotate the agent to face the positive x-axis
+    new_agent_position = new_agent.get_position()
+    new_agent.translate(new_agent_position.x, new_agent_position.y)
     st.session_state.agents.append(new_agent)
     st.session_state.current_agent_id = len(st.session_state.agents) - 1
+    parameter_not_changed()
 
 
 def remove_agent(selected_id: int) -> None:
@@ -138,6 +147,17 @@ def sliders_for_agent_parameters(selected_id: int, current_agent: Agent) -> None
             key=f"weight_{selected_id}",
             on_change=parameter_changed,
         )
+        agent_measures = AgentMeasures(
+            agent_type=cst.AgentTypes.pedestrian,
+            measures={
+                "sex": current_agent.measures.measures["sex"],
+                "bideltoid_breadth": current_agent.measures.measures["bideltoid_breadth"],
+                "chest_depth": current_agent.measures.measures["chest_depth"],
+                "height": cst_app.DEFAULT_PEDESTRIAN_HEIGHT,
+                "weight": cst.DEFAULT_PEDESTRIAN_WEIGHT,
+            },
+        )
+        current_agent.measures = agent_measures
 
     elif current_agent.agent_type.name == cst.AgentTypes.bike.name:
         bike_params = ["wheel_width", "total_length", "handlebar_length", "top_tube_length", "weight"]
@@ -158,6 +178,17 @@ def sliders_for_agent_parameters(selected_id: int, current_agent: Agent) -> None
                 key=f"{param}_{selected_id}",
                 on_change=parameter_changed,
             )
+        agent_measures = AgentMeasures(
+            agent_type=cst.AgentTypes.bike,
+            measures={
+                "wheel_width": current_agent.measures.measures["wheel_width"],
+                "total_length": current_agent.measures.measures["total_length"],
+                "handlebar_length": current_agent.measures.measures["handlebar_length"],
+                "top_tube_length": current_agent.measures.measures["top_tube_length"],
+                "weight": cst.DEFAULT_BIKE_WEIGHT,
+            },
+        )
+        current_agent.measures = agent_measures
 
 
 def run_tab_custom_crowd() -> None:
@@ -243,7 +274,6 @@ def run_tab_custom_crowd() -> None:
             on_change=parameter_changed,
         )
 
-        old_orientation = getattr(current_agent, "rotation_angle", 0.0)
         current_agent.rotation_angle = st.sidebar.slider(
             "Rotation angle (degrees)",
             -180.0,
@@ -255,10 +285,10 @@ def run_tab_custom_crowd() -> None:
         )
 
         # Apply transformations
-        delta_x = current_agent.x_translation - current_agent.get_position().x
-        delta_y = current_agent.y_translation - current_agent.get_position().y
-        delta_theta = current_agent.rotation_angle - old_orientation
         if st.session_state.simulation_run:
+            delta_x = current_agent.x_translation - current_agent.get_position().x
+            delta_y = current_agent.y_translation - current_agent.get_position().y
+            delta_theta = current_agent.rotation_angle - current_agent.get_agent_orientation()
             current_agent.translate(delta_x, delta_y)
             current_agent.rotate(delta_theta)
             st.session_state.simulation_run = False

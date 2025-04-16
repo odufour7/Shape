@@ -279,17 +279,29 @@ class Agent:
             if isinstance(value, dict):
                 value = AgentMeasures(agent_type=cst.AgentTypes.pedestrian, measures=value)
             self._measures = value
+            wanted_position = self.get_position()
+            wanted_orientation = self.get_agent_orientation()
             self.shapes2D.create_pedestrian_shapes(self._measures)
+            current_position = self.get_position()
+            current_orientation = self.get_agent_orientation()
+            self.translate(wanted_position.x - current_position.x, wanted_position.y - current_position.y)
+            self.rotate(wanted_orientation - current_orientation)
             if self.shapes3D is not None:
                 self.shapes3D.create_pedestrian3D(self._measures)
             else:
                 self.shapes3D = Shapes3D(agent_type=cst.AgentTypes.pedestrian)
-                self.shapes3D.create_pedestrian3D(self._measures)
+            self.shapes3D.create_pedestrian3D(self._measures)
+
         if self.agent_type == cst.AgentTypes.bike:
             if isinstance(value, dict):
                 value = AgentMeasures(agent_type=cst.AgentTypes.bike, measures=value)
             self._measures = value
             self.shapes2D.create_bike_shapes(self._measures)
+
+        self._measures.measures[cst.CommonMeasures.moment_of_inertia.name] = fun.compute_moment_of_inertia(
+            self._shapes2D.get_geometric_shape(),
+            self._measures.measures[cst.CommonMeasures.weight.name],
+        )
 
     @property
     def shapes2D(self) -> Shapes2D:
@@ -324,6 +336,11 @@ class Agent:
         if isinstance(value, dict):
             value = Shapes2D(agent_type=self.agent_type, shapes=value)
         self._shapes2D = value
+
+        self._measures.measures[cst.CommonMeasures.moment_of_inertia.name] = fun.compute_moment_of_inertia(
+            self._shapes2D.get_geometric_shape(),
+            self._measures.measures[cst.CommonMeasures.weight.name],
+        )
 
     @property
     def shapes3D(self) -> Shapes3D | None:

@@ -121,7 +121,7 @@ class CrowdMeasures:
 
         # Fill the default database with the ANSURII dataset
         dir_path = Path(__file__).parent.parent.parent.parent.absolute() / "data" / "pkl"
-        self.default_database = (fun.load_pickle(dir_path / "ANSUREIIPublic.pkl")).transpose().to_dict()
+        self.default_database = (fun.load_pickle(str(dir_path / "ANSUREIIPublic.pkl"))).transpose().to_dict()
 
         # Check if the agent statistics are provided for all parts
         if self.agent_statistics:

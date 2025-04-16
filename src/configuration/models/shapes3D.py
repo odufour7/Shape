@@ -127,7 +127,7 @@ class Shapes3D:
         # Optimize the scaling factors to minimize the penalty
         bounds = np.array([[1e-5, 3.0], [1e-5, 3.0]])
         guess_parameters = np.array([scale_factor_x, scale_factor_y])
-        optimized_scaling = dual_annealing(objectif_fun, bounds=bounds, x0=guess_parameters, maxfun=100)
+        optimized_scaling = dual_annealing(objectif_fun, bounds=bounds, x0=guess_parameters, maxfun=60)
         optimized_scale_factor_x, optimized_scale_factor_y = optimized_scaling.x
 
         # Initialize dictionary to store scaled 3D shapes
