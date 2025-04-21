@@ -193,10 +193,10 @@ class Shapes2D:
                 disk_radius = disk.exterior.distance(disk.centroid)
                 params[name] = {
                     "type": cst.ShapeTypes.disk.name,
-                    "radius": disk_radius * cst.CM_TO_M,
+                    "radius": float(np.round(disk_radius * cst.CM_TO_M, 3)),
                     "material": material,
-                    "x": disk_center.x * cst.CM_TO_M,
-                    "y": disk_center.y * cst.CM_TO_M,
+                    "x": float(np.round(disk_center.x * cst.CM_TO_M, 3)),
+                    "y": float(np.round(disk_center.y * cst.CM_TO_M, 3)),
                 }
             elif shape["type"] == cst.ShapeTypes.rectangle.name:
                 rect: Polygon = shape["object"]
@@ -204,15 +204,17 @@ class Shapes2D:
                 params[name] = {
                     "type": cst.ShapeTypes.rectangle.name,
                     "material": material,
-                    "min_x": min_x * cst.CM_TO_M,
-                    "min_y": min_y * cst.CM_TO_M,
-                    "max_x": max_x * cst.CM_TO_M,
-                    "max_y": max_y * cst.CM_TO_M,
+                    "min_x": float(np.round(min_x * cst.CM_TO_M, 3)),
+                    "min_y": float(np.round(min_y * cst.CM_TO_M, 3)),
+                    "max_x": float(np.round(max_x * cst.CM_TO_M, 3)),
+                    "max_y": float(np.round(max_y * cst.CM_TO_M, 3)),
                 }
             elif shape["type"] == cst.ShapeTypes.polygon.name:
                 poly: Polygon = shape["object"]
                 poly_points = list(poly.exterior.coords)
-                poly_points = [(point[0] * cst.CM_TO_M, point[1] * cst.CM_TO_M) for point in poly_points]
+                poly_points = [
+                    (float(np.round(point[0] * cst.CM_TO_M, 3)), float(np.round(point[1] * cst.CM_TO_M, 3))) for point in poly_points
+                ]
                 params[name] = {
                     "type": cst.ShapeTypes.polygon.name,
                     "material": material,
@@ -303,7 +305,7 @@ class Shapes2D:
         optimized_scaling = dual_annealing(
             objectif_fun,
             bounds=bounds,
-            maxfun=70,
+            maxfun=100,
             x0=guess_parameters,
         )
         optimized_scale_factor_x, optimized_scale_factor_y = optimized_scaling.x
@@ -423,7 +425,7 @@ class Shapes2D:
         optimised_scaling = dual_annealing(
             objective_fun,
             bounds=bounds,
-            maxfun=80,
+            maxfun=100,
             x0=guess_parameters,
         )
         opt_bike_sfx, opt_bike_sfy, opt_rider_sfx, opt_rider_sfy = optimised_scaling.x  # optimised scaling factors

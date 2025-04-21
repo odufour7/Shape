@@ -283,7 +283,7 @@ class InitialPedestrian:
         """
         smallest_height = min(self.shapes3D.keys())
         largest_height = max(self.shapes3D.keys()) - smallest_height
-        largest_height_3_4 = largest_height * 3 / 4 + smallest_height
+        largest_height_3_4 = largest_height * cst.HEIGHT_OF_BIDELTOID_OVER_HEIGHT + smallest_height
         closest_height = min(self.shapes3D.keys(), key=lambda x: abs(float(x) - largest_height_3_4))
         multip = self.shapes3D[closest_height]
         return multip

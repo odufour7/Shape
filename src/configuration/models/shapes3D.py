@@ -177,7 +177,7 @@ class Shapes3D:
         """
         smallest_height = min(self.shapes.keys())
         largest_height = max(self.shapes.keys()) - smallest_height
-        largest_height_3_4 = largest_height * 3 / 4 + smallest_height
+        largest_height_3_4 = largest_height * cst.HEIGHT_OF_BIDELTOID_OVER_HEIGHT + smallest_height
         closest_height = min(self.shapes.keys(), key=lambda x: abs(float(x) - largest_height_3_4))
         multip = self.shapes[closest_height]
         return multip

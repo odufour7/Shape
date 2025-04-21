@@ -172,6 +172,5 @@ def test_crowd_data_integrity(
     assert loaded_xml_data_fixture[key] is not None, f"{key} XML data is missing!"
 
     parsed_data = parse_function(loaded_xml_data_fixture[key])
-
     assert parsed_data == original_data_dicts_fixture[key], f"{key} data mismatch!"
     assert parsed_data == original_data_dicts_fixture[key], f"{key} data mismatch!"

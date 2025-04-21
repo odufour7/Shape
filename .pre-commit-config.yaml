@@ -35,3 +35,13 @@ repos:
     hooks:
       - id: numpydoc-validation
         files: ^src/.*\.py$
+
+  - repo: local
+    hooks:
+      - id: uv-pytest
+        name: Run tests with uv and pytest
+        entry: uv run pytest
+        language: system # Use 'system' to run the command directly
+        pass_filenames: false
+        always_run: true
+        types: ["python"]

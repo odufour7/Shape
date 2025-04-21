@@ -17,27 +17,27 @@ def dynamical_parameters_crowd() -> DynamicCrowdDataType:
             "Agent0": {
                 "Id": 0,
                 "Kinematics": {
-                    "Position": (1.98663, 0.967745),
+                    "Position": (1.98, 0.96),
                     "Velocity": (0.0, 0.0),
-                    "theta": 0.522024,
+                    "theta": 0.52,
                     "omega": 0,
                 },
                 "Dynamics": {
-                    "Fp": (55.749972, 225.838348),
-                    "Mp": 0.49610395982099087,
+                    "Fp": (55.74, 225.83),
+                    "Mp": 0.49,
                 },
             },
             "Agent1": {
                 "Id": 1,
                 "Kinematics": {
-                    "Position": (2.68599, 0.981293),
+                    "Position": (2.68, 0.98),
                     "Velocity": (0.0, 0.0),
-                    "theta": -0.23153,
+                    "theta": -0.23,
                     "omega": 0,
                 },
                 "Dynamics": {
-                    "Fp": (52.4756752, 187.62116),
-                    "Mp": -0.027266558433860527,
+                    "Fp": (52.47, 187.62),
+                    "Mp": -0.02,
                 },
             },
         }

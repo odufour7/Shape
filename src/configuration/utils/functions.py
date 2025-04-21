@@ -377,7 +377,7 @@ def compute_bideltoid_breadth_from_multipolygon(multi_polygon: MultiPolygon) -> 
 
     # Degreasing for polygons with a large number of vertices
     if len(all_coords) > 300:
-        all_coords = all_coords[::10]
+        all_coords = all_coords[::8]
 
     # Sort points by their y-coordinate
     sorted_coords = all_coords[np.argsort(all_coords[:, 1])]
@@ -431,7 +431,7 @@ def compute_chest_depth_from_multipolygon(multi_polygon: MultiPolygon) -> float:
 
     # Degreasing for polygons with a large number of vertices
     if len(all_coords) > 300:
-        all_coords = all_coords[::10]
+        all_coords = all_coords[::8]
 
     # Sort points by their x-coordinate
     sorted_coords = all_coords[np.argsort(all_coords[:, 0])]

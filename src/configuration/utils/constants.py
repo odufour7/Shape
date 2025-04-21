@@ -22,11 +22,13 @@ DISK_NUMBER: int = 5
 
 DEFAULT_FLOOR_DAMPING: float = 2.0  # Damping coefficient for the floor
 DEFAULT_ANGULAR_DAMPING: float = 5.0  # Damping coefficient for the angular velocity
-EPSILON_SMOOTHING: float = 6.0  # Small value for smoothing
+EPSILON_SMOOTHING: float = 5.0  # Small value for smoothing
 NECK_HEIGHT_MALE: float = 165.0  # Height of the neck in cm
-NECK_HEIGHT_FEMALE: float = 145.0  # Height of the neck in cm
+NECK_HEIGHT_FEMALE: float = 150.0  # Height of the neck in cm
 KNEES_HEIGHT_MALE: float = 59.0  # Height of the knees in cm
 KNEES_HEIGHT_FEMALE: float = 50.0  # Height of the knees in cm
+
+HEIGHT_OF_BIDELTOID_OVER_HEIGHT: float = 151.6 / 186.6  # Ratio of the height of the bideltoid to the agent height (male = female)
 
 # Material properties
 YOUNG_MODULUS_IRON: float = 1.0e6

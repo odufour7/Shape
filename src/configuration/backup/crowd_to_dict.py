@@ -42,9 +42,9 @@ def get_light_agents_params(current_crowd: Crowd) -> StaticCrowdDataType:
                 "Type": f"{agent.agent_type.name}",
                 "Id": id_agent,
                 "Mass": agent.measures.measures[cst.CommonMeasures.weight.name],  # in kg
-                "MomentOfInertia": agent.measures.measures["moment_of_inertia"],  # in kg*m^2
-                "FloorDamping": cst.DEFAULT_FLOOR_DAMPING,
-                "AngularDamping": cst.DEFAULT_ANGULAR_DAMPING,
+                "MomentOfInertia": float(np.round(agent.measures.measures["moment_of_inertia"], 2)),  # in kg*m^2
+                "FloorDamping": float(np.round(cst.DEFAULT_FLOOR_DAMPING, 2)),
+                "AngularDamping": float(np.round(cst.DEFAULT_ANGULAR_DAMPING, 2)),
                 "Shapes": agent.shapes2D.get_additional_parameters(),
             }
             for id_agent, agent in enumerate(current_crowd.agents)
@@ -87,9 +87,12 @@ def get_static_params(current_crowd: Crowd) -> StaticCrowdDataType:
             shapes_dict[f"{shape_name}"] = {
                 "Id": cpt_shape,
                 "Type": shape_params["type"],
-                "Radius": shape_params["radius"],
+                "Radius": float(np.round(shape_params["radius"], 3)),
                 "MaterialId": getattr(cst.MaterialNames, shape_params["material"]).value - 1,
-                "Position": (float(delta_g_to_gi_shape[0] * cst.CM_TO_M), float(delta_g_to_gi_shape[1] * cst.CM_TO_M)),
+                "Position": (
+                    float(np.round(delta_g_to_gi_shape[0] * cst.CM_TO_M, 3)),
+                    float(np.round(delta_g_to_gi_shape[1] * cst.CM_TO_M, 3)),
+                ),
             }
             cpt_shape += 1
 
@@ -97,10 +100,10 @@ def get_static_params(current_crowd: Crowd) -> StaticCrowdDataType:
         crowd_dict["Agents"][f"Agent{agent_id}"] = {
             "Type": agent.agent_type.name,
             "Id": agent_id,
-            "Mass": agent.measures.measures[cst.CommonMeasures.weight.name],  # in kg
-            "MomentOfInertia": float(agent.measures.measures["moment_of_inertia"]),  # in kg*m^2
-            "FloorDamping": cst.DEFAULT_FLOOR_DAMPING,
-            "AngularDamping": cst.DEFAULT_ANGULAR_DAMPING,
+            "Mass": float(np.round(agent.measures.measures[cst.CommonMeasures.weight.name], 2)),  # in kg
+            "MomentOfInertia": float(np.round(agent.measures.measures["moment_of_inertia"], 2)),  # in kg*m^2
+            "FloorDamping": float(np.round(cst.DEFAULT_FLOOR_DAMPING, 2)),
+            "AngularDamping": float(np.round(cst.DEFAULT_ANGULAR_DAMPING, 2)),
             "Shapes": shapes_dict,
         }
 
@@ -126,14 +129,23 @@ def get_dynamic_params(current_crowd: Crowd) -> DynamicCrowdDataType:
             f"Agent{id_agent}": {
                 "Id": id_agent,
                 "Kinematics": {
-                    "Position": (agent.get_position().x * cst.CM_TO_M, agent.get_position().y * cst.CM_TO_M),
-                    "Velocity": (cst.INITIAL_TRANSLATIONAL_VELOCITY_X, cst.INITIAL_TRANSLATIONAL_VELOCITY_Y),
-                    "theta": np.radians(agent.get_agent_orientation()),
-                    "omega": cst.INITIAL_ROTATIONAL_VELOCITY,
+                    "Position": (
+                        float(np.round(agent.get_position().x * cst.CM_TO_M, 3)),
+                        float(np.round(agent.get_position().y * cst.CM_TO_M, 3)),
+                    ),
+                    "Velocity": (
+                        float(np.round(cst.INITIAL_TRANSLATIONAL_VELOCITY_X, 2)),
+                        float(np.round(cst.INITIAL_TRANSLATIONAL_VELOCITY_Y, 2)),
+                    ),
+                    "theta": float(np.round(np.radians(agent.get_agent_orientation()), 2)),
+                    "omega": float(np.round(cst.INITIAL_ROTATIONAL_VELOCITY, 2)),
                 },
                 "Dynamics": {
-                    "Fp": (cst.DECISIONAL_TRANSLATIONAL_FORCE_X, cst.DECISIONAL_TRANSLATIONAL_FORCE_Y),
-                    "Mp": cst.DECISIONAL_TORQUE,
+                    "Fp": (
+                        float(np.round(cst.DECISIONAL_TRANSLATIONAL_FORCE_X, 2)),
+                        float(np.round(cst.DECISIONAL_TRANSLATIONAL_FORCE_Y, 2)),
+                    ),
+                    "Mp": float(np.round(cst.DECISIONAL_TORQUE, 2)),
                 },
             }
             for id_agent, agent in enumerate(current_crowd.agents)
@@ -185,8 +197,8 @@ def get_geometry_params(current_crowd: Crowd) -> GeometryDataType:
     boundaries_dict: GeometryDataType = {
         "Geometry": {
             "Dimensions": {
-                "Lx": Lx * cst.CM_TO_M,
-                "Ly": Ly * cst.CM_TO_M,
+                "Lx": float(np.round(Lx * cst.CM_TO_M, 3)),
+                "Ly": float(np.round(Ly * cst.CM_TO_M, 3)),
             },
             "Wall": {
                 "Wall0": {
@@ -194,7 +206,10 @@ def get_geometry_params(current_crowd: Crowd) -> GeometryDataType:
                     "MaterialId": cst.MaterialNames.stone.value - 1,
                     "Corners": {
                         f"Corner{id_corner}": {
-                            "Coordinates": (coords[id_corner][0] * cst.CM_TO_M, coords[id_corner][1] * cst.CM_TO_M),
+                            "Coordinates": (
+                                float(np.round(coords[id_corner][0] * cst.CM_TO_M, 3)),
+                                float(np.round(coords[id_corner][1] * cst.CM_TO_M, 3)),
+                            ),
                         }
                         for id_corner in range(len(coords))
                     },
@@ -275,8 +290,8 @@ def get_materials_params() -> MaterialsDataType:
         f"Material{id_material}": {
             "Id": id_material,
             "Name": material,
-            "YoungModulus": getattr(cst, f"YOUNG_MODULUS_{material.upper()}"),
-            "ShearModulus": getattr(cst, f"SHEAR_MODULUS_{material.upper()}"),
+            "YoungModulus": float(np.round(getattr(cst, f"YOUNG_MODULUS_{material.upper()}"), 2)),
+            "ShearModulus": float(np.round(getattr(cst, f"SHEAR_MODULUS_{material.upper()}"), 2)),
         }
         for id_material, material in enumerate(cst.MaterialNames.__members__.keys())
     }
@@ -286,9 +301,9 @@ def get_materials_params() -> MaterialsDataType:
         f"Contact{id_contact}": {
             "Id1": id1,
             "Id2": id2,
-            "GammaNormal": cst.GAMMA_NORMAL,
-            "GammaTangential": cst.GAMMA_TANGENTIAL,
-            "KineticFriction": cst.KINETIC_FRICTION,
+            "GammaNormal": float(np.round(cst.GAMMA_NORMAL, 2)),
+            "GammaTangential": float(np.round(cst.GAMMA_TANGENTIAL, 2)),
+            "KineticFriction": float(np.round(cst.KINETIC_FRICTION, 2)),
         }
         for id_contact, (id1, id2) in enumerate(itertools.combinations_with_replacement(range(len(cst.MaterialNames)), 2))
     }
