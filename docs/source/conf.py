@@ -43,7 +43,7 @@ language = "en"
 html_theme = "sphinx_rtd_theme"  # Use the Read the Docs theme
 html_static_path = ["_static"]  # Path to custom static files (e.g., CSS)
 html_css_files = ["custom.css"]  # Custom CSS file for styling
-html_logo = "_static/README/art_light.png"  # Logo for the documentation
+html_logo = "_static/logo/art_light.png"  # Logo for the documentation
 
 suppress_warnings = ["config.cache"]
 

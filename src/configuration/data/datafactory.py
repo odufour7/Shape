@@ -6,6 +6,7 @@ from typing import get_args
 
 import numpy as np
 import pandas as pd
+from shapely.geometry import MultiPolygon
 
 import configuration.utils.constants as cst
 import configuration.utils.functions as fun
@@ -121,7 +122,48 @@ def prepare_data() -> None:
     2. Prepares bike data by calling `prepare_bike_data()`.
     """
     data_dir_path = Path(__file__).parent.parent.parent.parent.absolute() / "data"
-    if not (data_dir_path / "pkl" / "bike_data.pkl").exists() or not (data_dir_path / "pkl" / "ANSUREIIPublic.pkl").exists():
+    if (
+        not (data_dir_path / "pkl" / "bike_data.pkl").exists()
+        or not (data_dir_path / "pkl" / "ANSUREIIPublic.pkl").exists()
+        or not (data_dir_path / "pkl" / "male_3dBody_light.pkl").exists()
+        or not (data_dir_path / "pkl" / "female_3dBody_light.pkl").exists()
+    ):
+        logging.info("Preparing anthropometric data and bike data...")
         prepare_anthropometric_data(data_dir_path)
         prepare_bike_data(data_dir_path)
+        logging.info("Preparing 3D body data...")
+        prepare_3D_body_data(data_dir_path)
         logging.info("Data prepared successfully")
+
+
+def prepare_3D_body_data(data_dir_path: Path) -> None:
+    """
+    Prepare 3D body data by filtering 3D body shapes to one entry per rounded cm and saving the filtered data as a new pickle file.
+
+    Parameters
+    ----------
+    data_dir_path : Path
+        The path to the root data directory containing "pkl" subdirectory among others.
+
+    Raises
+    ------
+    FileNotFoundError
+        If the required pickle file does not exist in the data directory.
+    """
+    for sex in cst.Sex:
+        pickle_path = data_dir_path / "pkl" / f"{sex.name}_3dBody.pkl"
+        if not pickle_path.exists():
+            raise FileNotFoundError(f"Pickle file not found: {pickle_path}")
+
+        shapes3D: dict[float, MultiPolygon] = fun.load_pickle(str(pickle_path))
+        filtered_shapes3D: dict[float, MultiPolygon] = {}
+        used_centimeters = set()
+
+        for height, multipolygon in shapes3D.items():
+            height_cm = round(height)
+            if height_cm not in used_centimeters:
+                filtered_shapes3D[height] = multipolygon
+                used_centimeters.add(height_cm)
+
+        output_path = data_dir_path / "pkl" / f"{sex.name}_3dBody_light.pkl"
+        fun.save_pickle(filtered_shapes3D, output_path)

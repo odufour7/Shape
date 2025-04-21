@@ -22,6 +22,11 @@ DISK_NUMBER: int = 5
 
 DEFAULT_FLOOR_DAMPING: float = 2.0  # Damping coefficient for the floor
 DEFAULT_ANGULAR_DAMPING: float = 5.0  # Damping coefficient for the angular velocity
+EPSILON_SMOOTHING: float = 6.0  # Small value for smoothing
+NECK_HEIGHT_MALE: float = 165.0  # Height of the neck in cm
+NECK_HEIGHT_FEMALE: float = 145.0  # Height of the neck in cm
+KNEES_HEIGHT_MALE: float = 59.0  # Height of the knees in cm
+KNEES_HEIGHT_FEMALE: float = 50.0  # Height of the knees in cm
 
 # Material properties
 YOUNG_MODULUS_IRON: float = 1.0e6
@@ -47,6 +52,8 @@ DEFAULT_REPULSION_LENGTH: float = 15.0  # cm
 DEFAULT_DESIRED_DIRECTION: float = 0.0  # degrees
 DEFAULT_RANDOM_PACKING: bool = False
 INFINITE: float = 1.0e10  # Infinite value for the simulation
+INTENSITY_ROTATIONAL_FORCE: float = 20.0  # degrees
+INTENSITY_TRANSLATIONAL_FORCE: float = 10.0  # arbitrary units
 
 # Crowd Statistics
 DEFAULT_PEDESTRIAN_HEIGHT: float = 170.0  # cm
@@ -104,6 +111,13 @@ class PedestrianParts(Enum):
     height = auto()
 
 
+class Sex(Enum):
+    """Enum for pedestrian sex."""
+
+    male = auto()
+    female = auto()
+
+
 class BikeParts(Enum):
     """Bike is an enumeration that defines different parts of a bike."""
 
@@ -146,16 +160,16 @@ CrowdStat = MappingProxyType(
         "bike_weight_std_dev": 5.0,  # kg
         # Male measurements (in cm)
         "male_bideltoid_breadth_min": 30.0,  # cm
-        "male_bideltoid_breadth_max": 90.0,  # cm
+        "male_bideltoid_breadth_max": 70.0,  # cm
         "male_bideltoid_breadth_mean": 51.0,  # cm
         "male_bideltoid_breadth_std_dev": 2.0,  # cm
         "male_chest_depth_min": 15.0,  # cm
-        "male_chest_depth_max": 50.0,  # cm
+        "male_chest_depth_max": 55.0,  # cm
         "male_chest_depth_mean": 26.0,  # cm
         "male_chest_depth_std_dev": 2.0,  # cm
         # Female measurements (in cm)
         "female_bideltoid_breadth_min": 30.0,  # cm
-        "female_bideltoid_breadth_max": 90.0,  # cm
+        "female_bideltoid_breadth_max": 70.0,  # cm
         "female_bideltoid_breadth_mean": 45.0,  # cm
         "female_bideltoid_breadth_std_dev": 1.5,  # cm
         "female_chest_depth_min": 15.0,  # cm

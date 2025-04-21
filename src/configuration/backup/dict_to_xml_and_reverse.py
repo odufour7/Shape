@@ -71,11 +71,11 @@ def static_dict_to_xml(crowd_dict: StaticCrowdDataType) -> bytes:
             "Agent",
             {
                 "Type": agent_data["Type"],
-                "Id": str(agent_data["Id"]),
-                "Mass": str(agent_data["Mass"]),
-                "MomentOfInertia": str(agent_data["MomentOfInertia"]),
-                "FloorDamping": str(agent_data["FloorDamping"]),
-                "AngularDamping": str(agent_data["AngularDamping"]),
+                "Id": f"{agent_data['Id']}",
+                "Mass": f"{agent_data['Mass']:.2f}",
+                "MomentOfInertia": f"{agent_data['MomentOfInertia']:.2f}",
+                "FloorDamping": f"{agent_data['FloorDamping']:.2f}",
+                "AngularDamping": f"{agent_data['AngularDamping']:.2f}",
             },
         )
 
@@ -91,11 +91,11 @@ def static_dict_to_xml(crowd_dict: StaticCrowdDataType) -> bytes:
                 shapes,
                 "Shape",
                 {
-                    "Id": str(shape_data["Id"]),
+                    "Id": f"{shape_data['Id']}",
                     "Type": shape_type,
-                    "Radius": str(shape_data["Radius"]),
-                    "MaterialId": str(shape_data["MaterialId"]),
-                    "Position": f"{shape_data['Position'][0]},{shape_data['Position'][1]}",
+                    "Radius": f"{shape_data['Radius']:.3f}",
+                    "MaterialId": f"{shape_data['MaterialId']}",
+                    "Position": f"{shape_data['Position'][0]:.3f},{shape_data['Position'][1]:.3f}",
                 },
             )
 
@@ -125,17 +125,17 @@ def dynamic_dict_to_xml(dynamical_parameters_crowd: DynamicCrowdDataType) -> byt
     # Iterate through agents in the dictionary
     for agent_data in dynamical_parameters_crowd["Agents"].values():
         # Create an Agent element
-        agent_element = ET.SubElement(root, "Agent", Id=str(agent_data["Id"]))
+        agent_element = ET.SubElement(root, "Agent", Id=f"{agent_data['Id']}")
 
         # Create Kinematics element
         kinematics_data = agent_data["Kinematics"]
         ET.SubElement(
             agent_element,
             "Kinematics",
-            Position=f"{kinematics_data['Position'][0]},{kinematics_data['Position'][1]}",
-            Velocity=f"{kinematics_data['Velocity'][0]},{kinematics_data['Velocity'][1]}",
-            theta=f"{kinematics_data['theta']}",
-            omega=f"{kinematics_data['omega']}",
+            Position=f"{kinematics_data['Position'][0]:.3f},{kinematics_data['Position'][1]:.3f}",
+            Velocity=f"{kinematics_data['Velocity'][0]:.2f},{kinematics_data['Velocity'][1]:.2f}",
+            theta=f"{kinematics_data['theta']:.2f}",
+            omega=f"{kinematics_data['omega']:.2f}",
         )
 
         # Create Dynamics element
@@ -143,8 +143,8 @@ def dynamic_dict_to_xml(dynamical_parameters_crowd: DynamicCrowdDataType) -> byt
         ET.SubElement(
             agent_element,
             "Dynamics",
-            Fp=f"{dynamics_data['Fp'][0]},{dynamics_data['Fp'][1]}",
-            Mp=f"{dynamics_data['Mp']}",
+            Fp=f"{dynamics_data['Fp'][0]:.2f},{dynamics_data['Fp'][1]:.2f}",
+            Mp=f"{dynamics_data['Mp']:.2f}",
         )
 
     # Convert the tree to a string
@@ -175,17 +175,19 @@ def geometry_dict_to_xml(boundaries_dict: GeometryDataType) -> bytes:
 
     # Add Dimensions element
     dimensions = boundaries_dict["Geometry"]["Dimensions"]
-    ET.SubElement(root, "Dimensions", Lx=f"{dimensions['Lx']}", Ly=f"{dimensions['Ly']}")
+    ET.SubElement(root, "Dimensions", Lx=f"{dimensions['Lx']:.3f}", Ly=f"{dimensions['Ly']:.3f}")
 
     # Iterate over all walls in the dictionary
     for wall_data in boundaries_dict["Geometry"]["Wall"].values():
         # Add Wall element
-        wall_element = ET.SubElement(root, "Wall", Id=str(wall_data["Id"]), MaterialId=f"{wall_data['MaterialId']}")
+        wall_element = ET.SubElement(root, "Wall", Id=f"{wall_data['Id']}", MaterialId=f"{wall_data['MaterialId']}")
 
         # Add Corners element
         corners_element = ET.SubElement(wall_element, "Corners")
         for corner_data in wall_data["Corners"].values():
-            ET.SubElement(corners_element, "Corner", Coordinates=f"{corner_data['Coordinates'][0]},{corner_data['Coordinates'][1]}")
+            ET.SubElement(
+                corners_element, "Corner", Coordinates=f"{corner_data['Coordinates'][0]:.3f},{corner_data['Coordinates'][1]:.3f}"
+            )
 
     # Convert the tree to a string
     xml_str = ET.tostring(root, encoding="utf-8")
@@ -219,10 +221,10 @@ def materials_dict_to_xml(material_dict: MaterialsDataType) -> bytes:
         ET.SubElement(
             intrinsic_element,
             "Material",
-            Id=str(material_data["Id"]),
+            Id=f"{material_data['Id']}",
             Name=material_data["Name"],
-            YoungModulus=f"{material_data['YoungModulus']:.1f}",
-            ShearModulus=f"{material_data['ShearModulus']:.1f}",
+            YoungModulus=f"{material_data['YoungModulus']:.2e}",
+            ShearModulus=f"{material_data['ShearModulus']:.2e}",
         )
 
     # Add Binary contacts
@@ -231,11 +233,11 @@ def materials_dict_to_xml(material_dict: MaterialsDataType) -> bytes:
         ET.SubElement(
             binary_element,
             "Contact",
-            Id1=str(contact_data["Id1"]),
-            Id2=str(contact_data["Id2"]),
-            GammaNormal=f"{contact_data['GammaNormal']:.3e}",
-            GammaTangential=f"{contact_data['GammaTangential']:.3e}",
-            KineticFriction=f"{contact_data['KineticFriction']:.5f}",
+            Id1=f"{contact_data['Id1']}",
+            Id2=f"{contact_data['Id2']}",
+            GammaNormal=f"{contact_data['GammaNormal']:.2e}",
+            GammaTangential=f"{contact_data['GammaTangential']:.2e}",
+            KineticFriction=f"{contact_data['KineticFriction']:.2f}",
         )
 
     # Convert the tree to a string
@@ -266,24 +268,24 @@ def interactions_dict_to_xml(data: InteractionsDataType) -> bytes:
 
     # Iterate through agents in the dictionary
     for agent_data in data["Interactions"].values():
-        agent_element = ET.SubElement(root, "Agent", Id=str(agent_data["Id"]))
+        agent_element = ET.SubElement(root, "Agent", Id=f"{agent_data['Id']}")
         # Iterate through neighboring agents
         if "NeighbouringAgents" in agent_data:
             for neighbor_data in agent_data["NeighbouringAgents"].values():
-                neighbor_element = ET.SubElement(agent_element, "Agent", Id=str(neighbor_data["Id"]))
+                neighbor_element = ET.SubElement(agent_element, "Agent", Id=f"{neighbor_data['Id']}")
 
                 # Iterate through interactions
                 for interaction_data in neighbor_data["Interactions"].values():
                     ET.SubElement(
                         neighbor_element,
                         "Interaction",
-                        ParentShapeId=str(interaction_data["ParentShapeId"]),
-                        ChildShapeId=str(interaction_data["ChildShapeId"]),
-                        Ftx=str(interaction_data["Ftx"]),
-                        Fty=str(interaction_data["Fty"]),
-                        Fnx=str(interaction_data["Fnx"]),
-                        Fny=str(interaction_data["Fny"]),
-                        TangentialRelativeDisplacementNorm=str(interaction_data["TangentialRelativeDisplacementNorm"]),
+                        ParentShapeId=f"{interaction_data['ParentShapeId']}",
+                        ChildShapeId=f"{interaction_data['ChildShapeId']}",
+                        Ftx=f"{interaction_data['Ftx']:.2f}",
+                        Fty=f"{interaction_data['Fty']:.2f}",
+                        Fnx=f"{interaction_data['Fnx']:.2f}",
+                        Fny=f"{interaction_data['Fny']:.2f}",
+                        TangentialRelativeDisplacementNorm=f"{interaction_data['TangentialRelativeDisplacementNorm']:.2f}",
                     )
     # Convert the tree to a string
     xml_str = ET.tostring(root, encoding="utf-8")

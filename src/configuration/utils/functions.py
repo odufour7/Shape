@@ -373,7 +373,11 @@ def compute_bideltoid_breadth_from_multipolygon(multi_polygon: MultiPolygon) -> 
     # Combine boundary coordinates from all polygons, subtracting centroid
     all_coords = np.array(
         [(coord[0] - center_of_mass.x, coord[1] - center_of_mass.y) for poly in multi_polygon.geoms for coord in poly.boundary.coords]
-    )  # [::7]
+    )
+
+    # Degreasing for polygons with a large number of vertices
+    if len(all_coords) > 300:
+        all_coords = all_coords[::10]
 
     # Sort points by their y-coordinate
     sorted_coords = all_coords[np.argsort(all_coords[:, 1])]
@@ -423,7 +427,11 @@ def compute_chest_depth_from_multipolygon(multi_polygon: MultiPolygon) -> float:
     # Combine boundary coordinates from all polygons, subtracting centroid
     all_coords = np.array(
         [(coord[0] - center_of_mass.x, coord[1] - center_of_mass.y) for poly in multi_polygon.geoms for coord in poly.boundary.coords]
-    )  # [::7]
+    )
+
+    # Degreasing for polygons with a large number of vertices
+    if len(all_coords) > 300:
+        all_coords = all_coords[::10]
 
     # Sort points by their x-coordinate
     sorted_coords = all_coords[np.argsort(all_coords[:, 0])]
@@ -479,3 +487,79 @@ def from_string_to_tuple(string: str) -> tuple[float, float]:
         return float(parts[0]), float(parts[1])
     except ValueError as exc:
         raise ValueError("Both elements must be convertible to float.") from exc
+
+
+def sigmoid(x: float, smoothing: float = cst.EPSILON_SMOOTHING) -> float:
+    """
+    Compute the numerically stable sigmoid function.
+
+    Parameters
+    ----------
+    x : float
+        The input value.
+    smoothing : float, optional
+        Smoothing parameter to scale the input, by default cst.EPSILON_SMOOTHING.
+
+    Returns
+    -------
+    float
+        The output of the sigmoid function.
+    """
+    if smoothing <= 0:
+        raise ValueError("Smoothing parameter must be positive.")
+
+    X = x / smoothing
+
+    # Numerically stable sigmoid
+    if X >= 0:
+        z = np.exp(-X)
+        return float(1.0 / (1.0 + z))
+    z = np.exp(X)
+    return float(z / (1.0 + z))
+
+
+def rectangular_function(scale_xy: float, height: float, sex: Sex | str) -> float:
+    """
+    Compute the value of a rectangular function based on scale, height, and sex.
+
+    Parameters
+    ----------
+    scale_xy : float
+        The scale parameter for the rectangular function.
+    height : float
+        The height parameter for the rectangular function.
+    sex : Sex or str
+        The sex, either as a Sex enum or string ("male" or "female").
+
+    Returns
+    -------
+    float
+        The value of the rectangular function.
+
+    Raises
+    ------
+    ValueError
+        If an invalid sex is provided.
+    """
+    # Normalize sex input
+    if isinstance(sex, str):
+        sex = sex.lower()
+        if sex == "male":
+            sex_enum = cst.Sex.male.name
+        elif sex == "female":
+            sex_enum = cst.Sex.female.name
+        else:
+            raise ValueError(f"Invalid sex: {sex}")
+    elif isinstance(sex, Sex):
+        sex_enum = sex
+    else:
+        raise ValueError(f"Invalid sex type: {type(sex)}")
+
+    if sex_enum == cst.Sex.female.name:
+        neck_height = cst.NECK_HEIGHT_FEMALE
+        knees_height = cst.KNEES_HEIGHT_FEMALE
+    else:
+        neck_height = cst.NECK_HEIGHT_MALE
+        knees_height = cst.KNEES_HEIGHT_MALE
+
+    return 1.0 + (scale_xy - 1.0) * sigmoid(neck_height - height) * sigmoid(height - knees_height)

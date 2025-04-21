@@ -146,24 +146,6 @@ class Shapes2D:
         else:
             raise ValueError(f"Unsupported shape type: {shape_type}. Must be one of {cst.ShapeTypes.__members__}.")
 
-    def get_shape(self, name: str) -> Polygon:
-        """
-        Retrieve a shape by its name.
-
-        Parameters
-        ----------
-        name : str
-            The name of the shape to retrieve.
-
-        Returns
-        -------
-        Polygon
-            The Shapely Polygon object corresponding to the shape with the given name.
-        """
-        if name not in self.shapes:
-            raise KeyError(f"No shape found with name '{name}'.")
-        return self.shapes[name]["object"]
-
     def get_additional_parameters(self) -> ShapeDataType:
         """
         Retrieve the parameters for each stored shape.
@@ -277,7 +259,7 @@ class Shapes2D:
         homothety_center = Point(0.0, 0.0)
         if isinstance(sex_name, str) and sex_name in ["male", "female"]:
             initial_pedestrian = InitialPedestrian(sex_name)
-            homothety_center = initial_pedestrian.calculate_position()
+            homothety_center = initial_pedestrian.get_position()
 
         def objectif_fun(scaling_factor: NDArray[np.float64]) -> float:
             """
@@ -441,7 +423,7 @@ class Shapes2D:
         optimised_scaling = dual_annealing(
             objective_fun,
             bounds=bounds,
-            maxfun=100,
+            maxfun=80,
             x0=guess_parameters,
         )
         opt_bike_sfx, opt_bike_sfy, opt_rider_sfx, opt_rider_sfy = optimised_scaling.x  # optimised scaling factors

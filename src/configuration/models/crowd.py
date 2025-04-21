@@ -276,7 +276,7 @@ class Crowd:
 
         # If the norm is greater than zero, normalize the difference vector
         if norm_delta > 0:
-            return delta / norm_delta  # Return normalized direction of the force
+            return np.array(cst.INTENSITY_TRANSLATIONAL_FORCE * delta / norm_delta)  # Return normalized direction of the force
 
         # If centroids coincide, return a small random force as a fallback
         return np.random.rand(2).astype(np.float64)
@@ -337,9 +337,9 @@ class Crowd:
         Returns
         -------
         float
-            Random rotational force in degrees between -10.0° and 10.0°.
+            Random rotational force in degrees.
         """
-        return np.random.uniform(-20.0, 20.0)
+        return float(np.random.uniform(-cst.INTENSITY_ROTATIONAL_FORCE, cst.INTENSITY_ROTATIONAL_FORCE, 1)[0])
 
     def calculate_boundary_forces(self, forces: NDArray[np.float64], current_geo: Polygon, temperature: float) -> NDArray[np.float64]:
         """

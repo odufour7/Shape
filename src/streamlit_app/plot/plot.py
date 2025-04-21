@@ -548,12 +548,16 @@ def display_crowd2D(crowd: Crowd) -> mfig.Figure:
         vmin=min(agent.shapes2D.get_area() for agent in crowd.agents),
         vmax=max(agent.shapes2D.get_area() for agent in crowd.agents),
     )
+    # Set text size based on the area of the crowd boundaries or the number of agents
+    if not crowd.boundaries.is_empty:
+        txt_size = int(8 * 10**5 / crowd.boundaries.area)
+    else:
+        txt_size = int(80 / crowd.get_number_agents())
 
     # Initialize a Matplotlib figure
     fig, ax = plt.subplots(figsize=(8, 8))
-
     # Plot each agent's shape
-    for agent in crowd.agents:
+    for id_agent, agent in enumerate(crowd.agents):
         agent_geometric = agent.shapes2D.get_geometric_shape()
         agent_area = agent.shapes2D.get_area()
         color = cram.cm.hawaii(norm(agent_area))  # pylint: disable=no-member
@@ -564,6 +568,19 @@ def display_crowd2D(crowd: Crowd) -> mfig.Figure:
             ax.fill(x, y, alpha=0.8, color=color)
             ax.plot(x, y, color="black", linewidth=0.5)
 
+            # Add pedestrian ID as annotation
+            centroid_x = np.mean(x)
+            centroid_y = np.mean(y)
+            ax.annotate(
+                f"{id_agent}",
+                xy=(centroid_x, centroid_y),
+                xytext=(centroid_x, centroid_y),
+                fontsize=txt_size,
+                color="black",
+                ha="center",  # horizontal alignment
+                va="center",  # vertical alignment
+            )
+
         # If the agent's shape is a MultiPolygon, plot each polygon separately
         elif isinstance(agent_geometric, MultiPolygon):
             agent_area = agent.shapes2D.get_area()
@@ -571,6 +588,19 @@ def display_crowd2D(crowd: Crowd) -> mfig.Figure:
                 x, y = polygon.exterior.xy
                 ax.fill(x, y, alpha=0.8, color=color)
                 ax.plot(x, y, color="black", linewidth=0.5)
+
+            # Add pedestrian ID as annotation
+            centroid_x = np.mean([np.mean(polygon.exterior.xy[0]) for polygon in agent_geometric.geoms])
+            centroid_y = np.mean([np.mean(polygon.exterior.xy[1]) for polygon in agent_geometric.geoms])
+            ax.annotate(
+                f"{id_agent}",
+                xy=(centroid_x, centroid_y),
+                xytext=(centroid_x, centroid_y),
+                fontsize=txt_size,
+                color="black",
+                ha="center",  # horizontal alignment
+                va="center",  # vertical alignment
+            )
 
     bounds = np.array([agent.shapes2D.get_geometric_shape().bounds for agent in crowd.agents])
     x_min, y_min = bounds[:, [0, 1]].min(axis=0)
@@ -617,6 +647,9 @@ def display_distribution(df: pd.DataFrame, column: str) -> go.Figure:
         If the specified column is not found in the DataFrame.
         If the 'sex' column is not found in the DataFrame.
     """
+    # Convert the column name to lowercase for case-insensitive matching
+    column = column.lower()
+
     # Check if the specified column is present in the DataFrame
     if column not in df.columns:
         raise ValueError(f"Column '{column}' not found in the DataFrame.")
@@ -630,12 +663,17 @@ def display_distribution(df: pd.DataFrame, column: str) -> go.Figure:
     values_male = df[df["sex"] == "male"][column]
     values_female = df[df["sex"] == "female"][column]
 
+    # Set number of bins for weight [kg]
+    nbins_male = {"chest depth [cm]": 45, "bideltoid breadth [cm]": 50, "height [cm]": 40, "weight [kg]": 40, "sex": None}
+    nbins_female = {"chest depth [cm]": 45, "bideltoid breadth [cm]": 55, "height [cm]": 30, "weight [kg]": 40, "sex": None}
+
     # Add histograms
     fig.add_trace(
         go.Histogram(
             x=values_male,
             name="male",
             marker_color="blue",
+            nbinsx=nbins_male[column],
         )
     )
     # Overlay the histograms
@@ -644,6 +682,7 @@ def display_distribution(df: pd.DataFrame, column: str) -> go.Figure:
             x=values_female,
             name="female",
             marker_color="red",
+            nbinsx=nbins_female[column],
         )
     )
 
@@ -662,8 +701,12 @@ def display_distribution(df: pd.DataFrame, column: str) -> go.Figure:
     fig.update_layout(
         barmode="overlay",
         xaxis_title=column,
-        yaxis_title="Count",
+        yaxis_title="count",
         legend_title_text="",
+        font={"size": 18, "color": "black"},  # General font size
+        xaxis={"title_font": {"size": 20}, "tickfont": {"size": 16}},
+        yaxis={"title_font": {"size": 20}, "tickfont": {"size": 16}},
+        legend={"font": {"size": 16}},
         width=600,
         height=500,
     )

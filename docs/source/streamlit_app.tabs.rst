@@ -21,7 +21,7 @@ anthropometry\_tab
 auto\_crowd\_creation\_tab
 --------------------------
 
-.. automodule:: streamlit_app.tabs.auto_crowd_creation_tab
+.. automodule:: streamlit_app.tabs.crowd_creation_tab
    :members:
    :show-inheritance:
    :undoc-members:

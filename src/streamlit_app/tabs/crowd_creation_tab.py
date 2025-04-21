@@ -38,9 +38,8 @@ def initialize_session_state() -> None:
         "repulsion_length": cst_app.DEFAULT_REPULSION_LENGTH_MIN,
         "wall_interaction": cst_app.DEFAULT_WALL_INTERACTION,
         "simulation_run": True,
-        "pack_agents": True,
         "desired_direction": cst.DEFAULT_DESIRED_DIRECTION,
-        "random_packing": False,
+        "variable_orientation": False,
     }
 
     for key, value in default_values.items():
@@ -163,7 +162,7 @@ def plot_and_download(current_crowd: Crowd) -> None:
         # Create a select box for format selection
         backup_data_type: BackupDataType = st.sidebar.selectbox(
             "Select backup format:",
-            options=[cst.BackupDataTypes.zip.name, cst.BackupDataTypes.xml.name],
+            options=[cst.BackupDataTypes.zip.name, f"{cst.BackupDataTypes.xml.name} (only basic information)"],
             format_func=lambda x: x.upper(),
             help="Choose the format for your data backup.",
         )
@@ -388,25 +387,20 @@ def general_settings() -> Polygon:
     Polygon
         The updated boundaries of the simulation area.
     """
-    pack_agents: bool = st.sidebar.checkbox("Pack agents", value=True, on_change=parameter_changed)
-    if pack_agents != st.session_state.pack_agents:
-        st.session_state.pack_agents = pack_agents
+    variable_orientation: bool = st.sidebar.checkbox("Variable orientation", value=False, on_change=parameter_changed)
+    if variable_orientation != st.session_state.variable_orientation:
+        st.session_state.variable_orientation = variable_orientation
 
-    if pack_agents:
-        random_packing: bool = st.sidebar.checkbox("Random packing", value=False, on_change=parameter_changed)
-        if random_packing != st.session_state.random_packing:
-            st.session_state.random_packing = random_packing
-
-        desired_direction = st.sidebar.number_input(
-            "Desired direction (degrees)",
-            min_value=-180.0,
-            max_value=180.0,
-            value=st.session_state.desired_direction,
-            step=1.0,
-            on_change=parameter_changed,
-        )
-        if desired_direction != st.session_state.desired_direction:
-            st.session_state.desired_direction = desired_direction
+    desired_direction = st.sidebar.number_input(
+        "Desired direction (degrees)",
+        min_value=-180.0,
+        max_value=180.0,
+        value=st.session_state.desired_direction,
+        step=1.0,
+        on_change=parameter_changed,
+    )
+    if desired_direction != st.session_state.desired_direction:
+        st.session_state.desired_direction = desired_direction
 
     wall_interaction: bool = st.sidebar.checkbox(
         "Enable wall interaction",
@@ -500,18 +494,14 @@ def run_tab_crowd() -> None:
         st.sidebar.header(f"{database_option} settings")
         agent_statistics_state(new_boundaries, st.session_state.num_agents)
 
-    if st.session_state.pack_agents:
-        if st.session_state.simulation_run:
-            # unpacked_agents = st.session_state.current_crowd.get_agents_params()
+    if st.session_state.simulation_run:
+        # unpacked_agents = st.session_state.current_crowd.get_agents_params()
 
-            st.session_state.current_crowd.pack_agents_with_forces(
-                st.session_state.repulsion_length, st.session_state.desired_direction, st.session_state.random_packing
-            )
-            st.session_state.simulation_run = False
-    else:
-        st.session_state.current_crowd.unpack_crowd()
+        st.session_state.current_crowd.pack_agents_with_forces(
+            st.session_state.repulsion_length, st.session_state.desired_direction, st.session_state.variable_orientation
+        )
+        st.session_state.simulation_run = False
 
-    if st.session_state.pack_agents:
-        display_interpenetration_warning()
+    display_interpenetration_warning()
 
     plot_and_download(st.session_state.current_crowd)

@@ -38,14 +38,15 @@ from configuration.data import datafactory
 from streamlit_app.app import documentation, ui
 from streamlit_app.tabs.agent2D_tab import run_tab_agent2D
 from streamlit_app.tabs.anthropometry_tab import run_tab_anthropometry
-from streamlit_app.tabs.auto_crowd_creation_tab import run_tab_crowd
+from streamlit_app.tabs.crowd_creation_tab import run_tab_crowd
 from streamlit_app.tabs.pedestrian3D_tab import run_tab_pedestrian3D
 from streamlit_app.utils.logging import setup_logging
 
 setup_logging()
 if __name__ == "__main__":
     ui.setup_app()
-    selected_tab = ui.init_sidebar()
+    selected_tab = ui.menubar()
+    ui.init_app_looks()
     datafactory.prepare_data()
 
     if selected_tab == cst_app.FIRST_TAB_NAME:

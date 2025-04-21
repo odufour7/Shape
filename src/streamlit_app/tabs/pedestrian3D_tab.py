@@ -160,6 +160,141 @@ def download_data(current_pedestrian: Agent) -> None:
     )
 
 
+def orthogonal_projection_option(current_pedestrian: Agent) -> None:
+    """
+    Display the orthogonal projection of the pedestrian agent in 3D.
+
+    Parameters
+    ----------
+    current_pedestrian : Agent
+        The agent object representing the current pedestrian. It contains the 3D shape
+        data (`shapes3D`) and anthropometric measures (`measures`) to be displayed.
+
+    Notes
+    -----
+    - The function creates a progress bar and status text to indicate the progress of the computation.
+    - The orthogonal projection is computed and displayed using the `plot.display_body3D_orthogonal_projection` function.
+    - The resulting figure is saved to a `BytesIO` object in PDF format.
+    - A download button is provided in the sidebar to allow users to download the orthogonal projection as a PDF file.
+    """
+    title_progress_bar = st.text("Progress bar")
+    my_progress_bar = st.progress(0)
+    status_text = st.empty()
+
+    # Compute the orthogonal projection
+    fig: Figure = plot.display_body3D_orthogonal_projection(current_pedestrian, extra_info=(my_progress_bar, status_text))
+    # Display the figure
+    st.pyplot(fig)
+
+    status_text.text("Operation complete! ⌛")
+    my_progress_bar.empty()
+    title_progress_bar.empty()
+    status_text.empty()
+
+    # Save the figure to a BytesIO object in PDF format
+    body3D_orthogonal_projection = BytesIO()
+    fig.savefig(body3D_orthogonal_projection, format="pdf")
+    body3D_orthogonal_projection.seek(0)
+
+    # Streamlit button in the sidebar to download the graph in PDF format
+    st.sidebar.header("Download")
+    st.sidebar.download_button(
+        label="Download orthogonal projection as PDF",
+        data=body3D_orthogonal_projection,
+        file_name="body3D_orthogonal_projection.pdf",
+        mime="application/pdf",
+    )
+
+
+def slices_option(current_pedestrian: Agent) -> None:
+    """
+    Display the slices of the pedestrian agent in 3D.
+
+    Parameters
+    ----------
+    current_pedestrian : Agent
+        The agent object representing the current pedestrian. It contains the 3D shape
+        data (`shapes3D`) and anthropometric measures (`measures`) to be displayed.
+
+    Notes
+    -----
+    - The function creates a progress bar and status text to indicate the progress of the computation.
+    - The slices are computed and displayed using the `plot.display_body3D_polygons` function.
+    - The resulting figure is saved to a `BytesIO` object in PDF format.
+    - A download button is provided in the sidebar to allow users to download the slices as a PDF file.
+    """
+    title_progress_bar = st.text("Progress Bar")
+    my_progress_bar = st.progress(0)
+    status_text = st.empty()
+
+    # Compute the 3D body with slices
+    fig_plotly: go.Figure = plot.display_body3D_polygons(current_pedestrian, extra_info=(my_progress_bar, status_text))
+    # Display the figure
+    st.plotly_chart(fig_plotly)
+
+    status_text.text("Operation complete! ⌛")
+    my_progress_bar.empty()
+    title_progress_bar.empty()
+    status_text.empty()
+
+    # Streamlit button in the sidebar to download the graph in PDF format
+    st.sidebar.header("Download")
+    st.sidebar.download_button(
+        label="Download the 3D body with slices as PDF",
+        data=fig_plotly.to_image(format="pdf"),
+        file_name="body3D_slices.pdf",
+    )
+
+
+def mesh_option(current_pedestrian: Agent) -> None:
+    """
+    Display the mesh of the pedestrian agent in 3D.
+
+    Parameters
+    ----------
+    current_pedestrian : Agent
+        The agent object representing the current pedestrian. It contains the 3D shape
+        data (`shapes3D`) and anthropometric measures (`measures`) to be displayed.
+
+    Notes
+    -----
+    - The function creates a progress bar and status text to indicate the progress of the computation.
+    - The mesh is computed and displayed using the `plot.display_body3D_mesh` function.
+    - The resulting figure is saved to a `BytesIO` object in PDF format.
+    - A download button is provided in the sidebar to allow users to download the mesh as a PDF file.
+    """
+    precision = st.sidebar.slider(
+        "Precision of the mesh (number of slices plotted)",
+        min_value=10,
+        max_value=len(current_pedestrian.shapes3D.shapes.keys()),
+        value=20,
+        step=1,
+    )
+
+    title_progress_bar = st.text("Progress Bar")
+    my_progress_bar = st.progress(0)
+    status_text = st.empty()
+
+    # Compute the 3D body with a mesh
+    fig_plotly_mesh: go.Figure = plot.display_body3D_mesh(current_pedestrian, precision, extra_info=(my_progress_bar, status_text))
+
+    # Display the figure
+    st.plotly_chart(fig_plotly_mesh)
+
+    status_text.text("Operation complete! ⌛")
+    my_progress_bar.empty()
+    title_progress_bar.empty()
+    status_text.empty()
+
+    # Streamlit button in the sidebar to download the graph in PDF format
+    st.sidebar.header("Download")
+    st.sidebar.download_button(
+        label="Download the 3D body with a mesh as PDF",
+        data=fig_plotly_mesh.to_image(format="pdf"),
+        file_name="body3D_mesh.pdf",
+    )
+
+
 def run_tab_pedestrian3D() -> None:
     """
     Provide an interactive interface for visualizing and interacting with a 3D representation of a pedestrian agent.
@@ -184,6 +319,10 @@ def run_tab_pedestrian3D() -> None:
 
     # Main Page Content
     st.subheader("Visualisation")
+    # Define the URL of the database website
+    database_url = "https://datadiscovery.nlm.nih.gov/Images/Visible-Human-Project/ux2j-9i9a/about_data"
+    # Use st.markdown to create a clickable link
+    st.markdown(f"Visit the [database website]({database_url}) with the original human body slices.")
 
     # Sidebar menu for selecting visualization type
     menu_option = st.selectbox(
@@ -204,90 +343,13 @@ def run_tab_pedestrian3D() -> None:
     with col1:
         # Display content based on the selected menu option
         if menu_option == "Display orthogonal projection":
-            title_progress_bar = st.text("Progress bar")
-            my_progress_bar = st.progress(0)
-            status_text = st.empty()
-
-            # Compute the orthogonal projection
-            fig: Figure = plot.display_body3D_orthogonal_projection(current_pedestrian, extra_info=(my_progress_bar, status_text))
-            # Display the figure
-            st.pyplot(fig)
-
-            status_text.text("Operation complete! ⌛")
-            my_progress_bar.empty()
-            title_progress_bar.empty()
-            status_text.empty()
-
-            # Save the figure to a BytesIO object in PDF format
-            body3D_orthogonal_projection = BytesIO()
-            fig.savefig(body3D_orthogonal_projection, format="pdf")
-            body3D_orthogonal_projection.seek(0)
-
-            # Streamlit button in the sidebar to download the graph in PDF format
-            st.sidebar.header("Download")
-            st.sidebar.download_button(
-                label="Download orthogonal projection as PDF",
-                data=body3D_orthogonal_projection,
-                file_name="body3D_orthogonal_projection.pdf",
-                mime="application/pdf",
-            )
+            orthogonal_projection_option(current_pedestrian)
 
         elif menu_option == "Display the body in 3D as a superposition of slices":
-            title_progress_bar = st.text("Progress Bar")
-            my_progress_bar = st.progress(0)
-            status_text = st.empty()
-
-            # Compute the 3D body with slices
-            fig_plotly: go.Figure = plot.display_body3D_polygons(current_pedestrian, extra_info=(my_progress_bar, status_text))
-            # Display the figure
-            st.plotly_chart(fig_plotly)
-
-            status_text.text("Operation complete! ⌛")
-            my_progress_bar.empty()
-            title_progress_bar.empty()
-            status_text.empty()
-
-            # Streamlit button in the sidebar to download the graph in PDF format
-            st.sidebar.header("Download")
-            st.sidebar.download_button(
-                label="Download the 3D body with slices as PDF",
-                data=fig_plotly.to_image(format="pdf"),
-                file_name="body3D_slices.pdf",
-            )
+            slices_option(current_pedestrian)
 
         elif menu_option == "Display the body in 3D with a mesh":
-            precision = st.sidebar.slider(
-                "Precision of the mesh (number of slices plotted)",
-                min_value=10,
-                max_value=len(current_pedestrian.shapes3D.shapes.keys()),
-                value=20,
-                step=1,
-            )
-
-            title_progress_bar = st.text("Progress Bar")
-            my_progress_bar = st.progress(0)
-            status_text = st.empty()
-
-            # Compute the 3D body with a mesh
-            fig_plotly_mesh: go.Figure = plot.display_body3D_mesh(
-                current_pedestrian, precision, extra_info=(my_progress_bar, status_text)
-            )
-
-            # Display the figure
-            st.plotly_chart(fig_plotly_mesh)
-
-            status_text.text("Operation complete! ⌛")
-            my_progress_bar.empty()
-            title_progress_bar.empty()
-            status_text.empty()
-
-            # Streamlit button in the sidebar to download the graph in PDF format
-            st.sidebar.header("Download")
-            st.sidebar.download_button(
-                label="Download the 3D body with a mesh as PDF",
-                data=fig_plotly_mesh.to_image(format="pdf"),
-                file_name="body3D_mesh.pdf",
-            )
+            mesh_option(current_pedestrian)
 
     # Download data button
     download_data(current_pedestrian)

@@ -198,7 +198,7 @@ def sliders_for_position() -> tuple[float, float, float]:
         "Rotation angle (degrees):",
         min_value=-180.0,
         max_value=180.0,
-        value=0.0,
+        value=90.0,
         step=1.0,
     )
     return x_translation, y_translation, rotation_angle

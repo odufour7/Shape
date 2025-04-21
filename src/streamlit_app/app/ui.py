@@ -1,5 +1,6 @@
 """User interface module."""
 
+from pathlib import Path
 from typing import Any
 
 import streamlit as st
@@ -17,12 +18,13 @@ def setup_app() -> None:
         initial_sidebar_state="expanded",
         menu_items={
             "Get Help": "https://github.com/odufour7/Shape",
+            "Report a bug": "https://github.com/odufour7/Shape/issues",
             "About": "# Shape Project " + ":flag-fr:",
         },
     )
 
 
-def init_sidebar() -> Any:
+def menubar() -> Any:
     """
     Initialize the sidebar for the Shape project application.
 
@@ -98,31 +100,32 @@ def init_sidebar() -> Any:
     )
 
 
-# def init_app_looks() -> None:
-#     """
-#     Initializes the appearance of the application.
+def init_app_looks() -> None:
+    """
+    Initialize the appearance of the application.
 
-#     This function sets up the sidebar with a GitHub repository badge, a DOI badge,
-#     and a logo image. It constructs the paths and URLs required for these elements
-#     and uses Streamlit's sidebar components to display them.
+    This function sets up the sidebar with a GitHub repository badge, a DOI badge,
+    and a logo image. It constructs the paths and URLs required for these elements
+    and uses Streamlit's sidebar components to display them.
 
-#     - Displays a GitHub repository badge with a link to the repository.
-#     - Displays a DOI badge with a link to the DOI.
-#     - Displays a logo image from the assets directory.
-#     """
-#     current_file_path = Path(__file__)
-#     ROOT_DIR = current_file_path.parent.parent.parent.absolute()
-#     logo_path = ROOT_DIR / ".." / "data" / "assets" / "logo.png"
-#     gh = "https://badgen.net/badge/icon/GitHub?icon=github&label"
-#     zenodo_badge = "[![DOI](https://zenodo.org/badge/760394097.svg)](https://zenodo.org/doi/10.5281/zenodo.10694866)"
-#     data_badge = "[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.13830435.svg)](https://doi.org/10.5281/zenodo.13830435)"
-#     repo = "https://github.com/PedestrianDynamics/madras-data-app"
-#     repo_name = f"[![Repo]({gh})]({repo})"
-#     c1, c2 = st.sidebar.columns((0.25, 0.8))
-#     c1.write("**Code**")
-#     c2.write(zenodo_badge)
-#     c1.write("**Data**")
-#     c2.write(data_badge)
-#     c1.write("**Repo**")
-#     c2.markdown(repo_name, unsafe_allow_html=True)
-#     st.sidebar.image(str(logo_path), use_column_width=True)
+    - Displays a GitHub repository badge with a link to the repository.
+    - Displays a DOI badge with a link to the DOI.
+    - Displays a logo image from the assets directory.
+    """
+    current_file_path = Path(__file__)
+    ROOT_DIR = current_file_path.parent.parent.parent.parent.absolute()
+    logo_path = ROOT_DIR / "docs" / "source" / "_static" / "logo" / "art_light_logo_app.png"
+    article_badge = "[![](https://badgen.net/badge/DOI/open%20access/orange)](https://scipost.org/SciPostPhysCodeb)"
+    doc_badge = "[![](https://badgen.net/static/DOC/shapes-docs/cyan?icon=https://icons.getbootstrap.com/icons/filetype-doc/)](https://shapes-crowd.readthedocs.io/en/latest/index.html)"
+    gh = "https://badgen.net/badge/icon/GitHub?icon=github&label"
+    repo = "https://github.com/odufour7/Shape"
+    repo_badge = f"[![]({gh})]({repo})"
+
+    st.sidebar.image(str(logo_path), use_container_width=True)
+    c1, c2 = st.sidebar.columns((0.25, 0.8))
+    c1.write("**Article**")
+    c2.write(article_badge)
+    c1.write("**Doc**")
+    c2.write(doc_badge)
+    c1.write("**Repo**")
+    c2.markdown(repo_badge, unsafe_allow_html=True)

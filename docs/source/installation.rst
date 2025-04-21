@@ -1,24 +1,7 @@
 Installation
 ============
 
-To set up, follow these steps after downloading the repository:
-
-**1. Environment Setup**
-
-Create and activate a virtual environment to manage dependencies efficiently:
-
-.. code-block:: bash
-
-   python -m pip install --upgrade pip
-   pip install uv
-   uv sync
+You can try out the Streamlit application online at `app <https://j3rdeorxelafmdndi75rhf.streamlit.app/>`_.
 
 
-**2. Launch the App**
-
-Start the app with the following command:
-
-.. code-block:: bash
-
-   uv run streamlit run src/streamlit_app/app/app.py
 

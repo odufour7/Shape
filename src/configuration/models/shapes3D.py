@@ -140,8 +140,8 @@ class Shapes3D:
         for height, multipolygon in initial_pedestrian.shapes3D.items():
             scaled_multipolygon = scale(
                 multipolygon,
-                xfact=optimized_scale_factor_x,
-                yfact=optimized_scale_factor_y,
+                xfact=fun.rectangular_function(optimized_scale_factor_x, height, sex_name),
+                yfact=fun.rectangular_function(optimized_scale_factor_y, height, sex_name),
                 origin=homothety_center,
             )
             scaled_height = height * scale_factor_z

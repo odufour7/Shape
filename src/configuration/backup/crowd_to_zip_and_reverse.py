@@ -86,4 +86,5 @@ def save_crowd_data_to_zip(current_crowd: Crowd, output_zip_path: Path) -> None:
     with open(output_zip_path, "wb") as output_file:
         output_file.write(zip_buffer.read())
 
-    print(f"ZIP file successfully saved to {output_zip_path}")
+    # Close the in-memory buffer
+    zip_buffer.close()

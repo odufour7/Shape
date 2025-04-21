@@ -2,7 +2,8 @@
 
 from pathlib import Path
 
-from shapely.geometry import MultiPolygon, Point
+from shapely.geometry import MultiPolygon, Point, box
+from shapely.ops import unary_union
 
 import configuration.utils.constants as cst
 from configuration.utils import functions as fun
@@ -11,7 +12,7 @@ from configuration.utils.typing_custom import Sex, ShapeDataType, ShapeType
 
 class InitialPedestrian:
     """
-    Encapsulates the initial pedestrian state including its 2D shape data and derived measurements.
+    Encapsulates the initial pedestrian state including its 2D shape data and basic measurements.
 
     Parameters
     ----------
@@ -56,7 +57,7 @@ class InitialPedestrian:
         self._agent_type: cst.AgentTypes = cst.AgentTypes.pedestrian
         self._shapes2D: ShapeDataType = self._initialize_shapes()
         dir_path = Path(__file__).parent.parent.parent.parent.absolute() / "data" / "pkl"
-        self._shapes3D: dict[float, MultiPolygon] = fun.load_pickle(str(dir_path / f"{sex}_3dBody.pkl"))
+        self._shapes3D: dict[float, MultiPolygon] = fun.load_pickle(str(dir_path / f"{sex}_3dBody_light.pkl"))
 
         # Initialize measures
         bideltoid_breadth: float = 0.0
@@ -78,6 +79,9 @@ class InitialPedestrian:
             cst.CommonMeasures.weight.name: cst.DEFAULT_PEDESTRIAN_WEIGHT,
             cst.CommonMeasures.moment_of_inertia.name: None,
         }
+
+        # Center the initial shapes around (0, 0)
+        self._center_initial_shapes2D()
 
     def _initialize_shapes(self) -> dict[str, dict[str, ShapeType | float | tuple[float, float]]]:
         """
@@ -212,28 +216,33 @@ class InitialPedestrian:
         """
         return self._shapes3D
 
-    def calculate_position(self) -> Point:
+    def _center_initial_shapes2D(self) -> None:
+        """Center the initial 2D shapes of the pedestrian to center them around (0, 0)."""
+        center_of_mass = self.get_position()
+        for shape in self.shapes2D.values():
+            shape["x"] -= center_of_mass.x
+            shape["y"] -= center_of_mass.y
+
+    def get_position(self) -> Point:
         """
-        Calculate the pedestrian's position based on the center of disk2.
+        Get the centroid position of the pedestrian based on their 2D shapes.
 
         Returns
         -------
         Point
-            Point object containing (x, y) coordinates in centimeters:
-                - x: First element of disk2's center coordinates
-                - y: First element of disk2's center coordinates
-
-        Raises
-        ------
-        TypeError
-            If the disk2 center value is not stored as a tuple of numerical values
+            A Point object representing the centroid of the pedestrian's geometry.
         """
-        if isinstance(self.shapes2D["disk2"]["x"], float) and isinstance(self.shapes2D["disk2"]["y"], float):
-            return Point(self.shapes2D["disk2"]["x"], self.shapes2D["disk2"]["x"])  # should be (0.0,0.0)
-        raise TypeError(
-            f"Expected type float for disk2 center coordinates, but got {type(self.shapes2D['disk2']['x']).__name__} "
-            f"and {type(self.shapes2D['disk2']['y']).__name__}. Expected a tuple of numerical values."
-        )
+        # Create buffered shapes from the 2D shape definitions
+        buffered_shapes = [Point(shape["x"], shape["y"]).buffer(shape["radius"]) for shape in self.shapes2D.values()]
+
+        if not buffered_shapes:
+            raise ValueError("No shapes defined for the pedestrian.")
+
+        # Compute the union of all shapes
+        combined_shape = unary_union(buffered_shapes)
+
+        # Return the centroid as a Point
+        return combined_shape.centroid
 
     def get_disk_centers(self) -> list[Point]:
         """
@@ -378,6 +387,9 @@ class InitialBike:
             cst.CommonMeasures.moment_of_inertia.name: None,
         }
 
+        # Center the initial shapes around (0, 0)
+        self._center_initial_shapes2D()
+
     def _initialize_shapes(self) -> dict[str, dict[str, ShapeType | float]]:
         """
         Initialize 2D shape data for the bicycle and rider.
@@ -491,28 +503,42 @@ class InitialBike:
         """
         return self._measures
 
-    def calculate_position(self) -> Point:
+    def get_position(self) -> Point:
         """
-        Calculate the central position of the bike.
+        Compute the centroid position of the pedestrian based on all 2D shapes.
 
         Returns
         -------
         Point
-            A Point object representing the central position of the bike.
+            A Point object representing the centroid of the pedestrian's geometry.
 
-        Notes
-        -----
-            If the required shape coordinates are not available or not of the correct type,
-            the method returns a Point(0.0, 0.0).
+        Raises
+        ------
+        ValueError
+            If no valid shapes are found in self.shapes2D.
         """
-        if (
-            isinstance(self.shapes2D["bike"]["min_x"], float)
-            and isinstance(self.shapes2D["bike"]["max_x"], float)
-            and isinstance(self.shapes2D["bike"]["min_y"], float)
-            and isinstance(self.shapes2D["bike"]["max_y"], float)
-        ):
-            return Point(
-                (self.shapes2D["bike"]["max_x"] + self.shapes2D["bike"]["min_x"]) / 2.0,
-                (self.shapes2D["bike"]["max_y"] + self.shapes2D["bike"]["min_y"]) / 2.0,
-            )
-        return Point(0.0, 0.0)
+        polygons = []
+        for shape_name, shape in self.shapes2D.items():
+            try:
+                min_x = shape["min_x"]
+                min_y = shape["min_y"]
+                max_x = shape["max_x"]
+                max_y = shape["max_y"]
+                polygons.append(box(min_x, min_y, max_x, max_y))
+            except KeyError as e:
+                raise ValueError(f"Missing key {e} in shape '{shape_name}'") from e
+
+        if not polygons:
+            raise ValueError("No valid shapes found to compute centroid.")
+
+        combined_shape = unary_union(polygons)
+        return combined_shape.centroid
+
+    def _center_initial_shapes2D(self) -> None:
+        """Center the initial 2D shapes of the bike to center them around (0, 0)."""
+        center_of_mass = self.get_position()
+        for shape in self.shapes2D.values():
+            shape["min_x"] -= center_of_mass.x
+            shape["min_y"] -= center_of_mass.y
+            shape["max_x"] -= center_of_mass.x
+            shape["max_y"] -= center_of_mass.y
