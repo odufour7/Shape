@@ -1,7 +1,8 @@
+fail_fast: false # Continue running other hooks even if one fails
 repos:
   # Ruff: Linter and Formatter
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.9.10 # Use the latest version of Ruff
+    rev: v0.11.7 # Use the latest version of Ruff
     hooks:
       # Linting with Ruff (includes type checks if configured)
       - id: ruff
@@ -12,7 +13,7 @@ repos:
 
   # Codespell: Spell checker
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.1.0 # Use the latest version of Codespell
+    rev: v2.4.1 # Use the latest version of Codespell
     hooks:
       - id: codespell
         args:
@@ -45,3 +46,16 @@ repos:
         pass_filenames: false
         always_run: true
         types: ["python"]
+
+  # Cppcheck: C++ static analysis
+  - repo: https://github.com/pocc/pre-commit-hooks
+    rev: v1.3.5
+    hooks:
+      - id: clang-format
+        args: [--style=Google]
+      - id: clang-tidy
+      - id: oclint
+      - id: uncrustify
+      - id: cppcheck
+      - id: cpplint
+      - id: include-what-you-use

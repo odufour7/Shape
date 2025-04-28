@@ -54,8 +54,8 @@ DEFAULT_REPULSION_LENGTH: float = 15.0  # cm
 DEFAULT_DESIRED_DIRECTION: float = 0.0  # degrees
 DEFAULT_RANDOM_PACKING: bool = False
 INFINITE: float = 1.0e10  # Infinite value for the simulation
-INTENSITY_ROTATIONAL_FORCE: float = 20.0  # degrees
-INTENSITY_TRANSLATIONAL_FORCE: float = 10.0  # arbitrary units
+INTENSITY_ROTATIONAL_FORCE: float = 10.0  # degrees
+INTENSITY_TRANSLATIONAL_FORCE: float = 2.0  # arbitrary units
 
 # Crowd Statistics
 DEFAULT_PEDESTRIAN_HEIGHT: float = 170.0  # cm

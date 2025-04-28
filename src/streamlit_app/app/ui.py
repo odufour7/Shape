@@ -72,12 +72,10 @@ def menubar() -> Any:
             cst_app.SECOND_TAB_NAME,
             cst_app.THIRD_TAB_NAME,
             cst_app.FOURTH_TAB_NAME,
-            cst_app.FIFTH_TAB_NAME,
         ],
         icons=[
             "info-square",
             "person-fill",
-            "person-walking",
             "bar-chart-line",
             "people-fill",
         ],
@@ -121,7 +119,6 @@ def init_app_looks() -> None:
     repo = "https://github.com/odufour7/Shape"
     repo_badge = f"[![]({gh})]({repo})"
 
-    st.sidebar.image(str(logo_path), use_container_width=True)
     c1, c2 = st.sidebar.columns((0.25, 0.8))
     c1.write("**Article**")
     c2.write(article_badge)
@@ -129,3 +126,5 @@ def init_app_looks() -> None:
     c2.write(doc_badge)
     c1.write("**Repo**")
     c2.markdown(repo_badge, unsafe_allow_html=True)
+
+    st.sidebar.image(str(logo_path), use_container_width=True)

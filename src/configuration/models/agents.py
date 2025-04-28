@@ -199,11 +199,13 @@ class Agent:
             self._measures = value
             wanted_position = self.get_position()
             wanted_orientation = self.get_agent_orientation()
+            # Create and update the 2D shapes
             self.shapes2D.create_pedestrian_shapes(self._measures)
             current_position = self.get_position()
             current_orientation = self.get_agent_orientation()
             self.translate(wanted_position.x - current_position.x, wanted_position.y - current_position.y)
             self.rotate(wanted_orientation - current_orientation)
+            # Create and update the 3D shapes if they exist
             if self.shapes3D is not None:
                 self.shapes3D.create_pedestrian3D(self._measures)
             else:
@@ -214,7 +216,14 @@ class Agent:
             if isinstance(value, dict):
                 value = AgentMeasures(agent_type=cst.AgentTypes.bike, measures=value)
             self._measures = value
+            wanted_position = self.get_position()
+            wanted_orientation = self.get_agent_orientation()
+            # Create and update the 2D shapes
             self.shapes2D.create_bike_shapes(self._measures)
+            current_position = self.get_position()
+            current_orientation = self.get_agent_orientation()
+            self.translate(wanted_position.x - current_position.x, wanted_position.y - current_position.y)
+            self.rotate(wanted_orientation - current_orientation)
 
         self._measures.measures[cst.CommonMeasures.moment_of_inertia.name] = fun.compute_moment_of_inertia(
             self._shapes2D.get_geometric_shape(),
@@ -407,6 +416,8 @@ class Agent:
             as values, representing the position vector from the agent centroid to
             the centroid of each shape.
         """
+        if self.agent_type != cst.AgentTypes.pedestrian:
+            raise ValueError("It does not make sense to use the 'get_delta_GtoGi' function for agents other than pedestrians.")
         delta_GtoGi = {}
         agent_center: Point = self.get_position()
         for name, shape in self.shapes2D.shapes.items():
@@ -426,10 +437,16 @@ class Agent:
         float
             The angle of the agent in degrees.
         """
-        delta_GtoGi: dict[str, tuple[float, float]] = self.get_delta_GtoGi()
-        delta_GtoG0: NDArray[np.float64] = np.array(delta_GtoGi["disk0"])
-        delta_GtoG4: NDArray[np.float64] = np.array(delta_GtoGi["disk4"])
-        shoulders_direction: NDArray[np.float64] = (delta_GtoG0 - delta_GtoG4) / np.linalg.norm(delta_GtoG0 - delta_GtoG4)
-        head_orientation: float = np.arctan2(shoulders_direction[1], shoulders_direction[0]) - np.pi / 2
-        head_orientation_degrees: float = fun.wrap_angle(np.degrees(head_orientation))
-        return head_orientation_degrees
+        if self.agent_type == cst.AgentTypes.pedestrian:
+            delta_GtoGi: dict[str, tuple[float, float]] = self.get_delta_GtoGi()
+            delta_GtoG0: NDArray[np.float64] = np.array(delta_GtoGi["disk0"])
+            delta_GtoG4: NDArray[np.float64] = np.array(delta_GtoGi["disk4"])
+            shoulders_direction: NDArray[np.float64] = (delta_GtoG0 - delta_GtoG4) / np.linalg.norm(delta_GtoG0 - delta_GtoG4)
+            head_orientation: float = np.arctan2(shoulders_direction[1], shoulders_direction[0]) - np.pi / 2
+            head_orientation_degrees: float = fun.wrap_angle(np.degrees(head_orientation))
+            return head_orientation_degrees
+        if self.agent_type == cst.AgentTypes.bike:
+            # the direction is given by the bike (not the rider)
+            head_orientation_degrees = fun.direction_of_longest_side(self.shapes2D.shapes["bike"]["object"])
+            return head_orientation_degrees
+        raise ValueError("Agent type not supported for orientation calculation.")

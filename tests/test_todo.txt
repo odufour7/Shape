@@ -1,8 +1,3 @@
-- read configuration files : un test propre pour que les gens soient vraiment confinats
-    - permet aussi de verifier le setter de agents dans crowd
-
-- lorsqu'on est dans la tab agent 2D, on interdit la créatio d'agent 3D
-- lorsqu'on est dans la tab crowd, on interdit la création d'agents 3D
 
 - à verifier encore
     - les fonctions de Crowd measures statistiques

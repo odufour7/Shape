@@ -239,8 +239,8 @@ class Shapes2D:
         Create the shapes of a pedestrian based on the provided measures.
 
         This method generates the shapes of a pedestrian agent by scaling initial disk centers and radii
-        according to the provided measurements. It uses an optimization algorithm to minimize the difference
-        between the desired and actual chest depth and bideltoid breadth.
+        according to the provided measurements. To find the correct scalings, it uses an optimization algorithm
+        to minimize the difference between the desired and actual chest depth and bideltoid breadth.
 
         Parameters
         ----------

@@ -3,6 +3,7 @@
 from datetime import datetime
 from io import BytesIO
 
+import numpy as np
 import streamlit as st
 from shapely.geometry import Polygon
 
@@ -10,10 +11,11 @@ import configuration.backup.crowd_to_dict as fun_dict
 import configuration.backup.crowd_to_zip_and_reverse as fun_zip
 import configuration.backup.dict_to_xml_and_reverse as fun_xml
 import configuration.utils.constants as cst
+import configuration.utils.functions as fun
 import streamlit_app.utils.constants as cst_app
-from configuration.models.crowd import Crowd
+from configuration.models.crowd import Crowd, create_agents_from_dynamic_static_geometry_parameters
 from configuration.models.measures import CrowdMeasures
-from configuration.utils.typing_custom import BackupDataType
+from configuration.utils.typing_custom import DynamicCrowdDataType, GeometryDataType, StaticCrowdDataType
 from streamlit_app.plot import plot
 
 
@@ -127,6 +129,29 @@ def display_interpenetration_warning() -> None:
             )
 
 
+def display_crowd_statistics(crowd_statistics_measures: dict[str, float | int | None]) -> None:
+    """
+    Display crowd statistics in a Streamlit app.
+
+    Parameters
+    ----------
+    crowd_statistics_measures : dict[str, float | int | None]
+        A dictionary containing crowd statistics measures.
+    """
+    filtered_measures = fun.filter_dict_by_not_None_values(crowd_statistics_measures)
+
+    st.write("### Measured crowd statistics")
+
+    # Display as a Markdown table for better readability
+    if filtered_measures:
+        table_md = "| Measure | Value |\n|---|---|\n"
+        for key, value in filtered_measures.items():
+            table_md += f"| {key.capitalize()} | {np.round(value, 2)} |\n"
+        st.markdown(table_md)
+    else:
+        st.info("No statistics available to display.")
+
+
 def plot_and_download(current_crowd: Crowd) -> None:
     """
     Plot the crowd and provide download options.
@@ -136,9 +161,9 @@ def plot_and_download(current_crowd: Crowd) -> None:
     current_crowd : Crowd
         The Crowd object to be plotted and downloaded.
     """
-    st.subheader("Visualisation")
     col1, _ = st.columns([1.5, 1])
     with col1:
+        st.subheader("Visualisation")
         fig = plot.display_crowd2D(current_crowd)
         st.pyplot(fig)
 
@@ -153,51 +178,63 @@ def plot_and_download(current_crowd: Crowd) -> None:
             file_name="crowd.pdf",
             mime="application/pdf",
         )
+    crowd_statistics = current_crowd.get_crowd_statistics()
+    display_crowd_statistics(crowd_statistics["measures"])
 
     # Download all files as ZIP
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
     # check if all agents in the Crowd are pedestrian
     if all(agent.agent_type == cst.AgentTypes.pedestrian for agent in current_crowd.agents):
-        # Create a select box for format selection
-        backup_data_type: BackupDataType = st.sidebar.selectbox(
-            "Select backup format:",
-            options=[cst.BackupDataTypes.zip.name, f"{cst.BackupDataTypes.xml.name} (only basic information)"],
-            format_func=lambda x: x.upper(),
-            help="Choose the format for your data backup.",
+        filename = f"crowd2D_{timestamp}.zip"
+        zip_buffer = fun_zip.write_crowd_data_to_zip(current_crowd)
+        # Add download button for the ZIP file
+        st.sidebar.download_button(
+            label="Download the configuration files as ZIP",
+            data=zip_buffer,
+            file_name=filename,
+            mime="application/zip",
         )
-        if backup_data_type == cst.BackupDataTypes.zip.name:
-            filename = f"crowd2D_{timestamp}.zip"
 
-            zip_buffer = fun_zip.write_crowd_data_to_zip(current_crowd)
+        filename = f"crowd2D_{timestamp}.xml"
+        data_dict = fun_dict.get_light_agents_params(current_crowd)
+        data = fun_xml.save_light_agents_params_dict_to_xml(data_dict)
+        st.sidebar.download_button(
+            label="Download basic information about the crowd as a single XML file",
+            data=data,
+            file_name=filename,
+            mime="application/xml",
+        )
 
-            # Add download button for the ZIP file
-            st.sidebar.download_button(
-                label="Download all files as ZIP",
-                data=zip_buffer,
-                file_name=filename,
-                mime="application/zip",
-            )
-        else:
-            filename = f"crowd2D_{timestamp}.xml"
-            data_dict = fun_dict.get_light_agents_params(current_crowd)
-            data = fun_xml.save_light_agents_params_dict_to_xml(data_dict)
-            st.sidebar.download_button(
-                label="Download as XML",
-                data=data,
-                file_name=filename,
-                mime="application/xml",
-            )
+        # Download the crowd statistics as a CSV file
+        filename = f"crowd_statistics_{timestamp}.csv"
+        data = fun.get_csv_buffer(crowd_statistics["stats_lists"])
+        st.sidebar.download_button(
+            label="Export crowd observation distributions as a CSV.",
+            data=data,
+            file_name=filename,
+            mime="text/csv",
+        )
 
     else:
         filename = f"crowd2D_{timestamp}.xml"
         data_dict = fun_dict.get_light_agents_params(current_crowd)
         data = fun_xml.save_light_agents_params_dict_to_xml(data_dict)
         st.sidebar.download_button(
-            label="Download as XML",
+            label="Download basic information about the crowd as a single XML file",
             data=data,
             file_name=filename,
             mime="application/xml",
+        )
+
+        # Download the crowd statistics as a CSV file
+        filename = f"crowd_statistics_{timestamp}.csv"
+        data = fun.get_csv_buffer(crowd_statistics["stats_lists"])
+        st.sidebar.download_button(
+            label="Export crowd observation distributions as a CSV.",
+            data=data,
+            file_name=filename,
+            mime="text/csv",
         )
 
 
@@ -437,7 +474,7 @@ def general_settings() -> Polygon:
     return new_boundaries
 
 
-def run_tab_crowd() -> None:
+def run_crowd_init() -> None:
     """
     Provide an interactive interface for simulating and visualizing a crowd of agents.
 
@@ -505,3 +542,116 @@ def run_tab_crowd() -> None:
     display_interpenetration_warning()
 
     plot_and_download(st.session_state.current_crowd)
+
+
+def run_crowd_from_config() -> None:
+    """
+    Run the crowd simulation from uploaded XML configuration files.
+
+    This function provides a Streamlit sidebar interface for uploading three required XML files:
+    Agents.xml, Geometry.xml, and AgentDynamics.xml. It validates the uploads, parses the XML files
+    into dictionaries, creates a crowd object using the configuration, displays a 2D plot of the crowd,
+    and allows the user to download the plot as a PDF.
+
+    Notes
+    -----
+    - All three configuration files must be uploaded to proceed.
+    - Displays errors or info messages in the Streamlit sidebar if files are missing or invalid.
+    """
+    # --- File upload section ---
+    st.sidebar.header("Upload Configuration Files")
+    uploaded_agents = st.sidebar.file_uploader("Upload Agents.xml", type="xml", key="Agents")
+    uploaded_geometry = st.sidebar.file_uploader("Upload Geometry.xml", type="xml", key="Geometry")
+    uploaded_dynamics = st.sidebar.file_uploader("Upload AgentDynamics.xml", type="xml", key="AgentDynamics")
+
+    # --- File validation ---
+    files = {
+        "Agents.xml": uploaded_agents,
+        "Geometry.xml": uploaded_geometry,
+        "AgentDynamics.xml": uploaded_dynamics,
+    }
+    missing_files = [name for name, file in files.items() if file is None or (hasattr(file, "size") and file.size == 0)]
+    if missing_files:
+        for name in missing_files:
+            st.error(f"{name} is missing or empty. Please upload a valid file.")
+        st.info("Please upload all three configuration files to continue.")
+
+    # --- XML Parsing ---
+    if all(file is not None and (not hasattr(file, "size") or file.size > 0) for file in files.values()):
+        crowd_xml: str = uploaded_agents.read().decode("utf-8")  # type: ignore
+        static_dict: StaticCrowdDataType = fun_xml.static_xml_to_dict(crowd_xml)
+
+        geometry_xml: str = uploaded_geometry.read().decode("utf-8")  # type: ignore
+        geometry_dict: GeometryDataType = fun_xml.geometry_xml_to_dict(geometry_xml)
+
+        dynamic_xml: str = uploaded_dynamics.read().decode("utf-8")  # type: ignore
+        dynamic_dict: DynamicCrowdDataType = fun_xml.dynamic_xml_to_dict(dynamic_xml)
+
+        # --- Crowd creation ---
+        try:
+            current_crowd = create_agents_from_dynamic_static_geometry_parameters(
+                static_dict=static_dict,
+                dynamic_dict=dynamic_dict,
+                geometry_dict=geometry_dict,
+            )
+        except ValueError as e:
+            st.error(f"Value error while creating crowd: {e}")
+        except KeyError as e:
+            st.error(f"Key error while creating crowd: {e}")
+        except TypeError as e:
+            st.error(f"Type error while creating crowd: {e}")
+
+        # --- Plotting and downloading ---
+        download_plot_crowd_from_config(current_crowd)
+
+
+def download_plot_crowd_from_config(current_crowd: Crowd) -> None:
+    """
+    Plot and download the plot of the crowd from configuration files.
+
+    Parameters
+    ----------
+    current_crowd : Crowd
+        The Crowd object to be plotted and downloaded.
+    """
+    # --- Plotting ---
+    col1, _ = st.columns([1.5, 1])
+    with col1:
+        fig = plot.display_crowd2D(current_crowd)
+        st.pyplot(fig)
+
+        # --- Download section ---
+        crowd_plot = BytesIO()
+        fig.savefig(crowd_plot, format="pdf")
+        crowd_plot.seek(0)
+
+        st.sidebar.header("Download")
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        st.sidebar.download_button(
+            label="Download plot as PDF",
+            data=crowd_plot,
+            file_name=f"crowd_{timestamp}.pdf",
+            mime="application/pdf",
+        )
+
+
+def run_tab_crowd() -> None:
+    """
+    Display and manage the crowd setup tab in the Streamlit app.
+
+    This function allows the user to either initialize a new crowd and save configuration files,
+    or to create a crowd using existing configuration files by uploading them. The function
+    handles file validation, parsing, crowd creation, visualization, and plot download.
+    """
+    st.subheader("Select the crowd setup method")
+    crowd_origin_options = {
+        "init crowd": "Initialize and save your own crowd",
+        "crowd from config": "Generate from configuration files",
+    }
+    selected_crowd_origin = st.pills("How would you like to set up your crowd?", list(crowd_origin_options.values()))
+
+    if selected_crowd_origin == crowd_origin_options["init crowd"]:
+        run_crowd_init()
+
+    if selected_crowd_origin == crowd_origin_options["crowd from config"]:
+        run_crowd_from_config()

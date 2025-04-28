@@ -1,4 +1,4 @@
-Streamlit App
+Streamlit app
 =============
 
 .. toctree::

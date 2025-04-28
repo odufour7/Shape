@@ -1,6 +1,7 @@
 """Contains functions to save to different formats including xml, zip and also to load from them."""
 
 import xml.etree.ElementTree as ET
+from typing import Any
 from xml.dom import minidom
 from xml.dom.minidom import parseString
 
@@ -298,55 +299,77 @@ def interactions_dict_to_xml(data: InteractionsDataType) -> bytes:
 
 def static_xml_to_dict(xml_file: str) -> StaticCrowdDataType:
     """
-    Convert an XML file to a Python dictionary.
+    Convert an XML string representing static agent data into a dictionary, with strict validation of structure and attribute types.
 
     Parameters
     ----------
     xml_file : str
-        Path to the XML file to be converted.
+        XML data as a string.
 
     Returns
     -------
     StaticCrowdDataType
-        A dictionary representation of the XML file with the same format as the input dictionary.
-    """
-    # Parse the XML file
-    root = ET.fromstring(xml_file)
+        A dictionary representation of the XML data.
 
-    # Initialize the main dictionary structure
+    Raises
+    ------
+    ValueError
+        If the XML structure or attribute types are incorrect.
+    """
+    try:
+        root = ET.fromstring(xml_file)
+    except ET.ParseError as e:
+        raise ValueError(f"Malformed XML: {e}") from e
+
     crowd_dict: StaticCrowdDataType = {"Agents": {}}
 
-    # Iterate over each <Agent> element in the XML
-    for agent in root.findall("Agent"):
-        agent_data: dict[str, int | float | ShapeDataType] = {
-            "Type": agent.get("Type"),
-            "Id": int(agent.get("Id", default=0)),
-            "Mass": float(agent.get("Mass", default=0.0)),
-            "MomentOfInertia": float(agent.get("MomentOfInertia", default=0.0)),
-            "FloorDamping": float(agent.get("FloorDamping", default=0.0)),
-            "AngularDamping": float(agent.get("AngularDamping", default=0.0)),
-        }
+    for agent_idx, agent in enumerate(root.findall("Agent")):
+        # Validate required agent attributes
+        try:
+            agent_data: dict[str, Any] = {
+                "Type": agent.attrib["Type"],
+                "Id": int(agent.attrib["Id"]),
+                "Mass": float(agent.attrib["Mass"]),
+                "MomentOfInertia": float(agent.attrib["MomentOfInertia"]),
+                "FloorDamping": float(agent.attrib["FloorDamping"]),
+                "AngularDamping": float(agent.attrib["AngularDamping"]),
+            }
+        except KeyError as e:
+            raise ValueError(f"Missing '{e.args[0]}' attribute in <Agent> at position {agent_idx}.") from e
+        except ValueError as e:
+            raise ValueError(f"Type error in <Agent> at position {agent_idx}: {e}") from e
 
-        # Find <Shapes> element and process each <Shape> inside it
+        # Process <Shapes> if present
         shapes = agent.find("Shapes")
         if shapes is not None:
             shapes_dict: ShapeDataType = {}
-            for i, shape in enumerate(shapes.findall("Shape"), start=0):
-                shape_type = shape.get("Type", default="disk")
-                shape_data = {
-                    "Id": int(shape.get("Id", default=0)),
-                    "Type": shape_type,
-                    "Radius": float(shape.get("Radius", default=0.0)),
-                    "MaterialId": int(shape.get("MaterialId", default=0)),
-                    "Position": fun.from_string_to_tuple(shape.get("Position", default="0.0,0.0")),
-                }
-                # Assign a unique name to each shape (e.g., disk1, disk2)
-                shape_name = f"disk{i}"
+            for shape_idx, shape in enumerate(shapes.findall("Shape")):
+                # Validate required shape attributes
+                try:
+                    shape_data = {
+                        "Id": int(shape.attrib["Id"]),
+                        "Type": shape.attrib["Type"],
+                        "Radius": float(shape.attrib["Radius"]),
+                        "MaterialId": int(shape.attrib["MaterialId"]),
+                        "Position": fun.from_string_to_tuple(shape.attrib["Position"]),
+                    }
+                except KeyError as e:
+                    raise ValueError(
+                        f"Missing '{e.args[0]}' attribute in <Shape> at position {shape_idx} under <Agent> with Id={agent_data['Id']}."
+                    ) from e
+                except ValueError as e:
+                    raise ValueError(
+                        f"Type error in <Shape> at position {shape_idx} under <Agent> with Id={agent_data['Id']}: {e}"
+                    ) from e
+                # Assign a unique name to each shape (e.g., disk0, disk1, ...)
+                shape_name = f"disk{shape_idx}"
                 shapes_dict[shape_name] = shape_data
             agent_data["Shapes"] = shapes_dict
+        else:
+            raise ValueError(f"Missing <Shapes> section for <Agent> with Id={agent_data['Id']}.")
 
-        # Assign a unique name to each agent (e.g., Agent0, Agent1)
-        agent_name = f"Agent{len(crowd_dict['Agents'])}"
+        # Assign a unique name to each agent (e.g., Agent0, Agent1, ...)
+        agent_name = f"Agent{agent_idx}"
         crowd_dict["Agents"][agent_name] = agent_data
 
     return crowd_dict
@@ -354,7 +377,7 @@ def static_xml_to_dict(xml_file: str) -> StaticCrowdDataType:
 
 def dynamic_xml_to_dict(xml_data: str) -> DynamicCrowdDataType:
     """
-    Convert an XML string representing dynamic parameters of agents into a dictionary.
+    Convert an XML string representing crowd dynamic parameters into a dictionary, with validation of structure and attribute types.
 
     Parameters
     ----------
@@ -365,35 +388,65 @@ def dynamic_xml_to_dict(xml_data: str) -> DynamicCrowdDataType:
     -------
     DynamicCrowdDataType
         A dictionary representation of the XML data.
-    """
-    # Parse the XML data
-    root = ET.fromstring(xml_data)
 
-    # Extract agents and their kinematics and dynamics
+    Raises
+    ------
+    ValueError
+        If the XML structure or attribute types are incorrect.
+    """
+    try:
+        root = ET.fromstring(xml_data)
+    except ET.ParseError as e:
+        raise ValueError(f"Malformed XML: {e}") from e
+
     agents: DynamicCrowdDataType = {}
 
-    for agent in root.findall("Agent"):
-        agent_id = int(agent.get("Id", default=0))
+    for agent_idx, agent in enumerate(root.findall("Agent")):
+        # Validate agent Id
+        try:
+            agent_id = int(agent.attrib["Id"])
+        except KeyError as e:
+            raise ValueError(f"Missing 'Id' attribute in <Agent> at position {agent_idx}.") from e
+        except ValueError as e:
+            raise ValueError(f"Invalid 'Id' value in <Agent> at position {agent_idx}: {e}") from e
 
-        # Extract kinematics
+        # Extract and validate kinematics
         kinematics = agent.find("Kinematics")
         if kinematics is None:
-            raise ValueError("Kinematics data not found for agent.")
-        kinematics_dict = {
-            "Position": fun.from_string_to_tuple(kinematics.get("Position", default="0.0,0.0")),
-            "Velocity": fun.from_string_to_tuple(kinematics.get("Velocity", default="0.0,0.0")),
-            "theta": float(kinematics.get("theta", default=0.0)),
-            "omega": float(kinematics.get("omega", default=0.0)),
-        }
+            raise ValueError(f"Missing <Kinematics> section for <Agent> with Id={agent_id}.")
+        try:
+            position_str = kinematics.attrib["Position"]
+            velocity_str = kinematics.attrib["Velocity"]
+            theta_str = kinematics.attrib["theta"]
+            omega_str = kinematics.attrib["omega"]
+        except KeyError as e:
+            raise ValueError(f"Missing '{e.args[0]}' attribute in <Kinematics> for <Agent> with Id={agent_id}.") from e
+        try:
+            kinematics_dict = {
+                "Position": fun.from_string_to_tuple(position_str),
+                "Velocity": fun.from_string_to_tuple(velocity_str),
+                "theta": float(theta_str),
+                "omega": float(omega_str),
+            }
+        except ValueError as e:
+            raise ValueError(f"Type error in <Kinematics> for <Agent> with Id={agent_id}: {e}") from e
 
-        # Extract dynamics
+        # Extract and validate dynamics
         dynamics = agent.find("Dynamics")
         if dynamics is None:
-            raise ValueError("Dynamics data not found for agent.")
-        dynamics_dict = {
-            "Fp": fun.from_string_to_tuple(dynamics.get("Fp", default="0.0,0.0")),
-            "Mp": float(dynamics.get("Mp", default=0.0)),
-        }
+            raise ValueError(f"Missing <Dynamics> section for <Agent> with Id={agent_id}.")
+        try:
+            fp_str = dynamics.attrib["Fp"]
+            mp_str = dynamics.attrib["Mp"]
+        except KeyError as e:
+            raise ValueError(f"Missing '{e.args[0]}' attribute in <Dynamics> for <Agent> with Id={agent_id}.") from e
+        try:
+            dynamics_dict = {
+                "Fp": fun.from_string_to_tuple(fp_str),
+                "Mp": float(mp_str),
+            }
+        except ValueError as e:
+            raise ValueError(f"Type error in <Dynamics> for <Agent> with Id={agent_id}: {e}") from e
 
         # Combine into agent dictionary
         agents[f"Agent{agent_id}"] = {
@@ -410,7 +463,7 @@ def dynamic_xml_to_dict(xml_data: str) -> DynamicCrowdDataType:
 
 def geometry_xml_to_dict(xml_data: str) -> GeometryDataType:
     """
-    Convert an XML string representing geometric data into a dictionary.
+    Convert an XML string representing geometric data into a dictionary, with strict validation of structure and attribute types.
 
     Parameters
     ----------
@@ -421,29 +474,55 @@ def geometry_xml_to_dict(xml_data: str) -> GeometryDataType:
     -------
     GeometryDataType
         A dictionary representation of the XML data.
-    """
-    # Parse the XML data
-    root = ET.fromstring(xml_data)
 
-    # Extract dimensions
+    Raises
+    ------
+    ValueError
+        If the XML structure or attribute types are incorrect.
+    """
+    try:
+        root = ET.fromstring(xml_data)
+    except ET.ParseError as e:
+        raise ValueError(f"Malformed XML: {e}") from e
+
+    # --- Extract and validate dimensions ---
     dimensions = root.find("Dimensions")
     if dimensions is None:
-        raise ValueError("Dimensions data not found in XML.")
-    dimensions_dict = {"Lx": float(dimensions.get("Lx", default=0.0)), "Ly": float(dimensions.get("Ly", default=0.0))}
+        raise ValueError("Missing required <Dimensions> section in XML.")
 
-    # Extract walls and their corners
-    walls: GeometryDataType = {}
+    try:
+        dimensions_dict = {"Lx": float(dimensions.attrib["Lx"]), "Ly": float(dimensions.attrib["Ly"])}
+    except KeyError as e:
+        raise ValueError(f"Missing '{e.args[0]}' attribute in <Dimensions>.") from e
+    except ValueError as e:
+        raise ValueError(f"Type error in <Dimensions>: {e}") from e
 
-    for wall in root.findall("Wall"):
-        wall_id = int(wall.get("Id", default=0))
-        id_material = int(wall.get("MaterialId", 0))
+    # --- Extract and validate walls and corners ---
+    walls: dict[str, Any] = {}
+    for wall_idx, wall in enumerate(root.findall("Wall")):
+        # Validate required wall attributes
+        try:
+            wall_id = int(wall.attrib["Id"])
+            id_material = int(wall.attrib["MaterialId"])
+        except KeyError as e:
+            raise ValueError(f"Missing '{e.args[0]}' attribute in <Wall> at position {wall_idx}.") from e
+        except ValueError as e:
+            raise ValueError(f"Type error in <Wall> at position {wall_idx}: {e}") from e
 
-        corners: dict[str, dict[str, float]] = {}
+        # Validate corners section
         corners_element = wall.find("Corners")
         if corners_element is None:
-            raise ValueError("Corners data not found for wall.")
+            raise ValueError(f"Missing <Corners> section for <Wall> with Id={wall_id}.")
+
+        corners: dict[str, dict[str, tuple[float, float]]] = {}
         for i, corner in enumerate(corners_element.findall("Corner")):
-            corners[f"Corner{i}"] = {"Coordinates": fun.from_string_to_tuple(corner.get("Coordinates", default="0.0,0.0"))}
+            try:
+                coords = fun.from_string_to_tuple(corner.attrib["Coordinates"])
+            except KeyError as e:
+                raise ValueError(f"Missing 'Coordinates' attribute in <Corner> at position {i} for <Wall> with Id={wall_id}.") from e
+            except ValueError as e:
+                raise ValueError(f"Type error in 'Coordinates' of <Corner> at position {i} for <Wall> with Id={wall_id}: {e}") from e
+            corners[f"Corner{i}"] = {"Coordinates": coords}
 
         walls[f"Wall{wall_id}"] = {
             "Id": wall_id,
@@ -451,7 +530,7 @@ def geometry_xml_to_dict(xml_data: str) -> GeometryDataType:
             "Corners": corners,
         }
 
-    # Construct the final dictionary
+    # --- Construct the final dictionary ---
     boundaries_dict = {"Geometry": {"Dimensions": dimensions_dict, "Wall": walls}}
 
     return boundaries_dict
@@ -459,7 +538,7 @@ def geometry_xml_to_dict(xml_data: str) -> GeometryDataType:
 
 def materials_xml_to_dict(xml_data: str) -> MaterialsDataType:
     """
-    Convert an XML string representing material properties into a dictionary.
+    Convert an XML string representing material properties into a dictionary, with strict validation of structure and attribute types.
 
     Parameters
     ----------
@@ -470,42 +549,61 @@ def materials_xml_to_dict(xml_data: str) -> MaterialsDataType:
     -------
     MaterialsDataType
         A dictionary representation of the XML data.
-    """
-    # Parse the XML data
-    root = ET.fromstring(xml_data)
 
-    # Extract intrinsic materials
+    Raises
+    ------
+    ValueError
+        If the XML structure or attribute types are incorrect.
+    """
+    try:
+        root = ET.fromstring(xml_data)
+    except ET.ParseError as e:
+        raise ValueError(f"Malformed XML: {e}") from e
+
+    # --- Validate and extract Intrinsic materials ---
     intrinsic_element = root.find("Intrinsic")
     if intrinsic_element is None:
-        raise ValueError("Intrinsic materials data not found in XML.")
+        raise ValueError("Missing required <Intrinsic> section in XML.")
 
-    intrinsic_materials: IntrinsicMaterialDataType = [
-        {
-            "Id": int(material.get("Id", default=0)),
-            "Name": material.get("Name", default="iron"),
-            "YoungModulus": float(material.get("YoungModulus", default=0.0)),
-            "ShearModulus": float(material.get("ShearModulus", default=0.0)),
-        }
-        for material in intrinsic_element
-    ]
+    intrinsic_materials: IntrinsicMaterialDataType = []
+    for idx, material in enumerate(intrinsic_element):
+        try:
+            instrinsic_material_dict = {
+                "Id": int(material.attrib["Id"]),
+                "Name": material.attrib["Name"],
+                "YoungModulus": float(material.attrib["YoungModulus"]),
+                "ShearModulus": float(material.attrib["ShearModulus"]),
+            }
+        except KeyError as e:
+            raise ValueError(f"Missing '{e.args[0]}' attribute in <Material> at position {idx}.") from e
+        except ValueError as e:
+            raise ValueError(f"Type error in <Material> at position {idx}: {e}") from e
 
-    # Extract binary contacts
+        intrinsic_materials.append(instrinsic_material_dict)
+
+    # --- Validate and extract Binary contacts ---
     binary_element = root.find("Binary")
     if binary_element is None:
-        raise ValueError("Binary contacts data not found in XML.")
+        raise ValueError("Missing required <Binary> section in XML.")
 
-    binary_contacts: PairMaterialsDataType = [
-        {
-            "Id1": int(contact.get("Id1", default=0)),
-            "Id2": int(contact.get("Id2", default=1)),
-            "GammaNormal": float(contact.get("GammaNormal", default=0.0)),
-            "GammaTangential": float(contact.get("GammaTangential", default=0.0)),
-            "KineticFriction": float(contact.get("KineticFriction", default=0.0)),
-        }
-        for contact in binary_element
-    ]
+    binary_contacts: PairMaterialsDataType = []
+    for idx, contact in enumerate(binary_element):
+        try:
+            contact_dict = {
+                "Id1": int(contact.attrib["Id1"]),
+                "Id2": int(contact.attrib["Id2"]),
+                "GammaNormal": float(contact.attrib["GammaNormal"]),
+                "GammaTangential": float(contact.attrib["GammaTangential"]),
+                "KineticFriction": float(contact.attrib["KineticFriction"]),
+            }
+        except KeyError as e:
+            raise ValueError(f"Missing '{e.args[0]}' attribute in <Contact> at position {idx}.") from e
+        except ValueError as e:
+            raise ValueError(f"Type error in <Contact> at position {idx}: {e}") from e
 
-    # Transform the data into the specified dictionary format
+        binary_contacts.append(contact_dict)
+
+    # --- Assemble the dictionary ---
     material_dict: MaterialsDataType = {
         "Materials": {
             "Intrinsic": {f"Material{material['Id']}": material for material in intrinsic_materials},
@@ -518,7 +616,7 @@ def materials_xml_to_dict(xml_data: str) -> MaterialsDataType:
 
 def interactions_xml_to_dict(xml_data: str) -> InteractionsDataType:
     """
-    Convert an XML file describing interactions into a nested dictionary structure.
+    Convert an XML string describing interactions into a nested dictionary structure, with validation of structure and attribute types.
 
     Parameters
     ----------
@@ -529,38 +627,81 @@ def interactions_xml_to_dict(xml_data: str) -> InteractionsDataType:
     -------
     InteractionsDataType
         A dictionary representation of the XML data.
+
+    Raises
+    ------
+    ValueError
+        If the XML structure or attribute types are incorrect.
     """
-    root = ET.fromstring(xml_data)
+    try:
+        root = ET.fromstring(xml_data)
+    except ET.ParseError as e:
+        raise ValueError(f"Malformed XML: {e}") from e
 
     interactions_dict: InteractionsDataType = {"Interactions": {}}
 
     # Iterate through all Agent elements in the XML
-    for agent in root.findall("Agent"):
-        agent_id = int(agent.attrib["Id"])
+    for agent_idx, agent in enumerate(root.findall("Agent")):
+        # Validate required attribute
+        if "Id" not in agent.attrib:
+            raise ValueError(f"Missing 'Id' attribute in <Agent> at position {agent_idx}.")
+        try:
+            agent_id = int(agent.attrib["Id"])
+        except ValueError as e:
+            raise ValueError(
+                f"Invalid 'Id' value in <Agent> at position {agent_idx}: '{agent.attrib['Id']}' is not an integer."
+            ) from e
+
         agent_key = f"Agent{agent_id}"
         interactions_dict["Interactions"][agent_key] = {"Id": agent_id, "NeighbouringAgents": {}}
 
         # Iterate through neighboring agents
-        for neighbor_agent in agent.findall("Agent"):
-            neighbor_id = int(neighbor_agent.attrib["Id"])
+        for neighbor_idx, neighbor_agent in enumerate(agent.findall("Agent")):
+            if "Id" not in neighbor_agent.attrib:
+                raise ValueError(f"Missing 'Id' attribute in <Agent> (neighbor) at position {neighbor_idx} under Agent {agent_id}.")
+            try:
+                neighbor_id = int(neighbor_agent.attrib["Id"])
+            except ValueError as e:
+                raise ValueError(
+                    f"Invalid 'Id' value in <Agent> (neighbor) at position {neighbor_idx} under Agent {agent_id}: "
+                    "'{neighbor_agent.attrib['Id']}' is not an integer."
+                ) from e
+
             neighbor_key = f"Agent{neighbor_id}"
             interactions_dict["Interactions"][agent_key]["NeighbouringAgents"][neighbor_key] = {"Id": neighbor_id, "Interactions": {}}
 
             # Iterate through interactions
-            for interaction in neighbor_agent.findall("Interaction"):
-                parent_shape_id = int(interaction.attrib["ParentShapeId"])
-                child_shape_id = int(interaction.attrib["ChildShapeId"])
-                interaction_key = f"Interaction_{parent_shape_id}_{child_shape_id}"
+            for interaction_idx, interaction in enumerate(neighbor_agent.findall("Interaction")):
+                required_attrs = ["ParentShapeId", "ChildShapeId", "Ftx", "Fty", "Fnx", "Fny", "TangentialRelativeDisplacementNorm"]
+                for attr in required_attrs:
+                    if attr not in interaction.attrib:
+                        raise ValueError(
+                            f"Missing '{attr}' attribute in <Interaction> at position {interaction_idx} "
+                            f"under Neighbor Agent {neighbor_id} of Agent {agent_id}."
+                        )
+                try:
+                    parent_shape_id = int(interaction.attrib["ParentShapeId"])
+                    child_shape_id = int(interaction.attrib["ChildShapeId"])
+                    ftx = float(interaction.attrib["Ftx"])
+                    fty = float(interaction.attrib["Fty"])
+                    fnx = float(interaction.attrib["Fnx"])
+                    fny = float(interaction.attrib["Fny"])
+                    tangential_norm = float(interaction.attrib["TangentialRelativeDisplacementNorm"])
+                except ValueError as e:
+                    raise ValueError(
+                        f"Type error in <Interaction> at position {interaction_idx} "
+                        f"under Neighbor Agent {neighbor_id} of Agent {agent_id}: {e}"
+                    ) from e
 
-                # Add interaction details to the dictionary
+                interaction_key = f"Interaction_{parent_shape_id}_{child_shape_id}"
                 interactions_dict["Interactions"][agent_key]["NeighbouringAgents"][neighbor_key]["Interactions"][interaction_key] = {
                     "ParentShapeId": parent_shape_id,
                     "ChildShapeId": child_shape_id,
-                    "Ftx": float(interaction.attrib["Ftx"]),
-                    "Fty": float(interaction.attrib["Fty"]),
-                    "Fnx": float(interaction.attrib["Fnx"]),
-                    "Fny": float(interaction.attrib["Fny"]),
-                    "TangentialRelativeDisplacementNorm": float(interaction.attrib["TangentialRelativeDisplacementNorm"]),
+                    "Ftx": ftx,
+                    "Fty": fty,
+                    "Fnx": fnx,
+                    "Fny": fny,
+                    "TangentialRelativeDisplacementNorm": tangential_norm,
                 }
 
     return interactions_dict

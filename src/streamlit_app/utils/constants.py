@@ -4,10 +4,9 @@ from configuration.utils.typing_custom import Sex
 
 # User Interface
 FIRST_TAB_NAME: str = "About"
-SECOND_TAB_NAME: str = "2D agent"
-THIRD_TAB_NAME: str = "3D pedestrian"
-FOURTH_TAB_NAME: str = "Anthropometry"
-FIFTH_TAB_NAME: str = "Crowd"
+SECOND_TAB_NAME: str = "One agent"
+THIRD_TAB_NAME: str = "Anthropometry"
+FOURTH_TAB_NAME: str = "Crowd"
 
 # 2D / 3D shapes tab
 DEFAULT_PEDESTRIAN_HEIGHT: float = 170.0  # cm

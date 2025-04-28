@@ -1,4 +1,4 @@
-Mechanical Layer
+Mechanical layer
 ================
 
 .. toctree::

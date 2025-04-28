@@ -1,5 +1,7 @@
 """Contains utility functions for data processing and manipulation."""
 
+import csv
+import io
 import pickle
 from functools import lru_cache
 from pathlib import Path
@@ -107,6 +109,42 @@ def load_csv(filename: Path) -> pd.DataFrame:
     if not filename.suffix == ".csv":
         raise ValueError(f"The file {filename} is not a CSV file.")
     return pd.read_csv(filename)
+
+
+def get_csv_buffer(data_dict: dict[str, list[float | None]]) -> str:
+    """
+    Generate CSV content from a dictionary for download (in memory).
+
+    Parameters
+    ----------
+    data_dict : dict of str to list of float or None
+        The dictionary containing the data to be saved. Keys are strings, values are lists of floats or None.
+        If a value is None, it will be written as an empty cell in the CSV.
+
+    Returns
+    -------
+    str
+        The CSV content as a string, ready to be used with Streamlit's download button.
+    """
+    output = io.StringIO()
+    writer = csv.writer(output)
+    # Write the keys as the header row
+    writer.writerow(data_dict.keys())
+
+    # Find the maximum length of the value lists
+    max_len = max(len(v) for v in data_dict.values())
+
+    # Write each row of values
+    for i in range(max_len):
+        row = []
+        for v in data_dict.values():
+            if i < len(v):
+                row.append("" if v[i] is None else v[i])
+            else:
+                row.append("")
+        writer.writerow(row)
+
+    return output.getvalue()
 
 
 def wrap_angle(angle: float) -> float:
@@ -563,3 +601,51 @@ def rectangular_function(scale_xy: float, height: float, sex: Sex | str) -> floa
         knees_height = cst.KNEES_HEIGHT_MALE
 
     return 1.0 + (scale_xy - 1.0) * sigmoid(neck_height - height) * sigmoid(height - knees_height)
+
+
+def filter_dict_by_not_None_values(input_dict: dict[str, Any]) -> dict[str, Any]:
+    """
+    Filter a dictionary to remove keys with None values.
+
+    Parameters
+    ----------
+    input_dict : dict[str, Any]
+        The input dictionary to be filtered.
+
+    Returns
+    -------
+    dict[str, Any]
+        A new dictionary containing only the key-value pairs where the value is not None.
+    """
+    return {k: v for k, v in input_dict.items() if v is not None}
+
+
+def direction_of_longest_side(polygon: Polygon) -> float:
+    """
+    Compute the direction (in degrees) of the longest side of a 4-vertex polygon.
+
+    The direction is measured from the first vertex of the side to the second,
+    relative to the positive x-axis.
+
+    Parameters
+    ----------
+    polygon : shapely.geometry.Polygon
+        A polygon with 4 vertices.
+
+    Returns
+    -------
+    float
+        The direction of the longest side, in degrees (0-360).
+    """
+    coords = np.array(polygon.exterior.coords[:-1])  # Exclude the repeated last point
+    assert coords.shape[0] == 4, "Polygon must have exactly 4 vertices."
+
+    # Compute vectors for each side
+    vectors = np.roll(coords, -1, axis=0) - coords  # shape (4, 2)
+    lengths = np.linalg.norm(vectors, axis=1)
+    angles_rad = np.arctan2(vectors[:, 1], vectors[:, 0])
+    angles_deg = np.degrees(angles_rad)
+
+    # Find the index of the longest side
+    idx = np.argmax(lengths)
+    return wrap_angle(angles_deg[idx])

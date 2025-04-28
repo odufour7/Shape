@@ -78,7 +78,7 @@ class Crowd:
                 raise ValueError("All elements in 'agents' must be Agent instances")
             self._agents = agents
             # Calculate measures from agents
-            self._measures = CrowdMeasures(agent_statistics=self.get_crowd_statistics())
+            self._measures = CrowdMeasures(agent_statistics=self.get_crowd_statistics()["measures"])
         # If measures are provided (agents must be None)
         elif measures is not None:
             if isinstance(measures, CrowdMeasures):
@@ -130,7 +130,7 @@ class Crowd:
         if not isinstance(value, list) or not all(isinstance(agent, Agent) for agent in value):
             raise ValueError("'agents' should be a list of Agent instances")
         self._agents = value
-        self._measures.agent_statistics = self.get_crowd_statistics()
+        self._measures.agent_statistics = self.get_crowd_statistics()["measures"]
 
     @property
     def measures(self) -> CrowdMeasures:
@@ -500,45 +500,73 @@ class Crowd:
             agent.translate(*translation_vector)
 
     @staticmethod
-    def compute_stats(data: list[float], stats_key: str) -> float | None:
+    def compute_stats(data: list[float | None], stats_key: str) -> float | None:
         """
         Compute statistics for a given data list and stats key.
 
         Parameters
         ----------
-        data : list[float]
+        data : list of float or None
             The list of numerical values to compute statistics for.
         stats_key : str
             The type of statistic to compute ('mean', 'std_dev', 'min', 'max').
 
         Returns
         -------
-        float | None
+        float or None
             The computed statistic or None if data is empty or invalid.
         """
+        # Filter out None values
+        filtered = [x for x in data if x is not None]
+
+        if not filtered:
+            return None
+
         if "mean" in stats_key:
-            return float(np.mean(data, dtype=float)) if data else None
+            return float(np.mean(filtered, dtype=float))
         if "std_dev" in stats_key:
-            return float(np.std(data, ddof=1, dtype=float)) if len(data) >= 2 else None
+            return float(np.std(filtered, ddof=1, dtype=float)) if len(filtered) >= 2 else None
         if "min" in stats_key:
-            return float(np.min(data)) if data else None
+            return float(np.min(filtered))
         if "max" in stats_key:
-            return float(np.max(data)) if data else None
+            return float(np.max(filtered))
         raise ValueError(f"Unknown stats key: {stats_key}")
 
-    def get_crowd_statistics(self) -> dict[str, float | int | None]:
+    def get_crowd_statistics(self) -> dict[str, dict[str, int] | dict[str, list[float | None]] | dict[str, float | int | None]]:
         """
         Measure the statistics of the crowd.
 
         Returns
         -------
-        dict[str, float | int | None]
-            A dictionary containing the computed statistics for the crowd. The keys are formatted as follows:
-                - "{kind}_proportion": Count of agents (e.g., "male_proportion" or "bike_proportion" or "pedestrian_proportion")
-                - "{part}_mean": Mean value for each body/bike part measurement
-                - "{part}_std_dev": Sample standard deviation for each part
-                - "{part}_min": Minimum observed value for each part
-                - "{part}_max": Maximum observed value for each part
+        dict[str, dict[str, int] | dict[str, list[float | None]] | dict[str, float | int | None]]
+            A dictionary whose keys and values are:
+                - stats_counts: A dictionary with counts of agents by type.
+                - stats_lists: A dictionary with lists of measurements for each agent type.
+                - measures: A dictionary of computed statistics for the crowd.
+
+        Notes
+        -----
+        The dictionary containing the computed statistics for the crowd has keys formatted as follows:
+            - "{kind}_proportion": Count of agents (e.g., "male_proportion" or "bike_proportion" or "pedestrian_proportion")
+            - "{part}_mean": Mean value for each body/bike part measurement
+            - "{part}_std_dev": Sample standard deviation for each part
+            - "{part}_min": Minimum observed value for each part
+            - "{part}_max": Maximum observed value for each part
+        The dictionary containing the counts of agents by type has keys formatted as follows:
+            - "pedestrian_number": Total number of pedestrians
+            - "male_number": Total number of males
+            - "bike_number": Total number of bikes
+        The dictionary containing the lists of measurements for each agent type has keys formatted as follows:
+            - "pedestrian_weight": List of weights for all pedestrians
+            - "bike_weight": List of weights for all bikes
+            - "male_bideltoid_breadth": List of bideltoid breadths for all male pedestrians
+            - "male_chest_depth": List of chest depths for all male pedestrians
+            - "female_bideltoid_breadth": List of bideltoid breadths for all female pedestrians
+            - "female_chest_depth": List of chest depths for all female pedestrians
+            - "wheel_width": List of wheel widths for all bikes
+            - "total_length": List of total lengths for all bikes
+            - "handlebar_length": List of handlebar lengths for all bikes
+            - "top_tube_length": List of top tube lengths for all bikes
         """
         # Initialize statistics dictionary
         stats_counts: dict[str, int] = {
@@ -546,7 +574,7 @@ class Crowd:
             "male_number": 0,
             "bike_number": 0,
         }
-        stats_lists: dict[str, list[float]] = {
+        stats_lists: dict[str, list[float | None]] = {
             "pedestrian_weight": [],
             "bike_weight": [],
             "male_bideltoid_breadth": [],
@@ -610,7 +638,11 @@ class Crowd:
             for stats_key in ["_min", "_max", "_mean", "_std_dev"]:
                 measures[part_key + stats_key] = Crowd.compute_stats(stats_lists[part_key], stats_key)
 
-        return measures
+        return {
+            "stats_counts": stats_counts,
+            "stats_lists": stats_lists,
+            "measures": measures,
+        }
 
 
 def create_agents_from_dynamic_static_geometry_parameters(

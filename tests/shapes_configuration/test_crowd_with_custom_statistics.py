@@ -60,7 +60,7 @@ def test_crowd_statistics_means_and_proportion(crowd: Crowd) -> None:
     crowd : Crowd
         The crowd fixture.
     """
-    measured_stats = crowd.get_crowd_statistics()
+    measured_stats = crowd.get_crowd_statistics()["measures"]
     for key, value in measured_stats.items():
         if "mean" in key and ("pedestrian" in key or "male" in key or "female" in key):
             expected = AGENT_STATISTICS[key]
