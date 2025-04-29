@@ -32,8 +32,8 @@ extensions = [
     "myst_parser",
     "sphinx.ext.mathjax",
     "nbsphinx_link",  # Optional: Linking to external notebooks
-    "breathe",  # For C++ documentation via Doxygen
-    "exhale",  # For automatic API documentation tree with c++
+    # "breathe",  # For C++ documentation via Doxygen
+    # "exhale",  # For automatic API documentation tree with c++
 ]
 
 templates_path = ["_templates"]
@@ -59,7 +59,7 @@ intersphinx_mapping = {
     "shapely": ("https://shapely.readthedocs.io/en/stable/", None),  # Link to Shapely documentation
     "plotly": ("https://plotly.com/python-api-reference/", None),  # Link to Plotly documentation
     "numpy": ("https://numpy.org/doc/stable/", None),  # Link to NumPy documentation
-    "cppreference": ("https://en.cppreference.com/w/", None),  # Link to C++ reference
+    # "cppreference": ("https://en.cppreference.com/w/", None),  # Link to C++ reference
 }
 
 # -- Autodoc settings --------------------------------------------------------
