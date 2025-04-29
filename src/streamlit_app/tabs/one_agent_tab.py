@@ -18,11 +18,9 @@ def run_tab_one_agent() -> None:
         "2D": "2D",
         "3D": "3D",
     }
-    selected_dimension_options = st.pills("Which agent representation do you want?", list(dimension_options.values()))
+    selected_dimension_options = st.pills(" ", list(dimension_options.values()), label_visibility="collapsed")
 
     if selected_dimension_options == dimension_options["2D"]:
         run_tab_agent2D()
-    elif selected_dimension_options == dimension_options["3D"]:
-        run_tab_pedestrian3D()
     elif selected_dimension_options == dimension_options["3D"]:
         run_tab_pedestrian3D()

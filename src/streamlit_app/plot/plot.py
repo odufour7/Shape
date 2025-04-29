@@ -81,7 +81,7 @@ def display_shape2D(agents: list[Agent]) -> go.Figure:
                 y=centroid_y,
                 text=f"agent {id_agent}",
                 showarrow=False,
-                font={"size": 12, "color": "white"},
+                font={"size": 16, "color": "white"},
                 align="center",
             )
 
@@ -108,16 +108,27 @@ def display_shape2D(agents: list[Agent]) -> go.Figure:
                 y=centroid_y,
                 text=f"agent {id_agent}",
                 showarrow=False,
-                font={"size": 12, "color": "white"},
+                font={"size": 16, "color": "white"},
                 align="center",
             )
 
     # Set layout properties
     fig.update_layout(
-        xaxis_title="X [cm]",
-        yaxis_title="Y [cm]",
-        xaxis={"scaleanchor": "y", "showgrid": False, "title_standoff": 15},
-        yaxis={"showgrid": False, "title_standoff": 15},
+        xaxis={
+            "scaleanchor": "y",
+            "showgrid": False,
+            "title_standoff": 15,
+            "title": "X [cm]",
+            "title_font": {"size": 20},
+            "tickfont": {"size": 16},
+        },
+        yaxis={
+            "showgrid": False,
+            "title_standoff": 15,
+            "title": "Y [cm]",
+            "title_font": {"size": 20},
+            "tickfont": {"size": 16},
+        },
         showlegend=False,
         margin={"l": 50, "r": 50, "t": 50, "b": 50},
         width=550,
@@ -327,9 +338,9 @@ def display_body3D_polygons(agent: Agent, extra_info: Optional[tuple[DeltaGenera
     # Set layout properties
     fig.update_layout(
         scene={
-            "xaxis_title": "X [cm]",
-            "yaxis_title": "Y [cm]",
-            "zaxis_title": "Height [cm]",
+            "xaxis": {"title": "X [cm]", "title_font": {"size": 16}, "tickfont": {"size": 14}},
+            "yaxis": {"title": "Y [cm]", "title_font": {"size": 16}, "tickfont": {"size": 14}},
+            "zaxis": {"title": "Height [cm]", "title_font": {"size": 16}, "tickfont": {"size": 14}},
             "aspectmode": "manual",
             "aspectratio": {
                 "x": x_range / max_range,
@@ -505,15 +516,15 @@ def display_body3D_mesh(
     fig.update_layout(
         title=f"3D body representation of a {agent.measures.measures['sex']} with a mesh",
         scene={
-            "xaxis_title": "X [cm]",
-            "yaxis_title": "Y [cm]",
-            "zaxis_title": "Height [cm]",
             "aspectmode": "manual",
             "aspectratio": {
                 "x": x_range / max_range,
                 "y": y_range / max_range,
                 "z": z_range / max_range,
             },
+            "xaxis": {"title": "X [cm]", "title_font": {"size": 16}, "tickfont": {"size": 14}},
+            "yaxis": {"title": "Y [cm]", "title_font": {"size": 16}, "tickfont": {"size": 14}},
+            "zaxis": {"title": "Height [cm]", "title_font": {"size": 16}, "tickfont": {"size": 14}},
         },
         width=500,
         height=900,
@@ -628,118 +639,185 @@ def display_crowd2D(crowd: Crowd) -> mfig.Figure:
 
 def display_crowd3D_layers_by_layers(crowd: Crowd) -> go.Figure:
     """
-    Visualize a 3D crowd as animated 2D polygons at different heights.
+    Visualize a 3D crowd as layers of 2D polygons.
 
-    For each unique height present in the crowd's agents, plots all polygons
-    (from both Polygon and MultiPolygon objects) for each agent at that height.
-    The result is an animated Plotly figure, with each animation frame
-    corresponding to a different height.
+    For a given set of heights, this function plots all polygons at that height.
+    For a given agent, if not polygon, then the polygon with the nearest height is shown.
+    No interpolation is performed. The result is an animated Plotly figure, where each
+    animation frame corresponds to a different height or "slice" of the crowd.
+    A slider allows interactive exploration of the crowd's cross-sections at various heights.
 
     Parameters
     ----------
     crowd : Crowd
-        The crowd object containing agents. Each agent is expected to have
-        a `shapes3D.shapes` dictionary mapping heights (float or int) to
-        Shapely Polygon or MultiPolygon objects.
+        The crowd object containing agents.
 
     Returns
     -------
-    plotly.graph_objects.Figure
-        An animated Plotly figure with a slider to select the height. Each
-        frame shows all polygons of all agents at a given height.
+    go.Figure
+        An animated Plotly figure with a slider to select the height. Each frame displays
+        all polygons of all agents at a given height. Polygon color encodes agent area.
+        Agent indices are labeled at their centroid.
     """
+    # Normalize color by 2D area
     norm = Normalize(
         vmin=min(agent.shapes2D.get_area() for agent in crowd.agents),
         vmax=max(agent.shapes2D.get_area() for agent in crowd.agents),
     )
 
-    # Translate and rotate each 3D shape to match the 2D shape
-    highest_agent_height = -np.inf
-    for _, agent in enumerate(crowd.agents):
-        pedestrian_height = agent.shapes3D.get_height()
-        highest_agent_height = max(pedestrian_height, highest_agent_height)
+    # Set text size based on the area of the crowd boundaries or the number of agents
+    txt_size = int(8 * 10**5 / crowd.boundaries.area) if not crowd.boundaries.is_empty else int(80 / crowd.get_number_agents())
 
-    # Round the height to the nearest integer and keep only one per unique height
+    # Initialize variables
+    highest_agent_height = 0
+    agent_heights = []
+    current_polygons = []
     for agent in crowd.agents:
-        shapes3D_dict = agent.shapes3D.shapes
-        rounded_map = {}
-        for height, multipolygon in list(shapes3D_dict.items()):
+        # Round heights to int and update agent.shapes3D.shapes
+        new_shapes = {}
+        for height, multipolygon in agent.shapes3D.shapes.items():
             rounded_height = int(height)
-            if rounded_height not in rounded_map:
-                rounded_map[rounded_height] = multipolygon
-        shapes3D_dict.clear()
-        shapes3D_dict.update(rounded_map)
+            if rounded_height not in new_shapes:
+                new_shapes[rounded_height] = multipolygon
+        agent.shapes3D.shapes = new_shapes
 
-        print(f"heights : {shapes3D_dict.keys()}")
+        # Track the highest agent height
+        agent_height = agent.shapes3D.get_height()
+        highest_agent_height = max(highest_agent_height, agent_height)
 
-    # Extract all unique heights from all agents
-    all_heights = np.arange(0.0, highest_agent_height + 1.0, 1.0, dtype=int)
+        # Collect agent heights and initialize polygons
+        agent_heights.append(agent_height)
+        current_polygons.append(MultiPolygon([]))
 
-    # Prepare animation frames
-    frames = []
+    all_heights = np.arange(0, int(highest_agent_height) + 1, 2, dtype=int)  # 2 cm step
+    height_agent_traces = []
+
+    # Loop through each height and create traces for each agent
     for height in all_heights:
         traces = []
-        for _, agent in enumerate(crowd.agents):
-            agent_area = agent.shapes2D.get_area()
-            rgba_color = cram.cm.hawaii(norm(agent_area))  # pylint: disable=no-member
+        for idx, (agent, max_height) in enumerate(zip(crowd.agents, agent_heights, strict=False)):
+            if height > max_height:
+                continue
 
-            if height in agent.shapes3D.shapes:
-                multipolygon = agent.shapes3D.shapes[height]
-                if not isinstance(multipolygon, MultiPolygon):
-                    raise ValueError("Shape must be a MultiPolygon")
+            # Get the multipolygon for this height, or use the last one
+            multi_polygon = agent.shapes3D.shapes.get(height, current_polygons[idx])
+            current_polygons[idx] = multi_polygon
 
-                for polygon in multipolygon.geoms:
-                    # rais en error if the polygon is empty
-                    if polygon.is_empty:
-                        raise ValueError("Polygon is empty")
-                    x, y = polygon.exterior.xy
-                    traces.append(
-                        go.Scatter(
-                            x=np.array(x),
-                            y=np.array(y),
-                            fill="toself",
-                            mode="lines",
-                            line={"color": "black", "width": 1},
-                            fillcolor=mcolors.to_hex(rgba_color),
-                        )
+            # Check if multi_polygon is a MultiPolygon object
+            if not isinstance(multi_polygon, MultiPolygon) or multi_polygon.is_empty:
+                continue
+
+            # Add each polygon as a separate trace
+            for polygon in multi_polygon.geoms:
+                if polygon.is_empty:
+                    continue
+                x, y = polygon.exterior.xy
+                traces.append(
+                    go.Scatter(
+                        x=np.array(x),
+                        y=np.array(y),
+                        fill="toself",
+                        mode="lines",
+                        line={"color": "black", "width": 1},
+                        fillcolor=mcolors.to_hex(cram.cm.hawaii(norm(agent.shapes2D.get_area()))),  # pylint: disable=no-member
+                        visible=False,
+                        name=f"agent {idx}",
                     )
-        frames.append(go.Frame(data=traces, name=f"{height} cm"))
+                )
 
-    # Create the figure and add the first frame's data
-    fig = go.Figure(frames=frames)
-    if frames:
-        fig.add_traces(frames[0].data)
+            # Add centroid label
+            centroid = multi_polygon.centroid
+            traces.append(
+                go.Scatter(
+                    x=[centroid.x],
+                    y=[centroid.y],
+                    text=[f"{idx}"],
+                    mode="text",
+                    showlegend=False,
+                    textfont={"color": "black", "size": txt_size, "family": "Arial"},
+                    visible=False,
+                    hoverinfo="skip",
+                )
+            )
 
-    # Build slider steps for each frame
+        height_agent_traces.append(traces)
+
+    # Create a Plotly figure with all traces and update the hover template
+    fig = go.Figure()
+    for traces in height_agent_traces:
+        for trace in traces:
+            fig.add_trace(trace)
+    fig.update_traces(hovertemplate="<b>centroid</b><br>" + "x: %{x:.2f} cm<br>" + "y: %{y:.2f} cm<extra></extra>")
+
+    # Get the number of traces for each height
+    n_traces_per_height = [len(traces) for traces in height_agent_traces]
+    cum_traces = np.cumsum([0] + n_traces_per_height)
+    total_traces = cum_traces[-1]
+
+    # Build slider steps: only show traces for the selected height
     steps = [
         {
-            "method": "animate",
-            "args": [[frame.name], {"mode": "immediate", "frame": {"duration": 500, "redraw": True}, "transition": {"duration": 0}}],
-            "label": frame.name,
+            "method": "update",
+            "args": [{"visible": [cum_traces[i] <= j < cum_traces[i + 1] for j in range(total_traces)]}],
+            "label": f"{height} cm",
         }
-        for frame in frames
+        for i, height in enumerate(all_heights)
     ]
 
-    # Calculate bounds from agents' 2D shapes
+    # Create the slider
+    mid_min_agent_height = int(np.min(agent_heights) * cst.HEIGHT_OF_BIDELTOID_OVER_HEIGHT)
+    slider_start_index = np.abs(all_heights - mid_min_agent_height).argmin()
+    sliders = [
+        {
+            "active": slider_start_index,
+            "currentvalue": {"prefix": "Height: "},
+            "pad": {"t": 50},
+            "steps": steps,
+        }
+    ]
+
+    # Calculate bounds
     bounds = np.array([multipolygon.bounds for agent in crowd.agents for multipolygon in agent.shapes3D.shapes.values()])
     x_min, y_min = bounds[:, [0, 1]].min(axis=0)
     x_max, y_max = bounds[:, [2, 3]].max(axis=0)
 
-    # If boundaries exist, include them in the limits and plot as a dashed line
-    if not crowd.boundaries.is_empty:
+    # Include boundaries if present
+    if hasattr(crowd, "boundaries") and not crowd.boundaries.is_empty:
         bx, by = crowd.boundaries.exterior.xy
         x_min = min(x_min, np.min(bx))
         y_min = min(y_min, np.min(by))
         x_max = max(x_max, np.max(bx))
         y_max = max(y_max, np.max(by))
 
-    # Update layout with slider, aspect ratio, and axis limits
+    # Update layout with slider
     fig.update_layout(
-        sliders=[{"active": 0, "currentvalue": {"prefix": "Height: "}, "pad": {"t": 50}, "steps": steps}],
-        title="Polygons by Height",
-        xaxis={"scaleanchor": "y", "scaleratio": 1, "range": [x_min, x_max], "title": "x [cm]"},
-        yaxis={"scaleanchor": "x", "scaleratio": 1, "range": [y_min, y_max], "title": "y [cm]"},
+        sliders=sliders,
+        xaxis={
+            "scaleanchor": "y",
+            "showgrid": False,
+            "range": [x_min, x_max],
+            "title": "x [cm]",
+            "title_font": {"size": 20},
+            "tickfont": {"size": 16},
+        },
+        yaxis={
+            "scaleanchor": "x",
+            "showgrid": False,
+            "range": [y_min, y_max],
+            "title": "y [cm]",
+            "title_font": {"size": 20},
+            "tickfont": {"size": 16},
+        },
+        showlegend=False,
+        title="Slices of a 3D crowd",
+        margin={"l": 50, "r": 50, "t": 50, "b": 50},
+        width=550,
+        height=550,
     )
+
+    # Make only traces for the first height visible
+    for i in range(total_traces):
+        fig.data[i].visible = cum_traces[slider_start_index] <= i < cum_traces[slider_start_index + 1]
 
     return fig
 
@@ -777,7 +855,12 @@ def display_crowd3D_whole_3Dscene(crowd: Crowd) -> go.Figure:
         rgba_color = cram.cm.hawaii(norm(agent.shapes2D.get_area()))  # pylint: disable=no-member
 
         # Add each polygon to the 3D plot
-        for height in sorted(agent.shapes3D.shapes.keys(), key=int):
+        for id_height, height in enumerate(sorted(agent.shapes3D.shapes.keys(), key=int)):
+            # Skip if the height is not an integer (to run faster)
+            if id_height % 3 != 0:
+                continue
+
+            # Get the multipolygon for this height
             multi_polygon = agent.shapes3D.shapes[height]
 
             # Check if multi_polygon is a MultiPolygon object
@@ -816,14 +899,14 @@ def display_crowd3D_whole_3Dscene(crowd: Crowd) -> go.Figure:
 
     # Set layout properties
     fig.update_layout(
-        title="Crowd 3D visualization",
+        title="A whole 3D crowd",
         scene={
-            "xaxis": {"title": "X [cm]", "range": [x_min, x_max]},
-            "yaxis": {"title": "Y [cm]", "range": [y_min, y_max]},
-            "zaxis": {"title": "Height [cm]"},
+            "xaxis": {"title": "X [cm]", "range": [x_min, x_max], "title_font": {"size": 20}, "tickfont": {"size": 16}},
+            "yaxis": {"title": "Y [cm]", "range": [y_min, y_max], "title_font": {"size": 20}, "tickfont": {"size": 16}},
+            "zaxis": {"title": "Height [cm]", "title_font": {"size": 20}, "tickfont": {"size": 16}},
             "aspectmode": "data",
         },
-        scene_camera={"eye": {"x": 0.0, "y": -3.5, "z": 1.5}},
+        scene_camera={"eye": {"x": 0.1, "y": -3.0, "z": 1.0}},
         showlegend=False,
         height=900,
     )

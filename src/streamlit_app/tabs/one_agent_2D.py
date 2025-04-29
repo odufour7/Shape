@@ -10,7 +10,6 @@ import streamlit_app.utils.constants as cst_app
 from configuration.models.agents import Agent
 from configuration.models.measures import AgentMeasures
 from streamlit_app.plot import plot
-from streamlit_app.tabs.one_pedestrian_3D import run_tab_pedestrian3D
 
 
 def init_session_state() -> AgentMeasures:
@@ -191,13 +190,13 @@ def sliders_for_position() -> tuple[float, float, float]:
         - `rotation_angle` (float): The rotation angle in degrees.
     """
     x_translation = st.sidebar.slider(
-        "X-translation (cm):", min_value=-cst_app.MAX_TRANSLATION_X, max_value=cst_app.MAX_TRANSLATION_X, value=0.0, step=1.0
+        "X-translation (cm)", min_value=-cst_app.MAX_TRANSLATION_X, max_value=cst_app.MAX_TRANSLATION_X, value=0.0, step=1.0
     )
     y_translation = st.sidebar.slider(
-        "Y-translation (cm):", min_value=-cst_app.MAX_TRANSLATION_Y, max_value=cst_app.MAX_TRANSLATION_Y, value=0.0, step=1.0
+        "Y-translation (cm)", min_value=-cst_app.MAX_TRANSLATION_Y, max_value=cst_app.MAX_TRANSLATION_Y, value=0.0, step=1.0
     )
     rotation_angle = st.sidebar.slider(
-        "Rotation angle (degrees):",
+        "Rotation angle (degrees)",
         min_value=-180.0,
         max_value=180.0,
         value=90.0,
@@ -246,7 +245,7 @@ def run_tab_agent2D() -> None:
         st.plotly_chart(fig)
     with col2:
         # display the current agent measures
-        st.subheader("Current agent measures:")
+        st.subheader("Current agent measures")
         if st.session_state.agent_type_measures == cst.AgentTypes.pedestrian:
             path_file = Path(__file__).parent.parent.parent.parent / "data" / "images"
             st.image(path_file / "measures_pedestrian.png", use_container_width=True)
@@ -262,23 +261,3 @@ def run_tab_agent2D() -> None:
         file_name=f"body2D_orthogonal_projection_{timestamp}.pdf",
         mime="application/pdf",
     )
-
-
-def run_tab_one_agent() -> None:
-    """
-    Run the 2D agent visualization tab.
-
-    This function initializes the session state, creates sliders for agent measures,
-    and handles the main page content for visualizing a single agent in 2D.
-    """
-    st.subheader("Select the dimension of the agent representation")
-    dimension_options = {
-        "2D": "2D",
-        "3D": "3D",
-    }
-    selected_dimension_options = st.pills("Which agent representation do you want?", list(dimension_options.values()))
-
-    if selected_dimension_options == dimension_options["2D"]:
-        run_tab_agent2D()
-    elif selected_dimension_options == dimension_options["3D"]:
-        run_tab_pedestrian3D()

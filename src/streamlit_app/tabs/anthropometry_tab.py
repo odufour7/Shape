@@ -35,7 +35,7 @@ def run_tab_anthropometry() -> None:
     # Sidebar: allow users to select attributes dynamically
     st.sidebar.title("Adjust parameters")
     selected_attribute = st.sidebar.selectbox(
-        "Select an attribute for distribution visualization:",
+        "Select an attribute for distribution visualization",
         options=default_attributes,
     )
 
@@ -86,19 +86,27 @@ def run_tab_anthropometry() -> None:
     )
 
     # Add a selectbox for choosing the dataset to download
-    dataset_choice = st.sidebar.selectbox("Choose ANSUR II dataset to download:", ("Female", "Male"))
     path_file = Path(__file__).parent.parent.parent.parent / "data" / "csv"
-    filename_dict = {
-        "Female": path_file / "ANSURIIFEMALEPublic.csv",
-        "Male": path_file / "ANSURIIMALEPublic.csv",
-    }
-    df = fun.load_csv(filename_dict[dataset_choice])
-    download_filename = f"anthropometric_data_{filename_dict[dataset_choice].stem}.csv"
+
+    df = fun.load_csv(path_file / "ANSURIIFEMALEPublic.csv")
+    download_filename = "anthropometric_data_ANSURIIFEMALEPublic.csv"
     # Prepare the data for download
     data_to_download = df.to_csv(index=False).encode("utf-8")
     # Add the download button for the dataset
     st.sidebar.download_button(
-        label=f"Download {dataset_choice.lower()} dataset as CSV",
+        label="Download female dataset as CSV",
+        data=data_to_download,
+        file_name=download_filename,
+        mime="text/csv",
+    )
+
+    df = fun.load_csv(path_file / "ANSURIIMALEPublic.csv")
+    download_filename = "anthropometric_data_ANSURIIMALEPublic.csv"
+    # Prepare the data for download
+    data_to_download = df.to_csv(index=False).encode("utf-8")
+    # Add the download button for the dataset
+    st.sidebar.download_button(
+        label="Download male dataset as CSV",
         data=data_to_download,
         file_name=download_filename,
         mime="text/csv",

@@ -507,6 +507,7 @@ def run_crowd_init() -> None:
         icon="⏳",
     )
 
+    # Initialize session state variables
     initialize_session_state()
 
     st.sidebar.header("General settings")
@@ -515,7 +516,7 @@ def run_crowd_init() -> None:
 
     # Rolling menu to select between ANSURII database  / Custom Statistics
     database_option = st.sidebar.selectbox(
-        "Select database option:",
+        "Select database option",
         options=["ANSURII database", "Custom statistics"],
     )
     if "database_option" not in st.session_state:
@@ -541,18 +542,25 @@ def run_crowd_init() -> None:
 
     display_interpenetration_warning()
 
-    # choose between 2D representation of the crowd or 3D representation
+    # Choose between 2D representation of the crowd or 3D representation
     st.subheader("Choose a crowd representation")
-    dimension_options = {
-        "2D": "2D",
-        "3D": "3D",
-    }
-    selected_dimension_options = st.pills("Choose a crowd representation", list(dimension_options.values()))
-
-    if selected_dimension_options == dimension_options["2D"]:
-        plot_and_download(st.session_state.current_crowd)
-    elif selected_dimension_options == dimension_options["3D"]:
-        plot_crowd3D(st.session_state.current_crowd)
+    if all(agent.agent_type == cst.AgentTypes.pedestrian for agent in st.session_state.current_crowd.agents):
+        dimension_options = {
+            "2D crowd": "2D",
+            "3D crowd": "3D",
+        }
+        selected_dimension_options = st.pills(" ", list(dimension_options.values()), label_visibility="collapsed")
+        # Plotting and downloading
+        if selected_dimension_options == dimension_options["2D crowd"]:
+            plot_and_download(st.session_state.current_crowd)
+        elif selected_dimension_options == dimension_options["3D crowd"]:
+            plot_crowd3D(st.session_state.current_crowd)
+    else:
+        dimension_options = {"2D crowd": "2D"}
+        selected_dimension_options = st.pills(" ", list(dimension_options.values()), label_visibility="collapsed")
+        # Plotting and downloading
+        if selected_dimension_options == dimension_options["2D crowd"]:
+            plot_and_download(st.session_state.current_crowd)
 
 
 def run_crowd_from_config() -> None:
@@ -613,6 +621,7 @@ def run_crowd_from_config() -> None:
             st.error(f"Type error while creating crowd: {e}")
 
         # --- Plotting and downloading ---
+        st.subheader("Visualisation")
         download_plot_crowd_from_config(current_crowd)
 
 
@@ -658,15 +667,26 @@ def plot_crowd3D(current_crowd: Crowd) -> None:
     col1, _ = st.columns([1.5, 1])
     with col1:
         st.subheader("Visualisation")
-        fig = plot.display_crowd3D_whole_3Dscene(current_crowd)
+        fig = plot.display_crowd3D_layers_by_layers(current_crowd)
         st.plotly_chart(fig)
 
         st.sidebar.header("Download")
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         st.sidebar.download_button(
-            label="Download plot as PDF",
+            label="Download first plot as PDF",
             data=fig.to_image(format="pdf"),
-            file_name=f"body2D_orthogonal_projection_{timestamp}.pdf",
+            file_name=f"3Dcrowd_slice_{timestamp}.pdf",
+            mime="application/pdf",
+        )
+
+        fig = plot.display_crowd3D_whole_3Dscene(current_crowd)
+        st.plotly_chart(fig)
+
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        st.sidebar.download_button(
+            label="Download second plot as PDF",
+            data=fig.to_image(format="pdf"),
+            file_name=f"3Dcrowd_{timestamp}.pdf",
             mime="application/pdf",
         )
 
@@ -684,7 +704,7 @@ def run_tab_crowd() -> None:
         "init crowd": "Initialize and save your own crowd",
         "crowd from config": "Generate from configuration files",
     }
-    selected_crowd_origin = st.pills("How would you like to set up your crowd?", list(crowd_origin_options.values()))
+    selected_crowd_origin = st.pills(" ", list(crowd_origin_options.values()), label_visibility="collapsed")
 
     if selected_crowd_origin == crowd_origin_options["init crowd"]:
         run_crowd_init()

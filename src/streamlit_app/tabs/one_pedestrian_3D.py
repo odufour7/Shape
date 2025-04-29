@@ -55,7 +55,7 @@ def sliders_for_agent_parameters() -> AgentMeasures:
     """
     # Sex Selection
     st.sidebar.radio(
-        "Select the pedestrian's sex:",
+        "Select the sex of the pedestrian",
         options=["male", "female"],
         index=0,  # Default to "male"
         key="sex",  # Automatically syncs with st.session_state.sex
@@ -112,21 +112,21 @@ def sliders_for_agent_position() -> tuple[float, float, float]:
         - `rotation_angle` (float): The rotation angle around the Z-axis in degrees.
     """
     x_translation = st.sidebar.slider(
-        "X-translation (cm):",
+        "X-translation (cm)",
         min_value=-cst_app.MAX_TRANSLATION_X,
         max_value=cst_app.MAX_TRANSLATION_X,
         value=0.0,
         step=1.0,
     )
     y_translation = st.sidebar.slider(
-        "Y-translation (cm):",
+        "Y-translation (cm)",
         min_value=-cst_app.MAX_TRANSLATION_Y,
         max_value=cst_app.MAX_TRANSLATION_Y,
         value=0.0,
         step=1.0,
     )
     rotation_angle = st.sidebar.slider(
-        "Rotation angle around z-axis (degrees):",
+        "Rotation angle around z-axis (degrees)",
         min_value=-180.0,
         max_value=180.0,
         value=90.0,
@@ -328,7 +328,7 @@ def run_tab_pedestrian3D() -> None:
 
     # Sidebar menu for selecting visualization type
     menu_option = st.selectbox(
-        "Choose an option:",
+        "Choose an option",
         [
             "Display orthogonal projection",
             "Display the body in 3D as a superposition of slices",

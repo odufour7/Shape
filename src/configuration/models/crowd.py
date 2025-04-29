@@ -512,8 +512,9 @@ class Crowd:
             # Decrease the temperature at each iteration
             Temperature = max(0.0, Temperature - 0.1)
 
-        # Update the 3d shapes
-        self.update_shapes3D_based_on_shapes2D()
+        # Update the 3d shapes only if all agents are pedestrians
+        if all(agent.agent_type == cst.AgentTypes.pedestrian for agent in self.agents):
+            self.update_shapes3D_based_on_shapes2D()
 
     def unpack_crowd(self) -> None:
         """Translate all agents in the crowd to the origin (0, 0)."""
