@@ -31,7 +31,6 @@ Thumbs.db
 # Data and assets (if specific exclusions are needed)
 *.pdf
 *.sh
-*.zip
 *._*.txt
 *._*.csv
 *.jpg

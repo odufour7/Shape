@@ -1,5 +1,0 @@
-
-- à verifier encore
-    - les fonctions de Crowd measures statistiques
-    (les renommer ou modifier docs pour rendre évider quelles
-    agissent pour statistics crowd stuff)

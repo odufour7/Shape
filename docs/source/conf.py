@@ -32,6 +32,8 @@ extensions = [
     "myst_parser",
     "sphinx.ext.mathjax",
     "nbsphinx_link",  # Optional: Linking to external notebooks
+    "breathe",  # For C++ documentation via Doxygen
+    "exhale",  # For automatic API documentation tree with c++
 ]
 
 templates_path = ["_templates"]
@@ -57,6 +59,7 @@ intersphinx_mapping = {
     "shapely": ("https://shapely.readthedocs.io/en/stable/", None),  # Link to Shapely documentation
     "plotly": ("https://plotly.com/python-api-reference/", None),  # Link to Plotly documentation
     "numpy": ("https://numpy.org/doc/stable/", None),  # Link to NumPy documentation
+    "cppreference": ("https://en.cppreference.com/w/", None),  # Link to C++ reference
 }
 
 # -- Autodoc settings --------------------------------------------------------
@@ -67,3 +70,24 @@ autodoc_default_options = {
 }
 
 autodoc_typehints = "description"  # Render type hints in the description instead of signatures
+
+# # -- Breathe configuration ---------------------------------------------------
+
+# breathe_projects = {"shapes_cpp": os.path.abspath("../doxyoutput/xml")}
+# breathe_default_project = "shapes_cpp"
+
+# # -- Exhale configuration ----------------------------------------------------
+
+# exhale_args = {
+#     # Folder where API .rst files will be generated
+#     "containmentFolder": "./api",
+#     "rootFileName": "library_root.rst",
+#     "rootFileTitle": "C++ API Reference",
+#     "doxygenStripFromPath": "..",
+#     "createTreeView": True,
+# }
+
+# # -- Sphinx C++ domain settings ----------------------------------------------
+
+# primary_domain = "cpp"
+# highlight_language = "cpp"

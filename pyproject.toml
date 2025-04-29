@@ -5,8 +5,10 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "breathe>=4.36.0",
     "cmcrameri>=1.9",
     "dicttoxml>=1.7.16",
+    "exhale>=0.3.7",
     "kaleido==0.2.1",
     "matplotlib>=3.10.1",
     "mypy>=1.15.0",
@@ -65,4 +67,9 @@ override_SS05 = [ # override SS05 to allow docstrings starting with these words
     '^Process ',
     '^Assess ',
     '^Access ',
+]
+
+[tool.uv.workspace]
+members = [
+    "try",
 ]
