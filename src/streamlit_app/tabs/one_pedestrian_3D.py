@@ -111,25 +111,25 @@ def sliders_for_agent_position() -> tuple[float, float, float]:
         - `y_translation` (float): The translation along the Y-axis in centimeters.
         - `rotation_angle` (float): The rotation angle around the Z-axis in degrees.
     """
-    x_translation = st.sidebar.number_input(
+    x_translation = st.sidebar.slider(
         "X-translation (cm):",
-        min_value=-500.0,
-        max_value=500.0,
+        min_value=-cst_app.MAX_TRANSLATION_X,
+        max_value=cst_app.MAX_TRANSLATION_X,
         value=0.0,
         step=1.0,
     )
-    y_translation = st.sidebar.number_input(
+    y_translation = st.sidebar.slider(
         "Y-translation (cm):",
-        min_value=-500.0,
-        max_value=500.0,
+        min_value=-cst_app.MAX_TRANSLATION_Y,
+        max_value=cst_app.MAX_TRANSLATION_Y,
         value=0.0,
         step=1.0,
     )
-    rotation_angle = st.sidebar.number_input(
+    rotation_angle = st.sidebar.slider(
         "Rotation angle around z-axis (degrees):",
-        min_value=-360.0,
-        max_value=360.0,
-        value=0.0,
+        min_value=-180.0,
+        max_value=180.0,
+        value=90.0,
         step=1.0,
     )
     return x_translation, y_translation, rotation_angle
@@ -345,6 +345,7 @@ def run_tab_pedestrian3D() -> None:
     with col1:
         # Display content based on the selected menu option
         if menu_option == "Display orthogonal projection":
+            current_pedestrian.rotate_body3D(90.0)
             orthogonal_projection_option(current_pedestrian)
 
         elif menu_option == "Display the body in 3D as a superposition of slices":

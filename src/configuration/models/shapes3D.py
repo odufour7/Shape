@@ -184,7 +184,7 @@ class Shapes3D:
 
     def get_bideltoid_breadth(self) -> float:
         """
-        Compute the bideltoid breadth of the agent (that has not rotated) in cm.
+        Compute the bideltoid breadth of the agent (that has an orientation of 90°) in cm.
 
         Returns
         -------
@@ -198,7 +198,7 @@ class Shapes3D:
 
     def get_chest_depth(self) -> float:
         """
-        Compute the chest depth of the agent (that has not rotated) in cm.
+        Compute the chest depth of the agent (that has an orientation of 90°) in cm.
 
         Returns
         -------

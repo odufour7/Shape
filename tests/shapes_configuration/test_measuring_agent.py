@@ -157,6 +157,7 @@ def test_shapes3d_bideltoid_and_chest_depth(agent: Agent) -> None:
     agent : Agent
         The agent fixture.
     """
+    agent.rotate_body3D(90.0)  # rotate to 90 degrees to be able to compute the bideltoid breadth and chest depth
     bideltoid_breadth = agent.shapes3D.get_bideltoid_breadth()
     chest_depth = agent.shapes3D.get_chest_depth()
     assert np.isclose(bideltoid_breadth, MEASURES["bideltoid_breadth"], atol=0.6), (

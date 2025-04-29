@@ -4,6 +4,7 @@ import logging
 from typing import Literal, Optional
 
 import cmcrameri as cram
+import matplotlib.colors as mcolors
 import matplotlib.figure as mfig
 import matplotlib.pyplot as plt
 import numpy as np
@@ -621,6 +622,211 @@ def display_crowd2D(crowd: Crowd) -> mfig.Figure:
     ax.set(xlim=(x_min, x_max), ylim=(y_min, y_max), aspect="equal", xlabel="x [cm]", ylabel="y [cm]")
     ax.set_aspect("equal", "box")
     fig.tight_layout()
+
+    return fig
+
+
+def display_crowd3D_layers_by_layers(crowd: Crowd) -> go.Figure:
+    """
+    Visualize a 3D crowd as animated 2D polygons at different heights.
+
+    For each unique height present in the crowd's agents, plots all polygons
+    (from both Polygon and MultiPolygon objects) for each agent at that height.
+    The result is an animated Plotly figure, with each animation frame
+    corresponding to a different height.
+
+    Parameters
+    ----------
+    crowd : Crowd
+        The crowd object containing agents. Each agent is expected to have
+        a `shapes3D.shapes` dictionary mapping heights (float or int) to
+        Shapely Polygon or MultiPolygon objects.
+
+    Returns
+    -------
+    plotly.graph_objects.Figure
+        An animated Plotly figure with a slider to select the height. Each
+        frame shows all polygons of all agents at a given height.
+    """
+    norm = Normalize(
+        vmin=min(agent.shapes2D.get_area() for agent in crowd.agents),
+        vmax=max(agent.shapes2D.get_area() for agent in crowd.agents),
+    )
+
+    # Translate and rotate each 3D shape to match the 2D shape
+    highest_agent_height = -np.inf
+    for _, agent in enumerate(crowd.agents):
+        pedestrian_height = agent.shapes3D.get_height()
+        highest_agent_height = max(pedestrian_height, highest_agent_height)
+
+    # Round the height to the nearest integer and keep only one per unique height
+    for agent in crowd.agents:
+        shapes3D_dict = agent.shapes3D.shapes
+        rounded_map = {}
+        for height, multipolygon in list(shapes3D_dict.items()):
+            rounded_height = int(height)
+            if rounded_height not in rounded_map:
+                rounded_map[rounded_height] = multipolygon
+        shapes3D_dict.clear()
+        shapes3D_dict.update(rounded_map)
+
+        print(f"heights : {shapes3D_dict.keys()}")
+
+    # Extract all unique heights from all agents
+    all_heights = np.arange(0.0, highest_agent_height + 1.0, 1.0, dtype=int)
+
+    # Prepare animation frames
+    frames = []
+    for height in all_heights:
+        traces = []
+        for _, agent in enumerate(crowd.agents):
+            agent_area = agent.shapes2D.get_area()
+            rgba_color = cram.cm.hawaii(norm(agent_area))  # pylint: disable=no-member
+
+            if height in agent.shapes3D.shapes:
+                multipolygon = agent.shapes3D.shapes[height]
+                if not isinstance(multipolygon, MultiPolygon):
+                    raise ValueError("Shape must be a MultiPolygon")
+
+                for polygon in multipolygon.geoms:
+                    # rais en error if the polygon is empty
+                    if polygon.is_empty:
+                        raise ValueError("Polygon is empty")
+                    x, y = polygon.exterior.xy
+                    traces.append(
+                        go.Scatter(
+                            x=np.array(x),
+                            y=np.array(y),
+                            fill="toself",
+                            mode="lines",
+                            line={"color": "black", "width": 1},
+                            fillcolor=mcolors.to_hex(rgba_color),
+                        )
+                    )
+        frames.append(go.Frame(data=traces, name=f"{height} cm"))
+
+    # Create the figure and add the first frame's data
+    fig = go.Figure(frames=frames)
+    if frames:
+        fig.add_traces(frames[0].data)
+
+    # Build slider steps for each frame
+    steps = [
+        {
+            "method": "animate",
+            "args": [[frame.name], {"mode": "immediate", "frame": {"duration": 500, "redraw": True}, "transition": {"duration": 0}}],
+            "label": frame.name,
+        }
+        for frame in frames
+    ]
+
+    # Calculate bounds from agents' 2D shapes
+    bounds = np.array([multipolygon.bounds for agent in crowd.agents for multipolygon in agent.shapes3D.shapes.values()])
+    x_min, y_min = bounds[:, [0, 1]].min(axis=0)
+    x_max, y_max = bounds[:, [2, 3]].max(axis=0)
+
+    # If boundaries exist, include them in the limits and plot as a dashed line
+    if not crowd.boundaries.is_empty:
+        bx, by = crowd.boundaries.exterior.xy
+        x_min = min(x_min, np.min(bx))
+        y_min = min(y_min, np.min(by))
+        x_max = max(x_max, np.max(bx))
+        y_max = max(y_max, np.max(by))
+
+    # Update layout with slider, aspect ratio, and axis limits
+    fig.update_layout(
+        sliders=[{"active": 0, "currentvalue": {"prefix": "Height: "}, "pad": {"t": 50}, "steps": steps}],
+        title="Polygons by Height",
+        xaxis={"scaleanchor": "y", "scaleratio": 1, "range": [x_min, x_max], "title": "x [cm]"},
+        yaxis={"scaleanchor": "x", "scaleratio": 1, "range": [y_min, y_max], "title": "y [cm]"},
+    )
+
+    return fig
+
+
+def display_crowd3D_whole_3Dscene(crowd: Crowd) -> go.Figure:
+    """
+    Visualize a 3D crowd as a single animated mesh.
+
+    This function generates a 3D mesh visualization of a crowd of agents,
+    where each agent's body is represented as a mesh. The mesh is animated
+    to show the crowd in a 3D scene.
+
+    Parameters
+    ----------
+    crowd : Crowd
+        The crowd object containing agents. Each agent is expected to have
+        a `shapes3D.shapes` dictionary mapping heights (float or int) to
+        Shapely Polygon or MultiPolygon objects.
+
+    Returns
+    -------
+    plotly.graph_objects.Figure
+        A Plotly figure object representing the animated 3D mesh of the crowd.
+    """
+    norm = Normalize(
+        vmin=min(agent.shapes2D.get_area() for agent in crowd.agents),
+        vmax=max(agent.shapes2D.get_area() for agent in crowd.agents),
+    )
+
+    # Initialize a Plotly figure
+    fig = go.Figure()
+
+    # Add each agent's 3D mesh to the plot
+    for _, agent in enumerate(crowd.agents):
+        rgba_color = cram.cm.hawaii(norm(agent.shapes2D.get_area()))  # pylint: disable=no-member
+
+        # Add each polygon to the 3D plot
+        for height in sorted(agent.shapes3D.shapes.keys(), key=int):
+            multi_polygon = agent.shapes3D.shapes[height]
+
+            # Check if multi_polygon is a MultiPolygon object
+            if not isinstance(multi_polygon, MultiPolygon):
+                raise ValueError("multi_polygon is not a MultiPolygon")
+
+            # Plot each polygon
+            for polygon in multi_polygon.geoms:
+                x, y = polygon.exterior.xy
+                fig.add_trace(
+                    go.Scatter3d(
+                        x=np.array(x),
+                        y=np.array(y),
+                        z=np.full_like(x, height),
+                        mode="lines",
+                        line={
+                            "width": 2,
+                            "color": mcolors.to_hex(rgba_color),
+                        },
+                        showlegend=False,
+                    )
+                )
+
+    # Calculate bounds from agents' 2D shapes
+    bounds = np.array([multipolygon.bounds for agent in crowd.agents for multipolygon in agent.shapes3D.shapes.values()])
+    x_min, y_min = bounds[:, [0, 1]].min(axis=0)
+    x_max, y_max = bounds[:, [2, 3]].max(axis=0)
+
+    # If boundaries exist, include them in the limits and plot as a dashed line
+    if not crowd.boundaries.is_empty:
+        bx, by = crowd.boundaries.exterior.xy
+        x_min = min(x_min, np.min(bx))
+        y_min = min(y_min, np.min(by))
+        x_max = max(x_max, np.max(bx))
+        y_max = max(y_max, np.max(by))
+
+    # Set layout properties
+    fig.update_layout(
+        title="Crowd 3D visualization",
+        scene={
+            "xaxis": {"title": "X [cm]", "range": [x_min, x_max]},
+            "yaxis": {"title": "Y [cm]", "range": [y_min, y_max]},
+            "zaxis": {"title": "Height [cm]"},
+            "aspectmode": "data",
+        },
+        scene_camera={"eye": {"x": 0.0, "y": -3.5, "z": 1.5}},
+        showlegend=False,
+        height=900,
+    )
 
     return fig
 

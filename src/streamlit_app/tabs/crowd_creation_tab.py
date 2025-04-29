@@ -516,7 +516,7 @@ def run_crowd_init() -> None:
     # Rolling menu to select between ANSURII database  / Custom Statistics
     database_option = st.sidebar.selectbox(
         "Select database option:",
-        options=["ANSURII database", "Custom statistics"],  # "Custom database"
+        options=["ANSURII database", "Custom statistics"],
     )
     if "database_option" not in st.session_state:
         st.session_state.database_option = database_option
@@ -541,7 +541,18 @@ def run_crowd_init() -> None:
 
     display_interpenetration_warning()
 
-    plot_and_download(st.session_state.current_crowd)
+    # choose between 2D representation of the crowd or 3D representation
+    st.subheader("Choose a crowd representation")
+    dimension_options = {
+        "2D": "2D",
+        "3D": "3D",
+    }
+    selected_dimension_options = st.pills("Choose a crowd representation", list(dimension_options.values()))
+
+    if selected_dimension_options == dimension_options["2D"]:
+        plot_and_download(st.session_state.current_crowd)
+    elif selected_dimension_options == dimension_options["3D"]:
+        plot_crowd3D(st.session_state.current_crowd)
 
 
 def run_crowd_from_config() -> None:
@@ -631,6 +642,31 @@ def download_plot_crowd_from_config(current_crowd: Crowd) -> None:
             label="Download plot as PDF",
             data=crowd_plot,
             file_name=f"crowd_{timestamp}.pdf",
+            mime="application/pdf",
+        )
+
+
+def plot_crowd3D(current_crowd: Crowd) -> None:
+    """
+    Plot the crowd in 3D and provide download options.
+
+    Parameters
+    ----------
+    current_crowd : Crowd
+        The Crowd object to be plotted and downloaded.
+    """
+    col1, _ = st.columns([1.5, 1])
+    with col1:
+        st.subheader("Visualisation")
+        fig = plot.display_crowd3D_whole_3Dscene(current_crowd)
+        st.plotly_chart(fig)
+
+        st.sidebar.header("Download")
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        st.sidebar.download_button(
+            label="Download plot as PDF",
+            data=fig.to_image(format="pdf"),
+            file_name=f"body2D_orthogonal_projection_{timestamp}.pdf",
             mime="application/pdf",
         )
 

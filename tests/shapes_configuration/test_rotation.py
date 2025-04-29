@@ -41,7 +41,7 @@ def test_initial_orientation(agent: Agent) -> None:
         The agent fixture.
     """
     orientation = agent.get_agent_orientation()
-    assert orientation == 90.0, f"Expected orientation 90.0, got {orientation}"
+    assert orientation == 0.0, f"Expected orientation 0.0, got {orientation}"
 
 
 def test_shapes2d_center_y(agent: Agent) -> None:
@@ -54,12 +54,12 @@ def test_shapes2d_center_y(agent: Agent) -> None:
         The agent fixture.
     """
     for shape_dict in agent.shapes2D.get_additional_parameters().values():
-        assert abs(shape_dict["y"]) < 0.05, f"Shape center y-coordinate is not close to 0.0: {shape_dict['y']}"
+        assert abs(shape_dict["x"]) < 0.05, f"Shape center y-coordinate is not close to 0.0: {shape_dict['x']}"
 
 
 def test_rotation_and_shapes2d_center_x(agent: Agent) -> None:
     """
-    Test that after rotating the agent by -90°, the orientation is 0 and the x-coordinates of each 2D shape center are close to 0.0.
+    Test that after rotating the agent by -90°, the orientation is -90 and the x-coordinates of each 2D shape center are close to -90.
 
     Parameters
     ----------
@@ -68,9 +68,9 @@ def test_rotation_and_shapes2d_center_x(agent: Agent) -> None:
     """
     agent.rotate(-90)
     orientation = agent.get_agent_orientation()
-    assert orientation == 0.0, f"Expected orientation 0.0 after rotation, got {orientation}"
+    assert orientation == -90.0, f"Expected orientation -90.0 after rotation, got {orientation}"
     for shape_dict in agent.shapes2D.get_additional_parameters().values():
-        assert abs(shape_dict["x"]) < 0.05, f"Shape center x-coordinate is not close to 0.0: {shape_dict['x']}"
+        assert abs(shape_dict["y"]) < 0.05, f"Shape center x-coordinate is not close to -90.0: {shape_dict['y']}"
 
 
 def test_center_of_mass_invariance_on_rotation(agent: Agent) -> None:

@@ -13,8 +13,8 @@ DEFAULT_PEDESTRIAN_HEIGHT: float = 170.0  # cm
 DEFAULT_HEIGHT_MIN: float = 100.0  # in cm
 DEFAULT_HEIGHT_MAX: float = 230.0  # in cm
 
-MAX_TRANSLATION_X: float = 500.0  # cm
-MAX_TRANSLATION_Y: float = 500.0  # cm
+MAX_TRANSLATION_X: float = 200.0  # cm
+MAX_TRANSLATION_Y: float = 200.0  # cm
 
 DEFAULT_SEX: Sex = "male"
 

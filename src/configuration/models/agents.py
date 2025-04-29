@@ -58,6 +58,27 @@ class Agent:
                 self._measures.measures[cst.CommonMeasures.weight.name],
             )
 
+            # Set the initial orientation of the shapes2D to 0.0°
+            centroids = [
+                s["object"].centroid for s in self._shapes2D.shapes.values() if isinstance(s["object"], (MultiPolygon, Polygon))
+            ]
+            shapes2D_centroid = MultiPoint(centroids).centroid
+            for name, shape in self._shapes2D.shapes.items():
+                self._shapes2D.shapes[name]["object"] = affin.rotate(shape["object"], -90, origin=shapes2D_centroid, use_radians=False)
+                self._shapes2D.shapes[name]["object"] = affin.translate(
+                    self._shapes2D.shapes[name]["object"], xoff=-shapes2D_centroid.x, yoff=-shapes2D_centroid.y
+                )
+
+        # Set the initial orientation of the shapes3D to 0.0°
+        if self._shapes3D.shapes:
+            centroids = [mp.centroid for mp in self._shapes3D.shapes.values() if isinstance(mp, (MultiPolygon, Polygon))]
+            centroid_body = MultiPoint(centroids).centroid
+            for height, multipolygon in self._shapes3D.shapes.items():
+                self._shapes3D.shapes[height] = affin.rotate(multipolygon, -90, origin=centroid_body, use_radians=False)
+                self._shapes3D.shapes[height] = affin.translate(
+                    self._shapes3D.shapes[height], xoff=-centroid_body.x, yoff=-centroid_body.y
+                )
+
     def _validate_agent_type(self, agent_type: cst.AgentTypes) -> cst.AgentTypes:
         """
         Validate the provided agent type.
@@ -199,18 +220,23 @@ class Agent:
             self._measures = value
             wanted_position = self.get_position()
             wanted_orientation = self.get_agent_orientation()
+
             # Create and update the 2D shapes
             self.shapes2D.create_pedestrian_shapes(self._measures)
             current_position = self.get_position()
             current_orientation = self.get_agent_orientation()
             self.translate(wanted_position.x - current_position.x, wanted_position.y - current_position.y)
             self.rotate(wanted_orientation - current_orientation)
+
             # Create and update the 3D shapes if they exist
             if self.shapes3D is not None:
                 self.shapes3D.create_pedestrian3D(self._measures)
             else:
                 self.shapes3D = Shapes3D(agent_type=cst.AgentTypes.pedestrian)
             self.shapes3D.create_pedestrian3D(self._measures)
+            current_position = self.get_centroid_body3D()
+            self.translate_body3D(dx=wanted_position.x - current_position.x, dy=wanted_position.y - current_position.y, dz=0.0)
+            self.rotate_body3D(angle=wanted_orientation - 90)
 
         if self.agent_type == cst.AgentTypes.bike:
             if isinstance(value, dict):

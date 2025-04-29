@@ -201,10 +201,10 @@ class Crowd:
             drawn_agent_measures = draw_agent_measures(drawn_agent_type, self.measures)
             self.agents.append(Agent(agent_type=drawn_agent_type, measures=drawn_agent_measures))
 
-        # Case 3: Use the default ANSURII database if no other data is available
+        # Case 2: Use the default ANSURII database if no other data is available
         elif not self.measures.agent_statistics:
-            drawn_agent = np.random.choice(np.array(list(self.measures.default_database.values()), dtype="object"))
-            agent_measures = create_pedestrian_measures(drawn_agent)
+            drawn_agent_data = np.random.choice(np.array(list(self.measures.default_database.values()), dtype="object"))
+            agent_measures = create_pedestrian_measures(drawn_agent_data)
             self.agents.append(Agent(agent_type=cst.AgentTypes.pedestrian, measures=agent_measures))
 
     def create_agents(self, number_agents: int = cst.DEFAULT_AGENT_NUMBER) -> None:
@@ -405,6 +405,26 @@ class Crowd:
         if repulsion_length <= 0:
             raise ValueError("`repulsion_length` should be a strictly positive float.")
 
+    def update_shapes3D_based_on_shapes2D(self) -> None:
+        """
+        Update the position and orientation of 3D shapes of all agents based on their 2D shapes.
+
+        This method iterates through each agent in the crowd and updates its 3D shapes position and orientation
+        based on the corresponding 2D shapes.
+        """
+        for agent in self.agents:
+            desired_orientation = agent.get_agent_orientation()
+            actual_orientation = 0.0
+            agent.rotate_body3D(desired_orientation - actual_orientation)
+            desired_position = agent.get_position()
+            actual_position = agent.get_centroid_body3D()
+            actual_lowest_height = min(float(height) for height in agent.shapes3D.shapes.keys())
+            agent.translate_body3D(
+                dx=desired_position.x - actual_position.x,
+                dy=desired_position.y - actual_position.y,
+                dz=0.0 - actual_lowest_height,
+            )
+
     def pack_agents_with_forces(
         self,
         repulsion_length: float = cst.DEFAULT_REPULSION_LENGTH,
@@ -447,9 +467,9 @@ class Crowd:
             random_packing=random_packing,
         )
 
-        # Initially, all agents have 90° orientation (head facing up), so we need to rotate them to the desired direction
+        # Initially, all agents have 0° orientation (head facing right), so we need to rotate them to the desired direction
         for current_agent in self.agents:
-            current_agent.rotate(desired_direction - 90.0)
+            current_agent.rotate(desired_direction)
 
         Temperature = 1.0
         for _ in range(cst.MAX_NB_ITERATIONS):
@@ -491,6 +511,9 @@ class Crowd:
 
             # Decrease the temperature at each iteration
             Temperature = max(0.0, Temperature - 0.1)
+
+        # Update the 3d shapes
+        self.update_shapes3D_based_on_shapes2D()
 
     def unpack_crowd(self) -> None:
         """Translate all agents in the crowd to the origin (0, 0)."""
