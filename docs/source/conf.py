@@ -29,7 +29,8 @@ extensions = [
     "sphinx_autodoc_typehints",  # Render type hints as links in docs
     "sphinx.ext.intersphinx",  # Link to external documentation (e.g., Python)
     "nbsphinx",  # Support for Jupyter notebooks
-    "myst_nb",  # Optional: MyST Markdown notebooks support
+    "myst_parser",
+    "sphinx.ext.mathjax",
     "nbsphinx_link",  # Optional: Linking to external notebooks
 ]
 

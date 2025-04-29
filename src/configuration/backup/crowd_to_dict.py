@@ -250,15 +250,16 @@ def get_interactions_params(current_crowd: Crowd) -> InteractionsDataType:
                 continue  # Skip self-interactions
 
             shapes_agent2 = agent2.shapes2D.get_geometric_shapes()
-            interactions: dict[str, dict[str, int | float]] = {
+            interactions: dict[str, dict[str, int | tuple[float, float]]] = {
                 f"Interaction_{p_id}_{c_id}": {
-                    "ParentShapeId": p_id,
-                    "ChildShapeId": c_id,
-                    "Ftx": cst.INITIAL_TANGENTIAL_FORCE_X,
-                    "Fty": cst.INITIAL_TANGENTIAL_FORCE_Y,
-                    "Fnx": cst.INITIAL_NORMAL_FORCE_X,
-                    "Fny": cst.INITIAL_NORMAL_FORCE_Y,
-                    "TangentialRelativeDisplacementNorm": cst.INITIAL_TANGENTIAL_RELATIVE_DISPLACEMENT_NORM,
+                    "ParentShape": p_id,
+                    "ChildShape": c_id,
+                    "TangentialRelativeDisplacement": (
+                        cst.INITIAL_TANGENTIAL_RELATIVE_DISPLACEMENT_X,
+                        cst.INITIAL_TANGENTIAL_RELATIVE_DISPLACEMENT_Y,
+                    ),
+                    "Fn": (cst.INITIAL_NORMAL_FORCE_X, cst.INITIAL_NORMAL_FORCE_Y),
+                    "Ft": (cst.INITIAL_TANGENTIAL_FORCE_X, cst.INITIAL_TANGENTIAL_FORCE_Y),
                 }
                 for p_id, shape1 in enumerate(shapes_agent1)
                 for c_id, shape2 in enumerate(shapes_agent2)

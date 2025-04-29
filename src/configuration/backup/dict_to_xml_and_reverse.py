@@ -184,10 +184,9 @@ def geometry_dict_to_xml(boundaries_dict: GeometryDataType) -> bytes:
         wall_element = ET.SubElement(root, "Wall", Id=f"{wall_data['Id']}", MaterialId=f"{wall_data['MaterialId']}")
 
         # Add Corners element
-        corners_element = ET.SubElement(wall_element, "Corners")
         for corner_data in wall_data["Corners"].values():
             ET.SubElement(
-                corners_element, "Corner", Coordinates=f"{corner_data['Coordinates'][0]:.3f},{corner_data['Coordinates'][1]:.3f}"
+                wall_element, "Corner", Coordinates=f"{corner_data['Coordinates'][0]:.3f},{corner_data['Coordinates'][1]:.3f}"
             )
 
     # Convert the tree to a string
@@ -280,13 +279,11 @@ def interactions_dict_to_xml(data: InteractionsDataType) -> bytes:
                     ET.SubElement(
                         neighbor_element,
                         "Interaction",
-                        ParentShapeId=f"{interaction_data['ParentShapeId']}",
-                        ChildShapeId=f"{interaction_data['ChildShapeId']}",
-                        Ftx=f"{interaction_data['Ftx']:.2f}",
-                        Fty=f"{interaction_data['Fty']:.2f}",
-                        Fnx=f"{interaction_data['Fnx']:.2f}",
-                        Fny=f"{interaction_data['Fny']:.2f}",
-                        TangentialRelativeDisplacementNorm=f"{interaction_data['TangentialRelativeDisplacementNorm']:.2f}",
+                        ParentShape=f"{interaction_data['ParentShape']}",
+                        ChildShape=f"{interaction_data['ChildShape']}",
+                        TangentialRelativeDisplacement=f"{interaction_data['TangentialRelativeDisplacement'][0]:.2f},{interaction_data['TangentialRelativeDisplacement'][1]:.2f}",
+                        Fn=f"{interaction_data['Fn'][0]:.2f},{interaction_data['Fn'][1]:.2f}",
+                        Ft=f"{interaction_data['Ft'][0]:.2f},{interaction_data['Ft'][1]:.2f}",
                     )
     # Convert the tree to a string
     xml_str = ET.tostring(root, encoding="utf-8")
@@ -510,12 +507,10 @@ def geometry_xml_to_dict(xml_data: str) -> GeometryDataType:
             raise ValueError(f"Type error in <Wall> at position {wall_idx}: {e}") from e
 
         # Validate corners section
-        corners_element = wall.find("Corners")
-        if corners_element is None:
-            raise ValueError(f"Missing <Corners> section for <Wall> with Id={wall_id}.")
+        # corners_element = wall.find("Corners")
 
         corners: dict[str, dict[str, tuple[float, float]]] = {}
-        for i, corner in enumerate(corners_element.findall("Corner")):
+        for i, corner in enumerate(wall.findall("Corner")):
             try:
                 coords = fun.from_string_to_tuple(corner.attrib["Coordinates"])
             except KeyError as e:
@@ -672,7 +667,7 @@ def interactions_xml_to_dict(xml_data: str) -> InteractionsDataType:
 
             # Iterate through interactions
             for interaction_idx, interaction in enumerate(neighbor_agent.findall("Interaction")):
-                required_attrs = ["ParentShapeId", "ChildShapeId", "Ftx", "Fty", "Fnx", "Fny", "TangentialRelativeDisplacementNorm"]
+                required_attrs = ["ParentShape", "ChildShape", "TangentialRelativeDisplacement", "Fn", "Ft"]
                 for attr in required_attrs:
                     if attr not in interaction.attrib:
                         raise ValueError(
@@ -680,13 +675,11 @@ def interactions_xml_to_dict(xml_data: str) -> InteractionsDataType:
                             f"under Neighbor Agent {neighbor_id} of Agent {agent_id}."
                         )
                 try:
-                    parent_shape_id = int(interaction.attrib["ParentShapeId"])
-                    child_shape_id = int(interaction.attrib["ChildShapeId"])
-                    ftx = float(interaction.attrib["Ftx"])
-                    fty = float(interaction.attrib["Fty"])
-                    fnx = float(interaction.attrib["Fnx"])
-                    fny = float(interaction.attrib["Fny"])
-                    tangential_norm = float(interaction.attrib["TangentialRelativeDisplacementNorm"])
+                    parent_shape_id = int(interaction.attrib["ParentShape"])
+                    child_shape_id = int(interaction.attrib["ChildShape"])
+                    ft = fun.from_string_to_tuple(interaction.attrib["Ft"])
+                    fn = fun.from_string_to_tuple(interaction.attrib["Fn"])
+                    tangential_rel_displacement = fun.from_string_to_tuple(interaction.attrib["TangentialRelativeDisplacement"])
                 except ValueError as e:
                     raise ValueError(
                         f"Type error in <Interaction> at position {interaction_idx} "
@@ -695,13 +688,11 @@ def interactions_xml_to_dict(xml_data: str) -> InteractionsDataType:
 
                 interaction_key = f"Interaction_{parent_shape_id}_{child_shape_id}"
                 interactions_dict["Interactions"][agent_key]["NeighbouringAgents"][neighbor_key]["Interactions"][interaction_key] = {
-                    "ParentShapeId": parent_shape_id,
-                    "ChildShapeId": child_shape_id,
-                    "Ftx": ftx,
-                    "Fty": fty,
-                    "Fnx": fnx,
-                    "Fny": fny,
-                    "TangentialRelativeDisplacementNorm": tangential_norm,
+                    "ParentShape": parent_shape_id,
+                    "ChildShape": child_shape_id,
+                    "TangentialRelativeDisplacement": tangential_rel_displacement,
+                    "Fn": fn,
+                    "Ft": ft,
                 }
 
     return interactions_dict

@@ -114,7 +114,7 @@ InteractionsDataType: TypeAlias = dict[
                     str,  # Keys inside "Interactions" ("Interaction_0_0", "Interaction_0_1", ...)
                     dict[
                         str,  # Keys inside each interaction ("ParentShapeId", "ChildShapeId", "Ftx", ...)
-                        int | float,
+                        int | tuple[float, float],
                     ],
                 ],
             ],
