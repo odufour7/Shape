@@ -1,6 +1,6 @@
 <table  align="center"><td align="center" width="9999">
 
-<img src="./docs/source/_static/README/art_light.png" align="center" width="300" alt="project icon">
+<img src="./docs/source/_static/logo/art_light.png" align="center" width="300" alt="project icon">
 
 </td>
 <tr>
