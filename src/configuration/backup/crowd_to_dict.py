@@ -42,6 +42,11 @@ def get_light_agents_params(current_crowd: Crowd) -> StaticCrowdDataType:
                 "Type": f"{agent.agent_type.name}",
                 "Id": id_agent,
                 "Mass": agent.measures.measures[cst.CommonMeasures.weight.name],  # in kg
+                **(
+                    {"Height": agent.measures.measures[cst.PedestrianParts.height.name] * cst.CM_TO_M}  # in m
+                    if agent.agent_type.name == cst.AgentTypes.pedestrian.name
+                    else {}
+                ),
                 "MomentOfInertia": float(np.round(agent.measures.measures["moment_of_inertia"], 2)),  # in kg*m^2
                 "FloorDamping": float(np.round(cst.DEFAULT_FLOOR_DAMPING, 2)),
                 "AngularDamping": float(np.round(cst.DEFAULT_ANGULAR_DAMPING, 2)),
@@ -69,6 +74,10 @@ def get_static_params(current_crowd: Crowd) -> StaticCrowdDataType:
         Static parameters of all agents in a nested dictionary format.
     """
     crowd_dict: StaticCrowdDataType = {"Agents": defaultdict(dict)}
+
+    # Raise an error if all the agents are not pedestrians
+    if not all(agent.agent_type.name == cst.AgentTypes.pedestrian.name for agent in current_crowd.agents):
+        raise ValueError("All agents must be pedestrians to retrieve static parameters.")
 
     for agent_id, agent in enumerate(current_crowd.agents):
         # Initialize shapes dictionary for the current agent
@@ -101,6 +110,7 @@ def get_static_params(current_crowd: Crowd) -> StaticCrowdDataType:
             "Type": agent.agent_type.name,
             "Id": agent_id,
             "Mass": float(np.round(agent.measures.measures[cst.CommonMeasures.weight.name], 2)),  # in kg
+            "Height": float(np.round(agent.measures.measures[cst.PedestrianParts.height.name] * cst.CM_TO_M, 2)),  # in m
             "MomentOfInertia": float(np.round(agent.measures.measures["moment_of_inertia"], 2)),  # in kg*m^2
             "FloorDamping": float(np.round(cst.DEFAULT_FLOOR_DAMPING, 2)),
             "AngularDamping": float(np.round(cst.DEFAULT_ANGULAR_DAMPING, 2)),

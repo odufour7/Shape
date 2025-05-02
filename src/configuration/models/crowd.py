@@ -581,12 +581,15 @@ class Crowd:
             - "male_number": Total number of males
             - "bike_number": Total number of bikes
         The dictionary containing the lists of measurements for each agent type has keys formatted as follows:
-            - "pedestrian_weight": List of weights for all pedestrians
             - "bike_weight": List of weights for all bikes
             - "male_bideltoid_breadth": List of bideltoid breadths for all male pedestrians
             - "male_chest_depth": List of chest depths for all male pedestrians
+            - "male_height": List of heights for all male pedestrians
+            - "male_weight": List of weights for all male pedestrians
             - "female_bideltoid_breadth": List of bideltoid breadths for all female pedestrians
             - "female_chest_depth": List of chest depths for all female pedestrians
+            - "female_height": List of heights for all female pedestrians
+            - "female_weight": List of weights for all female pedestrians
             - "wheel_width": List of wheel widths for all bikes
             - "total_length": List of total lengths for all bikes
             - "handlebar_length": List of handlebar lengths for all bikes
@@ -599,16 +602,19 @@ class Crowd:
             "bike_number": 0,
         }
         stats_lists: dict[str, list[float | None]] = {
-            "pedestrian_weight": [],
-            "bike_weight": [],
             "male_bideltoid_breadth": [],
             "male_chest_depth": [],
+            "male_height": [],
+            "male_weight": [],
             "female_bideltoid_breadth": [],
             "female_chest_depth": [],
+            "female_height": [],
+            "female_weight": [],
             "wheel_width": [],
             "total_length": [],
             "handlebar_length": [],
             "top_tube_length": [],
+            "bike_weight": [],
         }
 
         # Collect data from agents
@@ -618,15 +624,18 @@ class Crowd:
                 stats_counts["pedestrian_number"] += 1
                 bideltoid_breadth = agent.measures.measures[cst.PedestrianParts.bideltoid_breadth.name]
                 chest_depth = agent.measures.measures[cst.PedestrianParts.chest_depth.name]
+                height = agent.measures.measures[cst.PedestrianParts.height.name]
                 if agent.measures.measures["sex"] == "male":
                     stats_counts["male_number"] += 1
                     stats_lists["male_bideltoid_breadth"].append(bideltoid_breadth)
                     stats_lists["male_chest_depth"].append(chest_depth)
+                    stats_lists["male_height"].append(height)
+                    stats_lists["male_weight"].append(weight)
                 else:
                     stats_lists["female_bideltoid_breadth"].append(bideltoid_breadth)
                     stats_lists["female_chest_depth"].append(chest_depth)
-
-                stats_lists["pedestrian_weight"].append(weight)
+                    stats_lists["female_height"].append(height)
+                    stats_lists["female_weight"].append(weight)
 
             elif agent.agent_type == cst.AgentTypes.bike:
                 stats_counts["bike_number"] += 1
@@ -648,16 +657,19 @@ class Crowd:
 
         # Compute detailed statistics for relevant keys
         for part_key in [
-            "pedestrian_weight",
-            "bike_weight",
             "male_bideltoid_breadth",
             "male_chest_depth",
+            "male_height",
+            "male_weight",
             "female_bideltoid_breadth",
             "female_chest_depth",
+            "female_height",
+            "female_weight",
             "wheel_width",
             "total_length",
             "handlebar_length",
             "top_tube_length",
+            "bike_weight",
         ]:
             for stats_key in ["_min", "_max", "_mean", "_std_dev"]:
                 measures[part_key + stats_key] = Crowd.compute_stats(stats_lists[part_key], stats_key)
@@ -736,14 +748,22 @@ def create_agents_from_dynamic_static_geometry_parameters(
             "sex": "male",
             "bideltoid_breadth": agent_shape2D.get_bideltoid_breadth(),
             "chest_depth": agent_shape2D.get_chest_depth(),
-            "height": cst.DEFAULT_PEDESTRIAN_HEIGHT,
-            "weight": cst.DEFAULT_PEDESTRIAN_WEIGHT,
+            "height": agent_data["Height"] * cst.M_TO_CM,  # m
+            "weight": agent_data["Mass"],  # kg
         }
         new_agent = Agent(agent_type=cst.AgentTypes.pedestrian, measures=agent_measures)
+
         actual_position = new_agent.get_position()
         actual_orientation = new_agent.get_agent_orientation()
         new_agent.translate(wanted_center_of_mass[0] - actual_position.x, wanted_center_of_mass[1] - actual_position.y)
         new_agent.rotate(wanted_orientation - actual_orientation)
+
+        current_position = new_agent.get_centroid_body3D()
+        new_agent.translate_body3D(
+            dx=wanted_center_of_mass[0] - current_position.x, dy=wanted_center_of_mass[1] - current_position.y, dz=0.0
+        )
+        new_agent.rotate_body3D(angle=wanted_orientation)
+
         all_agents.append(new_agent)
 
     return Crowd(agents=all_agents, boundaries=boundaries)

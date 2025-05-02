@@ -50,8 +50,8 @@ def init_session_state() -> AgentMeasures:
                     "sex": cst_app.DEFAULT_SEX,
                     "bideltoid_breadth": cst.CrowdStat["male_bideltoid_breadth_mean"],
                     "chest_depth": cst.CrowdStat["male_chest_depth_mean"],
-                    "height": cst_app.DEFAULT_PEDESTRIAN_HEIGHT,
-                    "weight": cst.CrowdStat["pedestrian_weight_mean"],
+                    "height": cst.CrowdStat["male_height_mean"],
+                    "weight": cst.CrowdStat["male_weight_mean"],
                 },
             )
             st.session_state.agent_type_measures = cst.AgentTypes.pedestrian
@@ -79,8 +79,8 @@ def init_session_state() -> AgentMeasures:
                     "sex": cst_app.DEFAULT_SEX,
                     "bideltoid_breadth": cst.CrowdStat["male_bideltoid_breadth_mean"],
                     "chest_depth": cst.CrowdStat["male_chest_depth_mean"],
-                    "height": cst_app.DEFAULT_PEDESTRIAN_HEIGHT,
-                    "weight": cst.CrowdStat["pedestrian_weight_mean"],
+                    "height": cst.CrowdStat["male_height_mean"],
+                    "weight": cst.CrowdStat["male_weight_mean"],
                 },
             )
             st.session_state.agent_type_measures = cst.AgentTypes.pedestrian
@@ -134,18 +134,11 @@ def sliders_for_agent_measures(agent_measures: AgentMeasures) -> None:
                 "sex": cst_app.DEFAULT_SEX,
                 "bideltoid_breadth": bideltoid_breadth,
                 "chest_depth": chest_depth,
-                "height": cst_app.DEFAULT_PEDESTRIAN_HEIGHT,
-                "weight": cst.CrowdStat["pedestrian_weight_mean"],
+                "height": cst.CrowdStat["male_height_mean"],
+                "weight": cst.CrowdStat["male_weight_mean"],
             },
         )
     elif st.session_state.agent_type == cst.AgentTypes.bike.name:
-        wheel_width = st.sidebar.slider(
-            "Wheel width (cm)",
-            min_value=cst.CrowdStat["wheel_width_min"],
-            max_value=cst.CrowdStat["wheel_width_max"],
-            value=cst.CrowdStat["wheel_width_mean"],
-            step=0.5,
-        )
         total_length = st.sidebar.slider(
             "Total length (cm)",
             min_value=cst.CrowdStat["total_length_min"],
@@ -166,6 +159,13 @@ def sliders_for_agent_measures(agent_measures: AgentMeasures) -> None:
             max_value=cst.CrowdStat["top_tube_length_max"],
             value=cst.CrowdStat["top_tube_length_mean"],
             step=1.0,
+        )
+        wheel_width = st.sidebar.slider(
+            "Wheel width (cm)",
+            min_value=cst.CrowdStat["wheel_width_min"],
+            max_value=cst.CrowdStat["wheel_width_max"],
+            value=cst.CrowdStat["wheel_width_mean"],
+            step=0.5,
         )
         agent_measures = AgentMeasures(
             agent_type=cst.AgentTypes.bike,
@@ -272,4 +272,5 @@ def run_tab_agent2D() -> None:
         data=fig.to_image(format="pdf"),
         file_name=f"body2D_orthogonal_projection_{timestamp}.pdf",
         mime="application/pdf",
+        use_container_width=True,
     )

@@ -414,8 +414,8 @@ def compute_bideltoid_breadth_from_multipolygon(multi_polygon: MultiPolygon) -> 
     )
 
     # Degreasing for polygons with a large number of vertices
-    if len(all_coords) > 300:
-        all_coords = all_coords[::8]
+    if len(all_coords) > 500:
+        all_coords = all_coords[::10]
 
     # Sort points by their y-coordinate
     sorted_coords = all_coords[np.argsort(all_coords[:, 1])]
@@ -468,8 +468,8 @@ def compute_chest_depth_from_multipolygon(multi_polygon: MultiPolygon) -> float:
     )
 
     # Degreasing for polygons with a large number of vertices
-    if len(all_coords) > 300:
-        all_coords = all_coords[::8]
+    if len(all_coords) > 500:
+        all_coords = all_coords[::10]
 
     # Sort points by their x-coordinate
     sorted_coords = all_coords[np.argsort(all_coords[:, 0])]
@@ -527,7 +527,7 @@ def from_string_to_tuple(string: str) -> tuple[float, float]:
         raise ValueError("Both elements must be convertible to float.") from exc
 
 
-def sigmoid(x: float, smoothing: float = cst.EPSILON_SMOOTHING) -> float:
+def sigmoid(x: float, smoothing: float) -> float:
     """
     Compute the numerically stable sigmoid function.
 
@@ -536,7 +536,7 @@ def sigmoid(x: float, smoothing: float = cst.EPSILON_SMOOTHING) -> float:
     x : float
         The input value.
     smoothing : float, optional
-        Smoothing parameter to scale the input, by default cst.EPSILON_SMOOTHING.
+        Smoothing parameter to scale the input.
 
     Returns
     -------
@@ -600,24 +600,9 @@ def rectangular_function(scale_xy: float, height: float, sex: Sex | str) -> floa
         neck_height = cst.NECK_HEIGHT_MALE
         knees_height = cst.KNEES_HEIGHT_MALE
 
-    return 1.0 + (scale_xy - 1.0) * sigmoid(neck_height - height) * sigmoid(height - knees_height)
-
-
-def filter_dict_by_not_None_values(input_dict: dict[str, Any]) -> dict[str, Any]:
-    """
-    Filter a dictionary to remove keys with None values.
-
-    Parameters
-    ----------
-    input_dict : dict[str, Any]
-        The input dictionary to be filtered.
-
-    Returns
-    -------
-    dict[str, Any]
-        A new dictionary containing only the key-value pairs where the value is not None.
-    """
-    return {k: v for k, v in input_dict.items() if v is not None}
+    return 1.0 + (scale_xy - 1.0) * sigmoid(neck_height - height, cst.EPSILON_SMOOTHING_NECK) * sigmoid(
+        height - knees_height, cst.EPSILON_SMOOTHING_KNEES
+    )
 
 
 def direction_of_longest_side(polygon: Polygon) -> float:

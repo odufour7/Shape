@@ -4,17 +4,19 @@ from pathlib import Path
 
 import streamlit as st
 
+from streamlit_app.utils import constants as cst_app
+
 
 def about() -> None:
     """Write about text."""
-    text = """
+    text = f"""
 
     ### Overview
-    Project shape
+    {cst_app.PROJECT_NAME} shape
     """
     st.markdown(text)
-    text2 = """
-    This app is part of the SHAPE project.
+    text2 = f"""
+    This app is part of the {cst_app.PROJECT_NAME} project.
     """
     st.markdown(text2)
 

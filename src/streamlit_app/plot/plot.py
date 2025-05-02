@@ -684,6 +684,7 @@ def display_crowd3D_layers_by_layers(crowd: Crowd) -> go.Figure:
     highest_agent_height = 0
     agent_heights = []
     current_polygons = []
+    all_altitudes = []
     for agent in crowd.agents:
         # Round heights to int and update agent.shapes3D.shapes
         new_shapes = {}
@@ -691,6 +692,7 @@ def display_crowd3D_layers_by_layers(crowd: Crowd) -> go.Figure:
             rounded_height = int(height)
             if rounded_height not in new_shapes:
                 new_shapes[rounded_height] = multipolygon
+                all_altitudes.append(rounded_height)
         agent.shapes3D.shapes = new_shapes
 
         # Track the highest agent height
@@ -701,11 +703,11 @@ def display_crowd3D_layers_by_layers(crowd: Crowd) -> go.Figure:
         agent_heights.append(agent_height)
         current_polygons.append(MultiPolygon([]))
 
-    all_heights = np.arange(0, int(highest_agent_height) + 1, 2, dtype=int)  # 2 cm step
+    all_unique_altitudes: NDArray[np.int64] = np.unique(all_altitudes)
     height_agent_traces = []
 
     # Loop through each height and create traces for each agent
-    for height in all_heights:
+    for height in all_unique_altitudes:
         traces = []
         for idx, (agent, max_height) in enumerate(zip(crowd.agents, agent_heights, strict=False)):
             if height > max_height:
@@ -774,12 +776,12 @@ def display_crowd3D_layers_by_layers(crowd: Crowd) -> go.Figure:
             "args": [{"visible": [cum_traces[i] <= j < cum_traces[i + 1] for j in range(total_traces)]}],
             "label": f"{height} cm",
         }
-        for i, height in enumerate(all_heights)
+        for i, height in enumerate(all_unique_altitudes)
     ]
 
     # Create the slider
     mid_min_agent_height = int(np.min(agent_heights) * cst.HEIGHT_OF_BIDELTOID_OVER_HEIGHT)
-    slider_start_index = np.abs(all_heights - mid_min_agent_height).argmin()
+    slider_start_index = np.abs(all_unique_altitudes - mid_min_agent_height).argmin()
     sliders = [
         {
             "active": slider_start_index,
@@ -870,11 +872,7 @@ def display_crowd3D_whole_3Dscene(crowd: Crowd) -> go.Figure:
         rgba_color = cram.cm.hawaii(norm(agent.shapes2D.get_area()))  # pylint: disable=no-member
 
         # Add each polygon to the 3D plot
-        for id_height, height in enumerate(sorted(agent.shapes3D.shapes.keys(), key=int)):
-            # Skip if the height is not an integer (to run faster)
-            if id_height % 3 != 0:
-                continue
-
+        for _, height in enumerate(sorted(agent.shapes3D.shapes.keys(), key=int)):
             # Get the multipolygon for this height
             multi_polygon = agent.shapes3D.shapes[height]
 
@@ -928,7 +926,7 @@ def display_crowd3D_whole_3Dscene(crowd: Crowd) -> go.Figure:
             "zaxis": {"title": "Altitude [cm]", "title_font": {"size": 20}, "tickfont": {"size": 16}},
             "aspectmode": "data",
         },
-        scene_camera={"eye": {"x": 0.05, "y": -2.3, "z": 0.8}},  # {"eye": {"x": 0.1, "y": -3.0, "z": 1.0}},
+        scene_camera={"eye": {"x": 0.05, "y": -2.3, "z": 0.8}},
         margin={"l": 0, "r": 0, "t": 25, "b": 0},
         showlegend=False,
         height=900,

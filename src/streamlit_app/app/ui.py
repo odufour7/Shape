@@ -12,14 +12,14 @@ import streamlit_app.utils.constants as cst_app
 def setup_app() -> None:
     """Set up the Streamlit page configuration."""
     st.set_page_config(
-        page_title="Shape Project",
+        page_title=f"{cst_app.PROJECT_NAME} Project",
         page_icon=":bar_chart:",
         layout="wide",
         initial_sidebar_state="expanded",
         menu_items={
             "Get Help": "https://github.com/odufour7/Shape",
             "Report a bug": "https://github.com/odufour7/Shape/issues",
-            "About": "# Shape Project " + ":flag-fr:",
+            "About": f"# {cst_app.PROJECT_NAME} Project " + ":flag-fr:",
         },
     )
 
@@ -66,7 +66,7 @@ def menubar() -> Any:
         unsafe_allow_html=True,  # enables Streamlit to render raw HTML and CSS
     )
     return option_menu(
-        "Shape project",
+        f"{cst_app.PROJECT_NAME} project",
         [
             cst_app.FIRST_TAB_NAME,
             cst_app.SECOND_TAB_NAME,
@@ -129,4 +129,4 @@ def init_app_looks() -> None:
 
     st.sidebar.image(str(logo_path), use_container_width=True)
 
-    st.sidebar.warning("⚠️ All measurements in this app are displayed in centimeters (cm).")
+    st.sidebar.warning("⚠️ All measurements in this app are displayed in centimeters.")

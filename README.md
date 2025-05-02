@@ -56,8 +56,18 @@ This project is developed at:
 If you use _shapes_, we encourage you to cite or reference this work as you would any other scientific research. The package is a result of a huge amount of time and effort invested by the authors. Citing us allows us to measure the impact of the research and encourages others to use the library.
 
 Cite us:
-
-> Oscar Dufour, Maxime Stapelle, Alexandre Nicolas. (2025). The _shapes_ project. Zenodo. https://doi.org/10.5281/zenodo.7559393
+```
+@software{dufour_2025_14906931,
+    author    = {Dufour, Oscar and Stapelle, Maxime and Rodney, David and Nicolas, Alexandre},
+    title     = {CrowdMorph - Realistic Crowd Generator and Simulation},
+    month     = {jun},
+    year      = {2025},
+    publisher = {Zenodo},
+    version   = {v1.3.1},
+    doi       = {10.5281/zenodo.7559393},
+    url       = {https://doi.org/10.5281/zenodo.7559393}
+}
+```
 
 ## Some use cases
 

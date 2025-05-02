@@ -67,6 +67,7 @@ def read_anthropometric_data(sex: Sex, data_dir_path: Path) -> pd.DataFrame:
     df.rename(columns={"bideltoidbreadth": "bideltoid breadth [cm]"}, inplace=True)
     df["Heightin"] = df["Heightin"] * cst.INCH_TO_CM  # Convert inches to cm
     df.rename(columns={"Heightin": "height [cm]"}, inplace=True)
+    df = df[df["Weightlbs"] != 0]  # Remove rows with zero weight
     df["Weightlbs"] = df["Weightlbs"] * cst.LB_TO_KG  # Keep weight in kg
     df.rename(columns={"Weightlbs": "weight [kg]"}, inplace=True)
 
@@ -138,7 +139,7 @@ def prepare_data() -> None:
 
 def prepare_3D_body_data(data_dir_path: Path) -> None:
     """
-    Prepare 3D body data by filtering 3D body shapes to one entry per rounded cm and saving the filtered data as a new pickle file.
+    Prepare 3D body data by filtering 3D body shapes to one entry per 3cm bin and saving the filtered data as a new pickle file.
 
     Parameters
     ----------
@@ -156,14 +157,20 @@ def prepare_3D_body_data(data_dir_path: Path) -> None:
             raise FileNotFoundError(f"Pickle file not found: {pickle_path}")
 
         shapes3D: dict[float, MultiPolygon] = fun.load_pickle(str(pickle_path))
-        filtered_shapes3D: dict[float, MultiPolygon] = {}
-        used_centimeters = set()
+        keys = sorted(float(k) for k in shapes3D.keys())
+        if not keys:
+            continue  # skip if no data
 
-        for height, multipolygon in shapes3D.items():
-            height_cm = round(height)
-            if height_cm not in used_centimeters:
-                filtered_shapes3D[height] = multipolygon
-                used_centimeters.add(height_cm)
+        target_keys = np.arange(0.0, keys[-1] + 1, 3.0)
+        filtered_shapes3D: dict[float, MultiPolygon] = {}
+        used_bins = set()
+
+        for key in keys:
+            bin_idx = np.argmin(np.abs(target_keys - key))
+            bin_value = target_keys[bin_idx]
+            if bin_value not in used_bins:
+                filtered_shapes3D[key] = shapes3D[key]
+                used_bins.add(bin_value)
 
         output_path = data_dir_path / "pkl" / f"{sex.name}_3dBody_light.pkl"
         fun.save_pickle(filtered_shapes3D, output_path)

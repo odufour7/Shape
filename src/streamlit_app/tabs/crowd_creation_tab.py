@@ -28,15 +28,18 @@ def initialize_session_state() -> None:
         "male_proportion": cst.CrowdStat["male_proportion"],
         "male_chest_depth_mean": cst.CrowdStat["male_chest_depth_mean"],
         "male_bideltoid_breadth_mean": cst.CrowdStat["male_bideltoid_breadth_mean"],
+        "male_height_mean": cst.CrowdStat["male_height_mean"],
+        "male_weight_mean": cst.CrowdStat["male_weight_mean"],
         "female_chest_depth_mean": cst.CrowdStat["female_chest_depth_mean"],
         "female_bideltoid_breadth_mean": cst.CrowdStat["female_bideltoid_breadth_mean"],
+        "female_height_mean": cst.CrowdStat["female_height_mean"],
+        "female_weight_mean": cst.CrowdStat["female_weight_mean"],
         "wheel_width_mean": cst.CrowdStat["wheel_width_mean"],
         "total_length_mean": cst.CrowdStat["total_length_mean"],
         "handlebar_length_mean": cst.CrowdStat["handlebar_length_mean"],
         "top_tube_length_mean": cst.CrowdStat["top_tube_length_mean"],
         "boundary_x": cst_app.DEFAULT_BOUNDARY_X,
         "boundary_y": cst_app.DEFAULT_BOUNDARY_Y,
-        "pedestrian_weight": cst.CrowdStat["pedestrian_weight_mean"],
         "bike_weight": cst.CrowdStat["bike_weight_mean"],
         "repulsion_length": cst_app.DEFAULT_REPULSION_LENGTH_MIN,
         "wall_interaction": cst_app.DEFAULT_WALL_INTERACTION,
@@ -130,27 +133,87 @@ def display_interpenetration_warning() -> None:
             )
 
 
+# def display_crowd_statistics(crowd_statistics_measures: dict[str, float | int | None]) -> None:
+#     """
+#     Display crowd statistics in a Streamlit app.
+
+#     Parameters
+#     ----------
+#     crowd_statistics_measures : dict[str, float | int | None]
+#         A dictionary containing crowd statistics measures.
+#     """
+#     filtered_measures = fun.filter_dict_by_not_None_values(crowd_statistics_measures)
+
+#     st.write("### Measured crowd statistics")
+
+#     # Display as a Markdown table for better readability
+#     if filtered_measures:
+#         table_md = "| Measure | Value |\n|---|---|\n"
+#         for key, value in filtered_measures.items():
+#             table_md += f"| {key.capitalize()} | {np.round(value, 2)} |\n"
+#         st.markdown(table_md)
+#     else:
+#         st.info("No statistics available to display.")
+
+
+def display_table(data: dict[str, float | int]) -> None:
+    """
+    Display a markdown table in a Streamlit column.
+
+    Parameters
+    ----------
+    data : dict[str, float | int]
+        The data to display in the table.
+    """
+    if data:
+        table_md = "| Measure | Value |\n|---|---|\n"
+        for key, value in data.items():
+            table_md += f"| {key.capitalize()} | {np.round(value, 2)} |\n"
+        st.markdown(table_md)
+    else:
+        st.info("No data.")
+
+
 def display_crowd_statistics(crowd_statistics_measures: dict[str, float | int | None]) -> None:
     """
-    Display crowd statistics in a Streamlit app.
+    Display crowd statistics in a Streamlit app, organized into four side-by-side tables.
 
     Parameters
     ----------
     crowd_statistics_measures : dict[str, float | int | None]
         A dictionary containing crowd statistics measures.
     """
-    filtered_measures = fun.filter_dict_by_not_None_values(crowd_statistics_measures)
-
+    filtered_measures = {k: v for k, v in crowd_statistics_measures.items() if v is not None}
     st.write("### Measured crowd statistics")
 
-    # Display as a Markdown table for better readability
-    if filtered_measures:
-        table_md = "| Measure | Value |\n|---|---|\n"
-        for key, value in filtered_measures.items():
-            table_md += f"| {key.capitalize()} | {np.round(value, 2)} |\n"
-        st.markdown(table_md)
-    else:
+    # Group keys
+    group1 = {k: v for k, v in filtered_measures.items() if "proportion" in k}
+    group2 = {k: v for k, v in filtered_measures.items() if "male" in k and "female" not in k and k not in group1}
+    group3 = {k: v for k, v in filtered_measures.items() if "female" in k and k not in set(group1) | set(group2)}
+    # Exclude keys already in other groups for group4
+    used_keys = set(group1) | set(group2) | set(group3)
+    group4 = {k: v for k, v in filtered_measures.items() if k not in used_keys}
+
+    # Prepare non-empty groups
+    groups: list[tuple[str, dict[str, float | int]]] = []
+    if group1:
+        groups.append(("Proportion", group1))
+    if group2:
+        groups.append(("Male", group2))
+    if group3:
+        groups.append(("Female", group3))
+    if group4:
+        groups.append(("Bike", group4))
+
+    if not groups:
         st.info("No statistics available to display.")
+        return
+
+    tab_titles = [title for title, _ in groups]
+    tabs = st.tabs(tab_titles)
+    for tab, (_, data) in zip(tabs, groups, strict=False):
+        with tab:
+            display_table(data)
 
 
 def plot_and_download_crowd2D(current_crowd: Crowd) -> None:
@@ -174,10 +237,11 @@ def plot_and_download_crowd2D(current_crowd: Crowd) -> None:
 
         # Add download button for the ZIP file
         st.sidebar.download_button(
-            label="Export crowd as XML configuration files",
+            label="Export crowd as XML config files",
             data=zip_buffer,
             file_name=filename,
             mime="application/zip",
+            use_container_width=True,
         )
 
         if cst_app.SHOW_DEV:
@@ -185,20 +249,24 @@ def plot_and_download_crowd2D(current_crowd: Crowd) -> None:
             data_dict = fun_dict.get_light_agents_params(current_crowd)
             data = fun_xml.save_light_agents_params_dict_to_xml(data_dict)
             st.sidebar.download_button(
-                label="Download basic information about the crowd as a single XML file",
+                label="Export crowd as XML config file",
                 data=data,
                 file_name=filename,
                 mime="application/xml",
+                help="Export basic information about the crowd to a single XML file",
+                use_container_width=True,
             )
 
         # Download the crowd statistics as a CSV file
         filename = f"crowd_statistics_{timestamp}.csv"
         data = fun.get_csv_buffer(crowd_statistics["stats_lists"])
         st.sidebar.download_button(
-            label="Export distributions as CSV",
+            label="Export distributions as CSV file",
             data=data,
             file_name=filename,
             mime="text/csv",
+            help="Export all the measured data used to compute the statistics given in the table as CSV file",
+            use_container_width=True,
         )
 
     else:
@@ -206,24 +274,28 @@ def plot_and_download_crowd2D(current_crowd: Crowd) -> None:
         data_dict = fun_dict.get_light_agents_params(current_crowd)
         data = fun_xml.save_light_agents_params_dict_to_xml(data_dict)
         st.sidebar.download_button(
-            label="Download basic information about the crowd as a single XML file",
+            label="Export crowd as XML config file",
             data=data,
             file_name=filename,
             mime="application/xml",
+            help="Export basic information about the crowd to a single XML file",
+            use_container_width=True,
         )
 
         # Download the crowd statistics as a CSV file
         filename = f"crowd_statistics_{timestamp}.csv"
         data = fun.get_csv_buffer(crowd_statistics["stats_lists"])
-        st.download_button(
-            label="Export crowd observation distributions as a CSV.",
+        st.sidebar.download_button(
+            label="Export distributions as CSV file",
             data=data,
             file_name=filename,
             mime="text/csv",
+            help="Export all the measured data used to compute the statistics given in the table as CSV file",
+            use_container_width=True,
         )
 
     # Display section
-    col1, _ = st.columns([1.5, 1])
+    col1, col2 = st.columns([1.5, 1])
     with col1:
         st.subheader("Visualisation")
         fig = plot.display_crowd2D(current_crowd)
@@ -240,7 +312,8 @@ def plot_and_download_crowd2D(current_crowd: Crowd) -> None:
             file_name=f"crowd_{timestamp}.pdf",
             mime="application/pdf",
         )
-    display_crowd_statistics(crowd_statistics["measures"])
+    with col2:
+        display_crowd_statistics(crowd_statistics["measures"])
 
 
 def boundaries_state() -> Polygon:
@@ -332,6 +405,15 @@ def agent_statistics_state(new_boundaries: Polygon, num_agents: int) -> None:
                 on_change=parameter_changed,
             )
             st.session_state.male_bideltoid_breadth_mean = male_bideltoid_breadth_mean
+            male_height_mean = st.sidebar.slider(
+                "Male mean height",
+                min_value=cst.CrowdStat["male_height_min"],
+                max_value=cst.CrowdStat["male_height_max"],
+                value=st.session_state.male_height_mean,
+                step=1.0,
+                on_change=parameter_changed,
+            )
+            st.session_state.male_height_mean = male_height_mean
         if st.session_state.male_proportion != 1.0:
             female_chest_depth_mean = st.sidebar.slider(
                 "Female mean chest depth",
@@ -351,6 +433,15 @@ def agent_statistics_state(new_boundaries: Polygon, num_agents: int) -> None:
                 on_change=parameter_changed,
             )
             st.session_state.female_bideltoid_breadth_mean = female_bideltoid_breadth_mean
+            female_height_mean = st.sidebar.slider(
+                "Female mean height",
+                min_value=cst.CrowdStat["female_height_min"],
+                max_value=cst.CrowdStat["female_height_max"],
+                value=st.session_state.female_height_mean,
+                step=1.0,
+                on_change=parameter_changed,
+            )
+            st.session_state.female_height_mean = female_height_mean
     if st.session_state.bike_proportion > 0.0:
         wheel_width_mean = st.sidebar.slider(
             "Wheel width mean",
@@ -399,8 +490,10 @@ def agent_statistics_state(new_boundaries: Polygon, num_agents: int) -> None:
             "bike_proportion": st.session_state.bike_proportion,
             "male_bideltoid_breadth_mean": st.session_state.male_bideltoid_breadth_mean,
             "male_chest_depth_mean": st.session_state.male_chest_depth_mean,
+            "male_height_mean": st.session_state.male_height_mean,
             "female_bideltoid_breadth_mean": st.session_state.female_bideltoid_breadth_mean,
             "female_chest_depth_mean": st.session_state.female_chest_depth_mean,
+            "female_height_mean": st.session_state.female_height_mean,
             "wheel_width_mean": st.session_state.wheel_width_mean,
             "total_length_mean": st.session_state.total_length_mean,
             "handlebar_length_mean": st.session_state.handlebar_length_mean,

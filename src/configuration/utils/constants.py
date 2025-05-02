@@ -22,8 +22,9 @@ DISK_NUMBER: int = 5
 
 DEFAULT_FLOOR_DAMPING: float = 2.0  # Damping coefficient for the floor
 DEFAULT_ANGULAR_DAMPING: float = 5.0  # Damping coefficient for the angular velocity
-EPSILON_SMOOTHING: float = 5.0  # Small value for smoothing
-NECK_HEIGHT_MALE: float = 165.0  # Height of the neck in cm
+EPSILON_SMOOTHING_KNEES: float = 8.0  # Small value for smoothing
+EPSILON_SMOOTHING_NECK: float = 2.0  # Small value for smoothing
+NECK_HEIGHT_MALE: float = 160.0  # Height of the neck in cm
 NECK_HEIGHT_FEMALE: float = 150.0  # Height of the neck in cm
 KNEES_HEIGHT_MALE: float = 59.0  # Height of the knees in cm
 KNEES_HEIGHT_FEMALE: float = 50.0  # Height of the knees in cm
@@ -151,54 +152,65 @@ CrowdStat = MappingProxyType(
         "male_proportion": 0.5,
         "pedestrian_proportion": 1.0,
         "bike_proportion": 0.0,
-        # Pedestrian weights (in kg)
-        "pedestrian_weight_min": 10.0,  # kg
-        "pedestrian_weight_max": 100.0,  # kg
-        "pedestrian_weight_mean": 70.0,  # kg
-        "pedestrian_weight_std_dev": 5.0,  # kg
-        # Bike weights (in kg)
-        "bike_weight_min": 10.0,  # kg
-        "bike_weight_max": 100.0,  # kg
-        "bike_weight_mean": 30.0,  # kg
-        "bike_weight_std_dev": 5.0,  # kg
-        # Male measurements (in cm)
+        # Male measurements
         "male_bideltoid_breadth_min": 30.0,  # cm
-        "male_bideltoid_breadth_max": 70.0,  # cm
+        "male_bideltoid_breadth_max": 65.0,  # cm
         "male_bideltoid_breadth_mean": 51.0,  # cm
         "male_bideltoid_breadth_std_dev": 2.0,  # cm
         "male_chest_depth_min": 15.0,  # cm
-        "male_chest_depth_max": 55.0,  # cm
+        "male_chest_depth_max": 45.0,  # cm
         "male_chest_depth_mean": 26.0,  # cm
         "male_chest_depth_std_dev": 2.0,  # cm
-        # Female measurements (in cm)
+        "male_height_min": 140.0,  # cm
+        "male_height_max": 240.0,  # cm
+        "male_height_mean": 178.0,  # cm
+        "male_height_std_dev": 8.0,  # cm
+        "male_weight_min": 30.0,  # kg
+        "male_weight_max": 160.0,  # kg
+        "male_weight_mean": 85.0,  # kg
+        "male_weight_std_dev": 15.0,  # kg
+        # Female measurements
         "female_bideltoid_breadth_min": 30.0,  # cm
-        "female_bideltoid_breadth_max": 70.0,  # cm
+        "female_bideltoid_breadth_max": 60.0,  # cm
         "female_bideltoid_breadth_mean": 45.0,  # cm
         "female_bideltoid_breadth_std_dev": 1.5,  # cm
         "female_chest_depth_min": 15.0,  # cm
-        "female_chest_depth_max": 50.0,  # cm
+        "female_chest_depth_max": 45.0,  # cm
         "female_chest_depth_mean": 24.0,  # cm
         "female_chest_depth_std_dev": 1.5,  # cm
-        # Wheel dimensions (in cm)
+        "female_height_min": 140.0,  # cm
+        "female_height_max": 210.0,  # cm
+        "female_height_mean": 164.0,  # cm
+        "female_height_std_dev": 7.0,  # cm
+        "female_weight_min": 30.0,  # kg
+        "female_weight_max": 130.0,  # kg
+        "female_weight_mean": 67.0,  # kg
+        "female_weight_std_dev": 11.0,  # kg
+        # Wheel dimensions
         "wheel_width_min": 2.0,  # cm
         "wheel_width_max": 20.0,  # cm
         "wheel_width_mean": 6.0,  # cm
         "wheel_width_std_dev": 2.0,  # cm
-        # Total length (in cm)
+        # Total length
         "total_length_min": 100.0,  # cm
         "total_length_max": 200.0,  # cm
         "total_length_mean": 142.0,  # cm
         "total_length_std_dev": 5.0,  # cm
-        # Handlebar dimensions (in cm)
+        # Handlebar dimensions
         "handlebar_length_min": 30.0,  # cm
         "handlebar_length_max": 90.0,  # cm
         "handlebar_length_mean": 45.0,  # cm
         "handlebar_length_std_dev": 5.0,  # cm
-        # Top tube dimensions (in cm)
+        # Top tube dimensions
         "top_tube_length_min": 40.0,  # cm
         "top_tube_length_max": 90.0,  # cm
         "top_tube_length_mean": 61.0,  # cm
         "top_tube_length_std_dev": 5.0,  # cm
+        # Bike weights
+        "bike_weight_min": 10.0,  # kg
+        "bike_weight_max": 100.0,  # kg
+        "bike_weight_mean": 30.0,  # kg
+        "bike_weight_std_dev": 5.0,  # kg
     }
 )
 

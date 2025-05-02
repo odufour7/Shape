@@ -157,6 +157,7 @@ def download_data(current_pedestrian: Agent) -> None:
         data=data_to_download,
         file_name=filename,
         mime="application/octet-stream",
+        use_container_width=True,
     )
 
 
@@ -203,6 +204,7 @@ def orthogonal_projection_option(current_pedestrian: Agent) -> None:
         data=body3D_orthogonal_projection,
         file_name="body3D_orthogonal_projection.pdf",
         mime="application/pdf",
+        use_container_width=True,
     )
 
 
@@ -243,6 +245,7 @@ def slices_option(current_pedestrian: Agent) -> None:
         label="Download plot as PDF",
         data=fig_plotly.to_image(format="pdf"),
         file_name="body3D_slices.pdf",
+        use_container_width=True,
     )
 
 
@@ -292,6 +295,7 @@ def mesh_option(current_pedestrian: Agent) -> None:
         label="Download plot as PDF",
         data=fig_plotly_mesh.to_image(format="pdf"),
         file_name="body3D_mesh.pdf",
+        use_container_width=True,
     )
 
 

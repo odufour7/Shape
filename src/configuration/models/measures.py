@@ -181,7 +181,7 @@ def _draw_pedestrian_measures(crowd_measures: CrowdMeasures) -> AgentMeasures:
         cst.PedestrianParts.sex.name: agent_sex,
         cst.PedestrianParts.bideltoid_breadth.name: _draw_measure(crowd_measures, agent_sex, cst.PedestrianParts.bideltoid_breadth),
         cst.PedestrianParts.chest_depth.name: _draw_measure(crowd_measures, agent_sex, cst.PedestrianParts.chest_depth),
-        cst.PedestrianParts.height.name: cst.DEFAULT_PEDESTRIAN_HEIGHT,
+        cst.PedestrianParts.height.name: _draw_measure(crowd_measures, agent_sex, cst.PedestrianParts.height),
         cst.CommonMeasures.weight.name: _draw_measure(crowd_measures, agent_sex, cst.CommonMeasures.weight),
     }
     return AgentMeasures(agent_type=cst.AgentTypes.pedestrian, measures=measures)
@@ -240,9 +240,9 @@ def _draw_measure(crowd_measures: CrowdMeasures, sex: Sex | None, part_enum: cst
 
     # Check if part_enum.name is "weight" and sex is truthy
     if str(part_enum.name) == "weight":
-        if sex:
-            prefix = "pedestrian_"
-        else:
+        # if sex:
+        #     prefix = "pedestrian_"
+        if not sex:
             prefix = "bike_"
 
     stats = crowd_measures.agent_statistics

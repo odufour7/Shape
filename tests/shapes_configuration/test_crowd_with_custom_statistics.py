@@ -8,7 +8,7 @@ from configuration.models.crowd import Crowd
 from configuration.models.measures import CrowdMeasures
 
 # Constants for the test
-NUMBER_AGENTS: int = 20
+NUMBER_AGENTS: int = 30
 REPULSION_LENGTH: float = 5.0  # (cm)
 DESIRED_DIRECTION: float = 90.0  # (degrees)
 RANDOM_PACKING: bool = False
@@ -16,7 +16,7 @@ RANDOM_PACKING: bool = False
 # Custom agent statistics for the test
 AGENT_STATISTICS: dict[str, float] = {
     **cst.CrowdStat,
-    "male_proportion": 0.2,
+    "male_proportion": 0.4,
     "male_bideltoid_breadth_mean": 70.0,  # cm
     "male_bideltoid_breadth_std_dev": 3.0,  # cm
 }

@@ -73,7 +73,6 @@ def test_shapes2d_bideltoid_breadth(agent: Agent) -> None:
     """
     bideltoid_breadth_m = agent.shapes2D.get_bideltoid_breadth()
     expected_m = MEASURES["bideltoid_breadth"]
-    print(f"bideltoid_breadth_m: {bideltoid_breadth_m}")
     assert np.isclose(bideltoid_breadth_m, expected_m, atol=0.1), f"The bideltoid breadth should be {expected_m} m."
     # rotate and check again
     agent.rotate(90.0)
