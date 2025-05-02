@@ -21,22 +21,6 @@ def extract_coordinates(multi_polygon: MultiPolygon) -> tuple[NDArray[np.float64
         A tuple of two numpy arrays:
             - The first array contains the x-coordinates.
             - The second array contains the y-coordinates.
-
-    Examples
-    --------
-    >>> from shapely.geometry import MultiPolygon, Polygon
-    >>> from your_module import extract_coordinates
-    >>> import numpy as np
-    >>> # Create a sample MultiPolygon
-    >>> poly1 = Polygon([(0, 0), (1, 0), (1, 1), (0, 0)])
-    >>> poly2 = Polygon([(2, 2), (3, 2), (3, 3), (2, 2)])
-    >>> multi_poly = MultiPolygon([poly1, poly2])
-    >>> # Extract coordinates
-    >>> x_coords, y_coords = extract_coordinates(multi_poly)
-    >>> print(x_coords)
-    [0. 1. 1. 0. 2. 3. 3. 2.]
-    >>> print(y_coords)
-    [0. 0. 1. 0. 2. 2. 3. 2.]
     """
     all_x, all_y = [], []
 
@@ -58,9 +42,9 @@ def filter_mesh_by_z_threshold(
 
     Parameters
     ----------
-    all_points : numpy.ndarray of shape (N, 3), dtype=np.float64
+    all_points : NDArray[np.float64]
         An array representing the coordinates of the vertices in the mesh.
-    all_triangles : numpy.ndarray of shape (M, 3), dtype=np.float64
+    all_triangles : NDArray[np.float64]
         An array representing the indices of the vertices forming the triangles in the mesh.
     z_threshold : float
         The z-coordinate threshold below which vertices and associated triangles are removed.
@@ -68,9 +52,9 @@ def filter_mesh_by_z_threshold(
 
     Returns
     -------
-    filtered_points : numpy.ndarray of shape (P, 3), dtype=np.float64
+    filtered_points : NDArray[np.float64]
         An array representing the coordinates of the filtered vertices.
-    filtered_triangles : numpy.ndarray of shape (Q, 3), dtype=np.float64
+    filtered_triangles : NDArray[np.float64]
         An array representing the indices of the vertices forming the filtered triangles.
 
     Notes

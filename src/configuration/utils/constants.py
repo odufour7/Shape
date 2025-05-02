@@ -50,12 +50,12 @@ KINETIC_FRICTION: float = 0.5  # Coefficient of kinetic friction
 # Crowd class
 DEFAULT_AGENT_NUMBER: int = 4
 MAX_NB_ITERATIONS: int = 80  # Maximum number of iterations for the parking algorithm
-DEFAULT_REPULSION_LENGTH: float = 15.0  # cm
+DEFAULT_REPULSION_LENGTH: float = 5.0  # cm
 DEFAULT_DESIRED_DIRECTION: float = 0.0  # degrees
 DEFAULT_RANDOM_PACKING: bool = False
 INFINITE: float = 1.0e10  # Infinite value for the simulation
 INTENSITY_ROTATIONAL_FORCE: float = 10.0  # degrees
-INTENSITY_TRANSLATIONAL_FORCE: float = 2.0  # arbitrary units
+INTENSITY_TRANSLATIONAL_FORCE: float = 1.0  # arbitrary units
 
 # Crowd Statistics
 DEFAULT_PEDESTRIAN_HEIGHT: float = 170.0  # cm
@@ -180,9 +180,9 @@ CrowdStat = MappingProxyType(
         "female_chest_depth_mean": 24.0,  # cm
         "female_chest_depth_std_dev": 1.5,  # cm
         # Wheel dimensions (in cm)
-        "wheel_width_min": 5.0,  # cm
-        "wheel_width_max": 30.0,  # cm
-        "wheel_width_mean": 10.0,  # cm
+        "wheel_width_min": 2.0,  # cm
+        "wheel_width_max": 20.0,  # cm
+        "wheel_width_mean": 6.0,  # cm
         "wheel_width_std_dev": 2.0,  # cm
         # Total length (in cm)
         "total_length_min": 100.0,  # cm

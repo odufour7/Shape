@@ -13,12 +13,12 @@ def run_tab_one_agent() -> None:
     This function initializes the session state, creates sliders for agent measures,
     and handles the main page content for visualizing a single agent in 2D.
     """
-    st.subheader("Select the dimension of the agent representation")
+    st.subheader("Choose dimension")
     dimension_options = {
         "2D": "2D",
         "3D": "3D",
     }
-    selected_dimension_options = st.pills(" ", list(dimension_options.values()), label_visibility="collapsed")
+    selected_dimension_options = st.pills(" ", list(dimension_options.values()), label_visibility="collapsed", default="2D")
 
     if selected_dimension_options == dimension_options["2D"]:
         run_tab_agent2D()

@@ -35,7 +35,7 @@ def run_tab_anthropometry() -> None:
     # Sidebar: allow users to select attributes dynamically
     st.sidebar.title("Adjust parameters")
     selected_attribute = st.sidebar.selectbox(
-        "Select an attribute for distribution visualization",
+        "Select an attribute",
         options=default_attributes,
     )
 
@@ -47,7 +47,7 @@ def run_tab_anthropometry() -> None:
     st.markdown(f"Visit the [database website]({database_url})")
 
     # Main page content
-    col1, col2 = st.columns([1.7, 1])  # Adjust proportions as needed
+    col1, col2 = st.columns([1.4, 1])  # Adjust proportions as needed
     with col1:
         fig = plot.display_distribution(df, selected_attribute.lower())
         st.plotly_chart(fig, use_container_width=True)

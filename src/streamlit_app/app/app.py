@@ -49,13 +49,13 @@ if __name__ == "__main__":
     datafactory.prepare_data()
 
     if selected_tab == cst_app.FIRST_TAB_NAME:
-        documentation.about()
+        run_tab_one_agent()
 
     if selected_tab == cst_app.SECOND_TAB_NAME:
-        run_tab_one_agent()
+        run_tab_crowd()
 
     if selected_tab == cst_app.THIRD_TAB_NAME:
         run_tab_anthropometry()
 
     if selected_tab == cst_app.FOURTH_TAB_NAME:
-        run_tab_crowd()
+        documentation.about()

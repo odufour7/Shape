@@ -1,5 +1,6 @@
 """Pedestrian visualization tab."""
 
+import pickle
 from datetime import datetime
 from io import BytesIO
 
@@ -152,7 +153,7 @@ def display_crowd_statistics(crowd_statistics_measures: dict[str, float | int | 
         st.info("No statistics available to display.")
 
 
-def plot_and_download(current_crowd: Crowd) -> None:
+def plot_and_download_crowd2D(current_crowd: Crowd) -> None:
     """
     Plot the crowd and provide download options.
 
@@ -161,56 +162,40 @@ def plot_and_download(current_crowd: Crowd) -> None:
     current_crowd : Crowd
         The Crowd object to be plotted and downloaded.
     """
-    col1, _ = st.columns([1.5, 1])
-    with col1:
-        st.subheader("Visualisation")
-        fig = plot.display_crowd2D(current_crowd)
-        st.pyplot(fig)
-
-        crowd_plot = BytesIO()
-        fig.savefig(crowd_plot, format="pdf")
-        crowd_plot.seek(0)
-
-        st.sidebar.header("Download")
-        st.sidebar.download_button(
-            label="Download plot as PDF",
-            data=crowd_plot,
-            file_name="crowd.pdf",
-            mime="application/pdf",
-        )
     crowd_statistics = current_crowd.get_crowd_statistics()
-    display_crowd_statistics(crowd_statistics["measures"])
-
-    # Download all files as ZIP
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
+    # Download section
+    st.sidebar.header("Download")
     # check if all agents in the Crowd are pedestrian
     if all(agent.agent_type == cst.AgentTypes.pedestrian for agent in current_crowd.agents):
         filename = f"crowd2D_{timestamp}.zip"
         zip_buffer = fun_zip.write_crowd_data_to_zip(current_crowd)
+
         # Add download button for the ZIP file
         st.sidebar.download_button(
-            label="Download the configuration files as ZIP",
+            label="Export crowd as XML configuration files",
             data=zip_buffer,
             file_name=filename,
             mime="application/zip",
         )
 
-        filename = f"crowd2D_{timestamp}.xml"
-        data_dict = fun_dict.get_light_agents_params(current_crowd)
-        data = fun_xml.save_light_agents_params_dict_to_xml(data_dict)
-        st.sidebar.download_button(
-            label="Download basic information about the crowd as a single XML file",
-            data=data,
-            file_name=filename,
-            mime="application/xml",
-        )
+        if cst_app.SHOW_DEV:
+            filename = f"crowd2D_{timestamp}.xml"
+            data_dict = fun_dict.get_light_agents_params(current_crowd)
+            data = fun_xml.save_light_agents_params_dict_to_xml(data_dict)
+            st.sidebar.download_button(
+                label="Download basic information about the crowd as a single XML file",
+                data=data,
+                file_name=filename,
+                mime="application/xml",
+            )
 
         # Download the crowd statistics as a CSV file
         filename = f"crowd_statistics_{timestamp}.csv"
         data = fun.get_csv_buffer(crowd_statistics["stats_lists"])
         st.sidebar.download_button(
-            label="Export crowd observation distributions as a CSV.",
+            label="Export distributions as CSV",
             data=data,
             file_name=filename,
             mime="text/csv",
@@ -230,12 +215,32 @@ def plot_and_download(current_crowd: Crowd) -> None:
         # Download the crowd statistics as a CSV file
         filename = f"crowd_statistics_{timestamp}.csv"
         data = fun.get_csv_buffer(crowd_statistics["stats_lists"])
-        st.sidebar.download_button(
+        st.download_button(
             label="Export crowd observation distributions as a CSV.",
             data=data,
             file_name=filename,
             mime="text/csv",
         )
+
+    # Display section
+    col1, _ = st.columns([1.5, 1])
+    with col1:
+        st.subheader("Visualisation")
+        fig = plot.display_crowd2D(current_crowd)
+        st.pyplot(fig)
+
+        crowd_plot = BytesIO()
+        fig.savefig(crowd_plot, format="pdf")
+        crowd_plot.seek(0)
+
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        st.download_button(
+            label="Download plot as PDF",
+            data=crowd_plot,
+            file_name=f"crowd_{timestamp}.pdf",
+            mime="application/pdf",
+        )
+    display_crowd_statistics(crowd_statistics["measures"])
 
 
 def boundaries_state() -> Polygon:
@@ -424,30 +429,6 @@ def general_settings() -> Polygon:
     Polygon
         The updated boundaries of the simulation area.
     """
-    variable_orientation: bool = st.sidebar.checkbox("Variable orientation", value=False, on_change=parameter_changed)
-    if variable_orientation != st.session_state.variable_orientation:
-        st.session_state.variable_orientation = variable_orientation
-
-    desired_direction = st.sidebar.number_input(
-        "Desired direction (degrees)",
-        min_value=-180.0,
-        max_value=180.0,
-        value=st.session_state.desired_direction,
-        step=1.0,
-        on_change=parameter_changed,
-    )
-    if desired_direction != st.session_state.desired_direction:
-        st.session_state.desired_direction = desired_direction
-
-    wall_interaction: bool = st.sidebar.checkbox(
-        "Enable wall interaction",
-        on_change=parameter_changed,
-    )
-    if wall_interaction != st.session_state.wall_interaction:
-        st.session_state.wall_interaction = wall_interaction
-
-    new_boundaries = boundaries_state()
-
     num_agents = st.sidebar.number_input(
         "Number of agents",
         min_value=cst_app.DEFAULT_AGENT_NUMBER_MIN,
@@ -460,8 +441,32 @@ def general_settings() -> Polygon:
     if num_agents != st.session_state.num_agents:
         st.session_state.num_agents = num_agents
 
+    desired_direction = st.sidebar.number_input(
+        "Desired direction (degrees)",
+        min_value=-180.0,
+        max_value=180.0,
+        value=st.session_state.desired_direction,
+        step=1.0,
+        on_change=parameter_changed,
+    )
+    if desired_direction != st.session_state.desired_direction:
+        st.session_state.desired_direction = desired_direction
+
+    variable_orientation: bool = st.sidebar.checkbox("Variable orientation", value=False, on_change=parameter_changed)
+    if variable_orientation != st.session_state.variable_orientation:
+        st.session_state.variable_orientation = variable_orientation
+
+    wall_interaction: bool = st.sidebar.checkbox(
+        "Enable wall interaction",
+        on_change=parameter_changed,
+    )
+    if wall_interaction != st.session_state.wall_interaction:
+        st.session_state.wall_interaction = wall_interaction
+
+    new_boundaries = boundaries_state()
+
     repulsion_length: float = st.sidebar.slider(
-        "Repulsion length",
+        "Initial spacing (cm)",
         min_value=cst_app.DEFAULT_REPULSION_LENGTH_MIN,
         max_value=cst_app.DEFAULT_REPULSION_LENGTH_MAX,
         value=cst.DEFAULT_REPULSION_LENGTH,
@@ -502,11 +507,6 @@ def run_crowd_init() -> None:
       Otherwise, the crowd is unpacked.
     - Interpenetration between agents is calculated and displayed as a warning if necessary.
     """
-    st.info(
-        "The computation of the random packing of the crowd is ongoing and may take some time. Please be patient.",
-        icon="⏳",
-    )
-
     # Initialize session state variables
     initialize_session_state()
 
@@ -516,7 +516,7 @@ def run_crowd_init() -> None:
 
     # Rolling menu to select between ANSURII database  / Custom Statistics
     database_option = st.sidebar.selectbox(
-        "Select database option",
+        "Select database origin",
         options=["ANSURII database", "Custom statistics"],
     )
     if "database_option" not in st.session_state:
@@ -524,43 +524,70 @@ def run_crowd_init() -> None:
 
     if database_option == "ANSURII database":
         if st.session_state.simulation_run:
+            info_placeholder = st.empty()
+            info_placeholder.info(
+                "The agents creation is ongoing and may take some time. Please be patient.",
+                icon="⏳",
+            )
             current_crowd = Crowd(boundaries=new_boundaries)
             current_crowd.create_agents(st.session_state.num_agents)
             st.session_state.current_crowd = current_crowd
+            info_placeholder.empty()
 
     else:  # Custom Statistics
         st.sidebar.header(f"{database_option} settings")
         agent_statistics_state(new_boundaries, st.session_state.num_agents)
 
     if st.session_state.simulation_run:
-        # unpacked_agents = st.session_state.current_crowd.get_agents_params()
-
+        info_placeholder = st.empty()
+        info_placeholder.info(
+            "The packing of the crowd is ongoing and may take some time. Please be patient.",
+            icon="⏳",
+        )
         st.session_state.current_crowd.pack_agents_with_forces(
             st.session_state.repulsion_length, st.session_state.desired_direction, st.session_state.variable_orientation
         )
         st.session_state.simulation_run = False
+        info_placeholder.empty()
 
     display_interpenetration_warning()
 
     # Choose between 2D representation of the crowd or 3D representation
-    st.subheader("Choose a crowd representation")
-    if all(agent.agent_type == cst.AgentTypes.pedestrian for agent in st.session_state.current_crowd.agents):
+    st.subheader("Choose dimension")
+    plot_2D_3D_and_download_section(st.session_state.current_crowd)
+
+
+def plot_2D_3D_and_download_section(current_crowd: Crowd) -> None:
+    """
+    Display options to plot the current crowd in 2D or 3D and provide download functionality.
+
+    Depending on the agent types in the crowd, this function presents the user with options
+    to visualize the crowd either in 2D or 3D. If all agents are of type `pedestrian`, both
+    2D and 3D visualization options are available. Otherwise, only 2D visualization is offered.
+    The function also enables downloading the plotted results.
+
+    Parameters
+    ----------
+    current_crowd : Crowd
+        The crowd object containing agent data to be visualized.
+    """
+    if all(agent.agent_type == cst.AgentTypes.pedestrian for agent in current_crowd.agents):
         dimension_options = {
             "2D crowd": "2D",
             "3D crowd": "3D",
         }
-        selected_dimension_options = st.pills(" ", list(dimension_options.values()), label_visibility="collapsed")
+        selected_dimension_options = st.pills(" ", list(dimension_options.values()), label_visibility="collapsed", default="2D")
         # Plotting and downloading
         if selected_dimension_options == dimension_options["2D crowd"]:
-            plot_and_download(st.session_state.current_crowd)
+            plot_and_download_crowd2D(current_crowd)
         elif selected_dimension_options == dimension_options["3D crowd"]:
-            plot_crowd3D(st.session_state.current_crowd)
+            plot_and_download_crowd3D(current_crowd)
     else:
         dimension_options = {"2D crowd": "2D"}
-        selected_dimension_options = st.pills(" ", list(dimension_options.values()), label_visibility="collapsed")
+        selected_dimension_options = st.pills(" ", list(dimension_options.values()), label_visibility="collapsed", default="2D")
         # Plotting and downloading
         if selected_dimension_options == dimension_options["2D crowd"]:
-            plot_and_download(st.session_state.current_crowd)
+            plot_and_download_crowd2D(current_crowd)
 
 
 def run_crowd_from_config() -> None:
@@ -578,10 +605,10 @@ def run_crowd_from_config() -> None:
     - Displays errors or info messages in the Streamlit sidebar if files are missing or invalid.
     """
     # --- File upload section ---
-    st.sidebar.header("Upload Configuration Files")
+    st.sidebar.header("Upload configuration files")
+    uploaded_dynamics = st.sidebar.file_uploader("Upload AgentDynamics.xml", type="xml", key="AgentDynamics")
     uploaded_agents = st.sidebar.file_uploader("Upload Agents.xml", type="xml", key="Agents")
     uploaded_geometry = st.sidebar.file_uploader("Upload Geometry.xml", type="xml", key="Geometry")
-    uploaded_dynamics = st.sidebar.file_uploader("Upload AgentDynamics.xml", type="xml", key="AgentDynamics")
 
     # --- File validation ---
     files = {
@@ -613,6 +640,10 @@ def run_crowd_from_config() -> None:
                 dynamic_dict=dynamic_dict,
                 geometry_dict=geometry_dict,
             )
+
+            # --- Plotting and downloading ---
+            st.subheader("Choose dimension")
+            plot_2D_3D_and_download_section(current_crowd)
         except ValueError as e:
             st.error(f"Value error while creating crowd: {e}")
         except KeyError as e:
@@ -620,12 +651,8 @@ def run_crowd_from_config() -> None:
         except TypeError as e:
             st.error(f"Type error while creating crowd: {e}")
 
-        # --- Plotting and downloading ---
-        st.subheader("Visualisation")
-        download_plot_crowd_from_config(current_crowd)
 
-
-def download_plot_crowd_from_config(current_crowd: Crowd) -> None:
+def plot_and_download_crowd_from_config(current_crowd: Crowd) -> None:
     """
     Plot and download the plot of the crowd from configuration files.
 
@@ -647,7 +674,7 @@ def download_plot_crowd_from_config(current_crowd: Crowd) -> None:
 
         st.sidebar.header("Download")
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        st.sidebar.download_button(
+        st.download_button(
             label="Download plot as PDF",
             data=crowd_plot,
             file_name=f"crowd_{timestamp}.pdf",
@@ -655,7 +682,7 @@ def download_plot_crowd_from_config(current_crowd: Crowd) -> None:
         )
 
 
-def plot_crowd3D(current_crowd: Crowd) -> None:
+def plot_and_download_crowd3D(current_crowd: Crowd) -> None:
     """
     Plot the crowd in 3D and provide download options.
 
@@ -664,31 +691,41 @@ def plot_crowd3D(current_crowd: Crowd) -> None:
     current_crowd : Crowd
         The Crowd object to be plotted and downloaded.
     """
-    col1, _ = st.columns([1.5, 1])
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    st.sidebar.header("Download")
+
+    filename = f"crowd3D_{timestamp}.pkl"
+    data_to_download = pickle.dumps([current_pedestrian.shapes3D.shapes for current_pedestrian in current_crowd.agents])
+    st.sidebar.download_button(
+        label="Export 3D crowd data as PKL",
+        data=data_to_download,
+        file_name=filename,
+        mime="application/octet-stream",
+        help="This will download the 3D crowd data as "
+        "a list of dict[float, MultiPolygon], "
+        "i.e. one dictionary for each agent, "
+        "as a pickle file.",
+    )
+
+    st.subheader("Visualisation")
+    col1, col2 = st.columns([1, 1])
+
     with col1:
-        st.subheader("Visualisation")
-        fig = plot.display_crowd3D_layers_by_layers(current_crowd)
-        st.plotly_chart(fig)
-
-        st.sidebar.header("Download")
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        st.sidebar.download_button(
-            label="Download first plot as PDF",
-            data=fig.to_image(format="pdf"),
-            file_name=f"3Dcrowd_slice_{timestamp}.pdf",
-            mime="application/pdf",
-        )
-
         fig = plot.display_crowd3D_whole_3Dscene(current_crowd)
         st.plotly_chart(fig)
 
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        st.sidebar.download_button(
-            label="Download second plot as PDF",
-            data=fig.to_image(format="pdf"),
-            file_name=f"3Dcrowd_{timestamp}.pdf",
-            mime="application/pdf",
-        )
+    with col2:
+        st.text(" ")
+        st.text(" ")
+        st.text(" ")
+        st.text(" ")
+        st.text(" ")
+        st.text(" ")
+        st.text(" ")
+        st.text(" ")
+        fig = plot.display_crowd3D_layers_by_layers(current_crowd)
+        st.plotly_chart(fig)
 
 
 def run_tab_crowd() -> None:
@@ -701,7 +738,7 @@ def run_tab_crowd() -> None:
     """
     st.subheader("Select the crowd setup method")
     crowd_origin_options = {
-        "init crowd": "Initialize and save your own crowd",
+        "init crowd": "Initialize your own crowd",
         "crowd from config": "Generate from configuration files",
     }
     selected_crowd_origin = st.pills(" ", list(crowd_origin_options.values()), label_visibility="collapsed")

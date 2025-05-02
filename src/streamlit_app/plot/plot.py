@@ -113,6 +113,11 @@ def display_shape2D(agents: list[Agent]) -> go.Figure:
             )
 
     # Set layout properties
+    x_max = max(agent.shapes2D.get_geometric_shape().bounds[2] for agent in agents)
+    y_max = max(agent.shapes2D.get_geometric_shape().bounds[3] for agent in agents)
+    x_min = min(agent.shapes2D.get_geometric_shape().bounds[0] for agent in agents)
+    y_min = min(agent.shapes2D.get_geometric_shape().bounds[1] for agent in agents)
+
     fig.update_layout(
         xaxis={
             "scaleanchor": "y",
@@ -121,6 +126,7 @@ def display_shape2D(agents: list[Agent]) -> go.Figure:
             "title": "X [cm]",
             "title_font": {"size": 20},
             "tickfont": {"size": 16},
+            "range": [x_min, x_max],
         },
         yaxis={
             "showgrid": False,
@@ -128,9 +134,10 @@ def display_shape2D(agents: list[Agent]) -> go.Figure:
             "title": "Y [cm]",
             "title_font": {"size": 20},
             "tickfont": {"size": 16},
+            "range": [y_min, y_max],
         },
         showlegend=False,
-        margin={"l": 50, "r": 50, "t": 50, "b": 50},
+        margin={"l": 0, "r": 0, "t": 0, "b": 0},
         width=550,
         height=550,
     )
@@ -199,7 +206,7 @@ def display_body3D_orthogonal_projection(
     cax = divider.append_axes("right", size="5%", pad=0.2)
 
     # Set colorbar properties
-    plt.colorbar(sm, cax=cax, label="Height [cm]")
+    plt.colorbar(sm, cax=cax, label="Altitude [cm]")
 
     # Set plot properties
     ax.set_title(f"Orthogonal projection of a {agent.measures.measures['sex']}")
@@ -340,7 +347,7 @@ def display_body3D_polygons(agent: Agent, extra_info: Optional[tuple[DeltaGenera
         scene={
             "xaxis": {"title": "X [cm]", "title_font": {"size": 16}, "tickfont": {"size": 14}},
             "yaxis": {"title": "Y [cm]", "title_font": {"size": 16}, "tickfont": {"size": 14}},
-            "zaxis": {"title": "Height [cm]", "title_font": {"size": 16}, "tickfont": {"size": 14}},
+            "zaxis": {"title": "Altitude [cm]", "title_font": {"size": 16}, "tickfont": {"size": 14}},
             "aspectmode": "manual",
             "aspectratio": {
                 "x": x_range / max_range,
@@ -352,6 +359,7 @@ def display_body3D_polygons(agent: Agent, extra_info: Optional[tuple[DeltaGenera
         width=500,
         height=900,
         scene_camera={"eye": {"x": 1.5, "y": 0.4, "z": 0.5}},
+        margin={"l": 0, "r": 0, "t": 0, "b": 0},
     )
 
     return fig
@@ -514,7 +522,6 @@ def display_body3D_mesh(
 
     # Set layout properties
     fig.update_layout(
-        title=f"3D body representation of a {agent.measures.measures['sex']} with a mesh",
         scene={
             "aspectmode": "manual",
             "aspectratio": {
@@ -524,11 +531,12 @@ def display_body3D_mesh(
             },
             "xaxis": {"title": "X [cm]", "title_font": {"size": 16}, "tickfont": {"size": 14}},
             "yaxis": {"title": "Y [cm]", "title_font": {"size": 16}, "tickfont": {"size": 14}},
-            "zaxis": {"title": "Height [cm]", "title_font": {"size": 16}, "tickfont": {"size": 14}},
+            "zaxis": {"title": "Altitutde [cm]", "title_font": {"size": 16}, "tickfont": {"size": 14}},
         },
         width=500,
         height=900,
         scene_camera={"eye": {"x": 1.5, "y": 0.4, "z": 0.5}},
+        margin={"l": 0, "r": 0, "t": 0, "b": 0},
     )
 
     return fig
@@ -562,9 +570,9 @@ def display_crowd2D(crowd: Crowd) -> mfig.Figure:
     )
     # Set text size based on the area of the crowd boundaries or the number of agents
     if not crowd.boundaries.is_empty:
-        txt_size = int(8 * 10**5 / crowd.boundaries.area)
+        txt_size = max(int(8 * 10**5 / crowd.boundaries.area), 10)
     else:
-        txt_size = int(80 / crowd.get_number_agents())
+        txt_size = max(int(80 / crowd.get_number_agents()), 10)
 
     # Initialize a Matplotlib figure
     fig, ax = plt.subplots(figsize=(8, 8))
@@ -666,7 +674,11 @@ def display_crowd3D_layers_by_layers(crowd: Crowd) -> go.Figure:
     )
 
     # Set text size based on the area of the crowd boundaries or the number of agents
-    txt_size = int(8 * 10**5 / crowd.boundaries.area) if not crowd.boundaries.is_empty else int(80 / crowd.get_number_agents())
+    txt_size = (
+        max(int(8 * 10**5 / crowd.boundaries.area), 10)
+        if not crowd.boundaries.is_empty
+        else max(int(80 / crowd.get_number_agents()), 10)
+    )
 
     # Initialize variables
     highest_agent_height = 0
@@ -712,6 +724,7 @@ def display_crowd3D_layers_by_layers(crowd: Crowd) -> go.Figure:
                 if polygon.is_empty:
                     continue
                 x, y = polygon.exterior.xy
+                r, g, b = [int(255 * x) for x in cram.cm.hawaii(norm(agent.shapes2D.get_area()))[:3]]  # pylint: disable=no-member
                 traces.append(
                     go.Scatter(
                         x=np.array(x),
@@ -719,7 +732,7 @@ def display_crowd3D_layers_by_layers(crowd: Crowd) -> go.Figure:
                         fill="toself",
                         mode="lines",
                         line={"color": "black", "width": 1},
-                        fillcolor=mcolors.to_hex(cram.cm.hawaii(norm(agent.shapes2D.get_area()))),  # pylint: disable=no-member
+                        fillcolor=f"rgba({r},{g},{b},0.8)",
                         visible=False,
                         name=f"agent {idx}",
                     )
@@ -770,7 +783,7 @@ def display_crowd3D_layers_by_layers(crowd: Crowd) -> go.Figure:
     sliders = [
         {
             "active": slider_start_index,
-            "currentvalue": {"prefix": "Height: "},
+            "currentvalue": {"prefix": "Altitude: "},
             "pad": {"t": 50},
             "steps": steps,
         }
@@ -784,10 +797,12 @@ def display_crowd3D_layers_by_layers(crowd: Crowd) -> go.Figure:
     # Include boundaries if present
     if hasattr(crowd, "boundaries") and not crowd.boundaries.is_empty:
         bx, by = crowd.boundaries.exterior.xy
-        x_min = min(x_min, np.min(bx))
-        y_min = min(y_min, np.min(by))
-        x_max = max(x_max, np.max(bx))
-        y_max = max(y_max, np.max(by))
+        # Update limits to include boundaries if they are not too large
+        if not np.isclose(np.max(by), cst.INFINITE) and not np.isclose(np.max(bx), cst.INFINITE):
+            x_min = min(x_min, np.min(bx))
+            y_min = min(y_min, np.min(by))
+            x_max = max(x_max, np.max(bx))
+            y_max = max(y_max, np.max(by))
 
     # Update layout with slider
     fig.update_layout(
@@ -809,8 +824,8 @@ def display_crowd3D_layers_by_layers(crowd: Crowd) -> go.Figure:
             "tickfont": {"size": 16},
         },
         showlegend=False,
-        title="Slices of a 3D crowd",
-        margin={"l": 50, "r": 50, "t": 50, "b": 50},
+        title="Horizontal slices",
+        margin={"l": 0, "r": 0, "t": 25, "b": 0},
         width=550,
         height=550,
     )
@@ -851,7 +866,7 @@ def display_crowd3D_whole_3Dscene(crowd: Crowd) -> go.Figure:
     fig = go.Figure()
 
     # Add each agent's 3D mesh to the plot
-    for _, agent in enumerate(crowd.agents):
+    for id_agent, agent in enumerate(crowd.agents):
         rgba_color = cram.cm.hawaii(norm(agent.shapes2D.get_area()))  # pylint: disable=no-member
 
         # Add each polygon to the 3D plot
@@ -881,6 +896,11 @@ def display_crowd3D_whole_3Dscene(crowd: Crowd) -> go.Figure:
                             "color": mcolors.to_hex(rgba_color),
                         },
                         showlegend=False,
+                        hovertemplate=f"<b>agent {id_agent}</b><br>"
+                        + "x: %{x:.2f} cm<br>"
+                        + "y: %{y:.2f} cm<br>"
+                        + "z: %{z:.2f} cm<br>"
+                        + "<extra></extra>",
                     )
                 )
 
@@ -892,21 +912,24 @@ def display_crowd3D_whole_3Dscene(crowd: Crowd) -> go.Figure:
     # If boundaries exist, include them in the limits and plot as a dashed line
     if not crowd.boundaries.is_empty:
         bx, by = crowd.boundaries.exterior.xy
-        x_min = min(x_min, np.min(bx))
-        y_min = min(y_min, np.min(by))
-        x_max = max(x_max, np.max(bx))
-        y_max = max(y_max, np.max(by))
+        # Update limits to include boundaries if they are not too large
+        if not np.isclose(np.max(by), cst.INFINITE) and not np.isclose(np.max(bx), cst.INFINITE):
+            x_min = min(x_min, np.min(bx))
+            y_min = min(y_min, np.min(by))
+            x_max = max(x_max, np.max(bx))
+            y_max = max(y_max, np.max(by))
 
     # Set layout properties
     fig.update_layout(
-        title="A whole 3D crowd",
+        title="In 3D",
         scene={
             "xaxis": {"title": "X [cm]", "range": [x_min, x_max], "title_font": {"size": 20}, "tickfont": {"size": 16}},
             "yaxis": {"title": "Y [cm]", "range": [y_min, y_max], "title_font": {"size": 20}, "tickfont": {"size": 16}},
-            "zaxis": {"title": "Height [cm]", "title_font": {"size": 20}, "tickfont": {"size": 16}},
+            "zaxis": {"title": "Altitude [cm]", "title_font": {"size": 20}, "tickfont": {"size": 16}},
             "aspectmode": "data",
         },
-        scene_camera={"eye": {"x": 0.1, "y": -3.0, "z": 1.0}},
+        scene_camera={"eye": {"x": 0.05, "y": -2.3, "z": 0.8}},  # {"eye": {"x": 0.1, "y": -3.0, "z": 1.0}},
+        margin={"l": 0, "r": 0, "t": 25, "b": 0},
         showlegend=False,
         height=900,
     )
@@ -996,6 +1019,7 @@ def display_distribution(df: pd.DataFrame, column: str) -> go.Figure:
         xaxis={"title_font": {"size": 20}, "tickfont": {"size": 16}},
         yaxis={"title_font": {"size": 20}, "tickfont": {"size": 16}},
         legend={"font": {"size": 16}},
+        margin={"l": 0, "r": 0, "t": 20, "b": 0},
         width=600,
         height=500,
     )

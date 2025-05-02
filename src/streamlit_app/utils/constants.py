@@ -3,10 +3,10 @@
 from configuration.utils.typing_custom import Sex
 
 # User Interface
-FIRST_TAB_NAME: str = "About"
-SECOND_TAB_NAME: str = "One agent"
+FIRST_TAB_NAME: str = "One agent"
+SECOND_TAB_NAME: str = "Crowd"
 THIRD_TAB_NAME: str = "Anthropometry"
-FOURTH_TAB_NAME: str = "Crowd"
+FOURTH_TAB_NAME: str = "About"
 
 # 2D / 3D shapes tab
 DEFAULT_PEDESTRIAN_HEIGHT: float = 170.0  # cm
@@ -34,7 +34,10 @@ MAX_MOVE_X: float = 50.0  # cm
 MAX_MOVE_Y: float = 50.0  # cm
 MAX_ROTATION_ANGLE: float = 30.0  # degrees
 
-DEFAULT_REPULSION_LENGTH_MIN: float = 5.0
+DEFAULT_REPULSION_LENGTH_MIN: float = 1.0
 DEFAULT_REPULSION_LENGTH_MAX: float = 70.0
 
 DEFAULT_WALL_INTERACTION: float = False
+
+# Developer
+SHOW_DEV: bool = False

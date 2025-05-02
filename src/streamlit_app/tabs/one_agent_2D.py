@@ -35,7 +35,11 @@ def init_session_state() -> AgentMeasures:
       handlebar length, top tube length, and weight.
     - The function uses Streamlit's `st.sidebar.radio` to allow users to select the agent type.
     """
-    agent_type: str = st.sidebar.radio("Agent type", [cst.AgentTypes.pedestrian.name, cst.AgentTypes.bike.name])
+    agent_type: str = st.sidebar.radio(
+        "Agent type",
+        [cst.AgentTypes.pedestrian.name, cst.AgentTypes.bike.name],
+        label_visibility="collapsed",
+    )
 
     if str(agent_type) not in st.session_state:
         if agent_type == cst.AgentTypes.pedestrian.name:
@@ -232,13 +236,17 @@ def run_tab_agent2D() -> None:
     sliders_for_agent_measures(agent_measures)
 
     # Input fields for translation and rotation
-    st.sidebar.header("Adjust position")
-    x_translation, y_translation, rotation_angle = sliders_for_position()
-    current_agent.translate(x_translation, y_translation)
-    current_agent.rotate(rotation_angle)
+    if cst_app.SHOW_DEV:
+        st.sidebar.header("Adjust position")
+        x_translation, y_translation, rotation_angle = sliders_for_position()
+        current_agent.translate(x_translation, y_translation)
+        current_agent.rotate(rotation_angle)
 
     # Main page content
-    col1, col2 = st.columns([1.5, 1])  # Adjust proportions as needed
+    if st.session_state.agent_type_measures == cst.AgentTypes.pedestrian:
+        col1, col2 = st.columns([1.0, 1])  # Adjust proportions as needed
+    else:
+        col1, col2 = st.columns([1.5, 1])
     with col1:
         st.subheader("Visualisation")
         fig = plot.display_shape2D([current_agent])
@@ -251,6 +259,10 @@ def run_tab_agent2D() -> None:
             st.image(path_file / "measures_pedestrian.png", use_container_width=True)
         elif st.session_state.agent_type_measures == cst.AgentTypes.bike:
             path_file = Path(__file__).parent.parent.parent.parent / "data" / "images"
+            st.text(" ")
+            st.text(" ")
+            st.text(" ")
+            st.text(" ")
             st.image(path_file / "measures_bike.png", use_container_width=True)
 
     st.sidebar.header("Download")

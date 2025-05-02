@@ -45,6 +45,7 @@ Further usage examples and a full API reference are available in our [documentat
 
 * Oscar Dufour
 * Maxime Stapelle
+* David Rodney
 * Alexandre Nicolas
 
 This project is developed at:

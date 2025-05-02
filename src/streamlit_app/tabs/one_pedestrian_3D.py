@@ -55,7 +55,7 @@ def sliders_for_agent_parameters() -> AgentMeasures:
     """
     # Sex Selection
     st.sidebar.radio(
-        "Select the sex of the pedestrian",
+        "Sex of the pedestrian",
         options=["male", "female"],
         index=0,  # Default to "male"
         key="sex",  # Automatically syncs with st.session_state.sex
@@ -199,7 +199,7 @@ def orthogonal_projection_option(current_pedestrian: Agent) -> None:
     # Streamlit button in the sidebar to download the graph in PDF format
     st.sidebar.header("Download")
     st.sidebar.download_button(
-        label="Download orthogonal projection as PDF",
+        label="Download plot as PDF",
         data=body3D_orthogonal_projection,
         file_name="body3D_orthogonal_projection.pdf",
         mime="application/pdf",
@@ -240,7 +240,7 @@ def slices_option(current_pedestrian: Agent) -> None:
     # Streamlit button in the sidebar to download the graph in PDF format
     st.sidebar.header("Download")
     st.sidebar.download_button(
-        label="Download the 3D body with slices as PDF",
+        label="Download plot as PDF",
         data=fig_plotly.to_image(format="pdf"),
         file_name="body3D_slices.pdf",
     )
@@ -289,7 +289,7 @@ def mesh_option(current_pedestrian: Agent) -> None:
     # Streamlit button in the sidebar to download the graph in PDF format
     st.sidebar.header("Download")
     st.sidebar.download_button(
-        label="Download the 3D body with a mesh as PDF",
+        label="Download plot as PDF",
         data=fig_plotly_mesh.to_image(format="pdf"),
         file_name="body3D_mesh.pdf",
     )
@@ -322,7 +322,7 @@ def run_tab_pedestrian3D() -> None:
     # Define the URL of the database website
     database_url = "https://datadiscovery.nlm.nih.gov/Images/Visible-Human-Project/ux2j-9i9a/about_data"
     # Use st.markdown to create a clickable link
-    st.markdown(f"Visit the [database website]({database_url}) with the original human body slices.")
+    st.markdown(f"Visit the [database website]({database_url}) for the original photos of human body slices.")
 
     st.subheader("Visualisation")
 
@@ -330,28 +330,30 @@ def run_tab_pedestrian3D() -> None:
     menu_option = st.selectbox(
         "Choose an option",
         [
-            "Display orthogonal projection",
-            "Display the body in 3D as a superposition of slices",
-            "Display the body in 3D with a mesh",
+            "Orthogonal projection",
+            "Body in 3D as a superposition of slices",
+            "Body in 3D with a mesh",
         ],
+        label_visibility="collapsed",
     )
 
-    if menu_option != "Display orthogonal projection":
-        x_translation, y_translation, rotation_angle = sliders_for_agent_position()
-        current_pedestrian.translate_body3D(x_translation, y_translation, dz=0.0)
-        current_pedestrian.rotate_body3D(rotation_angle)
+    if menu_option != "Orthogonal projection":
+        if cst_app.SHOW_DEV:
+            x_translation, y_translation, rotation_angle = sliders_for_agent_position()
+            current_pedestrian.translate_body3D(x_translation, y_translation, dz=0.0)
+            current_pedestrian.rotate_body3D(rotation_angle)
 
     col1, _ = st.columns([2.0, 1])
     with col1:
         # Display content based on the selected menu option
-        if menu_option == "Display orthogonal projection":
+        if menu_option == "Orthogonal projection":
             current_pedestrian.rotate_body3D(90.0)
             orthogonal_projection_option(current_pedestrian)
 
-        elif menu_option == "Display the body in 3D as a superposition of slices":
+        elif menu_option == "Body in 3D as a superposition of slices":
             slices_option(current_pedestrian)
 
-        elif menu_option == "Display the body in 3D with a mesh":
+        elif menu_option == "Body in 3D with a mesh":
             mesh_option(current_pedestrian)
 
     # Download data button

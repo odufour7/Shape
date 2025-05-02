@@ -74,10 +74,10 @@ def menubar() -> Any:
             cst_app.FOURTH_TAB_NAME,
         ],
         icons=[
-            "info-square",
             "person-fill",
-            "bar-chart-line",
             "people-fill",
+            "bar-chart-line",
+            "info-square",
         ],
         menu_icon="cast",
         default_index=0,
@@ -128,3 +128,5 @@ def init_app_looks() -> None:
     c2.markdown(repo_badge, unsafe_allow_html=True)
 
     st.sidebar.image(str(logo_path), use_container_width=True)
+
+    st.sidebar.warning("⚠️ All measurements in this app are displayed in centimeters (cm).")
