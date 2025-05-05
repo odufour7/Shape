@@ -30,11 +30,17 @@ babel==2.17.0
     #   jupyterlab-server
     #   sphinx
 beautifulsoup4==4.13.3
-    # via nbconvert
+    # via
+    #   exhale
+    #   nbconvert
 bleach==6.2.0
     # via nbconvert
 blinker==1.9.0
     # via streamlit
+breathe==4.36.0
+    # via
+    #   shapes (pyproject.toml)
+    #   exhale
 cachetools==5.5.2
     # via streamlit
 certifi==2025.1.31
@@ -62,6 +68,8 @@ contourpy==1.3.1
     # via matplotlib
 coverage==7.8.0
     # via pytest-cov
+cpplint==2.0.2
+    # via shapes (pyproject.toml)
 cycler==0.12.1
     # via matplotlib
 debugpy==1.8.13
@@ -81,8 +89,12 @@ docutils==0.21.2
     #   sphinx
     #   sphinx-mdinclude
     #   sphinx-rtd-theme
+dot==0.3.0
+    # via shapes (pyproject.toml)
 executing==2.2.0
     # via stack-data
+exhale==0.3.7
+    # via shapes (pyproject.toml)
 fastjsonschema==2.21.1
     # via nbformat
 filelock==3.18.0
@@ -95,6 +107,8 @@ gitdb==4.0.12
     # via gitpython
 gitpython==3.1.44
     # via streamlit
+gprof2dot==2025.4.14
+    # via shapes (pyproject.toml)
 h11==0.14.0
     # via httpcore
 httpcore==1.0.7
@@ -211,6 +225,8 @@ kaleido==0.2.1
     # via shapes (pyproject.toml)
 kiwisolver==1.4.8
     # via matplotlib
+lxml==5.4.0
+    # via exhale
 markdown-it-py==3.0.0
     # via
     #   mdit-py-plugins
@@ -449,6 +465,7 @@ shapely==2.0.7
     # via shapes (pyproject.toml)
 six==1.17.0
     # via
+    #   exhale
     #   python-dateutil
     #   rfc3339-validator
 smmap==5.0.2
@@ -462,6 +479,8 @@ soupsieve==2.6
 sphinx==8.2.3
     # via
     #   shapes (pyproject.toml)
+    #   breathe
+    #   exhale
     #   myst-nb
     #   myst-parser
     #   nbsphinx
