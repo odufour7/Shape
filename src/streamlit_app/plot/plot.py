@@ -1001,11 +1001,11 @@ def display_distribution(df: pd.DataFrame, column: str) -> go.Figure:
 
     # Add custom hover text using hovertemplate
     if column not in ["sex", "weight [kg]"]:
-        fig.update_traces(hovertemplate=f"<b>{column[:-5]}</b>" + " = %{x} cm<br><b>Count = </b>%{y}</b>")
+        fig.update_traces(hovertemplate=f"<b>{column[:-5]}</b>" + " = %{x} cm<br><b>count = </b>%{y}</b>")
     elif column == "weight [kg]":
-        fig.update_traces(hovertemplate=f"<b>{column[:-5]}</b>" + " = %{x} kg<br><b>Count = </b>%{y}</b>")
+        fig.update_traces(hovertemplate=f"<b>{column[:-5]}</b>" + " = %{x} kg<br><b>count = </b>%{y}</b>")
     elif column == "sex":
-        fig.update_traces(hovertemplate=f"<b>{column}</b>" + " = %{x}<br><b>Count = </b>%{y}</b><extra></extra>")
+        fig.update_traces(hovertemplate=f"<b>{column}</b>" + " = %{x}<br><b>count = </b>%{y}</b><extra></extra>")
 
     # Set layout properties
     fig.update_layout(

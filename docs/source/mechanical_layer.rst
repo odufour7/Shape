@@ -1,8 +1,6 @@
 Mechanical layer
 ================
 
-
-.. toctree::
-   :maxdepth: 4
-
+.. doxygenindex::
+   :project: mechanical_layer
 

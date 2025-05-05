@@ -43,3 +43,5 @@ Thumbs.db
 /docs/build/jupyter_execute/
 
 /tests/.pytest_cache/
+
+precommit_output.txt

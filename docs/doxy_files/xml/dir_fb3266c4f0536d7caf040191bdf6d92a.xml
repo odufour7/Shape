@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.13.2" xml:lang="en-US">
+  <compounddef id="dir_fb3266c4f0536d7caf040191bdf6d92a" kind="dir">
+    <compoundname>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer</compoundname>
+    <innerfile refid="array_8h">array.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/"/>
+  </compounddef>
+</doxygen>

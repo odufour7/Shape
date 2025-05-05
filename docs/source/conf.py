@@ -32,7 +32,7 @@ extensions = [
     "myst_parser",
     "sphinx.ext.mathjax",
     "nbsphinx_link",  # Optional: Linking to external notebooks
-    # "breathe",  # For C++ documentation via Doxygen
+    "breathe",  # For C++ documentation via Doxygen
     # "exhale",  # For automatic API documentation tree with c++
 ]
 
@@ -59,7 +59,6 @@ intersphinx_mapping = {
     "shapely": ("https://shapely.readthedocs.io/en/stable/", None),  # Link to Shapely documentation
     "plotly": ("https://plotly.com/python-api-reference/", None),  # Link to Plotly documentation
     "numpy": ("https://numpy.org/doc/stable/", None),  # Link to NumPy documentation
-    # "cppreference": ("https://en.cppreference.com/w/", None),  # Link to C++ reference
 }
 
 # -- Autodoc settings --------------------------------------------------------
@@ -71,10 +70,10 @@ autodoc_default_options = {
 
 autodoc_typehints = "description"  # Render type hints in the description instead of signatures
 
-# # -- Breathe configuration ---------------------------------------------------
+# -- Breathe configuration ---------------------------------------------------
 
-# breathe_projects = {"shapes_cpp": os.path.abspath("../doxyoutput/xml")}
-# breathe_default_project = "shapes_cpp"
+breathe_projects = {"mechanical_layer": os.path.abspath("../doxy_files/xml")}
+breathe_default_project = "mechanical_layer"
 
 # # -- Exhale configuration ----------------------------------------------------
 
