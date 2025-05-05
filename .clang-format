@@ -1,5 +1,35 @@
-BasedOnStyle: Google
-ColumnLimit: 135
-IndentWidth: 4
-TabWidth: 4
-UseTab: Never
+# This configuration is based on the LLVM style but customized.
+BasedOnStyle: LLVM
+
+# Indentation settings
+IndentWidth: 4 # Indentation width
+
+# Line length settings
+ColumnLimit: 135 # Maximum line length
+
+# C++ specific settings
+DerivePointerAlignment: false
+PointerAlignment: Left # Align pointers to the left (e.g., int* ptr)
+
+# Control statement formatting
+AllowShortIfStatementsOnASingleLine: false # Do not allow short if statements on a single line
+
+# Spacing settings
+SpaceAfterCStyleCast: true # Add space after C-style cast (e.g., (int) x)
+
+# Comment alignment
+AlignTrailingComments: true
+SpacesBeforeTrailingComments: 3
+
+# Macro formatting
+AlignConsecutiveMacros: Consecutive
+
+# Line endings
+UseCRLF: false # Use \n instead of \r\n for line endings
+
+# Function declaration and definition formatting
+AlwaysBreakAfterReturnType: None
+SpaceBeforeParens: ControlStatements
+
+# Brace wrapping settings
+BreakBeforeBraces: Attach # Use Allman style, which places braces on their own lines
