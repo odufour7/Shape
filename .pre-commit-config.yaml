@@ -56,7 +56,7 @@ repos:
         args: [--style=file]
       - id: clang-tidy
       - id: uncrustify
-        # args: [-c, uncrustify.cfg]
+        args: [-c, uncrustify.cfg]
       - id: cppcheck
       - id: cpplint
         args: [--filter=-whitespace/braces]
