@@ -32,4 +32,4 @@ AlwaysBreakAfterReturnType: None
 SpaceBeforeParens: ControlStatements
 
 # Brace wrapping settings
-BreakBeforeBraces: Attach # Use Allman style, which places braces on their own lines
+BreakBeforeBraces: Allman # Use Allman style, which places braces on their own lines
