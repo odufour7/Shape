@@ -3,6 +3,7 @@
 import pickle
 from datetime import datetime
 from io import BytesIO
+from pathlib import Path
 
 import plotly.graph_objects as go
 import streamlit as st
@@ -13,6 +14,7 @@ import streamlit_app.utils.constants as cst_app
 from configuration.models.agents import Agent
 from configuration.models.initial_agents import InitialPedestrian
 from configuration.models.measures import AgentMeasures
+from configuration.utils import functions as fun
 from streamlit_app.plot import plot
 
 
@@ -137,17 +139,13 @@ def sliders_for_agent_position() -> tuple[float, float, float]:
 
 def download_data(current_pedestrian: Agent) -> None:
     """
-    Provide a download button in the sidebar to export the agent's data as a pickle file.
+    Provide two download buttons in the sidebar to export the agent's data as a pickle file.
 
     Parameters
     ----------
     current_pedestrian : Agent
         The agent object representing the current pedestrian. It contains the 3D shape
         data (`shapes3D`) and anthropometric measures (`measures`) to be exported.
-
-    Notes
-    -----
-    - The filename is dynamically generated using the agent type, sex, and a timestamp in the format `YYYYMMDD_HHMMSS`.
     """
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     filename = f"agent3D_{current_pedestrian.agent_type}_{current_pedestrian.measures.measures['sex']}_{timestamp}.pkl"
@@ -158,6 +156,20 @@ def download_data(current_pedestrian: Agent) -> None:
         file_name=filename,
         mime="application/octet-stream",
         use_container_width=True,
+        help="Contains the polygons used to display the pedestrian.",
+    )
+
+    dir_path = Path(__file__).parent.parent.parent.parent.absolute() / "data" / "pkl"
+    data_to_download = pickle.dumps(fun.load_pickle(str(dir_path / f"{current_pedestrian.measures.measures['sex']}_3dBody.pkl")))
+    filename = f"agent3D_{current_pedestrian.agent_type}_{current_pedestrian.measures.measures['sex']}.pkl"
+    st.sidebar.download_button(
+        label="Download precise data as PKL",
+        data=data_to_download,
+        file_name=filename,
+        mime="application/octet-stream",
+        help="Contains the polygons used to build the 3D representation of the pedestrian"
+        " with standard parameters,"
+        " with a precision up to 0.1 mm in the altitude-direction.",
     )
 
 
@@ -325,7 +337,6 @@ def run_tab_pedestrian3D() -> None:
 
     # Define the URL of the database website
     database_url = "https://datadiscovery.nlm.nih.gov/Images/Visible-Human-Project/ux2j-9i9a/about_data"
-    # Use st.markdown to create a clickable link
     st.markdown(f"Visit the [database website]({database_url}) for the original photos of human body slices.")
 
     st.subheader("Visualisation")

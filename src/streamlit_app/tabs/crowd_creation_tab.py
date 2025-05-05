@@ -4,7 +4,9 @@ import pickle
 from datetime import datetime
 from io import BytesIO
 
+import matplotlib.pyplot as plt
 import numpy as np
+import plotly.graph_objects as go
 import streamlit as st
 from shapely.geometry import Polygon
 
@@ -46,6 +48,12 @@ def initialize_session_state() -> None:
         "simulation_run": True,
         "desired_direction": cst.DEFAULT_DESIRED_DIRECTION,
         "variable_orientation": False,
+        "plot_twoD_run": True,
+        "plot_threeD_run": True,
+        "plot_threeD_layers_run": True,
+        "twoD_scene": plt.figure(),
+        "threeD_scene": go.Figure(),
+        "threeD_layers": go.Figure(),
     }
 
     for key, value in default_values.items():
@@ -66,6 +74,9 @@ def initialize_session_state() -> None:
 def parameter_changed() -> None:
     """Update the Streamlit session state to indicate that a simulation should be run."""
     st.session_state.simulation_run = True
+    st.session_state.plot_twoD_run = True
+    st.session_state.plot_threeD_run = True
+    st.session_state.plot_threeD_layers_run = True
 
 
 def create_boundaries(boundary_x: float, boundary_y: float) -> Polygon:
@@ -205,6 +216,31 @@ def plot_and_download_crowd2D(current_crowd: Crowd) -> None:
     crowd_statistics = current_crowd.get_crowd_statistics()
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
+    # Display section
+    col1, col2 = st.columns([1.5, 1])
+    with col1:
+        st.subheader("Visualisation")
+
+        if st.session_state.plot_twoD_run:
+            st.session_state.twoD_scene = plot.display_crowd2D(current_crowd)
+            st.session_state.plot_twoD_run = False
+
+        st.pyplot(st.session_state.twoD_scene)
+
+        crowd_plot = BytesIO()
+        st.session_state.twoD_scene.savefig(crowd_plot, format="pdf")
+        crowd_plot.seek(0)
+
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        st.download_button(
+            label="Download plot as PDF",
+            data=crowd_plot,
+            file_name=f"crowd_{timestamp}.pdf",
+            mime="application/pdf",
+        )
+    with col2:
+        display_crowd_statistics(crowd_statistics["measures"])
+
     # Download section
     st.sidebar.header("Download")
     # check if all agents in the Crowd are pedestrian
@@ -270,27 +306,6 @@ def plot_and_download_crowd2D(current_crowd: Crowd) -> None:
             help="Export all the measured data used to compute the statistics given in the table as CSV file",
             use_container_width=True,
         )
-
-    # Display section
-    col1, col2 = st.columns([1.5, 1])
-    with col1:
-        st.subheader("Visualisation")
-        fig = plot.display_crowd2D(current_crowd)
-        st.pyplot(fig)
-
-        crowd_plot = BytesIO()
-        fig.savefig(crowd_plot, format="pdf")
-        crowd_plot.seek(0)
-
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        st.download_button(
-            label="Download plot as PDF",
-            data=crowd_plot,
-            file_name=f"crowd_{timestamp}.pdf",
-            mime="application/pdf",
-        )
-    with col2:
-        display_crowd_statistics(crowd_statistics["measures"])
 
 
 def boundaries_state() -> Polygon:
@@ -782,8 +797,10 @@ def plot_and_download_crowd3D(current_crowd: Crowd) -> None:
     col1, col2 = st.columns([1, 1])
 
     with col1:
-        fig = plot.display_crowd3D_whole_3Dscene(current_crowd)
-        st.plotly_chart(fig)
+        if st.session_state.plot_threeD_run:
+            st.session_state.threeD_scene = plot.display_crowd3D_whole_3Dscene(current_crowd)
+            st.session_state.plot_threeD_run = False
+        st.plotly_chart(st.session_state.threeD_scene)
 
     with col2:
         st.text(" ")
@@ -794,8 +811,10 @@ def plot_and_download_crowd3D(current_crowd: Crowd) -> None:
         st.text(" ")
         st.text(" ")
         st.text(" ")
-        fig = plot.display_crowd3D_layers_by_layers(current_crowd)
-        st.plotly_chart(fig)
+        if st.session_state.plot_threeD_layers_run:
+            st.session_state.threeD_layers = plot.display_crowd3D_layers_by_layers(current_crowd)
+            st.session_state.plot_threeD_layers_run = False
+        st.plotly_chart(st.session_state.threeD_layers)
 
 
 def run_tab_crowd() -> None:

@@ -19,8 +19,9 @@ M_TO_CM: float = 100.0
 
 # Initial agents / measures
 DISK_QUAD_SEGS: int = 10  # Number of segments in a quarter circle
-POLYGON_TOLERANCE: float = 0.02  # Size of minimum distance between two points
+POLYGON_TOLERANCE: float = 0.04  # Size of minimum distance between two points
 DISTANCE_BTW_TARGET_KEYS_ALTITUDES: float = 2.0  # Minimum distance between two target keys
+NB_FUNCTION_EVALS: int = 80  # Number of function evaluations
 DISK_NUMBER: int = 5
 
 DEFAULT_FLOOR_DAMPING: float = 2.0  # Damping coefficient for the floor
