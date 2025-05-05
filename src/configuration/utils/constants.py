@@ -18,6 +18,9 @@ CM_TO_M: float = 0.01
 M_TO_CM: float = 100.0
 
 # Initial agents / measures
+DISK_QUAD_SEGS: int = 10  # Number of segments in a quarter circle
+POLYGON_TOLERANCE: float = 0.02  # Size of minimum distance between two points
+DISTANCE_BTW_TARGET_KEYS_ALTITUDES: float = 2.0  # Minimum distance between two target keys
 DISK_NUMBER: int = 5
 
 DEFAULT_FLOOR_DAMPING: float = 2.0  # Damping coefficient for the floor
@@ -50,7 +53,7 @@ KINETIC_FRICTION: float = 0.5  # Coefficient of kinetic friction
 
 # Crowd class
 DEFAULT_AGENT_NUMBER: int = 4
-MAX_NB_ITERATIONS: int = 80  # Maximum number of iterations for the parking algorithm
+MAX_NB_ITERATIONS: int = 100  # Maximum number of iterations for the parking algorithm
 DEFAULT_REPULSION_LENGTH: float = 5.0  # cm
 DEFAULT_DESIRED_DIRECTION: float = 0.0  # degrees
 DEFAULT_RANDOM_PACKING: bool = False

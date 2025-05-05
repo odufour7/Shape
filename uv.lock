@@ -437,6 +437,15 @@ wheels = [
 ]
 
 [[package]]
+name = "dot"
+version = "0.3.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/73/e8/5ba9dff611eaa0d43c961271fe51c668db760a47cca482bc2b4125523a7b/dot-0.3.0.tar.gz", hash = "sha256:3543921eefa82923870fc752ebdadc593962e0d0db507d27daab9528c05ceb58", size = 2534, upload_time = "2024-08-16T20:08:53.057Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/d2/68/d5828abbce964cc42e5134104f00cb57f78cf4cdcedef050548a2402bc8e/dot-0.3.0-py3-none-any.whl", hash = "sha256:9f43c4ed466315803a354908486c67a7f981b10f1fdb55cb45aeac6ddd2dd0de", size = 3130, upload_time = "2024-08-16T20:08:51.736Z" },
+]
+
+[[package]]
 name = "executing"
 version = "2.2.0"
 source = { registry = "https://pypi.org/simple" }
@@ -527,6 +536,15 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/c0/89/37df0b71473153574a5cdef8f242de422a0f5d26d7a9e231e6f169b4ad14/gitpython-3.1.44.tar.gz", hash = "sha256:c87e30b26253bf5418b01b0660f818967f3c503193838337fe5e573331249269", size = 214196, upload_time = "2025-01-02T07:32:43.59Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/1d/9a/4114a9057db2f1462d5c8f8390ab7383925fe1ac012eaa42402ad65c2963/GitPython-3.1.44-py3-none-any.whl", hash = "sha256:9e0e10cda9bed1ee64bc9a6de50e7e38a9c9943241cd7f585f6df3ed28011110", size = 207599, upload_time = "2025-01-02T07:32:40.731Z" },
+]
+
+[[package]]
+name = "gprof2dot"
+version = "2025.4.14"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/bb/fd/cad13fa1f7a463a607176432c4affa33ea162f02f58cc36de1d40d3e6b48/gprof2dot-2025.4.14.tar.gz", hash = "sha256:35743e2d2ca027bf48fa7cba37021aaf4a27beeae1ae8e05a50b55f1f921a6ce", size = 39536, upload_time = "2025-04-14T07:21:45.76Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/71/ed/89d760cb25279109b89eb52975a7b5479700d3114a2421ce735bfb2e7513/gprof2dot-2025.4.14-py3-none-any.whl", hash = "sha256:0742e4c0b4409a5e8777e739388a11e1ed3750be86895655312ea7c20bd0090e", size = 37555, upload_time = "2025-04-14T07:21:43.319Z" },
 ]
 
 [[package]]
@@ -2103,7 +2121,9 @@ dependencies = [
     { name = "cmcrameri" },
     { name = "cpplint" },
     { name = "dicttoxml" },
+    { name = "dot" },
     { name = "exhale" },
+    { name = "gprof2dot" },
     { name = "kaleido" },
     { name = "matplotlib" },
     { name = "mypy" },
@@ -2144,7 +2164,9 @@ requires-dist = [
     { name = "cmcrameri", specifier = ">=1.9" },
     { name = "cpplint", specifier = ">=2.0.2" },
     { name = "dicttoxml", specifier = ">=1.7.16" },
+    { name = "dot", specifier = ">=0.3.0" },
     { name = "exhale", specifier = ">=0.3.7" },
+    { name = "gprof2dot", specifier = ">=2025.4.14" },
     { name = "jupyter", marker = "extra == 'dev'", specifier = ">=1.1.1" },
     { name = "kaleido", specifier = "==0.2.1" },
     { name = "matplotlib", specifier = ">=3.10.1" },

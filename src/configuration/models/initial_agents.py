@@ -233,7 +233,9 @@ class InitialPedestrian:
             A Point object representing the centroid of the pedestrian's geometry.
         """
         # Create buffered shapes from the 2D shape definitions
-        buffered_shapes = [Point(shape["x"], shape["y"]).buffer(shape["radius"]) for shape in self.shapes2D.values()]
+        buffered_shapes = [
+            Point(shape["x"], shape["y"]).buffer(shape["radius"], quad_segs=cst.DISK_QUAD_SEGS) for shape in self.shapes2D.values()
+        ]
 
         if not buffered_shapes:
             raise ValueError("No shapes defined for the pedestrian.")

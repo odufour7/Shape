@@ -133,29 +133,6 @@ def display_interpenetration_warning() -> None:
             )
 
 
-# def display_crowd_statistics(crowd_statistics_measures: dict[str, float | int | None]) -> None:
-#     """
-#     Display crowd statistics in a Streamlit app.
-
-#     Parameters
-#     ----------
-#     crowd_statistics_measures : dict[str, float | int | None]
-#         A dictionary containing crowd statistics measures.
-#     """
-#     filtered_measures = fun.filter_dict_by_not_None_values(crowd_statistics_measures)
-
-#     st.write("### Measured crowd statistics")
-
-#     # Display as a Markdown table for better readability
-#     if filtered_measures:
-#         table_md = "| Measure | Value |\n|---|---|\n"
-#         for key, value in filtered_measures.items():
-#             table_md += f"| {key.capitalize()} | {np.round(value, 2)} |\n"
-#         st.markdown(table_md)
-#     else:
-#         st.info("No statistics available to display.")
-
-
 def display_table(data: dict[str, float | int]) -> None:
     """
     Display a markdown table in a Streamlit column.

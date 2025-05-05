@@ -114,7 +114,7 @@ class Shapes2D:
             self.shapes[name] = {
                 "type": cst.ShapeTypes.disk.name,
                 "material": material,
-                "object": Point(center).buffer(radius),
+                "object": Point(center).buffer(radius, quad_segs=cst.DISK_QUAD_SEGS),
             }
 
         elif shape_type == cst.ShapeTypes.rectangle.name:
@@ -305,7 +305,7 @@ class Shapes2D:
         optimized_scaling = dual_annealing(
             objectif_fun,
             bounds=bounds,
-            maxfun=100,
+            maxfun=50,
             x0=guess_parameters,
         )
         optimized_scale_factor_x, optimized_scale_factor_y = optimized_scaling.x
@@ -323,7 +323,7 @@ class Shapes2D:
             f"disk{i}": {
                 "type": cst.ShapeTypes.disk.name,
                 "material": cst.MaterialNames.human.name,
-                "object": Point(disk["center"]).buffer(disk["radius"]),
+                "object": Point(disk["center"]).buffer(disk["radius"], quad_segs=cst.DISK_QUAD_SEGS),
             }
             for i, disk in enumerate(disks)
         }

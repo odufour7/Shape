@@ -159,9 +159,9 @@ def prepare_3D_body_data(data_dir_path: Path) -> None:
         shapes3D: dict[float, MultiPolygon] = fun.load_pickle(str(pickle_path))
         keys = sorted(float(k) for k in shapes3D.keys())
         if not keys:
-            continue  # skip if no data
+            continue
 
-        target_keys = np.arange(0.0, keys[-1] + 1, 3.0)
+        target_keys = np.arange(0.0, keys[-1] + 1, cst.DISTANCE_BTW_TARGET_KEYS_ALTITUDES)
         filtered_shapes3D: dict[float, MultiPolygon] = {}
         used_bins = set()
 
@@ -169,7 +169,9 @@ def prepare_3D_body_data(data_dir_path: Path) -> None:
             bin_idx = np.argmin(np.abs(target_keys - key))
             bin_value = target_keys[bin_idx]
             if bin_value not in used_bins:
-                filtered_shapes3D[key] = shapes3D[key]
+                filtered_shapes3D[key] = MultiPolygon(
+                    [geom.simplify(tolerance=cst.POLYGON_TOLERANCE, preserve_topology=True) for geom in shapes3D[key].geoms]
+                )
                 used_bins.add(bin_value)
 
         output_path = data_dir_path / "pkl" / f"{sex.name}_3dBody_light.pkl"
