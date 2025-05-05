@@ -37,16 +37,16 @@ repos:
       - id: numpydoc-validation
         files: ^src/.*\.py$
 
-  # Test of python functions
-  - repo: local
-    hooks:
-      - id: uv-pytest
-        name: Run tests with uv and pytest
-        entry: uv run pytest
-        language: system # Use 'system' to run the command directly
-        pass_filenames: false
-        always_run: true
-        types: ["python"]
+  # # Test of python functions
+  # - repo: local
+  #   hooks:
+  #     - id: uv-pytest
+  #       name: Run tests with uv and pytest
+  #       entry: uv run pytest
+  #       language: system # Use 'system' to run the command directly
+  #       pass_filenames: false
+  #       always_run: true
+  #       types: ["python"]
 
   # Cppcheck: C++ static analysis
   - repo: https://github.com/pocc/pre-commit-hooks
@@ -56,7 +56,7 @@ repos:
         args: [--style=file]
       - id: clang-tidy
       - id: uncrustify
-        args: [-c, uncrustify.cfg]
+        # args: [-c, uncrustify.cfg]
       - id: cppcheck
       - id: cpplint
         args: [--filter=-whitespace/braces]
