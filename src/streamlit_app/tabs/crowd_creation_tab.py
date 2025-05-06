@@ -812,7 +812,7 @@ def plot_and_download_crowd3D(current_crowd: Crowd) -> None:
         st.text(" ")
         st.text(" ")
         if st.session_state.plot_threeD_layers_run:
-            st.session_state.threeD_layers = plot.display_crowd3D_layers_by_layers(current_crowd)
+            st.session_state.threeD_layers = plot.display_crowd3D_slices_by_slices(current_crowd)
             st.session_state.plot_threeD_layers_run = False
         st.plotly_chart(st.session_state.threeD_layers)
 

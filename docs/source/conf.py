@@ -26,6 +26,7 @@ extensions = [
     "sphinx.ext.viewcode",  # Add links to highlighted source code
     "sphinx.ext.autodoc",  # Automatically document modules/classes/functions
     "sphinx.ext.napoleon",  # Support for NumPy/Google style docstrings
+    # "sphinx.ext.autosectionlabel",  # Automatically label sections with their titles
     "sphinx_autodoc_typehints",  # Render type hints as links in docs
     "sphinx.ext.intersphinx",  # Link to external documentation (e.g., Python)
     "nbsphinx",  # Support for Jupyter notebooks

@@ -1,14 +1,14 @@
 Configuration files
 ===================
 
-You can try out the Streamlit application online at `app <https://j3rdeorxelafmdndi75rhf.streamlit.app/>`_.
+You can try out the Streamlit application online at `app <https://crowdmeca.streamlit.app/>`_.
 If you prefer to run the application locally or want to use only specific functions, follow the step-by-step advanced tutorials.
 
 
 
 .. toctree::
    :maxdepth: 2
-   :caption: Adanced tutorials
+   :caption: Contents
 
    run_app_locally
    create_crowd_ANSURII

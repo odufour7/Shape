@@ -626,3 +626,20 @@ def direction_of_longest_side(polygon: Polygon) -> float:
     # Find the index of the longest side
     idx = np.argmax(lengths)
     return wrap_angle(angles_deg[idx])
+
+
+def filter_dict_by_not_None_values(input_dict: dict[str, Any]) -> dict[str, Any]:
+    """
+    Filter a dictionary to remove keys with None values.
+
+    Parameters
+    ----------
+    input_dict : dict[str, Any]
+        The input dictionary to be filtered.
+
+    Returns
+    -------
+    dict[str, Any]
+        A new dictionary containing only the key-value pairs where the value is not None.
+    """
+    return {k: v for k, v in input_dict.items() if v is not None and v != []}

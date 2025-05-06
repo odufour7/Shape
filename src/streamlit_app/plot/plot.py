@@ -645,7 +645,7 @@ def display_crowd2D(crowd: Crowd) -> mfig.Figure:
     return fig
 
 
-def display_crowd3D_layers_by_layers(crowd: Crowd) -> go.Figure:
+def display_crowd3D_slices_by_slices(crowd: Crowd) -> go.Figure:
     """
     Visualize a 3D crowd as layers of 2D polygons.
 

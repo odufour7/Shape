@@ -2117,7 +2117,6 @@ name = "shapes"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
-    { name = "breathe" },
     { name = "cmcrameri" },
     { name = "cpplint" },
     { name = "dicttoxml" },
@@ -2143,6 +2142,7 @@ dependencies = [
 
 [package.optional-dependencies]
 dev = [
+    { name = "breathe" },
     { name = "jupyter" },
     { name = "mypy" },
     { name = "myst-nb" },
@@ -2160,7 +2160,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "breathe", specifier = ">=4.36.0" },
+    { name = "breathe", marker = "extra == 'dev'", specifier = ">=4.36.0" },
     { name = "cmcrameri", specifier = ">=1.9" },
     { name = "cpplint", specifier = ">=2.0.2" },
     { name = "dicttoxml", specifier = ">=1.7.16" },
