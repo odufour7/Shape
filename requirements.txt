@@ -137,6 +137,7 @@ ipykernel==6.29.5
     #   jupyter-console
     #   jupyterlab
     #   myst-nb
+    #   nbmake
 ipython==9.0.2
     # via
     #   ipykernel
@@ -272,6 +273,7 @@ nbclient==0.10.2
     #   jupyter-cache
     #   myst-nb
     #   nbconvert
+    #   nbmake
 nbconvert==7.16.6
     # via
     #   jupyter
@@ -284,7 +286,10 @@ nbformat==5.10.4
     #   myst-nb
     #   nbclient
     #   nbconvert
+    #   nbmake
     #   nbsphinx
+nbmake==1.5.5
+    # via shapes (pyproject.toml)
 nbsphinx==0.9.6
     # via
     #   shapes (pyproject.toml)
@@ -388,6 +393,7 @@ pygments==2.19.1
     #   ipython-pygments-lexers
     #   jupyter-console
     #   nbconvert
+    #   nbmake
     #   sphinx
     #   sphinx-mdinclude
 pyparsing==3.2.1
@@ -395,6 +401,7 @@ pyparsing==3.2.1
 pytest==7.4.4
     # via
     #   shapes (pyproject.toml)
+    #   nbmake
     #   pytest-cov
     #   pytest-lazy-fixture
 pytest-cov==6.1.1
