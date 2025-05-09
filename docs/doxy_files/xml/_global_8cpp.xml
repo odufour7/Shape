@@ -43,7 +43,7 @@
         </childnode>
       </node>
       <node id="1">
-        <label>src/Global.cpp</label>
+        <label>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp</label>
         <link refid="_global_8cpp"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -106,7 +106,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="41" column="10" bodyfile="src/Global.cpp" bodystart="41" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" line="41" column="10" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" bodystart="41" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8cpp_1a2d9c16ea9a48a801f040edbb1364a369" prot="public" static="no" mutable="no">
         <type>map&lt; string, uint32_t &gt;</type>
@@ -119,7 +119,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="42" column="5" bodyfile="src/Global.cpp" bodystart="42" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" line="42" column="5" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" bodystart="42" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8cpp_1a9383e068c56024265f6b9fe837d586f6" prot="public" static="no" mutable="no">
         <type>vector&lt; string &gt;</type>
@@ -132,7 +132,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="43" column="8" bodyfile="src/Global.cpp" bodystart="43" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" line="43" column="8" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" bodystart="43" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8cpp_1acd1960d2e52407aba08102dc55c5891e" prot="public" static="no" mutable="no">
         <type><ref refid="struct_agent" kindref="compound">Agent</ref> **</type>
@@ -145,7 +145,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="44" column="7" bodyfile="src/Global.cpp" bodystart="44" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" line="44" column="7" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" bodystart="44" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8cpp_1a2d4dde640507c44696ac86eeac30cc46" prot="public" static="no" mutable="no">
         <type>map&lt; pair&lt; string, string &gt;, uint32_t &gt;</type>
@@ -158,7 +158,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="46" column="5" bodyfile="src/Global.cpp" bodystart="46" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" line="46" column="5" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" bodystart="46" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8cpp_1aeec3b5ebec2f8182b085aa4d7a009b04" prot="public" static="no" mutable="no">
         <type>vector&lt; string &gt;</type>
@@ -171,7 +171,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="47" column="8" bodyfile="src/Global.cpp" bodystart="47" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" line="47" column="8" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" bodystart="47" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8cpp_1ad538aa77abb694f8faf437a41e3e8037" prot="public" static="no" mutable="no">
         <type>double</type>
@@ -184,7 +184,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="51" column="8" bodyfile="src/Global.cpp" bodystart="51" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" line="51" column="8" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" bodystart="51" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8cpp_1a9b3d111ccf7f82fb80aeb6f8b229c21b" prot="public" static="no" mutable="no">
         <type>double</type>
@@ -197,7 +197,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="52" column="8" bodyfile="src/Global.cpp" bodystart="52" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" line="52" column="8" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" bodystart="52" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8cpp_1a7748aa3ec6479e25397cee7d2eb63b88" prot="public" static="no" mutable="no">
         <type>vector&lt; vector&lt; double2 &gt; &gt;</type>
@@ -210,7 +210,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="53" column="8" bodyfile="src/Global.cpp" bodystart="53" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" line="53" column="8" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" bodystart="53" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8cpp_1a03e28be41881b703c836edbfe9b51b17" prot="public" static="no" mutable="no">
         <type>double</type>
@@ -223,7 +223,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="56" column="8" bodyfile="src/Global.cpp" bodystart="56" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" line="56" column="8" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" bodystart="56" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8cpp_1a8bfe393342f0c199097b8a314cdc6dab" prot="public" static="no" mutable="no">
         <type>double</type>
@@ -236,7 +236,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="57" column="8" bodyfile="src/Global.cpp" bodystart="57" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" line="57" column="8" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" bodystart="57" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8cpp_1ada1128f7eea9df0860984ef5c5d8ec2d" prot="public" static="no" mutable="no">
         <type>vector&lt; double2 &gt;</type>
@@ -249,7 +249,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="61" column="8" bodyfile="src/Global.cpp" bodystart="61" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" line="61" column="8" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" bodystart="61" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8cpp_1a8c0a8fe32456ebb50a4d4033e37ff4e5" prot="public" static="no" mutable="no">
         <type>uint32_t</type>
@@ -262,7 +262,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="62" column="10" bodyfile="src/Global.cpp" bodystart="62" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" line="62" column="10" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" bodystart="62" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8cpp_1a449a06862d241ed51aafc2d9f103bd33" prot="public" static="no" mutable="no">
         <type>double **</type>
@@ -275,7 +275,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="63" column="8" bodyfile="src/Global.cpp" bodystart="63" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" line="63" column="8" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" bodystart="63" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8cpp_1a6ef6c78109b8fcb63fe1cbbc85b1365f" prot="public" static="no" mutable="no">
         <type>double ***</type>
@@ -288,7 +288,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="64" column="8" bodyfile="src/Global.cpp" bodystart="64" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" line="64" column="8" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" bodystart="64" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8cpp_1a8eda14234da32f1a6cc9f83e29039058" prot="public" static="no" mutable="no">
         <type>vector&lt; int32_t &gt;</type>
@@ -301,7 +301,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="65" column="8" bodyfile="src/Global.cpp" bodystart="65" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" line="65" column="8" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" bodystart="65" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8cpp_1a55e531751036fba011fc2ed2a099e007" prot="public" static="no" mutable="no">
         <type>map&lt; uint32_t, int32_t &gt;</type>
@@ -314,7 +314,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="66" column="5" bodyfile="src/Global.cpp" bodystart="66" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" line="66" column="5" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" bodystart="66" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8cpp_1a9dd72cf4b283d7ddc950555b117389e9" prot="public" static="no" mutable="no">
         <type>string</type>
@@ -327,7 +327,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="69" column="8" bodyfile="src/Global.cpp" bodystart="69" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" line="69" column="8" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" bodystart="69" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8cpp_1a105202debb0122c2c030880a0cf66b90" prot="public" static="no" mutable="no">
         <type>string</type>
@@ -340,7 +340,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="70" column="8" bodyfile="src/Global.cpp" bodystart="70" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" line="70" column="8" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" bodystart="70" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="func">
@@ -363,7 +363,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="18" column="9" bodyfile="src/Global.cpp" bodystart="18" bodyend="18"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" line="18" column="9" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" bodystart="18" bodyend="18"/>
       </memberdef>
       <memberdef kind="function" id="_global_8cpp_1a1862d4516e73ee3b3c2db581c9d7dfc4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double2</type>
@@ -384,7 +384,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="19" column="9" bodyfile="src/Global.cpp" bodystart="19" bodyend="19"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" line="19" column="9" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" bodystart="19" bodyend="19"/>
       </memberdef>
       <memberdef kind="function" id="_global_8cpp_1a76c71fed42cb84e0a09d13a88ada6f3a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double2</type>
@@ -405,7 +405,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="21" column="9" bodyfile="src/Global.cpp" bodystart="21" bodyend="21"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" line="21" column="9" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" bodystart="21" bodyend="21"/>
       </memberdef>
       <memberdef kind="function" id="_global_8cpp_1a11c67c1b3c0e2076dc90d5d2e03ce6fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double2</type>
@@ -426,7 +426,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="23" column="9" bodyfile="src/Global.cpp" bodystart="23" bodyend="23"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" line="23" column="9" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" bodystart="23" bodyend="23"/>
       </memberdef>
       <memberdef kind="function" id="_global_8cpp_1a766e6388d239b51baa276fa31cbfd2c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -447,7 +447,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="25" column="8" bodyfile="src/Global.cpp" bodystart="25" bodyend="25"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" line="25" column="8" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" bodystart="25" bodyend="25"/>
       </memberdef>
       <memberdef kind="function" id="_global_8cpp_1af5778cd68c3fb8dbdf4d84f64d739a18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -464,7 +464,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="27" column="8" bodyfile="src/Global.cpp" bodystart="27" bodyend="27"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" line="27" column="8" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" bodystart="27" bodyend="27"/>
       </memberdef>
       <memberdef kind="function" id="_global_8cpp_1a3120e906e54cde6d1aac48c62ba184f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double2</type>
@@ -485,7 +485,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="29" column="9" bodyfile="src/Global.cpp" bodystart="29" bodyend="29"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" line="29" column="9" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" bodystart="29" bodyend="29"/>
       </memberdef>
       <memberdef kind="function" id="_global_8cpp_1a849746700f4ccaba4679566d70ec9900" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int2</type>
@@ -506,7 +506,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="33" column="6" bodyfile="src/Global.cpp" bodystart="33" bodyend="33"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" line="33" column="6" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" bodystart="33" bodyend="33"/>
       </memberdef>
       <memberdef kind="function" id="_global_8cpp_1a6dbb29b39df9d069b3e8c49df3aca876" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int2</type>
@@ -527,7 +527,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="34" column="6" bodyfile="src/Global.cpp" bodystart="34" bodyend="34"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" line="34" column="6" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" bodystart="34" bodyend="34"/>
       </memberdef>
       <memberdef kind="function" id="_global_8cpp_1a9e9a0359c6c7cc6b03652e3d0e616704" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int2</type>
@@ -548,7 +548,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="36" column="6" bodyfile="src/Global.cpp" bodystart="36" bodyend="36"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" line="36" column="6" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" bodystart="36" bodyend="36"/>
       </memberdef>
       <memberdef kind="function" id="_global_8cpp_1a1c2e91f7870a074bdb7adb08acc449e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>pair&lt; int, double2 &gt;</type>
@@ -578,7 +578,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="82" column="6" bodyfile="src/Global.cpp" bodystart="82" bodyend="105"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" line="82" column="6" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" bodystart="82" bodyend="105"/>
       </memberdef>
       <memberdef kind="function" id="_global_8cpp_1a09193e58d7734175ed54421ddf1e38fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>pair&lt; double, double2 &gt;</type>
@@ -632,7 +632,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="116" column="6" bodyfile="src/Global.cpp" bodystart="116" bodyend="133"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" line="116" column="6" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" bodystart="116" bodyend="133"/>
       </memberdef>
       <memberdef kind="function" id="_global_8cpp_1ad9e358fcdbe24dd1c5b1196644116607" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>double</type>
@@ -675,7 +675,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="146" column="15" bodyfile="src/Global.cpp" bodystart="146" bodyend="146"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" line="146" column="15" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" bodystart="146" bodyend="146"/>
       </memberdef>
       <memberdef kind="function" id="_global_8cpp_1a2fb8f9398334dcfcab2e1f03b01877d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -717,7 +717,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="155" column="8" bodyfile="src/Global.cpp" bodystart="155" bodyend="160"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" line="155" column="8" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp" bodystart="155" bodyend="160"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -852,6 +852,6 @@
 <codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>sqrt(pow(x_mod,<sp/>2)<sp/>+<sp/>pow(y_mod,<sp/>2));</highlight></codeline>
 <codeline lineno="160"><highlight class="normal">}</highlight></codeline>
     </programlisting>
-    <location file="src/Global.cpp"/>
+    <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp"/>
   </compounddef>
 </doxygen>

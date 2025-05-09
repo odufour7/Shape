@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.13.2" xml:lang="en-US">
+  <compounddef id="namespacetest" kind="namespace" language="Python">
+    <compoundname>test</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="test_8py_1aea033cee175df249152c55aaadf1d3e4" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>test.libname</definition>
+        <argsstring></argsstring>
+        <name>libname</name>
+        <qualifiedname>test.libname</qualifiedname>
+        <initializer>=  str(pathlib.Path().absolute() / &quot;build/libCrowdMechanics.so&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/test.py" line="6" column="1" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/test.py" bodystart="6" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="test_8py_1a417d08f2186c4e2a71f44247569c8d58" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>test.c_lib</definition>
+        <argsstring></argsstring>
+        <name>c_lib</name>
+        <qualifiedname>test.c_lib</qualifiedname>
+        <initializer>=  ctypes.CDLL(libname)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/test.py" line="7" column="1" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/test.py" bodystart="7" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="test_8py_1a96a32997f6021bb915482e16332e10c0" prot="public" static="no" mutable="no">
+        <type>list</type>
+        <definition>list test.files</definition>
+        <argsstring></argsstring>
+        <name>files</name>
+        <qualifiedname>test.files</qualifiedname>
+        <initializer>=  [
+    b&quot;/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/tutorials/mechanical_layer/Parameters.xml&quot;,
+    b&quot;/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/data/xml/crowd_ANSURII_tutorial/Materials.xml&quot;,
+    b&quot;/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/data/xml/crowd_ANSURII_tutorial/Geometry.xml&quot;,
+    b&quot;/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/data/xml/crowd_ANSURII_tutorial/Agents.xml&quot;,
+    b&quot;/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/data/xml/crowd_ANSURII_tutorial/AgentDynamics.xml&quot;,
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/test.py" line="10" column="1" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/test.py" bodystart="10" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="test_8py_1ac6e5c5012213ab4558164fa63dfb619f" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>test.nFiles</definition>
+        <argsstring></argsstring>
+        <name>nFiles</name>
+        <qualifiedname>test.nFiles</qualifiedname>
+        <initializer>=  len(files)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/test.py" line="18" column="1" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/test.py" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="test_8py_1aafc0a91239b8512ac0c6a74a257d32e4" prot="public" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple test.filesInput</definition>
+        <argsstring></argsstring>
+        <name>filesInput</name>
+        <qualifiedname>test.filesInput</qualifiedname>
+        <initializer>=  (ctypes.c_char_p * nFiles)()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/test.py" line="19" column="1" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/test.py" bodystart="19" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/test.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

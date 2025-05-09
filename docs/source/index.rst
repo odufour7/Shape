@@ -19,6 +19,7 @@ Welcome to the official shapes package documentation! This guide provides compre
    :maxdepth: 2
    :caption: TUTORIALS
 
+   run_minimal_example
    tutorials_config_files
    tutorials_mechanical_layer
 

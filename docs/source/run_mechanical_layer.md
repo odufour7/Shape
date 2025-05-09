@@ -8,7 +8,7 @@ The C++ code has been written to be easily usable with the Python ctypes library
 
 The following minimal code is sufficient to call the simulation, assuming we run it from the root directory of the library:
 
-```
+```python
 import pathlib
 import ctypes
 
@@ -41,7 +41,7 @@ c_lib.CrowdMechanics(filesInput)
 
 Assuming you have built ```CrowdMechanics``` as a shared library as intended, the following minimal code will run the simulation:
 
-```
+```c++
 //  Include the main header of the library
 #include "CrowdMechanics.h"
 
@@ -60,7 +60,7 @@ int main(void)
 }
 ```
 In order to compile this code, the include paths should be mentioned, either explicitly or in environment variables. The library path should be mentioned as well, for example (assuming compilation from the root directory of ```CrowdMechanics```)
-```
+```bash
 g++ -Iinclude -I3rdparty/tinyxml -o test test.cpp -Lbuild -lCrowdMechanics
 ```
 In order for the linking to work when executing, the path to the library should also be mentioned in an environment variable (ie ```LD_LIBRARY_PATH``` on MacOsX and Linux).
