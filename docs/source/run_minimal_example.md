@@ -1,24 +1,10 @@
-# Minimal Crowd Simulation Example
+# Minimal crowd simulation example
 
 Follow these steps to run a minimal example of a crowd simulation:
 
 ---
 
-## 1. Create Result Folders
-
-Create two directories to store simulation results:
-
-- `Dynamic`
-- `Static`
-
-You can do this from the terminal:
-```bash
-mkdir Dynamic Static
-```
-
----
-
-## 2. Export Crowd Configuration Files
+## 1. Export crowd configuration files
 
 1. Open the [**Streamlit app**](https://crowdmecha.streamlit.app/).
 2. Go to the **Crowd** tab.
@@ -28,21 +14,29 @@ mkdir Dynamic Static
 
 ---
 
-## 3. Create a `Parameters.xml` File
+## 2. Create result folders
+
+Create two directories to store simulation results:
+- `Dynamic`
+- `Static`
+
+---
+
+## 3. Create a `Parameters.xml` file
 
 Create a `Parameters.xml` file specifying the absolute paths to your `Static` and `Dynamic` directories. Use the following template (replace the paths with your actual folder locations):
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <Parameters>
-    <Directories Static="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/tutorials/mechanical_layer/Static/" Dynamic="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/tutorials/mechanical_layer/Dynamic/"/>
+    <Directories Static="/AbsolutePath/Static/" Dynamic="/AbsolutePath/Dynamic/"/>
     <Times TimeStep="0.1" TimeStepMechanical="1e-5"/>
 </Parameters>
 ```
 
 ---
 
-## 4. Build the C++ Project
+## 4. Build the C++ project
 
 Navigate to the root of the `mechanical_layer` repository and build the project:
 
@@ -53,9 +47,9 @@ cmake --build build
 
 ---
 
-## 5. Run the Python Simulation Script
+## 5. Run the following python simulation script
 
-Within the `mechanical_layer` directory, run the following Python code (adapt as needed):
+Within the `mechanical_layer` directory, run the following Python code (adapt as needed) taking care of replacing `/AbsolutePath/` with the correct folder path:
 
 ```python
 import ctypes
@@ -68,11 +62,11 @@ c_lib = ctypes.CDLL(libname)
 
 # Input of the CrowdMechanics main function
 files = [
-    b"/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/tutorials/mechanical_layer/Parameters.xml",
-    b"/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/data/xml/crowd_ANSURII_tutorial/Materials.xml",
-    b"/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/data/xml/crowd_ANSURII_tutorial/Geometry.xml",
-    b"/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/data/xml/crowd_ANSURII_tutorial/Agents.xml",
-    b"/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/data/xml/crowd_ANSURII_tutorial/AgentDynamics.xml",
+    b"/AbsolutePath/Parameters.xml",
+    b"/AbsolutePath/Materials.xml",
+    b"/AbsolutePath/Geometry.xml",
+    b"/AbsolutePath/Agents.xml",
+    b"/AbsolutePath/AgentDynamics.xml",
 ]
 # Convert the files variable to something ctypes will understand
 nFiles = len(files)
@@ -86,6 +80,31 @@ filesInput[:] = files
 
 # The actual call to the library
 c_lib.CrowdMechanics(filesInput)
+```
+
+---
+
+## 6. Or run the following c++ simulation script
+
+Within the `mechanical_layer` directory, run the following c++ code (adapt as needed) taking care of replacing `/AbsolutePath/` with the correct folder path:
+
+```c++
+//  Include the main header of the library
+#include "CrowdMechanics.h"
+
+int main(void)
+{
+    char* files[5] =
+        {"/AbsolutePath/Parameters.xml",
+         "Materials.xml",
+         "Geometry.xml",
+         "Agents.xml",
+         "AgentDynamics.xml"};
+    //  Call the library
+    CrowdMechanics(files);
+
+    return 0;
+}
 ```
 
 ---

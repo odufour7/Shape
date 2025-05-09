@@ -337,6 +337,11 @@ Variables
 .. toctree::
    :maxdepth: 5
 
+   variable__global_8h_1a6ef6c78109b8fcb63fe1cbbc85b1365f.rst
+
+.. toctree::
+   :maxdepth: 5
+
    variable__global_8cpp_1a6ef6c78109b8fcb63fe1cbbc85b1365f.rst
 
 .. toctree::
@@ -398,6 +403,11 @@ Variables
    :maxdepth: 5
 
    variable__global_8h_1adf53a33be7343d5fb8c32588235d7b5f.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable__global_8h_1a449a06862d241ed51aafc2d9f103bd33.rst
 
 .. toctree::
    :maxdepth: 5
@@ -467,7 +477,17 @@ Variables
 .. toctree::
    :maxdepth: 5
 
+   variable__global_8h_1acb0ea5b3e97d546ec59597d1e38f6da8.rst
+
+.. toctree::
+   :maxdepth: 5
+
    variable__global_8h_1a17de3a8a5c900b7b8847cf9b4db36653.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable__global_8h_1a725385e907dca1efd746427a21d02b18.rst
 
 .. toctree::
    :maxdepth: 5

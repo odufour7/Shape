@@ -84,15 +84,19 @@ Program Listing for File Global.h
        PEDESTRIAN = 0,
        WALL = 1,
    };
+   #endif   // DOXYGEN_SHOULD_SKIP_THIS
    extern double** intrinsicProperties;
    constexpr int nIntrinsicProperties = 2;
+   #if !defined(DOXYGEN_SHOULD_SKIP_THIS)
    enum __attribute__((__packed__))
    {
        YOUNG_MODULUS = 0,   //  E
        SHEAR_MODULUS = 1,   //  G
    };
+   #endif   // DOXYGEN_SHOULD_SKIP_THIS
    extern double*** binaryProperties;
    constexpr int nBinaryProperties = 5;
+   #if !defined(DOXYGEN_SHOULD_SKIP_THIS)
    enum __attribute__((__packed__))
    {
        DAMPING_NORMAL = 0,         //  Gamma_n
