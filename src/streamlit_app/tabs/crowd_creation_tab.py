@@ -319,7 +319,7 @@ def boundaries_state() -> Polygon:
     """
     if st.session_state.wall_interaction:
         boundary_x = st.sidebar.number_input(
-            "Length X",
+            "Length X (cm)",
             min_value=cst_app.DEFAULT_BOUNDARY_X_MIN,
             max_value=cst_app.DEFAULT_BOUNDARY_X_MAX,
             value=st.session_state.boundary_x,
@@ -327,7 +327,7 @@ def boundaries_state() -> Polygon:
             on_change=parameter_changed,
         )
         boundary_y = st.sidebar.number_input(
-            "Length Y",
+            "Length Y (cm)",
             min_value=cst_app.DEFAULT_BOUNDARY_Y_MIN,
             max_value=cst_app.DEFAULT_BOUNDARY_Y_MAX,
             value=st.session_state.boundary_y,

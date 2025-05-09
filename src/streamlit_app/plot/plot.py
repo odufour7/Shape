@@ -813,7 +813,7 @@ def display_crowd3D_slices_by_slices(crowd: Crowd) -> go.Figure:
             "scaleanchor": "y",
             "showgrid": False,
             "range": [x_min, x_max],
-            "title": "x [cm]",
+            "title": "X [cm]",
             "title_font": {"size": 20},
             "tickfont": {"size": 16},
         },
@@ -821,7 +821,7 @@ def display_crowd3D_slices_by_slices(crowd: Crowd) -> go.Figure:
             "scaleanchor": "x",
             "showgrid": False,
             "range": [y_min, y_max],
-            "title": "y [cm]",
+            "title": "Y [cm]",
             "title_font": {"size": 20},
             "tickfont": {"size": 16},
         },
@@ -917,6 +917,11 @@ def display_crowd3D_whole_3Dscene(crowd: Crowd) -> go.Figure:
             x_max = max(x_max, np.max(bx))
             y_max = max(y_max, np.max(by))
 
+    x_range = x_max - x_min
+    y_range = y_max - y_min
+    z_range = max(agent.shapes3D.get_height() for agent in crowd.agents)
+    max_range = max(x_range, y_range, z_range)
+
     # Set layout properties
     fig.update_layout(
         title="In 3D",
@@ -924,7 +929,12 @@ def display_crowd3D_whole_3Dscene(crowd: Crowd) -> go.Figure:
             "xaxis": {"title": "X [cm]", "range": [x_min, x_max], "title_font": {"size": 20}, "tickfont": {"size": 16}},
             "yaxis": {"title": "Y [cm]", "range": [y_min, y_max], "title_font": {"size": 20}, "tickfont": {"size": 16}},
             "zaxis": {"title": "Altitude [cm]", "title_font": {"size": 20}, "tickfont": {"size": 16}},
-            "aspectmode": "data",
+            "aspectmode": "manual",
+            "aspectratio": {
+                "x": x_range / max_range,
+                "y": y_range / max_range,
+                "z": z_range / max_range,
+            },
         },
         scene_camera={"eye": {"x": 0.05, "y": -2.3, "z": 0.8}},
         margin={"l": 0, "r": 0, "t": 25, "b": 0},

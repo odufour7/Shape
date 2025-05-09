@@ -26,7 +26,6 @@ extensions = [
     "sphinx.ext.viewcode",  # Add links to highlighted source code
     "sphinx.ext.autodoc",  # Automatically document modules/classes/functions
     "sphinx.ext.napoleon",  # Support for NumPy/Google style docstrings
-    # "sphinx.ext.autosectionlabel",  # Automatically label sections with their titles
     "sphinx_autodoc_typehints",  # Render type hints as links in docs
     "sphinx.ext.intersphinx",  # Link to external documentation (e.g., Python)
     "nbsphinx",  # Support for Jupyter notebooks
@@ -34,7 +33,7 @@ extensions = [
     "sphinx.ext.mathjax",
     "nbsphinx_link",  # Optional: Linking to external notebooks
     "breathe",  # For C++ documentation via Doxygen
-    # "exhale",  # For automatic API documentation tree with c++
+    "exhale",  # For generating API documentation from C++ code
 ]
 
 templates_path = ["_templates"]
@@ -64,30 +63,28 @@ intersphinx_mapping = {
 
 # -- Autodoc settings --------------------------------------------------------
 autodoc_default_options = {
-    "members": True,  # Include class members (methods, attributes)
-    "undoc-members": True,  # Include undocumented members in the output
+    "members": True,  # Include all members of the module/class
+    "undoc-members": True,  # Include undocumented members
     "private-members": False,  # Exclude private members (those starting with _)
 }
 
-autodoc_typehints = "description"  # Render type hints in the description instead of signatures
+autodoc_typehints = "description"  # Show type hints in the description section of the docstring
+autodoc_member_order = "bysource"  # Order members by their source code order
+
+
+# -- Exhale configuration ----------------------------------------------------
+
+exhale_args = {
+    "containmentFolder": "./api",  # Folder to contain the generated API documentation
+    "rootFileName": "library_root.rst",  # Name of the root file
+    "rootFileTitle": "Mechanical layer C++",  # Title for the root file
+    "doxygenStripFromPath": os.path.abspath(os.path.join("..", "..", "src", "mechanical_layer")),  # Relative to conf.py's location
+    "createTreeView": True,
+    "exhaleExecutesDoxygen": True,
+    "exhaleDoxygenStdin": "INPUT=../../src/mechanical_layer/src ../../src/mechanical_layer/include",  # Input directory for Doxygen
+}
 
 # -- Breathe configuration ---------------------------------------------------
 
 breathe_projects = {"mechanical_layer": os.path.abspath("../doxy_files/xml")}
 breathe_default_project = "mechanical_layer"
-
-# # -- Exhale configuration ----------------------------------------------------
-
-# exhale_args = {
-#     # Folder where API .rst files will be generated
-#     "containmentFolder": "./api",
-#     "rootFileName": "library_root.rst",
-#     "rootFileTitle": "C++ API Reference",
-#     "doxygenStripFromPath": "..",
-#     "createTreeView": True,
-# }
-
-# # -- Sphinx C++ domain settings ----------------------------------------------
-
-# primary_domain = "cpp"
-# highlight_language = "cpp"

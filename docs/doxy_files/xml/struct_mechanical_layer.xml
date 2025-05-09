@@ -1,0 +1,718 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.13.2" xml:lang="en-US">
+  <compounddef id="struct_mechanical_layer" kind="struct" language="C++" prot="public">
+    <compoundname>MechanicalLayer</compoundname>
+    <includes refid="_mechanical_layer_8h" local="no">MechanicalLayer.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="struct_mechanical_layer_1acbd8340f8c0c82ba8f3717eb7598c082" prot="private" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned MechanicalLayer::nb_active_agents</definition>
+        <argsstring></argsstring>
+        <name>nb_active_agents</name>
+        <qualifiedname>MechanicalLayer::nb_active_agents</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="38" column="14" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mechanical_layer_1a0d550a287d4362b687783ec336fad10c" prot="private" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned MechanicalLayer::nb_active_shapes</definition>
+        <argsstring></argsstring>
+        <name>nb_active_shapes</name>
+        <qualifiedname>MechanicalLayer::nb_active_shapes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="39" column="14" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mechanical_layer_1a1fd7edad63dad37a436eb0aa33c2a4d3" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double2 &gt;</type>
+        <definition>std::vector&lt;double2&gt; MechanicalLayer::vgn</definition>
+        <argsstring></argsstring>
+        <name>vgn</name>
+        <qualifiedname>MechanicalLayer::vgn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="40" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mechanical_layer_1afebf27fa2199d3457cc6c9750809892c" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double2 &gt;</type>
+        <definition>std::vector&lt;double2&gt; MechanicalLayer::vgnp1</definition>
+        <argsstring></argsstring>
+        <name>vgnp1</name>
+        <qualifiedname>MechanicalLayer::vgnp1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="41" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mechanical_layer_1ae8054839f11cc1b49b68eb7ab8e82e9e" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double2 &gt;</type>
+        <definition>std::vector&lt;double2&gt; MechanicalLayer::rgcomp</definition>
+        <argsstring></argsstring>
+        <name>rgcomp</name>
+        <qualifiedname>MechanicalLayer::rgcomp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="42" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mechanical_layer_1af589b17443d56c6e2cbb6d88eaca8de5" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double2 &gt;</type>
+        <definition>std::vector&lt;double2&gt; MechanicalLayer::rgn</definition>
+        <argsstring></argsstring>
+        <name>rgn</name>
+        <qualifiedname>MechanicalLayer::rgn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="43" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mechanical_layer_1a96513bb9b2356abfe10a25ac12741174" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double2 &gt;</type>
+        <definition>std::vector&lt;double2&gt; MechanicalLayer::rgnp1</definition>
+        <argsstring></argsstring>
+        <name>rgnp1</name>
+        <qualifiedname>MechanicalLayer::rgnp1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="44" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mechanical_layer_1a05dd26a3707b9797590402be3082dc6f" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double2 &gt;</type>
+        <definition>std::vector&lt;double2&gt; MechanicalLayer::delta</definition>
+        <argsstring></argsstring>
+        <name>delta</name>
+        <qualifiedname>MechanicalLayer::delta</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="45" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mechanical_layer_1aef267abd44a8a9227d3ba187d2499505" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; MechanicalLayer::thetn</definition>
+        <argsstring></argsstring>
+        <name>thetn</name>
+        <qualifiedname>MechanicalLayer::thetn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="47" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mechanical_layer_1ad16780becbcd653566ce2762b7b92155" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; MechanicalLayer::thetnp1</definition>
+        <argsstring></argsstring>
+        <name>thetnp1</name>
+        <qualifiedname>MechanicalLayer::thetnp1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="48" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mechanical_layer_1a1e9baf1b61b4b6a8f3263ddc8cb66ea3" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; MechanicalLayer::wn</definition>
+        <argsstring></argsstring>
+        <name>wn</name>
+        <qualifiedname>MechanicalLayer::wn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="49" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mechanical_layer_1a81b191f31d33c3d705d5bea8f74c415d" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; MechanicalLayer::wnp1</definition>
+        <argsstring></argsstring>
+        <name>wnp1</name>
+        <qualifiedname>MechanicalLayer::wnp1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="50" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mechanical_layer_1ad4fbeb99aa5aae3b6995cda682f704a7" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; MechanicalLayer::wdesired</definition>
+        <argsstring></argsstring>
+        <name>wdesired</name>
+        <qualifiedname>MechanicalLayer::wdesired</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="51" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mechanical_layer_1a99f8b6dc3cfba590e569761a2336c9df" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double2 &gt;</type>
+        <definition>std::vector&lt;double2&gt; MechanicalLayer::Fp</definition>
+        <argsstring></argsstring>
+        <name>Fp</name>
+        <qualifiedname>MechanicalLayer::Fp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="53" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mechanical_layer_1a60c8f918cc6cf2b82624edc2865a3d20" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double2 &gt;</type>
+        <definition>std::vector&lt;double2&gt; MechanicalLayer::Forthon</definition>
+        <argsstring></argsstring>
+        <name>Forthon</name>
+        <qualifiedname>MechanicalLayer::Forthon</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="54" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mechanical_layer_1a030867d5f403acd81e57d48d74d17e8e" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double2 &gt;</type>
+        <definition>std::vector&lt;double2&gt; MechanicalLayer::Ftn</definition>
+        <argsstring></argsstring>
+        <name>Ftn</name>
+        <qualifiedname>MechanicalLayer::Ftn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="55" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mechanical_layer_1a9a648518dc07c5ab67612b4d6f4f4d6f" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; MechanicalLayer::taun</definition>
+        <argsstring></argsstring>
+        <name>taun</name>
+        <qualifiedname>MechanicalLayer::taun</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="56" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mechanical_layer_1af42801711cb4eaf47ff74c4fc94f9447" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::list&lt; int &gt; &gt;</type>
+        <definition>std::vector&lt;std::list&lt;int&gt; &gt; MechanicalLayer::neighbours</definition>
+        <argsstring></argsstring>
+        <name>neighbours</name>
+        <qualifiedname>MechanicalLayer::neighbours</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="57" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mechanical_layer_1a51c46db9390dd1a4619c5736219239bd" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; unsigned &gt;</type>
+        <definition>std::vector&lt;unsigned&gt; MechanicalLayer::active_shapeIDagent</definition>
+        <argsstring></argsstring>
+        <name>active_shapeIDagent</name>
+        <qualifiedname>MechanicalLayer::active_shapeIDagent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="58" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mechanical_layer_1a00287374db8ca70da180f55ee6fb02cd" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; unsigned &gt;</type>
+        <definition>std::vector&lt;unsigned&gt; MechanicalLayer::active_shapeIDshape_crowd</definition>
+        <argsstring></argsstring>
+        <name>active_shapeIDshape_crowd</name>
+        <qualifiedname>MechanicalLayer::active_shapeIDshape_crowd</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="59" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mechanical_layer_1abd1438db7007cbd09531f8544021e10b" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; MechanicalLayer::radius</definition>
+        <argsstring></argsstring>
+        <name>radius</name>
+        <qualifiedname>MechanicalLayer::radius</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="60" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mechanical_layer_1a8c51cfd2ca3b50989175fa3c5e2bd99d" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; unsigned &gt;</type>
+        <definition>std::vector&lt;unsigned&gt; MechanicalLayer::size_agents</definition>
+        <argsstring></argsstring>
+        <name>size_agents</name>
+        <qualifiedname>MechanicalLayer::size_agents</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="61" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mechanical_layer_1a9012efef9b4c969a138edf3e78d50589" prot="private" static="no" mutable="no">
+        <type>std::map&lt; unsigned, unsigned &gt;</type>
+        <definition>std::map&lt;unsigned, unsigned&gt; MechanicalLayer::agentIds</definition>
+        <argsstring></argsstring>
+        <name>agentIds</name>
+        <qualifiedname>MechanicalLayer::agentIds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="62" column="14" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mechanical_layer_1a5387063855aacf76e4b1bbbc7df64c85" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; unsigned &gt;</type>
+        <definition>std::vector&lt;unsigned&gt; MechanicalLayer::agentActiveIds</definition>
+        <argsstring></argsstring>
+        <name>agentActiveIds</name>
+        <qualifiedname>MechanicalLayer::agentActiveIds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="63" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mechanical_layer_1aca4fc5ae809f093b28c14f0f91d1a2d0" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; unsigned &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;unsigned&gt; &gt; MechanicalLayer::neighbours_shape</definition>
+        <argsstring></argsstring>
+        <name>neighbours_shape</name>
+        <qualifiedname>MechanicalLayer::neighbours_shape</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="64" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mechanical_layer_1a7c236ee202268046bf379bdba937c6a3" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; unsigned &gt;</type>
+        <definition>std::vector&lt;unsigned&gt; MechanicalLayer::agentIDshape</definition>
+        <argsstring></argsstring>
+        <name>agentIDshape</name>
+        <qualifiedname>MechanicalLayer::agentIDshape</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="65" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mechanical_layer_1a2a5aaf2c9678636c7b59bc3f391fdc27" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; MechanicalLayer::masses</definition>
+        <argsstring></argsstring>
+        <name>masses</name>
+        <qualifiedname>MechanicalLayer::masses</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="66" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mechanical_layer_1acd4ad4e383961321eec5608f89b8b92d" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; MechanicalLayer::mois</definition>
+        <argsstring></argsstring>
+        <name>mois</name>
+        <qualifiedname>MechanicalLayer::mois</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="67" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mechanical_layer_1ac6acda2457f8eba8685457c13cc71829" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double2 &gt;</type>
+        <definition>std::vector&lt;double2&gt; MechanicalLayer::damping</definition>
+        <argsstring></argsstring>
+        <name>damping</name>
+        <qualifiedname>MechanicalLayer::damping</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="68" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mechanical_layer_1a87e0b261b0e90c4ffe21e52451503f17" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::pair&lt; unsigned, unsigned &gt;, double2 &gt;</type>
+        <definition>std::map&lt;std::pair&lt;unsigned, unsigned&gt;, double2&gt; MechanicalLayer::slip</definition>
+        <argsstring></argsstring>
+        <name>slip</name>
+        <qualifiedname>MechanicalLayer::slip</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="71" column="14" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mechanical_layer_1a2e73b5f8e78a5efe297ca7b85c5df739" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::tuple&lt; unsigned, int, int &gt;, double2 &gt;</type>
+        <definition>std::map&lt;std::tuple&lt;unsigned, int, int&gt;, double2&gt; MechanicalLayer::slip_wall</definition>
+        <argsstring></argsstring>
+        <name>slip_wall</name>
+        <qualifiedname>MechanicalLayer::slip_wall</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="72" column="14" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mechanical_layer_1ac0252932939e4b8d6ab9b6eb42b04e4f" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::pair&lt; unsigned, unsigned &gt;, std::array&lt; double2, 3 &gt; &gt;</type>
+        <definition>std::map&lt;std::pair&lt;unsigned, unsigned&gt;, std::array&lt;double2, 3&gt; &gt; MechanicalLayer::interactionsOutput</definition>
+        <argsstring></argsstring>
+        <name>interactionsOutput</name>
+        <qualifiedname>MechanicalLayer::interactionsOutput</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="78" column="14" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mechanical_layer_1a6c34d654fe3be05e1e67580c9286b260" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::tuple&lt; unsigned, int, int &gt;, std::array&lt; double2, 3 &gt; &gt;</type>
+        <definition>std::map&lt;std::tuple&lt;unsigned, int, int&gt;, std::array&lt;double2, 3&gt; &gt; MechanicalLayer::interactionsOutputWall</definition>
+        <argsstring></argsstring>
+        <name>interactionsOutputWall</name>
+        <qualifiedname>MechanicalLayer::interactionsOutputWall</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="79" column="14" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="struct_mechanical_layer_1a0bf829d4e7afd54a2df693b5c4729a05" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::tuple&lt; double2, double2, double &gt;</type>
+        <definition>tuple&lt; double2, double2, double &gt; MechanicalLayer::get_interactions</definition>
+        <argsstring>(unsigned cpt_shape, bool AtTimen)</argsstring>
+        <name>get_interactions</name>
+        <qualifiedname>MechanicalLayer::get_interactions</qualifiedname>
+        <param>
+          <type>unsigned</type>
+          <declname>cpt_shape</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>AtTimen</declname>
+        </param>
+        <briefdescription>
+<para>Calculates the interactions between a shape and all the other shapes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cpt_shape</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The index of the shape. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>AtTimen</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Flag indicating whether to calculate the forces at time n or n+1.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A tuple containing the tangential force, normal force, and torque. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="81" column="16" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/MechanicalLayer.cpp" bodystart="281" bodyend="474"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_mechanical_layer_1a53c534f15aff2820bb730d85887f0a4b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void MechanicalLayer::loop</definition>
+        <argsstring>()</argsstring>
+        <name>loop</name>
+        <qualifiedname>MechanicalLayer::loop</qualifiedname>
+        <briefdescription>
+<para>Executes the main loop of the CrowdMech class. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function updates the forces, positions, velocities, orientations, and angular velocities of the agents in the crowd simulation. It iterates over the active shapes to calculate the forces and momentum at time n, and updates the corresponding agent variables. Then, it iterates over the active agents to update their positions using the velocity Verlet algorithm. Next, it calculates the forces and momentum at time N+1 for each shape, and updates the corresponding agent variables. Finally, it updates the velocities of the agents and their angular velocities, and updates the relative positions of the shapes. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="82" column="10" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/MechanicalLayer.cpp" bodystart="490" bodyend="572"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_mechanical_layer_1a045e015db6ee46b018e0c3085ef08f74" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int MechanicalLayer::readInteractionsInputFile</definition>
+        <argsstring>(const std::string &amp;interactionsFile)</argsstring>
+        <name>readInteractionsInputFile</name>
+        <qualifiedname>MechanicalLayer::readInteractionsInputFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>interactionsFile</declname>
+        </param>
+        <briefdescription>
+<para>This function read the interactions file to store the possible already existing contacts. slip and slip_wall are the ones who get filled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>interactionsFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the file</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+return EXIT_FAILURE in case of problem with the XML file EXIT_SUCCESS otherwise </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="84" column="9" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/MechanicalLayer.cpp" bodystart="176" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_mechanical_layer_1a7abe08c3957a79371de41a99a285fe7e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; bool, bool &gt;</type>
+        <definition>pair&lt; bool, bool &gt; MechanicalLayer::existsContacts</definition>
+        <argsstring>()</argsstring>
+        <name>existsContacts</name>
+        <qualifiedname>MechanicalLayer::existsContacts</qualifiedname>
+        <briefdescription>
+<para>For output: do contacts exist? </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if so (with agents/with walls) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="85" column="15" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/MechanicalLayer.cpp" bodystart="579" bodyend="601"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_mechanical_layer_1aac7fb2491918667ad9e7d45754deae0f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void MechanicalLayer::generateInteractionsOutputFile</definition>
+        <argsstring>(const std::string &amp;interactionsFile, const std::pair&lt; bool, bool &gt; &amp;exists)</argsstring>
+        <name>generateInteractionsOutputFile</name>
+        <qualifiedname>MechanicalLayer::generateInteractionsOutputFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>interactionsFile</declname>
+        </param>
+        <param>
+          <type>const std::pair&lt; bool, bool &gt; &amp;</type>
+          <declname>exists</declname>
+        </param>
+        <briefdescription>
+<para>Outputs interactions between shapes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>interactionsFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the file to be written. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>exists</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A boolean saying if there exists agent-agent or agent-wall contacts </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="86" column="10" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/MechanicalLayer.cpp" bodystart="610" bodyend="712"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_mechanical_layer_1a649d6a6badb00c69e97cd3d96d3305ad" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>MechanicalLayer::MechanicalLayer</definition>
+        <argsstring>(std::list&lt; Agent * &gt; &amp;mech_active_agents)</argsstring>
+        <name>MechanicalLayer</name>
+        <qualifiedname>MechanicalLayer::MechanicalLayer</qualifiedname>
+        <param>
+          <type>std::list&lt; <ref refid="struct_agent" kindref="compound">Agent</ref> * &gt; &amp;</type>
+          <declname>mech_active_agents</declname>
+        </param>
+        <briefdescription>
+<para>Constructor for the <ref refid="struct_mechanical_layer" kindref="compound">MechanicalLayer</ref> class. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>It is the main function of the mechanical layer. It will &quot;prepare&quot; the mechanically active agents, read the Interactions file to get possible already existing contacts, loop on dt_mech and produce the output Interactions file.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>mech_active_agents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reference to a list of pointers to <ref refid="struct_agent" kindref="compound">Agent</ref> objects representing the active agents in the crowd. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="90" column="14" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/MechanicalLayer.cpp" bodystart="27" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_mechanical_layer_1a7ff97bf10d2b101830cc7e4b38867a63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>MechanicalLayer::~MechanicalLayer</definition>
+        <argsstring>()</argsstring>
+        <name>~MechanicalLayer</name>
+        <qualifiedname>MechanicalLayer::~MechanicalLayer</qualifiedname>
+        <briefdescription>
+<para>Destructor for the <ref refid="struct_mechanical_layer" kindref="compound">MechanicalLayer</ref> class. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Destructor for the CrowdMech class.</para>
+<para>This destructor transfers computed data to the agents. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="92" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Class representing the mechanical behavior of a crowd of pedestrians. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This class handles the mechanical interactions between pedestrians in a crowd. It keeps track of the positions, velocities, orientations, and forces acting on each pedestrian. The class also provides methods for updating the positions and velocities of the pedestrians and saving the configuration to a file. </para>
+    </detaileddescription>
+    <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="27" column="1" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" bodystart="36" bodyend="93"/>
+    <listofallmembers>
+      <member refid="struct_mechanical_layer_1a51c46db9390dd1a4619c5736219239bd" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>active_shapeIDagent</name></member>
+      <member refid="struct_mechanical_layer_1a00287374db8ca70da180f55ee6fb02cd" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>active_shapeIDshape_crowd</name></member>
+      <member refid="struct_mechanical_layer_1a5387063855aacf76e4b1bbbc7df64c85" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>agentActiveIds</name></member>
+      <member refid="struct_mechanical_layer_1a9012efef9b4c969a138edf3e78d50589" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>agentIds</name></member>
+      <member refid="struct_mechanical_layer_1a7c236ee202268046bf379bdba937c6a3" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>agentIDshape</name></member>
+      <member refid="struct_mechanical_layer_1ac6acda2457f8eba8685457c13cc71829" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>damping</name></member>
+      <member refid="struct_mechanical_layer_1a05dd26a3707b9797590402be3082dc6f" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>delta</name></member>
+      <member refid="struct_mechanical_layer_1a7abe08c3957a79371de41a99a285fe7e" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>existsContacts</name></member>
+      <member refid="struct_mechanical_layer_1a60c8f918cc6cf2b82624edc2865a3d20" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>Forthon</name></member>
+      <member refid="struct_mechanical_layer_1a99f8b6dc3cfba590e569761a2336c9df" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>Fp</name></member>
+      <member refid="struct_mechanical_layer_1a030867d5f403acd81e57d48d74d17e8e" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>Ftn</name></member>
+      <member refid="struct_mechanical_layer_1aac7fb2491918667ad9e7d45754deae0f" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>generateInteractionsOutputFile</name></member>
+      <member refid="struct_mechanical_layer_1a0bf829d4e7afd54a2df693b5c4729a05" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>get_interactions</name></member>
+      <member refid="struct_mechanical_layer_1ac0252932939e4b8d6ab9b6eb42b04e4f" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>interactionsOutput</name></member>
+      <member refid="struct_mechanical_layer_1a6c34d654fe3be05e1e67580c9286b260" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>interactionsOutputWall</name></member>
+      <member refid="struct_mechanical_layer_1a53c534f15aff2820bb730d85887f0a4b" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>loop</name></member>
+      <member refid="struct_mechanical_layer_1a2a5aaf2c9678636c7b59bc3f391fdc27" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>masses</name></member>
+      <member refid="struct_mechanical_layer_1a649d6a6badb00c69e97cd3d96d3305ad" prot="public" virt="non-virtual"><scope>MechanicalLayer</scope><name>MechanicalLayer</name></member>
+      <member refid="struct_mechanical_layer_1acd4ad4e383961321eec5608f89b8b92d" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>mois</name></member>
+      <member refid="struct_mechanical_layer_1acbd8340f8c0c82ba8f3717eb7598c082" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>nb_active_agents</name></member>
+      <member refid="struct_mechanical_layer_1a0d550a287d4362b687783ec336fad10c" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>nb_active_shapes</name></member>
+      <member refid="struct_mechanical_layer_1af42801711cb4eaf47ff74c4fc94f9447" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>neighbours</name></member>
+      <member refid="struct_mechanical_layer_1aca4fc5ae809f093b28c14f0f91d1a2d0" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>neighbours_shape</name></member>
+      <member refid="struct_mechanical_layer_1abd1438db7007cbd09531f8544021e10b" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>radius</name></member>
+      <member refid="struct_mechanical_layer_1a045e015db6ee46b018e0c3085ef08f74" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>readInteractionsInputFile</name></member>
+      <member refid="struct_mechanical_layer_1ae8054839f11cc1b49b68eb7ab8e82e9e" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>rgcomp</name></member>
+      <member refid="struct_mechanical_layer_1af589b17443d56c6e2cbb6d88eaca8de5" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>rgn</name></member>
+      <member refid="struct_mechanical_layer_1a96513bb9b2356abfe10a25ac12741174" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>rgnp1</name></member>
+      <member refid="struct_mechanical_layer_1a8c51cfd2ca3b50989175fa3c5e2bd99d" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>size_agents</name></member>
+      <member refid="struct_mechanical_layer_1a87e0b261b0e90c4ffe21e52451503f17" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>slip</name></member>
+      <member refid="struct_mechanical_layer_1a2e73b5f8e78a5efe297ca7b85c5df739" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>slip_wall</name></member>
+      <member refid="struct_mechanical_layer_1a9a648518dc07c5ab67612b4d6f4f4d6f" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>taun</name></member>
+      <member refid="struct_mechanical_layer_1aef267abd44a8a9227d3ba187d2499505" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>thetn</name></member>
+      <member refid="struct_mechanical_layer_1ad16780becbcd653566ce2762b7b92155" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>thetnp1</name></member>
+      <member refid="struct_mechanical_layer_1a1fd7edad63dad37a436eb0aa33c2a4d3" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>vgn</name></member>
+      <member refid="struct_mechanical_layer_1afebf27fa2199d3457cc6c9750809892c" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>vgnp1</name></member>
+      <member refid="struct_mechanical_layer_1ad4fbeb99aa5aae3b6995cda682f704a7" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>wdesired</name></member>
+      <member refid="struct_mechanical_layer_1a1e9baf1b61b4b6a8f3263ddc8cb66ea3" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>wn</name></member>
+      <member refid="struct_mechanical_layer_1a81b191f31d33c3d705d5bea8f74c415d" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>wnp1</name></member>
+      <member refid="struct_mechanical_layer_1a7ff97bf10d2b101830cc7e4b38867a63" prot="public" virt="non-virtual"><scope>MechanicalLayer</scope><name>~MechanicalLayer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

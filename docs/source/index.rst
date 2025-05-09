@@ -28,6 +28,6 @@ Welcome to the official shapes package documentation! This guide provides compre
    :maxdepth: 2
    :caption: API REFERENCES
 
-   mechanical_layer
+   api/library_root
    streamlit_app
    configuration

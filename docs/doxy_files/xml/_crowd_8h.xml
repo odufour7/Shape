@@ -1,0 +1,421 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.13.2" xml:lang="en-US">
+  <compounddef id="_crowd_8h" kind="file" language="C++">
+    <compoundname>Crowd.h</compoundname>
+    <includes local="no">list</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes refid="_agent_8h" local="yes">Agent.h</includes>
+    <includes refid="_global_8h" local="yes">Global.h</includes>
+    <includedby refid="_crowd_mechanics_8h" local="yes">/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/CrowdMechanics.h</includedby>
+    <includedby refid="_crowd_8cpp" local="yes">/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp</includedby>
+    <incdepgraph>
+      <node id="17">
+        <label>../3rdparty/tinyxml/tinyxml2.h</label>
+      </node>
+      <node id="5">
+        <label>Agent.h</label>
+        <link refid="_agent_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/Crowd.h</label>
+        <link refid="_crowd_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>Global.h</label>
+        <link refid="_global_8h_source"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>algorithm</label>
+      </node>
+      <node id="10">
+        <label>cmath</label>
+      </node>
+      <node id="11">
+        <label>filesystem</label>
+      </node>
+      <node id="12">
+        <label>fstream</label>
+      </node>
+      <node id="13">
+        <label>iostream</label>
+      </node>
+      <node id="14">
+        <label>iterator</label>
+      </node>
+      <node id="2">
+        <label>list</label>
+      </node>
+      <node id="15">
+        <label>map</label>
+      </node>
+      <node id="16">
+        <label>sstream</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>sys/stat.h</label>
+      </node>
+      <node id="6">
+        <label>utility</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/Crowd.h</label>
+        <link refid="_crowd_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/CrowdMechanics.h</label>
+        <link refid="_crowd_mechanics_8h_source"/>
+      </node>
+    </invincdepgraph>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="_crowd_8h_1ae47aa443676920f180b457618de5edd7" prot="public" static="no" extern="yes" mutable="no">
+        <type>std::list&lt; <ref refid="struct_agent" kindref="compound">Agent</ref> * &gt;</type>
+        <definition>std::list&lt;Agent*&gt; mech_active_agents</definition>
+        <argsstring></argsstring>
+        <name>mech_active_agents</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/Crowd.h" line="14" column="18" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp" bodystart="19" bodyend="-1" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/Crowd.h" declline="14" declcolumn="18"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="_crowd_8h_1a07436352fc2a4dd367fe377ec449ee61" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int initialiseSetting</definition>
+        <argsstring>(const std::string &amp;dynamicsFile, std::vector&lt; unsigned &gt; &amp;nb_shapes_allagents, std::vector&lt; unsigned &gt; &amp;shapeIDagent, std::vector&lt; int &gt; &amp;edges, std::vector&lt; double &gt; &amp;radius_allshapes, std::vector&lt; double &gt; &amp;masses, std::vector&lt; double &gt; &amp;mois, std::vector&lt; double2 &gt; &amp;delta_gtos)</argsstring>
+        <name>initialiseSetting</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dynamicsFile</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; unsigned &gt; &amp;</type>
+          <declname>nb_shapes_allagents</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; unsigned &gt; &amp;</type>
+          <declname>shapeIDagent</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; int &gt; &amp;</type>
+          <declname>edges</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; double &gt; &amp;</type>
+          <declname>radius_allshapes</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; double &gt; &amp;</type>
+          <declname>masses</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; double &gt; &amp;</type>
+          <declname>mois</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; double2 &gt; &amp;</type>
+          <declname>delta_gtos</declname>
+        </param>
+        <briefdescription>
+<para>The function creates all agents from the Agents (static) and agentDynamics (dynamic) XML files. It initiates the list of neighbours. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dynamicsFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The input file containing the current state and driving forces for all agents </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>nb_shapes_allagents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The number of shapes by agent (size: number of agents) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>shapeIDagent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A correspondence between the shape ids (index) and the agent (value) (size: number of shapes) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>edges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The indices of the first shape for each agent (size: number of agents + 1) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>radius_allshapes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The radii of all shapes (size: number of shapes) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>masses</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The masses of the agents </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mois</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The moment of inertia of the agents </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>delta_gtos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The relative positions of the shapes with respect to the center of mass of each agent</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>EXIT_SUCCESS if no issue with the Dynamics file EXIT_FAILURE otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/Crowd.h" line="18" column="5" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp" bodystart="37" bodyend="184" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/Crowd.h" declline="18" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="_crowd_8h_1a9147e71f48a9790e558b7caa2d53a83a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool is_mechanically_active</definition>
+        <argsstring>(const Agent *agent)</argsstring>
+        <name>is_mechanically_active</name>
+        <param>
+          <type>const <ref refid="struct_agent" kindref="compound">Agent</ref> *</type>
+          <declname>agent</declname>
+        </param>
+        <briefdescription>
+<para>Checks if the given agent is mechanically active in the crowd. An agent is considered mechanically active if it is present in the mech_active_agents container. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>agent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The agent to check. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if the agent is mechanically active, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/Crowd.h" line="22" column="6" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp" bodystart="277" bodyend="277" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/Crowd.h" declline="22" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="_crowd_8h_1aa72faf5d2b73071c176c3db4d019d397" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool get_future_collision</definition>
+        <argsstring>()</argsstring>
+        <name>get_future_collision</name>
+        <briefdescription>
+<para>Checks if there will be any future collisions between agents in the crowd. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if there will be future collisions, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/Crowd.h" line="23" column="6" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp" bodystart="284" bodyend="352" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/Crowd.h" declline="23" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="_crowd_8h_1ae71235d3057734af7fc3fa0b922867b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void determine_agents_neighbours</definition>
+        <argsstring>()</argsstring>
+        <name>determine_agents_neighbours</name>
+        <briefdescription>
+<para>Updates the list of neighbors for each agent in the crowd. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function creates the lists based on the proximity of each agent to other agents and to walls. We will consider all agents within a certain distance from one another, ie the maximum distance that can be traveled by an agent within dt seconds at max speed vMaxAgent. We multiply it by 2 in the &quot;extreme&quot; case of two pedestrians walking (running) fast towards each other. All this ensures that all agents who can potentially collide within dt are taken into account. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/Crowd.h" line="24" column="6" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp" bodystart="195" bodyend="228" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/Crowd.h" declline="24" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="_crowd_8h_1a56956a345edfef0a1f39d90f7e47b083" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void handleMechanicalLayer</definition>
+        <argsstring>(const std::string &amp;dynamicsFile)</argsstring>
+        <name>handleMechanicalLayer</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dynamicsFile</declname>
+        </param>
+        <briefdescription>
+<para>Executes the mechanical layer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function is responsible for updating the state of each agent in the Crowd. It performs the following steps:<orderedlist>
+<listitem><para>Handles mechanically active agents using the mechanical layer.</para>
+</listitem><listitem><para>Handles non-mechanically active agents (simple positional update)</para>
+</listitem><listitem><para>Generates an output file with the new position and velocity, plus their angular counterparts.</para>
+</listitem></orderedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dynamicsFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The input dynamics file will be overwritten with the output of the mechanical layer. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>The dynamics follow a simple relaxation equation, ie dv/dt = (v_des - v) / tau_mech ==&gt; v(t)= v_des (1 - e^-t/tau_mech) + v(t=0) e^-t/tau_mech</para>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/Crowd.h" line="27" column="6" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp" bodystart="241" bodyend="268" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/Crowd.h" declline="27" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="_crowd_8h_1a8207cfe8584181bf5a3f71014e3b9859" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void generateDynamicsOutputFile</definition>
+        <argsstring>(const std::string &amp;dynamicsFile)</argsstring>
+        <name>generateDynamicsOutputFile</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dynamicsFile</declname>
+        </param>
+        <briefdescription>
+<para>The function generates the final state of the agents by overwriting the input dynamics file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dynamicsFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the file. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/Crowd.h" line="29" column="6" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp" bodystart="359" bodyend="392" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/Crowd.h" declline="29" declcolumn="6"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*<sp/>Copyright<sp/>2025<sp/>&lt;Dufour<sp/>Oscar,<sp/>Maxime<sp/>Stappel,<sp/>David<sp/>Rodney,<sp/>Nicolas<sp/>Alexandre,<sp/>Institute<sp/>of<sp/>Light<sp/>and<sp/>Matter,<sp/>CNRS<sp/>UMR<sp/>5306&gt;<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>SRC_MECHANICAL_LAYER_INCLUDE_CROWD_H_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SRC_MECHANICAL_LAYER_INCLUDE_CROWD_H_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;list&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;Agent.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;Global.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">/*<sp/><sp/>Global<sp/>variable:<sp/>Mechanically<sp/>active<sp/>agents<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>std::list&lt;Agent*&gt;<sp/>mech_active_agents;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">/*<sp/><sp/>Functions<sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>Initialise<sp/>scene</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>initialiseSetting(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dynamicsFile,<sp/>std::vector&lt;unsigned&gt;&amp;<sp/>nb_shapes_allagents,<sp/>std::vector&lt;unsigned&gt;&amp;<sp/>shapeIDagent,</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;&amp;<sp/>edges,<sp/>std::vector&lt;double&gt;&amp;<sp/>radius_allshapes,<sp/>std::vector&lt;double&gt;&amp;<sp/>masses,</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;&amp;<sp/>mois,<sp/>std::vector&lt;double2&gt;&amp;<sp/>delta_gtos);</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>Prepare<sp/>mechanical<sp/>layer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_mechanically_active(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_agent" kindref="compound">Agent</ref>*<sp/>agent);</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>get_future_collision();</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>determine_agents_neighbours();</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>Handle<sp/>mechanical<sp/>layer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>handleMechanicalLayer(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dynamicsFile);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>Output</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>generateDynamicsOutputFile(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dynamicsFile);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SRC_MECHANICAL_LAYER_INCLUDE_CROWD_H_</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/Crowd.h"/>
+  </compounddef>
+</doxygen>

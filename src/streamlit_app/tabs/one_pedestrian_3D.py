@@ -278,20 +278,14 @@ def mesh_option(current_pedestrian: Agent) -> None:
     - The resulting figure is saved to a `BytesIO` object in PDF format.
     - A download button is provided in the sidebar to allow users to download the mesh as a PDF file.
     """
-    precision = st.sidebar.slider(
-        "Precision of the mesh (number of slices plotted)",
-        min_value=10,
-        max_value=len(current_pedestrian.shapes3D.shapes.keys()),
-        value=20,
-        step=1,
-    )
-
     title_progress_bar = st.text("Progress Bar")
     my_progress_bar = st.progress(0)
     status_text = st.empty()
 
     # Compute the 3D body with a mesh
-    fig_plotly_mesh: go.Figure = plot.display_body3D_mesh(current_pedestrian, precision, extra_info=(my_progress_bar, status_text))
+    fig_plotly_mesh: go.Figure = plot.display_body3D_mesh(
+        current_pedestrian, precision=len(current_pedestrian.shapes3D.shapes.keys()), extra_info=(my_progress_bar, status_text)
+    )
 
     # Display the figure
     st.plotly_chart(fig_plotly_mesh)

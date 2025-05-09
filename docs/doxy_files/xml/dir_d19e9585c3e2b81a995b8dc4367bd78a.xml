@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.13.2" xml:lang="en-US">
+  <compounddef id="dir_d19e9585c3e2b81a995b8dc4367bd78a" kind="dir">
+    <compoundname>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src</compoundname>
+    <innerfile refid="_agent_8cpp">Agent.cpp</innerfile>
+    <innerfile refid="_crowd_8cpp">Crowd.cpp</innerfile>
+    <innerfile refid="_global_8cpp">Global.cpp</innerfile>
+    <innerfile refid="_input_static_8cpp">InputStatic.cpp</innerfile>
+    <innerfile refid="_main_8cpp">Main.cpp</innerfile>
+    <innerfile refid="_mechanical_layer_8cpp">MechanicalLayer.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/"/>
+  </compounddef>
+</doxygen>

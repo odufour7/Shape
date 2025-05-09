@@ -1,5 +1,5 @@
 # This configuration is based on the LLVM style but customized.
-BasedOnStyle: LLVM
+BasedOnStyle: Google
 
 # Indentation settings
 IndentWidth: 4 # Indentation width

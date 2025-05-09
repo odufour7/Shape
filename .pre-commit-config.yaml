@@ -2,51 +2,62 @@ fail_fast: false # Continue running other hooks even if one fails
 repos:
   # Ruff: Linter and Formatter
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.11.7 # Use the latest version of Ruff
+    rev: v0.11.7
     hooks:
-      # Linting with Ruff (includes type checks if configured)
       - id: ruff
         args: ["--fix"] # Automatically fix issues where possible
-        types_or: ["python", "pyi"] # Target Python and .pyi files only
+        types_or: ["python", "pyi"]
       # Formatting with Ruff
       - id: ruff-format
 
   # Codespell: Spell checker
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.4.1 # Use the latest version of Codespell
+    rev: v2.4.1
     hooks:
       - id: codespell
         args:
-          - --skip="*.js,*.html,*.css,*.pdf,*.png,*.csv,*.pkl,*.json,*.xml" # Skip specific file types
-        types_or: ["python", "markdown"] # Apply to Python and Markdown files only
+          - --skip=*.js,*.html,*.css,*.pdf,*.png,*.csv,*.pkl,*.json,*.xml
+          - --ignore-words-list=teh,fo,bar
+        files: '\.(py|md|c|cpp|h|hpp|ipynb)$'
 
   # Mypy: Static type checker (local hook)
   - repo: local
     hooks:
       - id: mypy
-        name: Analyze with Mypy
-        entry: mypy --strict # Runs Mypy with strict settings
+        name: mypy
+        entry: mypy --strict
         language: python
-        types: ["python"] # Targets Python files only
-        files: "\\.py$" # Properly escaped regex for .py files only
+        types: ["python"]
+        files: "\\.py$"
 
   # Numpydoc Validation: Ensure docstring compliance
   - repo: https://github.com/numpy/numpydoc
-    rev: v1.8.0 # Use the latest version of numpydoc installed
+    rev: v1.8.0
     hooks:
       - id: numpydoc-validation
         files: ^src/.*\.py$
 
-  # # Test of python functions
-  # - repo: local
-  #   hooks:
-  #     - id: uv-pytest
-  #       name: Run tests with uv and pytest
-  #       entry: uv run pytest
-  #       language: system # Use 'system' to run the command directly
-  #       pass_filenames: false
-  #       always_run: true
-  #       types: ["python"]
+  # Test of Jupyter notebooks
+  - repo: local
+    hooks:
+      - id: nbmake
+        name: jupyter-notebooks
+        entry: uv run pytest --nbmake tutorials/shapes_configuration/
+        language: system # Use 'system' to run the command directly
+        pass_filenames: false # Don't pass filenames from pre-commit, since you specify the directory
+        always_run: true # Run this hook on every commit, even if no notebooks changed
+        files: ^tutorials/shapes_configuration/.*\.ipynb$ # Restrict to this directory
+
+  # Test of python functions
+  - repo: local
+    hooks:
+      - id: uv-pytest
+        name: pytest
+        entry: uv run pytest
+        language: system # Use 'system' to run the command directly
+        pass_filenames: false
+        always_run: true
+        types: ["python"]
 
   # Cppcheck: C++ static analysis
   - repo: https://github.com/pocc/pre-commit-hooks
@@ -55,9 +66,17 @@ repos:
       - id: clang-format
         args: [--style=file]
       - id: clang-tidy
-      - id: uncrustify
-        args: [-c, uncrustify.cfg]
-      - id: cppcheck
+        args: [-p=src/mechanical_layer/build]
       - id: cpplint
-        args: [--filter=-whitespace/braces]
-      - id: include-what-you-use
+        args: [--filter=-runtime/string]
+        exclude: src/mechanical_layer/3rdparty/tinyxml/tinyxml2\.(h|cpp)$
+
+  # Doxygen: Documentation generator
+  - repo: local
+    hooks:
+      - id: check-doxygen
+        name: check-doxygen
+        entry: ./check-doxygen.sh
+        files: \.(h|hpp|cpp|c)$
+        language: system
+        pass_filenames: false

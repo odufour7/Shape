@@ -1,0 +1,766 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.13.2" xml:lang="en-US">
+  <compounddef id="_crowd_8cpp" kind="file" language="C++">
+    <compoundname>Crowd.cpp</compoundname>
+    <includes refid="_crowd_8h" local="yes">Crowd.h</includes>
+    <includes local="no">iostream</includes>
+    <includes local="no">list</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes refid="_mechanical_layer_8h" local="yes">MechanicalLayer.h</includes>
+    <incdepgraph>
+      <node id="18">
+        <label>../3rdparty/tinyxml/tinyxml2.h</label>
+      </node>
+      <node id="6">
+        <label>Agent.h</label>
+        <link refid="_agent_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Crowd.h</label>
+        <link refid="_crowd_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>Global.h</label>
+        <link refid="_global_8h_source"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>MechanicalLayer.h</label>
+        <link refid="_mechanical_layer_8h_source"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp</label>
+        <link refid="_crowd_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>algorithm</label>
+      </node>
+      <node id="20">
+        <label>array</label>
+      </node>
+      <node id="11">
+        <label>cmath</label>
+      </node>
+      <node id="12">
+        <label>filesystem</label>
+      </node>
+      <node id="13">
+        <label>fstream</label>
+      </node>
+      <node id="14">
+        <label>iostream</label>
+      </node>
+      <node id="15">
+        <label>iterator</label>
+      </node>
+      <node id="3">
+        <label>list</label>
+      </node>
+      <node id="16">
+        <label>map</label>
+      </node>
+      <node id="21">
+        <label>set</label>
+      </node>
+      <node id="17">
+        <label>sstream</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>sys/stat.h</label>
+      </node>
+      <node id="22">
+        <label>tuple</label>
+      </node>
+      <node id="23">
+        <label>unordered_set</label>
+      </node>
+      <node id="7">
+        <label>utility</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="_crowd_8cpp_1a06db7cc3077e44422fcc5e99a7d59473" prot="public" static="no" mutable="no">
+        <type>list&lt; <ref refid="struct_agent" kindref="compound">Agent</ref> * &gt;</type>
+        <definition>list&lt;Agent*&gt; mech_active_agents</definition>
+        <argsstring></argsstring>
+        <name>mech_active_agents</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp" line="19" column="6" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp" bodystart="19" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="_crowd_8cpp_1a07436352fc2a4dd367fe377ec449ee61" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int initialiseSetting</definition>
+        <argsstring>(const std::string &amp;dynamicsFile, std::vector&lt; unsigned &gt; &amp;nb_shapes_allagents, std::vector&lt; unsigned &gt; &amp;shapeIDagent, std::vector&lt; int &gt; &amp;edges, std::vector&lt; double &gt; &amp;radius_allshapes, std::vector&lt; double &gt; &amp;masses, std::vector&lt; double &gt; &amp;mois, std::vector&lt; double2 &gt; &amp;delta_gtos)</argsstring>
+        <name>initialiseSetting</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dynamicsFile</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; unsigned &gt; &amp;</type>
+          <declname>nb_shapes_allagents</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; unsigned &gt; &amp;</type>
+          <declname>shapeIDagent</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; int &gt; &amp;</type>
+          <declname>edges</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; double &gt; &amp;</type>
+          <declname>radius_allshapes</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; double &gt; &amp;</type>
+          <declname>masses</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; double &gt; &amp;</type>
+          <declname>mois</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; double2 &gt; &amp;</type>
+          <declname>delta_gtos</declname>
+        </param>
+        <briefdescription>
+<para>The function creates all agents from the Agents (static) and agentDynamics (dynamic) XML files. It initiates the list of neighbours. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dynamicsFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The input file containing the current state and driving forces for all agents </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>nb_shapes_allagents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The number of shapes by agent (size: number of agents) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>shapeIDagent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A correspondence between the shape ids (index) and the agent (value) (size: number of shapes) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>edges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The indices of the first shape for each agent (size: number of agents + 1) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>radius_allshapes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The radii of all shapes (size: number of shapes) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>masses</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The masses of the agents </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mois</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The moment of inertia of the agents </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>delta_gtos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The relative positions of the shapes with respect to the center of mass of each agent</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>EXIT_SUCCESS if no issue with the Dynamics file EXIT_FAILURE otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp" line="37" column="5" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp" bodystart="37" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="_crowd_8cpp_1ae71235d3057734af7fc3fa0b922867b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void determine_agents_neighbours</definition>
+        <argsstring>()</argsstring>
+        <name>determine_agents_neighbours</name>
+        <briefdescription>
+<para>Updates the list of neighbors for each agent in the crowd. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function creates the lists based on the proximity of each agent to other agents and to walls. We will consider all agents within a certain distance from one another, ie the maximum distance that can be traveled by an agent within dt seconds at max speed vMaxAgent. We multiply it by 2 in the &quot;extreme&quot; case of two pedestrians walking (running) fast towards each other. All this ensures that all agents who can potentially collide within dt are taken into account. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp" line="195" column="6" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp" bodystart="195" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="_crowd_8cpp_1a56956a345edfef0a1f39d90f7e47b083" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void handleMechanicalLayer</definition>
+        <argsstring>(const std::string &amp;dynamicsFile)</argsstring>
+        <name>handleMechanicalLayer</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dynamicsFile</declname>
+        </param>
+        <briefdescription>
+<para>Executes the mechanical layer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function is responsible for updating the state of each agent in the Crowd. It performs the following steps:<orderedlist>
+<listitem><para>Handles mechanically active agents using the mechanical layer.</para>
+</listitem><listitem><para>Handles non-mechanically active agents (simple positional update)</para>
+</listitem><listitem><para>Generates an output file with the new position and velocity, plus their angular counterparts.</para>
+</listitem></orderedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dynamicsFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The input dynamics file will be overwritten with the output of the mechanical layer. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>The dynamics follow a simple relaxation equation, ie dv/dt = (v_des - v) / tau_mech ==&gt; v(t)= v_des (1 - e^-t/tau_mech) + v(t=0) e^-t/tau_mech</para>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp" line="241" column="6" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp" bodystart="241" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="_crowd_8cpp_1a9147e71f48a9790e558b7caa2d53a83a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool is_mechanically_active</definition>
+        <argsstring>(const Agent *agent)</argsstring>
+        <name>is_mechanically_active</name>
+        <param>
+          <type>const <ref refid="struct_agent" kindref="compound">Agent</ref> *</type>
+          <declname>agent</declname>
+        </param>
+        <briefdescription>
+<para>Checks if the given agent is mechanically active in the crowd. An agent is considered mechanically active if it is present in the mech_active_agents container. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>agent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The agent to check. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if the agent is mechanically active, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp" line="277" column="6" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp" bodystart="277" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="_crowd_8cpp_1aa72faf5d2b73071c176c3db4d019d397" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool get_future_collision</definition>
+        <argsstring>()</argsstring>
+        <name>get_future_collision</name>
+        <briefdescription>
+<para>Checks if there will be any future collisions between agents in the crowd. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if there will be future collisions, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp" line="284" column="6" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp" bodystart="284" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="_crowd_8cpp_1a8207cfe8584181bf5a3f71014e3b9859" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void generateDynamicsOutputFile</definition>
+        <argsstring>(const std::string &amp;dynamicsFile)</argsstring>
+        <name>generateDynamicsOutputFile</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dynamicsFile</declname>
+        </param>
+        <briefdescription>
+<para>The function generates the final state of the agents by overwriting the input dynamics file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dynamicsFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the file. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp" line="359" column="6" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp" bodystart="359" bodyend="392"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/><sp/><sp/><sp/>Copyright<sp/>2025<sp/>&lt;Dufour<sp/>Oscar,<sp/>Maxime<sp/>Stappel,<sp/>David<sp/>Rodney,<sp/>Nicolas<sp/>Alexandre,<sp/>Institute<sp/>of<sp/>Light<sp/>and<sp/>Matter,<sp/>CNRS<sp/>UMR<sp/>5306&gt;</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/><sp/><sp/><sp/>Crowd.cpp<sp/>is<sp/>responsible<sp/>for<sp/>setting<sp/>up<sp/>the<sp/>global<sp/>situation,<sp/>decide<sp/>which<sp/>agents</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/><sp/><sp/><sp/>are<sp/>mechanically<sp/>active<sp/>and<sp/>call<sp/>the<sp/>mechanical<sp/>layer<sp/>for<sp/>the<sp/>latter.</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;Crowd.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;list&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;MechanicalLayer.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">std::string,<sp/>std::vector,<sp/>std::list,<sp/>std::cerr,<sp/>std::cout,<sp/>std::endl,<sp/>std::ranges::find,<sp/>std::ofstream;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Global<sp/>variable:<sp/>Mechanically<sp/>active<sp/>agents</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal">list&lt;Agent*&gt;<sp/>mech_active_agents;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>initialiseSetting(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dynamicsFile,<sp/>std::vector&lt;unsigned&gt;&amp;<sp/>nb_shapes_allagents,<sp/>std::vector&lt;unsigned&gt;&amp;<sp/>shapeIDagent,</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;&amp;<sp/>edges,<sp/>std::vector&lt;double&gt;&amp;<sp/>radius_allshapes,<sp/>std::vector&lt;double&gt;&amp;<sp/>masses,</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;&amp;<sp/>mois,<sp/>std::vector&lt;double2&gt;&amp;<sp/>delta_gtos)</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/><sp/>Allocate<sp/>agents<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>agents<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="struct_agent" kindref="compound">Agent</ref>*[nAgents];</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/><sp/>Create<sp/>ids<sp/>of<sp/>shapes<sp/>for<sp/>agents<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>vector&lt;unsigned&gt;<sp/>Id_shapes(shapeIDagent.size());</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>shapeIDagent.size();<sp/>i++)</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Id_shapes[i]<sp/>=<sp/>i;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/><sp/>Create<sp/>agents:<sp/>read<sp/>the<sp/>dynamics<sp/>file<sp/>first<sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>tinyxml2::XMLDocument<sp/>document;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>document.LoadFile(dynamicsFile.data());</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(document.ErrorID()<sp/>!=<sp/>0)</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Error:<sp/>Could<sp/>not<sp/>load<sp/>or<sp/>parse<sp/>XML<sp/>file<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>dynamicsFile<sp/>&lt;&lt;<sp/>endl;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>EXIT_FAILURE;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Read<sp/>the<sp/>Agents<sp/>block</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>tinyxml2::XMLElement*<sp/>agentsElement<sp/>=<sp/>document.FirstChildElement(</highlight><highlight class="stringliteral">&quot;Agents&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!agentsElement)</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Error:<sp/>agents<sp/>must<sp/>be<sp/>embedded<sp/>in<sp/>\&quot;Agents\&quot;<sp/>tag!&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>endl;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>EXIT_FAILURE;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>tinyxml2::XMLElement*<sp/>agentElement<sp/>=<sp/>agentsElement-&gt;FirstChildElement(</highlight><highlight class="stringliteral">&quot;Agent&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!agentElement)</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Error:<sp/>no<sp/>Agent<sp/>tag<sp/>present<sp/>in<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>dynamicsFile<sp/>&lt;&lt;<sp/>endl;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>EXIT_FAILURE;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>agentCounter<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(agentElement<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>agentId<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>a;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>agentElement-&gt;QueryStringAttribute(</highlight><highlight class="stringliteral">&quot;Id&quot;</highlight><highlight class="normal">,<sp/>&amp;agentId);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!agentId)</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Error:<sp/>agent<sp/>tag<sp/>with<sp/>no<sp/>id<sp/>in<sp/>dynamics<sp/>file&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>endl;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>EXIT_FAILURE;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!agentMap.contains(agentId))</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Error:<sp/>unknown<sp/>agent<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>agentId<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>in<sp/>dynamics<sp/>file&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>endl;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>EXIT_FAILURE;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>a<sp/>=<sp/>agentMap[agentId];</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>ID_agent(a);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vector&lt;double2&gt;<sp/>delta_gtos_curr(&amp;delta_gtos[edges[a]],<sp/>&amp;delta_gtos[edges[a<sp/>+<sp/>1]]);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>double2<sp/>shoulders_direction(delta_gtos[edges[a<sp/>+<sp/>1]<sp/>-<sp/>1]<sp/>-<sp/>delta_gtos[edges[a]]);<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>from<sp/>left<sp/>to<sp/>right</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>double2<sp/>orientation_vec({-shoulders_direction.second,<sp/>shoulders_direction.first});<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>normal<sp/>to<sp/>the<sp/>shoulders<sp/>direction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>theta_body_init(0.);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!(orientation_vec.first<sp/>==<sp/>0.<sp/>&amp;&amp;<sp/>orientation_vec.second<sp/>==<sp/>0.))</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>theta_body_init<sp/>=<sp/>atan2(orientation_vec.second,<sp/>orientation_vec.first);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vector&lt;double&gt;<sp/>radius_shapes(&amp;radius_allshapes[edges[a]],<sp/>&amp;radius_allshapes[edges[a<sp/>+<sp/>1]]);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>vector&lt;unsigned&gt;<sp/>Ids_shapes_agent(&amp;Id_shapes[edges[a]],<sp/>&amp;Id_shapes[edges[a<sp/>+<sp/>1]]);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>mass_curr(masses[a]),<sp/>moi_curr(mois[a]);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Kinematics<sp/>and<sp/>Dynamics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>tinyxml2::XMLElement*<sp/>kinematicsElement<sp/>=<sp/>agentElement-&gt;FirstChildElement(</highlight><highlight class="stringliteral">&quot;Kinematics&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!kinematicsElement)</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Error:<sp/>no<sp/>Kinematics<sp/>tag<sp/>present<sp/>for<sp/>agent<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>agentId<sp/>&lt;&lt;<sp/>endl;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>EXIT_FAILURE;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>buffer<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(kinematicsElement-&gt;QueryStringAttribute(</highlight><highlight class="stringliteral">&quot;Position&quot;</highlight><highlight class="normal">,<sp/>&amp;buffer)<sp/>!=<sp/>tinyxml2::XML_SUCCESS)</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Error:<sp/>Could<sp/>not<sp/>parse<sp/>agent<sp/>position<sp/>from<sp/>XML<sp/>file<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>dynamicsFile<sp/>&lt;&lt;<sp/>endl;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>EXIT_FAILURE;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[rcPosition,<sp/>position]<sp/>=<sp/>parse2DComponents(buffer);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(rcPosition<sp/>!=<sp/>EXIT_SUCCESS)</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Error:<sp/>Could<sp/>not<sp/>parse<sp/>corner<sp/>coordinates<sp/>from<sp/>XML<sp/>file<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>dynamicsFile<sp/>&lt;&lt;<sp/>endl;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>EXIT_FAILURE;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(kinematicsElement-&gt;QueryStringAttribute(</highlight><highlight class="stringliteral">&quot;Velocity&quot;</highlight><highlight class="normal">,<sp/>&amp;buffer)<sp/>!=<sp/>tinyxml2::XML_SUCCESS)</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Error:<sp/>Could<sp/>not<sp/>parse<sp/>agent<sp/>velocity<sp/>from<sp/>XML<sp/>file<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>dynamicsFile<sp/>&lt;&lt;<sp/>endl;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>EXIT_FAILURE;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[rcVelocity,<sp/>velocity]<sp/>=<sp/>parse2DComponents(buffer);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(rcVelocity<sp/>!=<sp/>EXIT_SUCCESS)</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Error:<sp/>Could<sp/>not<sp/>parse<sp/>corner<sp/>coordinates<sp/>from<sp/>XML<sp/>file<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>dynamicsFile<sp/>&lt;&lt;<sp/>endl;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>EXIT_FAILURE;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>theta,<sp/>omega;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(kinematicsElement-&gt;QueryDoubleAttribute(</highlight><highlight class="stringliteral">&quot;theta&quot;</highlight><highlight class="normal">,<sp/>&amp;theta)<sp/>!=<sp/>tinyxml2::XML_SUCCESS)</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Error:<sp/>could<sp/>not<sp/>get<sp/>orientation<sp/>of<sp/>agent<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>agentId<sp/>&lt;&lt;<sp/>endl;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(kinematicsElement-&gt;QueryDoubleAttribute(</highlight><highlight class="stringliteral">&quot;omega&quot;</highlight><highlight class="normal">,<sp/>&amp;omega)<sp/>!=<sp/>tinyxml2::XML_SUCCESS)</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Error:<sp/>could<sp/>not<sp/>get<sp/>angular<sp/>velocity<sp/>of<sp/>agent<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>agentId<sp/>&lt;&lt;<sp/>endl;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>tinyxml2::XMLElement*<sp/>dynamicsElement<sp/>=<sp/>agentElement-&gt;FirstChildElement(</highlight><highlight class="stringliteral">&quot;Dynamics&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!dynamicsElement)</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Error:<sp/>no<sp/>Dynamics<sp/>tag<sp/>present<sp/>for<sp/>agent<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>agentId<sp/>&lt;&lt;<sp/>endl;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>EXIT_FAILURE;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(dynamicsElement-&gt;QueryStringAttribute(</highlight><highlight class="stringliteral">&quot;Fp&quot;</highlight><highlight class="normal">,<sp/>&amp;buffer)<sp/>!=<sp/>tinyxml2::XML_SUCCESS)</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Error:<sp/>could<sp/>not<sp/>get<sp/>driving<sp/>force<sp/>of<sp/>agent<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>agentId<sp/>&lt;&lt;<sp/>endl;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>EXIT_FAILURE;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[rcFp,<sp/>Fp]<sp/>=<sp/>parse2DComponents(buffer);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(rcFp<sp/>!=<sp/>EXIT_SUCCESS)</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Error:<sp/>Could<sp/>not<sp/>parse<sp/>corner<sp/>coordinates<sp/>from<sp/>XML<sp/>file<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>dynamicsFile<sp/>&lt;&lt;<sp/>endl;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>EXIT_FAILURE;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>Mp;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(dynamicsElement-&gt;QueryDoubleAttribute(</highlight><highlight class="stringliteral">&quot;Mp&quot;</highlight><highlight class="normal">,<sp/>&amp;Mp)<sp/>!=<sp/>tinyxml2::XML_SUCCESS)</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Error:<sp/>could<sp/>not<sp/>get<sp/>driving<sp/>torque<sp/>of<sp/>agent<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>agentId<sp/>&lt;&lt;<sp/>endl;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>EXIT_FAILURE;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Actual<sp/>creation<sp/>of<sp/>the<sp/>Agent<sp/>object</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>agents[ID_agent]<sp/>=</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="struct_agent" kindref="compound">Agent</ref>(ID_agent,<sp/>Ids_shapes_agent,<sp/>position.first,<sp/>position.second,<sp/>velocity.first,<sp/>velocity.second,<sp/>omega,<sp/>Fp,<sp/>Mp,</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nb_shapes_allagents[a],<sp/>delta_gtos_curr,<sp/>radius_shapes,<sp/>theta,<sp/>theta_body_init,<sp/>mass_curr,<sp/>moi_curr);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>agentElement<sp/>=<sp/>agentElement-&gt;NextSiblingElement(</highlight><highlight class="stringliteral">&quot;Agent&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>agentCounter++;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Check<sp/>if<sp/>the<sp/>number<sp/>of<sp/>agents<sp/>in<sp/>the<sp/>Dynamics<sp/>file<sp/>is<sp/>the<sp/>same<sp/>as<sp/>in<sp/>the<sp/>Agents<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(agentCounter<sp/>!=<sp/>nAgents)</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Not<sp/>all<sp/>agents<sp/>are<sp/>present<sp/>in<sp/>the<sp/>dynamics<sp/>file&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>dynamicsFile<sp/>&lt;&lt;<sp/>endl;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>EXIT_FAILURE;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/><sp/>Update<sp/>neighbours<sp/>before<sp/>calling<sp/>the<sp/>mechanical<sp/>layer<sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>determine_agents_neighbours();</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>EXIT_SUCCESS;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>determine_agents_neighbours()</highlight></codeline>
+<codeline lineno="196"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>criticalDistanceWall<sp/>=<sp/>dt<sp/>*<sp/>vMaxAgent;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>criticalDistance<sp/>=<sp/>2<sp/>*<sp/>criticalDistanceWall;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(uint32_t<sp/>a1<sp/>=<sp/>0;<sp/>a1<sp/>&lt;<sp/>nAgents;<sp/>a1++)</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_agent" kindref="compound">Agent</ref>*<sp/>agent1<sp/>=<sp/>agents[a1];</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>First,<sp/>check<sp/>walls</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(uint32_t<sp/>iobs<sp/>=<sp/>0;<sp/>iobs<sp/>&lt;<sp/>listObstacles.size();<sp/>iobs++)</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(uint32_t<sp/>iwall<sp/>=<sp/>0;<sp/>iwall<sp/>&lt;<sp/>listObstacles[iobs].size()<sp/>-<sp/>1;<sp/>iwall++)</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[distance,<sp/>closest_point]<sp/>=<sp/>get_distance_to_wall_and_closest_point(</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>listObstacles[iobs][iwall],<sp/>listObstacles[iobs][iwall<sp/>+<sp/>1],<sp/>agent1-&gt;<ref refid="struct_agent_1a5407f025c5bd4bee36e134bb7ff86f6a" kindref="member">get_r</ref>());</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(distance<sp/>&lt;<sp/>criticalDistanceWall)</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>agent1-&gt;<ref refid="struct_agent_1a9be8318728b4f24366501ef3aa22c60b" kindref="member">_neighbours_walls</ref>.emplace_back(iobs,<sp/>iwall);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Then,<sp/>other<sp/>agents</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(uint32_t<sp/>a2<sp/>=<sp/>a1<sp/>+<sp/>1;<sp/>a2<sp/>&lt;<sp/>nAgents;<sp/>a2++)</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_agent" kindref="compound">Agent</ref>*<sp/>agent2<sp/>=<sp/>agents[a2];</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>double2<sp/>r1<sp/>=<sp/>agent1-&gt;<ref refid="struct_agent_1a5407f025c5bd4bee36e134bb7ff86f6a" kindref="member">get_r</ref>();</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>double2<sp/>r2<sp/>=<sp/>agent2-&gt;<ref refid="struct_agent_1a5407f025c5bd4bee36e134bb7ff86f6a" kindref="member">get_r</ref>();</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>get_distance(r1,<sp/>r2);<sp/>r<sp/>&lt;<sp/>criticalDistance)</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>agent1-&gt;<ref refid="struct_agent_1a0698b175835cd15775fc9ff16e4add19" kindref="member">_neighbours</ref>.push_back(agent2-&gt;<ref refid="struct_agent_1a453331e293cdc1f5df8ff6e89cde6def" kindref="member">_id</ref>);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>agent2-&gt;<ref refid="struct_agent_1a0698b175835cd15775fc9ff16e4add19" kindref="member">_neighbours</ref>.push_back(agent1-&gt;<ref refid="struct_agent_1a453331e293cdc1f5df8ff6e89cde6def" kindref="member">_id</ref>);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="228"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>handleMechanicalLayer(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dynamicsFile)</highlight></codeline>
+<codeline lineno="242"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/><sp/>Handle<sp/>mechanically<sp/>active<sp/>agents:<sp/>mechanical<sp/>layer<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(get_future_collision())</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_mechanical_layer" kindref="compound">MechanicalLayer</ref>*<sp/>crowdMech<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="struct_mechanical_layer" kindref="compound">MechanicalLayer</ref>(mech_active_agents);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>crowdMech;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/><sp/>Handle<sp/>non<sp/>mechanically<sp/>active<sp/>agents:<sp/>simple<sp/>positional<sp/>update<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(uint32_t<sp/>a<sp/>=<sp/>0;<sp/>a<sp/>&lt;<sp/>nAgents;<sp/>a++)</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_agent" kindref="compound">Agent</ref>*<sp/>agent<sp/>=<sp/>agents[a];</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(is_mechanically_active(agent))</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>inverseTauMechTranslation<sp/>=<sp/>agentProperties[agent-&gt;<ref refid="struct_agent_1a453331e293cdc1f5df8ff6e89cde6def" kindref="member">_id</ref>].first;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>inverseTauMechRotation<sp/>=<sp/>agentProperties[agent-&gt;<ref refid="struct_agent_1a453331e293cdc1f5df8ff6e89cde6def" kindref="member">_id</ref>].second;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>agent-&gt;<ref refid="struct_agent_1a40d332f56eb301d0f2fd80933b6c2461" kindref="member">_vx</ref><sp/>=<sp/>(1.0<sp/>-<sp/>exp(-dt<sp/>*<sp/>inverseTauMechTranslation))<sp/>*<sp/>agent-&gt;<ref refid="struct_agent_1ae33a1855f9a37f246968f5be5e3eaa06" kindref="member">_vx_des</ref><sp/>+<sp/>exp(-dt<sp/>*<sp/>inverseTauMechTranslation)<sp/>*<sp/>agent-&gt;<ref refid="struct_agent_1a40d332f56eb301d0f2fd80933b6c2461" kindref="member">_vx</ref>;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>agent-&gt;<ref refid="struct_agent_1ac4f2ef64b18ede184af2774563de62d8" kindref="member">_vy</ref><sp/>=<sp/>(1.0<sp/>-<sp/>exp(-dt<sp/>*<sp/>inverseTauMechTranslation))<sp/>*<sp/>agent-&gt;<ref refid="struct_agent_1ab93d8f0f443321392144eb8392c63baa" kindref="member">_vy_des</ref><sp/>+<sp/>exp(-dt<sp/>*<sp/>inverseTauMechTranslation)<sp/>*<sp/>agent-&gt;<ref refid="struct_agent_1ac4f2ef64b18ede184af2774563de62d8" kindref="member">_vy</ref>;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>agent-&gt;<ref refid="struct_agent_1af1487c7f179e334239593bb162bf5cd0" kindref="member">_w</ref><sp/>=<sp/>(1.0<sp/>-<sp/>exp(-dt<sp/>*<sp/>inverseTauMechRotation))<sp/>*<sp/>agent-&gt;<ref refid="struct_agent_1a9a22b9537f6f92ec7cd9c11b5bff5a5e" kindref="member">_w_des</ref><sp/>+<sp/>exp(-dt<sp/>*<sp/>inverseTauMechRotation)<sp/>*<sp/>agent-&gt;<ref refid="struct_agent_1af1487c7f179e334239593bb162bf5cd0" kindref="member">_w</ref>;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>agent-&gt;<ref refid="struct_agent_1a8213096130b009ee5d233d1e60d4442d" kindref="member">move</ref>();</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/><sp/>Save<sp/>output<sp/>of<sp/>mechanical<sp/>layer<sp/>to<sp/>file<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>generateDynamicsOutputFile(dynamicsFile);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_mechanically_active(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_agent" kindref="compound">Agent</ref>*<sp/>agent)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(find(mech_active_agents,<sp/>agent)<sp/>!=<sp/>mech_active_agents.end());<sp/>}</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>get_future_collision()</highlight></codeline>
+<codeline lineno="285"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Test<sp/>new<sp/>positions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(uint32_t<sp/>a<sp/>=<sp/>0;<sp/>a<sp/>&lt;<sp/>nAgents;<sp/>a++)</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_agent" kindref="compound">Agent</ref>*<sp/>agent<sp/>=<sp/>agents[a];</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>agent-&gt;<ref refid="struct_agent_1ae5fec6c2d045136730900c8fa2f1d6ee" kindref="member">_x</ref><sp/>+=<sp/>agent-&gt;<ref refid="struct_agent_1ae33a1855f9a37f246968f5be5e3eaa06" kindref="member">_vx_des</ref><sp/>*<sp/>dt;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>agent-&gt;<ref refid="struct_agent_1a90bb0e29f517c3775a82b8ef3c15a37f" kindref="member">_y</ref><sp/>+=<sp/>agent-&gt;<ref refid="struct_agent_1ab93d8f0f443321392144eb8392c63baa" kindref="member">_vy_des</ref><sp/>*<sp/>dt;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>agent-&gt;<ref refid="struct_agent_1aff31fb7e42339fb260af2a214d60a7a6" kindref="member">_theta</ref><sp/>+=<sp/>agent-&gt;<ref refid="struct_agent_1a9a22b9537f6f92ec7cd9c11b5bff5a5e" kindref="member">_w_des</ref><sp/>*<sp/>dt;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Check<sp/>if<sp/>overlaps</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>mech_active_agents.clear();</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(uint32_t<sp/>a<sp/>=<sp/>0;<sp/>a<sp/>&lt;<sp/>nAgents;<sp/>a++)</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_agent" kindref="compound">Agent</ref>*<sp/>agent1<sp/>=<sp/>agents[a];</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Loop<sp/>over<sp/>current<sp/>agent&apos;s<sp/>wall<sp/>neighbours</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[iobs,<sp/>iwall]<sp/>:<sp/>agent1-&gt;<ref refid="struct_agent_1a9be8318728b4f24366501ef3aa22c60b" kindref="member">_neighbours_walls</ref>)</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>double2<sp/>middlePointWall<sp/>=<sp/>0.5<sp/>*<sp/>(listObstacles[iobs][iwall]<sp/>+<sp/>listObstacles[iobs][iwall<sp/>+<sp/>1]);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((!(agent1-&gt;<ref refid="struct_agent_1a5407f025c5bd4bee36e134bb7ff86f6a" kindref="member">get_r</ref>()<sp/>-<sp/>middlePointWall))<sp/>&lt;<sp/>agent1-&gt;<ref refid="struct_agent_1ac0f2bb8aa434e847f264bd8051bbdc62" kindref="member">_radius</ref><sp/>+<sp/>1e-1)</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!is_mechanically_active(agent1))</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mech_active_agents.push_back(agent1);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Loop<sp/>over<sp/>current<sp/>agent&apos;s<sp/>neighbours</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>agent2_id<sp/>:<sp/>agent1-&gt;<ref refid="struct_agent_1a0698b175835cd15775fc9ff16e4add19" kindref="member">_neighbours</ref>)</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="struct_agent" kindref="compound">Agent</ref>*<sp/>agent2<sp/>=<sp/>agents[agent2_id];</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(!(agent1-&gt;<ref refid="struct_agent_1a5407f025c5bd4bee36e134bb7ff86f6a" kindref="member">get_r</ref>()<sp/>-<sp/>agent2-&gt;<ref refid="struct_agent_1a5407f025c5bd4bee36e134bb7ff86f6a" kindref="member">get_r</ref>()))<sp/>&lt;<sp/>fabs(agent1-&gt;<ref refid="struct_agent_1ac0f2bb8aa434e847f264bd8051bbdc62" kindref="member">_radius</ref><sp/>+<sp/>agent2-&gt;<ref refid="struct_agent_1ac0f2bb8aa434e847f264bd8051bbdc62" kindref="member">_radius</ref>)<sp/>+<sp/>1e-1)</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!is_mechanically_active(agent1))</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mech_active_agents.push_back(agent1);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!is_mechanically_active(agent2))</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mech_active_agents.push_back(agent2);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Revert<sp/>to<sp/>former<sp/>positions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(uint32_t<sp/>a<sp/>=<sp/>0;<sp/>a<sp/>&lt;<sp/>nAgents;<sp/>a++)</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_agent" kindref="compound">Agent</ref>*<sp/>agent<sp/>=<sp/>agents[a];</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>agent-&gt;<ref refid="struct_agent_1ae5fec6c2d045136730900c8fa2f1d6ee" kindref="member">_x</ref><sp/>-=<sp/>agent-&gt;<ref refid="struct_agent_1ae33a1855f9a37f246968f5be5e3eaa06" kindref="member">_vx_des</ref><sp/>*<sp/>dt;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>agent-&gt;<ref refid="struct_agent_1a90bb0e29f517c3775a82b8ef3c15a37f" kindref="member">_y</ref><sp/>-=<sp/>agent-&gt;<ref refid="struct_agent_1ab93d8f0f443321392144eb8392c63baa" kindref="member">_vy_des</ref><sp/>*<sp/>dt;</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>agent-&gt;<ref refid="struct_agent_1aff31fb7e42339fb260af2a214d60a7a6" kindref="member">_theta</ref><sp/>-=<sp/>agent-&gt;<ref refid="struct_agent_1a9a22b9537f6f92ec7cd9c11b5bff5a5e" kindref="member">_w_des</ref><sp/>*<sp/>dt;</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Add<sp/>agents<sp/>with<sp/>significant<sp/>velocity<sp/>changes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(uint32_t<sp/>a<sp/>=<sp/>0;<sp/>a<sp/>&lt;<sp/>nAgents;<sp/>a++)</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="struct_agent" kindref="compound">Agent</ref>*<sp/>agent<sp/>=<sp/>agents[a];</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pow(agent-&gt;<ref refid="struct_agent_1a40d332f56eb301d0f2fd80933b6c2461" kindref="member">_vx</ref><sp/>-<sp/>agent-&gt;<ref refid="struct_agent_1ae33a1855f9a37f246968f5be5e3eaa06" kindref="member">_vx_des</ref>,<sp/>2)<sp/>+<sp/>pow(agent-&gt;<ref refid="struct_agent_1ac4f2ef64b18ede184af2774563de62d8" kindref="member">_vy</ref><sp/>-<sp/>agent-&gt;<ref refid="struct_agent_1ab93d8f0f443321392144eb8392c63baa" kindref="member">_vy_des</ref>,<sp/>2)<sp/>+<sp/>pow(agent-&gt;<ref refid="struct_agent_1af1487c7f179e334239593bb162bf5cd0" kindref="member">_w</ref><sp/>-<sp/>agent-&gt;<ref refid="struct_agent_1a9a22b9537f6f92ec7cd9c11b5bff5a5e" kindref="member">_w_des</ref>,<sp/>2)<sp/>&gt;<sp/>1e-4<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>!is_mechanically_active(agent))</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mech_active_agents.push_back(agent);</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Add<sp/>neighbours<sp/>of<sp/>active<sp/>agents</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_agent" kindref="compound">Agent</ref>*<sp/>agent<sp/>:<sp/>mech_active_agents)</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>neighbour<sp/>:<sp/>agent-&gt;<ref refid="struct_agent_1a0698b175835cd15775fc9ff16e4add19" kindref="member">_neighbours</ref>)</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!is_mechanically_active(agents[neighbour]))</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mech_active_agents.push_back(agents[neighbour]);</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(!mech_active_agents.empty());</highlight></codeline>
+<codeline lineno="352"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>generateDynamicsOutputFile(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dynamicsFile)</highlight></codeline>
+<codeline lineno="360"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>We&apos;ll<sp/><sp/>build<sp/>the<sp/>output<sp/>from<sp/>the<sp/>input<sp/>(the<sp/>structure<sp/>and<sp/>fields<sp/>are<sp/>exactly<sp/>the<sp/>same)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>tinyxml2::XMLDocument<sp/>inputDoc;</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>inputDoc.LoadFile((dynamicsFile).data());</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>ofstream<sp/>outputDoc;</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/>outputDoc.open(dynamicsFile);</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/>outputDoc<sp/>&lt;&lt;<sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;?xml<sp/>version=&quot;1.0&quot;<sp/>encoding=&quot;utf-8&quot;?&gt;)&quot;<sp/>&lt;&lt;<sp/>endl;</highlight></codeline>
+<codeline lineno="368"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Read<sp/>the<sp/>Agents<sp/>block</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/>tinyxml2::XMLElement*<sp/>InAgentsElement<sp/>=<sp/>inputDoc.FirstChildElement(</highlight><highlight class="stringliteral">&quot;Agents&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/>outputDoc<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;&lt;Agents&gt;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>endl;</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>tinyxml2::XMLElement*<sp/>InAgentElement<sp/>=<sp/>InAgentsElement-&gt;FirstChildElement(</highlight><highlight class="stringliteral">&quot;Agent&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(InAgentElement<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>First,<sp/>get<sp/>our<sp/>internal<sp/>id</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>agentId<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>InAgentElement-&gt;QueryStringAttribute(</highlight><highlight class="stringliteral">&quot;Id&quot;</highlight><highlight class="normal">,<sp/>&amp;agentId);</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint32_t<sp/>a<sp/>=<sp/>agentMap[agentId];</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_agent" kindref="compound">Agent</ref>*<sp/>agent<sp/>=<sp/>agents[a];</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>outputDoc<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/><sp/><sp/>&lt;Agent<sp/>Id=\&quot;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>agentId<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\&quot;&gt;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>endl;</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Kinematics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>outputDoc<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;Kinematics<sp/>Position=\&quot;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>agent-&gt;<ref refid="struct_agent_1ae5fec6c2d045136730900c8fa2f1d6ee" kindref="member">_x</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;,&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>agent-&gt;<ref refid="struct_agent_1a90bb0e29f517c3775a82b8ef3c15a37f" kindref="member">_y</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\&quot;<sp/>&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>outputDoc<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Velocity=\&quot;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>agent-&gt;<ref refid="struct_agent_1a40d332f56eb301d0f2fd80933b6c2461" kindref="member">_vx</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;,&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>agent-&gt;<ref refid="struct_agent_1ac4f2ef64b18ede184af2774563de62d8" kindref="member">_vy</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\&quot;<sp/>&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>outputDoc<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;theta=\&quot;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>agent-&gt;<ref refid="struct_agent_1aff31fb7e42339fb260af2a214d60a7a6" kindref="member">_theta</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\&quot;<sp/>omega=\&quot;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>agent-&gt;<ref refid="struct_agent_1af1487c7f179e334239593bb162bf5cd0" kindref="member">_w</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\&quot;/&gt;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>endl;</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>InAgentElement<sp/>=<sp/>InAgentElement-&gt;NextSiblingElement(</highlight><highlight class="stringliteral">&quot;Agent&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>outputDoc<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/><sp/><sp/>&lt;/Agent&gt;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>endl;</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/>outputDoc<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;&lt;/Agents&gt;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/>outputDoc.close();</highlight></codeline>
+<codeline lineno="392"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp"/>
+  </compounddef>
+</doxygen>

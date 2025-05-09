@@ -45,3 +45,5 @@ Thumbs.db
 /tests/.pytest_cache/
 
 precommit_output.txt
+
+build/

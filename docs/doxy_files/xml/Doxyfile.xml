@@ -74,7 +74,7 @@
   <option  id='EXTRACT_PRIVATE' default='yes' type='bool'><value>NO</value></option>
   <option  id='EXTRACT_PRIV_VIRTUAL' default='yes' type='bool'><value>NO</value></option>
   <option  id='EXTRACT_PACKAGE' default='yes' type='bool'><value>NO</value></option>
-  <option  id='EXTRACT_STATIC' default='yes' type='bool'><value>NO</value></option>
+  <option  id='EXTRACT_STATIC' default='no' type='bool'><value>YES</value></option>
   <option  id='EXTRACT_LOCAL_CLASSES' default='yes' type='bool'><value>YES</value></option>
   <option  id='EXTRACT_LOCAL_METHODS' default='yes' type='bool'><value>NO</value></option>
   <option  id='EXTRACT_ANON_NSPACES' default='yes' type='bool'><value>NO</value></option>
@@ -186,8 +186,9 @@
     <value><![CDATA[*.qsf]]></value>
     <value><![CDATA[*.ice]]></value>
   </option>
-  <option  id='RECURSIVE' default='yes' type='bool'><value>NO</value></option>
-  <option  id='EXCLUDE' default='yes' type='stringlist'>
+  <option  id='RECURSIVE' default='no' type='bool'><value>YES</value></option>
+  <option  id='EXCLUDE' default='no' type='stringlist'>
+    <value><![CDATA[../src/mechanical_layer/3rdparty]]></value>
   </option>
   <option  id='EXCLUDE_SYMLINKS' default='yes' type='bool'><value>NO</value></option>
   <option  id='EXCLUDE_PATTERNS' default='no' type='stringlist'>
@@ -209,7 +210,7 @@
   <option  id='FILTER_SOURCE_FILES' default='yes' type='bool'><value>NO</value></option>
   <option  id='FILTER_SOURCE_PATTERNS' default='yes' type='stringlist'>
   </option>
-  <option  id='USE_MDFILE_AS_MAINPAGE' default='no' type='string'><value><![CDATA[../README.md]]></value></option>
+  <option  id='USE_MDFILE_AS_MAINPAGE' default='yes' type='string'><value><![CDATA[]]></value></option>
   <option  id='IMPLICIT_DIR_DOCS' default='yes' type='bool'><value>YES</value></option>
   <option  id='FORTRAN_COMMENT_AFTER' default='yes' type='int'><value>72</value></option>
   <option  id='SOURCE_BROWSER' default='yes' type='bool'><value>NO</value></option>
@@ -351,7 +352,8 @@
   <option  id='INCLUDE_FILE_PATTERNS' default='no' type='stringlist'>
     <value><![CDATA[*.h]]></value>
   </option>
-  <option  id='PREDEFINED' default='yes' type='stringlist'>
+  <option  id='PREDEFINED' default='no' type='stringlist'>
+    <value><![CDATA[DOXYGEN_SHOULD_SKIP_THIS]]></value>
   </option>
   <option  id='EXPAND_AS_DEFINED' default='yes' type='stringlist'>
   </option>
