@@ -1,7 +1,7 @@
 Installation guide
 ==================
 
-You can try out the Streamlit application online at the `app <https://crowdmeca.streamlit.app/>`_, generate your own crowd, download the associated configuration files, and run the crowd simulation locally.
+You can try out the Streamlit application online at the `app <https://crowdmecha.streamlit.app/>`_, generate your own crowd, download the associated configuration files, and run the crowd simulation locally.
 
 If you want to use the Streamlit application locally, you can install it and follow the advanced tutorial :ref:`installation_guide_app`.
 
