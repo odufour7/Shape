@@ -1,5 +1,5 @@
-Streamlit app
-=============
+Streamlit app (Python)
+======================
 
 .. toctree::
    :maxdepth: 4

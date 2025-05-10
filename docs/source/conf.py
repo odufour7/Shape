@@ -77,7 +77,7 @@ autodoc_member_order = "bysource"  # Order members by their source code order
 exhale_args = {
     "containmentFolder": "./api",  # Folder to contain the generated API documentation
     "rootFileName": "library_root.rst",  # Name of the root file
-    "rootFileTitle": "Mechanical layer C++",  # Title for the root file
+    "rootFileTitle": "Mechanical layer (C++)",  # Title for the root file
     "doxygenStripFromPath": os.path.abspath(os.path.join("..", "..", "src", "mechanical_layer")),  # Relative to conf.py's location
     "createTreeView": True,
     "exhaleExecutesDoxygen": True,

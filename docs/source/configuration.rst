@@ -1,5 +1,5 @@
-Configuration
-=============
+Configuration (Python)
+======================
 
 
 .. toctree::
