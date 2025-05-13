@@ -81,20 +81,15 @@ def static_dict_to_xml(crowd_dict: StaticCrowdDataType) -> bytes:
             },
         )
 
-        # Create a <Shapes> element under the current <Agent>
-        shapes = ET.SubElement(agent, "Shapes")
-
         # Iterate through each shape in the agent's shapes
         for shape_data in agent_data["Shapes"].values():
-            shape_type = shape_data["Type"]
-
             # Create a <Shape> element with attributes
             ET.SubElement(
-                shapes,
+                agent,
                 "Shape",
                 {
                     "Id": f"{shape_data['Id']}",
-                    "Type": shape_type,
+                    "Type": shape_data["Type"],
                     "Radius": f"{shape_data['Radius']:.3f}",
                     "MaterialId": f"{shape_data['MaterialId']}",
                     "Position": f"{shape_data['Position'][0]:.3f},{shape_data['Position'][1]:.3f}",
@@ -339,33 +334,27 @@ def static_xml_to_dict(xml_file: str) -> StaticCrowdDataType:
             raise ValueError(f"Type error in <Agent> at position {agent_idx}: {e}") from e
 
         # Process <Shapes> if present
-        shapes = agent.find("Shapes")
-        if shapes is not None:
-            shapes_dict: ShapeDataType = {}
-            for shape_idx, shape in enumerate(shapes.findall("Shape")):
-                # Validate required shape attributes
-                try:
-                    shape_data = {
-                        "Id": int(shape.attrib["Id"]),
-                        "Type": shape.attrib["Type"],
-                        "Radius": float(shape.attrib["Radius"]),
-                        "MaterialId": int(shape.attrib["MaterialId"]),
-                        "Position": fun.from_string_to_tuple(shape.attrib["Position"]),
-                    }
-                except KeyError as e:
-                    raise ValueError(
-                        f"Missing '{e.args[0]}' attribute in <Shape> at position {shape_idx} under <Agent> with Id={agent_data['Id']}."
-                    ) from e
-                except ValueError as e:
-                    raise ValueError(
-                        f"Type error in <Shape> at position {shape_idx} under <Agent> with Id={agent_data['Id']}: {e}"
-                    ) from e
-                # Assign a unique name to each shape (e.g., disk0, disk1, ...)
-                shape_name = f"disk{shape_idx}"
-                shapes_dict[shape_name] = shape_data
-            agent_data["Shapes"] = shapes_dict
-        else:
-            raise ValueError(f"Missing <Shapes> section for <Agent> with Id={agent_data['Id']}.")
+        shapes_dict: ShapeDataType = {}
+        for shape_idx, shape in enumerate(agent.findall("Shape")):
+            # Validate required shape attributes
+            try:
+                shape_data = {
+                    "Id": int(shape.attrib["Id"]),
+                    "Type": shape.attrib["Type"],
+                    "Radius": float(shape.attrib["Radius"]),
+                    "MaterialId": int(shape.attrib["MaterialId"]),
+                    "Position": fun.from_string_to_tuple(shape.attrib["Position"]),
+                }
+            except KeyError as e:
+                raise ValueError(
+                    f"Missing '{e.args[0]}' attribute in <Shape> at position {shape_idx} under <Agent> with Id={agent_data['Id']}."
+                ) from e
+            except ValueError as e:
+                raise ValueError(f"Type error in <Shape> at position {shape_idx} under <Agent> with Id={agent_data['Id']}: {e}") from e
+            # Assign a unique name to each shape (e.g., disk0, disk1, ...)
+            shape_name = f"disk{shape_idx}"
+            shapes_dict[shape_name] = shape_data
+        agent_data["Shapes"] = shapes_dict
 
         # Assign a unique name to each agent (e.g., Agent0, Agent1, ...)
         agent_name = f"Agent{agent_idx}"
