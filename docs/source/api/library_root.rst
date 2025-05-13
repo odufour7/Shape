@@ -1,6 +1,6 @@
-====================
-Mechanical layer C++
-====================
+======================
+Mechanical layer (C++)
+======================
 
 .. include:: class_view_hierarchy.rst.include
 

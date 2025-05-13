@@ -16,15 +16,21 @@ Follow these steps to run a minimal example of a crowd simulation:
 
 ## 2. Create result folders
 
-Create two directories to store simulation results:
-- `Dynamic`
-- `Static`
+Set up your project directories to keep simulation files organized:
+
+- Create two folders in your project directory:
+  - `Static`
+  - `Dynamic`
+
+- Place the following files that you downloaded from the Streamlit app in the respective folders:
+  - Move `Agents.xml`, `Geometry.xml`, and `Materials.xml` into the `Static` folder.
+  - Move `AgentDynamics.xml` into the `Dynamic` folder.
 
 ---
 
 ## 3. Create a `Parameters.xml` file
 
-Create a `Parameters.xml` file specifying the absolute paths to your `Static` and `Dynamic` directories. Use the following template (replace the paths with your actual folder locations):
+Create a `Parameters.xml` file within the `Static` directory specifying the absolute paths to your `Static` and `Dynamic` directories. Use the following template (replace the paths with your actual folder locations):
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -32,6 +38,20 @@ Create a `Parameters.xml` file specifying the absolute paths to your `Static` an
     <Directories Static="/AbsolutePath/Static/" Dynamic="/AbsolutePath/Dynamic/"/>
     <Times TimeStep="0.1" TimeStepMechanical="1e-5"/>
 </Parameters>
+```
+
+**Directory structure example:**
+```
+your_project/
+├── src/
+|   ├── mechanical_layer
+├── Static/
+│   ├── Parameters.xml
+|   ├── Agents.xml
+│   ├── Geometry.xml
+│   └── Materials.xml
+└── Dynamic/
+    └── AgentDynamics.xml
 ```
 
 ---
@@ -49,24 +69,24 @@ cmake --build build
 
 ## 5. Run the following python simulation script
 
-Within the `mechanical_layer` directory, run the following Python code (adapt as needed) taking care of replacing `/AbsolutePath/` with the correct folder path:
+Run the following Python code (adapt as needed) taking care of replacing `/AbsolutePath/` with the correct folder path:
 
 ```python
 import ctypes
 import pathlib
 
 # Load the shared library into ctypes
-#   Change the paths below if you are runninf the library from elsewhere
-libname = str(pathlib.Path().absolute() / "build/libCrowdMechanics.so")
+#    Change the paths below if you are runninf the library from elsewhere
+libname = str(pathlib.Path().absolute() / "build/libCrowdMechanics.so") # .dylib instead of .so if you are using MacOs and .dll if Windows
 c_lib = ctypes.CDLL(libname)
 
 # Input of the CrowdMechanics main function
 files = [
     b"/AbsolutePath/Parameters.xml",
-    b"/AbsolutePath/Materials.xml",
-    b"/AbsolutePath/Geometry.xml",
-    b"/AbsolutePath/Agents.xml",
-    b"/AbsolutePath/AgentDynamics.xml",
+    b"Materials.xml",
+    b"Geometry.xml",
+    b"Agents.xml",
+    b"AgentDynamics.xml",
 ]
 # Convert the files variable to something ctypes will understand
 nFiles = len(files)
@@ -111,8 +131,8 @@ int main(void)
 
 ## Summary
 
-1. **Create** `Static` and `Dynamic` folders.
-2. **Export** crowd XML files from the [Streamlit app](https://crowdmecha.streamlit.app/).
+1. **Export** crowd XML files from the [Streamlit app](https://crowdmecha.streamlit.app/).
+2. **Create** `Static` and `Dynamic` folders.
 3. **Write** your `Parameters.xml` with correct paths.
 4. **Build** the C++ project.
-5. **Run** your simulation using Python or directly via the executable.
+5. **Run** your simulation using Python or C++.

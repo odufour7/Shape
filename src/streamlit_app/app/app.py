@@ -5,32 +5,18 @@ This script initializes the application, sets up the user interface, and determi
 which functionality to execute based on the selected tab in the sidebar.
 
 The application includes various tabs for different functionalities, such as:
-    - Agent 2D creation and display
-    - 3D pedestrian creation and display
-    - Anthropometry analysis
-    - Crowd creation and display
-    - Custom crowd creation and display
-
-See Also
---------
-shapes.utils.constants
-    Provides constants used throughout the application.
-shapes.datafactory
-    Handles data preparation and management.
-shapes.docs
-    Contains documentation-related utilities.
-shapes.tabs
-    Modules implementing functionality for individual tabs.
-shapes.ui
-    Manages the user interface of the application.
+    - `One agent` (for 2D/3D agent creation and visualisation)
+    - `Crowd` (for 2D/3D crowd creation, visualisation, and generation of .xml config files)
+    - `Anthropometry` (for data analysis)
+    - `About` (for displaying information about the project)
 
 Examples
 --------
-To run the application, execute these commands directly:
+To run the application, execute these commands from the root directory of the project:
 
 >>> pip install uv
 >>> uv sync
->>> uv run streamlit src/app.py
+>>> uv run streamlit run src/streamlit_app/app/app.py
 """
 
 import streamlit_app.utils.constants as cst_app
