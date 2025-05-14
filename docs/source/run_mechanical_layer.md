@@ -4,36 +4,35 @@ We'll show here how to run the crowd simulation from Python or C++, assuming the
 
 ## Python
 
-The C++ code has been written to be easily usable with the Python ctypes library, which we find the most easy to use, and that has the advantage of being installed by default with Python.
+The code for the Mechanical Layer has been written to be easily usable with the Python ctypes library, which we find the most easy to use, and that has the advantage of being installed by default with Python.
 
 The following minimal code is sufficient to call the simulation, assuming we run it from the root directory of the library:
 
 ```python
-import pathlib
 import ctypes
 
-# Load the shared library into ctypes
-#   Change the paths below if you are runninf the library from elsewhere
-libname = str(pathlib.Path().absolute() / "build/libCrowdMechanics.so")
-c_lib = ctypes.CDLL(libname)
+## Load the shared library into ctypes
+c_lib = ctypes.CDLL(r'path/to/libCrowdMechanics.so')         # Linux
+# c_lib = ctypes.CDLL(r'path/to/libCrowdMechanics.dylib')    # MacOS
+# c_lib = ctypes.CDLL(r'path/to/libCrowdMechanics.dll')      # Windows
 
-# Input of the CrowdMechanics main function
+## Input of the CrowdMechanics main function
 files = [b"/AbsolutePath/Parameters.xml",
          b"Materials.xml",
          b"Geometry.xml",
          b"Agents.xml",
          b"AgentDynamics.xml"]
-# Convert the files variable to something ctypes will understand
+## Convert the files variable to something ctypes will understand
 nFiles = len(files)
 filesInput = (ctypes.c_char_p * nFiles)()
 filesInput[:] = files
 
-# The following two lines are optional, they tell ctypes
-# what is the type of the input and output variables
-## c_lib.CrowdMechanics.argtypes = [ctypes.POINTER(ctypes.c_char_p * nFiles)]
-## c_lib.CrowdMechanics.restype = ctypes.c_int
+## The following two lines are optional, they tell ctypes
+## what is the type of the input and output variables
+# c_lib.CrowdMechanics.argtypes = [ctypes.POINTER(ctypes.c_char_p * nFiles)]
+# c_lib.CrowdMechanics.restype = ctypes.c_int
 
-# The actual call to the library
+## The actual call to the library
 c_lib.CrowdMechanics(filesInput)
 ```
 
@@ -59,7 +58,7 @@ int main(void)
     return 0;
 }
 ```
-In order to compile this code, the include paths should be mentioned, either explicitly or in environment variables. The library path should be mentioned as well, for example (assuming compilation from the root directory of ```CrowdMechanics```)
+In order to compile this code, the include paths should be mentioned, either explicitly (```-I```) or in environment variables. The path to the library should be mentioned as well (```-L```). An example, assuming compilation from the root directory of ```CrowdMechanics```:
 ```bash
 g++ -Iinclude -I3rdparty/tinyxml -o test test.cpp -Lbuild -lCrowdMechanics
 ```
