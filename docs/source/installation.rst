@@ -15,10 +15,18 @@ This project uses ``cmake`` as the build system. Please ensure you have a recent
 Building the Library
 --------------------
 
-To build the ``CrowdMechanics`` library as a shared library in the ``build`` directory, run the following commands:
+To build the ``CrowdMechanics`` library as a shared library in the ``build`` directory, run the following commands on Linux or MacOS:
 
 .. code-block:: console
 
     cmake -H. -Bbuild -DBUILD_SHARED_LIBS=ON
     cmake --build build
 
+
+If you're using Windows and want to build with the command line, you may have to supply additional information in the first command:
+
+.. code-block:: console
+
+    cmake -Bbuild -DBUILD_SHARED_LIBS=ON -DCMAKE_CXX_COMPILER=/name/of/C++/compiler -DCMAKE_C_COMPILER=/name/of/C/compiler -DCMAKE_MAKE_PROGRAM=/name/of/make/program -G "Name of Makefile generator"
+
+In that case, please also make sure that the paths to all the mentioned programs are in the ``PATH`` environment variable, or supply the absolute paths to them.
