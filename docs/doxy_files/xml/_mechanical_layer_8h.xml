@@ -12,8 +12,8 @@
     <includes local="no">vector</includes>
     <includes refid="_agent_8h" local="yes">Agent.h</includes>
     <includes refid="_global_8h" local="yes">Global.h</includes>
-    <includedby refid="_crowd_8cpp" local="yes">src/Crowd.cpp</includedby>
-    <includedby refid="_mechanical_layer_8cpp" local="yes">src/MechanicalLayer.cpp</includedby>
+    <includedby refid="_crowd_8cpp" local="yes">/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp</includedby>
+    <includedby refid="_mechanical_layer_8cpp" local="yes">/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/MechanicalLayer.cpp</includedby>
     <incdepgraph>
       <node id="21">
         <label>../3rdparty/tinyxml/tinyxml2.h</label>
@@ -63,7 +63,7 @@
         </childnode>
       </node>
       <node id="1">
-        <label>include/MechanicalLayer.h</label>
+        <label>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h</label>
         <link refid="_mechanical_layer_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -144,7 +144,7 @@
     <detaileddescription>
     </detaileddescription>
     <programlisting>
-<codeline lineno="1"><highlight class="comment">/*<sp/>Copyright<sp/>2025<sp/>&lt;Dufour<sp/>Oscar,<sp/>Maxime<sp/>Stappel,<sp/>David<sp/>Rodney,<sp/>Nicolas<sp/>Alexandre,<sp/>Institute<sp/>of<sp/>Light<sp/>and<sp/>Matter,<sp/>CNRS<sp/>UMR<sp/>5306&gt;<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1"><highlight class="comment">/*<sp/>Copyright<sp/>2025<sp/>&lt;Dufour<sp/>Oscar,<sp/>Maxime<sp/>Stappel,<sp/>Nicolas<sp/>Alexandre,<sp/>Institute<sp/>of<sp/>Light<sp/>and<sp/>Matter,<sp/>CNRS<sp/>UMR<sp/>5306&gt;<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="2"><highlight class="normal"></highlight></codeline>
 <codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>SRC_MECHANICAL_LAYER_INCLUDE_MECHANICALLAYER_H_</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SRC_MECHANICAL_LAYER_INCLUDE_MECHANICALLAYER_H_</highlight><highlight class="normal"></highlight></codeline>
@@ -230,6 +230,6 @@
 <codeline lineno="94"><highlight class="normal"></highlight></codeline>
 <codeline lineno="95"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SRC_MECHANICAL_LAYER_INCLUDE_MECHANICALLAYER_H_&quot;</highlight><highlight class="normal"></highlight></codeline>
     </programlisting>
-    <location file="include/MechanicalLayer.h"/>
+    <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h"/>
   </compounddef>
 </doxygen>

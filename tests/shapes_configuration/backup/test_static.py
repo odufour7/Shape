@@ -23,11 +23,11 @@ def crowd_static_dict() -> StaticCrowdDataType:
                 "FloorDamping": 2.0,
                 "AngularDamping": 5.0,
                 "Shapes": {
-                    "disk0": {"Id": 0, "Type": "disk", "Radius": 0.08, "MaterialId": 0, "Position": (-0.09, 0.13)},
-                    "disk1": {"Id": 1, "Type": "disk", "Radius": 0.11, "MaterialId": 0, "Position": (-0.02, 0.06)},
-                    "disk2": {"Id": 2, "Type": "disk", "Radius": 0.11, "MaterialId": 0, "Position": (0.01, 0.00)},
-                    "disk3": {"Id": 3, "Type": "disk", "Radius": 0.11, "MaterialId": 0, "Position": (0.04, -0.05)},
-                    "disk4": {"Id": 4, "Type": "disk", "Radius": 0.08, "MaterialId": 0, "Position": (0.06, -0.14)},
+                    "disk0": {"Type": "disk", "Radius": 0.08, "MaterialId": "human_clothes", "Position": (-0.09, 0.13)},
+                    "disk1": {"Type": "disk", "Radius": 0.11, "MaterialId": "human_clothes", "Position": (-0.02, 0.06)},
+                    "disk2": {"Type": "disk", "Radius": 0.11, "MaterialId": "human_clothes", "Position": (0.01, 0.00)},
+                    "disk3": {"Type": "disk", "Radius": 0.11, "MaterialId": "human_clothes", "Position": (0.04, -0.05)},
+                    "disk4": {"Type": "disk", "Radius": 0.08, "MaterialId": "human_clothes", "Position": (0.06, -0.14)},
                 },
             },
             "Agent1": {
@@ -39,11 +39,11 @@ def crowd_static_dict() -> StaticCrowdDataType:
                 "FloorDamping": 2.0,
                 "AngularDamping": 5.0,
                 "Shapes": {
-                    "disk0": {"Id": 0, "Type": "disk", "Radius": 0.07, "MaterialId": 0, "Position": (0.02, 0.15)},
-                    "disk1": {"Id": 1, "Type": "disk", "Radius": 0.09, "MaterialId": 0, "Position": (0.02, 0.06)},
-                    "disk2": {"Id": 2, "Type": "disk", "Radius": 0.10, "MaterialId": 0, "Position": (0.01, -0.00)},
-                    "disk3": {"Id": 3, "Type": "disk", "Radius": 0.09, "MaterialId": 0, "Position": (-0.00, -0.06)},
-                    "disk4": {"Id": 4, "Type": "disk", "Radius": 0.07, "MaterialId": 0, "Position": (-0.04, -0.14)},
+                    "disk0": {"Type": "disk", "Radius": 0.07, "MaterialId": "human_naked", "Position": (0.02, 0.15)},
+                    "disk1": {"Type": "disk", "Radius": 0.09, "MaterialId": "human_naked", "Position": (0.02, 0.06)},
+                    "disk2": {"Type": "disk", "Radius": 0.10, "MaterialId": "human_naked", "Position": (0.01, -0.00)},
+                    "disk3": {"Type": "disk", "Radius": 0.09, "MaterialId": "human_naked", "Position": (-0.00, -0.06)},
+                    "disk4": {"Type": "disk", "Radius": 0.07, "MaterialId": "human_naked", "Position": (-0.04, -0.14)},
                 },
             },
         }

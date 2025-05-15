@@ -1,5 +1,5 @@
 /*
-    Copyright 2025 <Dufour Oscar, Maxime Stappel, David Rodney, Nicolas Alexandre, Institute of Light and Matter, CNRS UMR 5306>
+    Copyright 2025 <Dufour Oscar, Maxime Stappel, Nicolas Alexandre, Institute of Light and Matter, CNRS UMR 5306>
     This file contains the actual mechanical layer, which will take mechanically active agents and handle possible collisions.
  */
 

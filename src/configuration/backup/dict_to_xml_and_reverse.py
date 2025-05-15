@@ -88,7 +88,6 @@ def static_dict_to_xml(crowd_dict: StaticCrowdDataType) -> bytes:
                 agent,
                 "Shape",
                 {
-                    "Id": f"{shape_data['Id']}",
                     "Type": shape_data["Type"],
                     "Radius": f"{shape_data['Radius']:.3f}",
                     "MaterialId": f"{shape_data['MaterialId']}",
@@ -218,7 +217,6 @@ def materials_dict_to_xml(material_dict: MaterialsDataType) -> bytes:
             intrinsic_element,
             "Material",
             Id=f"{material_data['Id']}",
-            Name=material_data["Name"],
             YoungModulus=f"{material_data['YoungModulus']:.2e}",
             ShearModulus=f"{material_data['ShearModulus']:.2e}",
         )
@@ -339,10 +337,9 @@ def static_xml_to_dict(xml_file: str) -> StaticCrowdDataType:
             # Validate required shape attributes
             try:
                 shape_data = {
-                    "Id": int(shape.attrib["Id"]),
                     "Type": shape.attrib["Type"],
                     "Radius": float(shape.attrib["Radius"]),
-                    "MaterialId": int(shape.attrib["MaterialId"]),
+                    "MaterialId": str(shape.attrib["MaterialId"]),
                     "Position": fun.from_string_to_tuple(shape.attrib["Position"]),
                 }
             except KeyError as e:
@@ -491,7 +488,7 @@ def geometry_xml_to_dict(xml_data: str) -> GeometryDataType:
         # Validate required wall attributes
         try:
             wall_id = int(wall.attrib["Id"])
-            id_material = int(wall.attrib["MaterialId"])
+            id_material = str(wall.attrib["MaterialId"])
         except KeyError as e:
             raise ValueError(f"Missing '{e.args[0]}' attribute in <Wall> at position {wall_idx}.") from e
         except ValueError as e:
@@ -555,8 +552,7 @@ def materials_xml_to_dict(xml_data: str) -> MaterialsDataType:
     for idx, material in enumerate(intrinsic_element):
         try:
             instrinsic_material_dict = {
-                "Id": int(material.attrib["Id"]),
-                "Name": material.attrib["Name"],
+                "Id": str(material.attrib["Id"]),
                 "YoungModulus": float(material.attrib["YoungModulus"]),
                 "ShearModulus": float(material.attrib["ShearModulus"]),
             }
@@ -576,8 +572,8 @@ def materials_xml_to_dict(xml_data: str) -> MaterialsDataType:
     for idx, contact in enumerate(binary_element):
         try:
             contact_dict = {
-                "Id1": int(contact.attrib["Id1"]),
-                "Id2": int(contact.attrib["Id2"]),
+                "Id1": str(contact.attrib["Id1"]),
+                "Id2": str(contact.attrib["Id2"]),
                 "GammaNormal": float(contact.attrib["GammaNormal"]),
                 "GammaTangential": float(contact.attrib["GammaTangential"]),
                 "KineticFriction": float(contact.attrib["KineticFriction"]),
@@ -592,7 +588,7 @@ def materials_xml_to_dict(xml_data: str) -> MaterialsDataType:
     # --- Assemble the dictionary ---
     material_dict: MaterialsDataType = {
         "Materials": {
-            "Intrinsic": {f"Material{material['Id']}": material for material in intrinsic_materials},
+            "Intrinsic": {f"Material{id_material}": material for id_material, material in enumerate(intrinsic_materials)},
             "Binary": {f"Contact{i}": contact for i, contact in enumerate(binary_contacts)},
         }
     }

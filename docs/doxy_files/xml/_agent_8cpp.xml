@@ -54,7 +54,7 @@
         </childnode>
       </node>
       <node id="1">
-        <label>src/Agent.cpp</label>
+        <label>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Agent.cpp</label>
         <link refid="_agent_8cpp"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -109,7 +109,7 @@
     </detaileddescription>
     <programlisting>
 <codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
-<codeline lineno="2"><highlight class="comment"><sp/><sp/><sp/>Copyright<sp/>2025<sp/>&lt;Dufour<sp/>Oscar,<sp/>Maxime<sp/>Stappel,<sp/>David<sp/>Rodney,<sp/>Nicolas<sp/>Alexandre,<sp/>Institute<sp/>of<sp/>Light<sp/>and<sp/>Matter,<sp/>CNRS<sp/>UMR<sp/>5306&gt;</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/><sp/><sp/>Copyright<sp/>2025<sp/>&lt;Dufour<sp/>Oscar,<sp/>Maxime<sp/>Stappel,<sp/>Nicolas<sp/>Alexandre,<sp/>Institute<sp/>of<sp/>Light<sp/>and<sp/>Matter,<sp/>CNRS<sp/>UMR<sp/>5306&gt;</highlight></codeline>
 <codeline lineno="3"><highlight class="comment"><sp/><sp/><sp/>Agent.cpp<sp/>contains<sp/>the<sp/>constructor<sp/>of<sp/>the<sp/>agent<sp/>class,<sp/>as<sp/>well<sp/>as<sp/>functions<sp/>related<sp/>to<sp/>the<sp/>agent&apos;s<sp/>properties.</highlight></codeline>
 <codeline lineno="4"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="5"><highlight class="normal"></highlight></codeline>
@@ -195,6 +195,6 @@
 <codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>delta_gtos_abs;</highlight></codeline>
 <codeline lineno="135"><highlight class="normal">}</highlight></codeline>
     </programlisting>
-    <location file="src/Agent.cpp"/>
+    <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Agent.cpp"/>
   </compounddef>
 </doxygen>

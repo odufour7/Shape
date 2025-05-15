@@ -738,7 +738,7 @@ def create_agents_from_dynamic_static_geometry_parameters(
             agent_shape2D.add_shape(
                 name=shape_name,
                 shape_type=cst.ShapeTypes.disk.name,
-                material=cst.MaterialNames.human.name,
+                material=cst.MaterialNames.human_naked.name,
                 radius=shape_data["Radius"] * cst.M_TO_CM,
                 x=rel_x * cst.M_TO_CM,
                 y=rel_y * cst.M_TO_CM,

@@ -1,5 +1,5 @@
 /*
-   Copyright 2025 <Dufour Oscar, Maxime Stappel, David Rodney, Nicolas Alexandre, Institute of Light and Matter, CNRS UMR 5306>
+   Copyright 2025 <Dufour Oscar, Maxime Stappel, Nicolas Alexandre, Institute of Light and Matter, CNRS UMR 5306>
    Agent.cpp contains the constructor of the agent class, as well as functions related to the agent's properties.
  */
 

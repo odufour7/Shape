@@ -36,24 +36,20 @@ KNEES_HEIGHT_FEMALE: float = 50.0  # Height of the knees in cm
 HEIGHT_OF_BIDELTOID_OVER_HEIGHT: float = 151.6 / 186.6  # Ratio of the height of the bideltoid to the agent height (male = female)
 
 # Material properties
-YOUNG_MODULUS_IRON: float = 1.0e6
-YOUNG_MODULUS_HUMAN: float = 1.0e6
-YOUNG_MODULUS_WOOD: float = 1.0e6
-YOUNG_MODULUS_STONE: float = 1.0e6
-YOUNG_MODULUS_ASPHALT: float = 1.0e6
+YOUNG_MODULUS_CONCRETE: float = 17.0e9  # Pa (https://www.engineeringtoolbox.com/young-modulus-d_417.html)
+YOUNG_MODULUS_HUMAN_NAKED: float = 3.05e6  # Pa (https://doi.org/10.1103/PhysRevE.87.063305)
+YOUNG_MODULUS_HUMAN_CLOTHES: float = 3.05e6  # Pa
 
-SHEAR_MODULUS_IRON: float = 1.0e6
-SHEAR_MODULUS_HUMAN: float = 1.0e6
-SHEAR_MODULUS_WOOD: float = 1.0e6
-SHEAR_MODULUS_STONE: float = 1.0e6
-SHEAR_MODULUS_ASPHALT: float = 1.0e6
+SHEAR_MODULUS_CONCRETE: float = 21.00e9  # Pa (https://www.engineersedge.com/materials/shear_modulus_of_rigidity_13122.htm)
+SHEAR_MODULUS_HUMAN_NAKED: float = 1.02e9  # Pa, incompressibility hypothesis, nu = 0.5
+SHEAR_MODULUS_HUMAN_CLOTHES: float = 1.02e9  # Pa, incompressibility hypothesis, nu = 0.5
 
-GAMMA_NORMAL: float = 1.3 * 10**4  # Damping coefficient for normal contact
-GAMMA_TANGENTIAL: float = 1.3 * 10**4  # Damping coefficient for tangential contact
-KINETIC_FRICTION: float = 0.5  # Coefficient of kinetic friction
+GAMMA_NORMAL: float = 1.3 * 10**4  # Damping coefficient for normal contact (N/(m/s))
+GAMMA_TANGENTIAL: float = 1.3 * 10**4  # Damping coefficient for tangential contact (N/(m/s))
+KINETIC_FRICTION: float = 0.5  # Coefficient of kinetic friction (dimensionless)
 
 # Crowd class
-DEFAULT_AGENT_NUMBER: int = 4
+DEFAULT_AGENT_NUMBER: int = 4  # Default number of agents
 MAX_NB_ITERATIONS: int = 100  # Maximum number of iterations for the parking algorithm
 DEFAULT_REPULSION_LENGTH: float = 5.0  # cm
 DEFAULT_DESIRED_DIRECTION: float = 0.0  # degrees
@@ -222,11 +218,9 @@ CrowdStat = MappingProxyType(
 class MaterialNames(Enum):
     """Enum for material names."""
 
-    asphalt = auto()
-    stone = auto()
-    iron = auto()
-    wood = auto()
-    human = auto()
+    concrete = auto()
+    human_clothes = auto()
+    human_naked = auto()
 
 
 class MaterialProperties(Enum):

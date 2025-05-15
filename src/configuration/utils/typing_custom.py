@@ -38,10 +38,9 @@ ShapeType: TypeAlias = Literal[
 
 #: Represents common materials used in crowd simulations.
 MaterialType: TypeAlias = Literal[
-    "asphalt",
-    "stone",
-    "wood",
-    "human",
+    "concrete",
+    "human_naked",
+    "human_clothes",
 ]
 
 #: Represents supported backup data formats.

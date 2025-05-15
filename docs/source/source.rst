@@ -10,7 +10,6 @@ The authors of the code are:
 
 - Oscar Dufour
 - Maxime Stapelle
-- David Rodney
 - Alexandre Nicolas
 
 Affiliation
@@ -27,7 +26,7 @@ To cite this work, please use the following reference in bibtex format:
 .. code-block:: bibtex
 
    @software{crowdmorph_2025_14906931,
-     author    = {Dufour, Oscar and Stapelle, Maxime and Rodney, David and Nicolas, Alexandre},
+     author    = {Dufour, Oscar and Stapelle, Maxime and Nicolas, Alexandre},
      title     = {CrowdMorph - Realistic Crowd Generator and Simulation},
      month     = {jun},
      year      = {2025},

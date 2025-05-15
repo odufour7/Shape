@@ -94,10 +94,9 @@ def get_static_params(current_crowd: Crowd) -> StaticCrowdDataType:
 
             # Add shape information to shapes_dict
             shapes_dict[f"{shape_name}"] = {
-                "Id": cpt_shape,
                 "Type": shape_params["type"],
                 "Radius": float(np.round(shape_params["radius"], 3)),
-                "MaterialId": getattr(cst.MaterialNames, shape_params["material"]).value - 1,
+                "MaterialId": getattr(cst.MaterialNames, shape_params["material"]).name,
                 "Position": (
                     float(np.round(delta_g_to_gi_shape[0] * cst.CM_TO_M, 3)),
                     float(np.round(delta_g_to_gi_shape[1] * cst.CM_TO_M, 3)),
@@ -213,7 +212,7 @@ def get_geometry_params(current_crowd: Crowd) -> GeometryDataType:
             "Wall": {
                 "Wall0": {
                     "Id": 0,
-                    "MaterialId": cst.MaterialNames.stone.value - 1,
+                    "MaterialId": cst.MaterialNames.concrete.name,
                     "Corners": {
                         f"Corner{id_corner}": {
                             "Coordinates": (
@@ -299,8 +298,7 @@ def get_materials_params() -> MaterialsDataType:
     # Intrinsic material properties
     intrinsic_materials: IntrinsicMaterialDataType = {
         f"Material{id_material}": {
-            "Id": id_material,
-            "Name": material,
+            "Id": material,
             "YoungModulus": float(np.round(getattr(cst, f"YOUNG_MODULUS_{material.upper()}"), 2)),
             "ShearModulus": float(np.round(getattr(cst, f"SHEAR_MODULUS_{material.upper()}"), 2)),
         }
@@ -316,7 +314,7 @@ def get_materials_params() -> MaterialsDataType:
             "GammaTangential": float(np.round(cst.GAMMA_TANGENTIAL, 2)),
             "KineticFriction": float(np.round(cst.KINETIC_FRICTION, 2)),
         }
-        for id_contact, (id1, id2) in enumerate(itertools.combinations_with_replacement(range(len(cst.MaterialNames)), 2))
+        for id_contact, (id1, id2) in enumerate(itertools.combinations_with_replacement(cst.MaterialNames.__members__.keys(), 2))
     }
 
     # Combine intrinsic and binary properties into a single dictionary

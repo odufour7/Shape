@@ -15,28 +15,49 @@ def materials_dict() -> MaterialsDataType:
     return {
         "Materials": {
             "Intrinsic": {
-                "Material0": {"Id": 0, "Name": "Steel", "YoungModulus": 68.0, "ShearModulus": 25.5},
-                "Material1": {"Id": 1, "Name": "Aluminum", "YoungModulus": 200.0, "ShearModulus": 79.3},
-                "Material2": {"Id": 2, "Name": "Copper", "YoungModulus": 116, "ShearModulus": 41.4},
+                "Material0": {"Id": "Steel", "YoungModulus": 68.0, "ShearModulus": 25.5},
+                "Material1": {"Id": "Aluminum", "YoungModulus": 200.0, "ShearModulus": 79.3},
+                "Material2": {"Id": "Copper", "YoungModulus": 116, "ShearModulus": 41.4},
             },
             "Binary": {
                 "Contact0": {
-                    "Id1": 0,
-                    "Id2": 1,
+                    "Id1": "Steel",
+                    "Id2": "Aluminum",
                     "GammaNormal": 1.3 * 10**4,
                     "GammaTangential": 1.3 * 10**4,
                     "KineticFriction": 0.5,
                 },
                 "Contact1": {
-                    "Id1": 0,
-                    "Id2": 2,
+                    "Id1": "Steel",
+                    "Id2": "Copper",
                     "GammaNormal": 1.3 * 10**4,
                     "GammaTangential": 1.3 * 10**4,
                     "KineticFriction": 0.5,
                 },
                 "Contact2": {
-                    "Id1": 1,
-                    "Id2": 2,
+                    "Id1": "Aluminum",
+                    "Id2": "Copper",
+                    "GammaNormal": 1.3 * 10**4,
+                    "GammaTangential": 1.3 * 10**4,
+                    "KineticFriction": 0.5,
+                },
+                "Contact3": {
+                    "Id1": "Aluminum",
+                    "Id2": "Aluminum",
+                    "GammaNormal": 1.3 * 10**4,
+                    "GammaTangential": 1.3 * 10**4,
+                    "KineticFriction": 0.5,
+                },
+                "Contact4": {
+                    "Id1": "Copper",
+                    "Id2": "Copper",
+                    "GammaNormal": 1.3 * 10**4,
+                    "GammaTangential": 1.3 * 10**4,
+                    "KineticFriction": 0.5,
+                },
+                "Contact5": {
+                    "Id1": "Steel",
+                    "Id2": "Steel",
                     "GammaNormal": 1.3 * 10**4,
                     "GammaTangential": 1.3 * 10**4,
                     "KineticFriction": 0.5,

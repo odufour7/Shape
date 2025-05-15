@@ -45,7 +45,6 @@ Further usage examples and a full API reference are available in our [documentat
 
 * Oscar Dufour
 * Maxime Stapelle
-* David Rodney
 * Alexandre Nicolas
 
 This project is developed at:
@@ -58,7 +57,7 @@ If you use _shapes_, we encourage you to cite or reference this work as you woul
 Cite us:
 ```
 @software{dufour_2025_14906931,
-    author    = {Dufour, Oscar and Stapelle, Maxime and Rodney, David and Nicolas, Alexandre},
+    author    = {Dufour, Oscar and Stapelle, Maxime and Nicolas, Alexandre},
     title     = {CrowdMorph - Realistic Crowd Generator and Simulation},
     month     = {jun},
     year      = {2025},

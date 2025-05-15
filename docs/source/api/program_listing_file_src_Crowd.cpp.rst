@@ -11,39 +11,39 @@ Program Listing for File Crowd.cpp
 .. code-block:: cpp
 
    /*
-       Copyright 2025 <Dufour Oscar, Maxime Stappel, David Rodney, Nicolas Alexandre, Institute of Light and Matter, CNRS UMR 5306>
+       Copyright 2025 <Dufour Oscar, Maxime Stappel, Nicolas Alexandre, Institute of Light and Matter, CNRS UMR 5306>
        Crowd.cpp is responsible for setting up the global situation, decide which agents
        are mechanically active and call the mechanical layer for the latter.
     */
-   
+
    #include "Crowd.h"
-   
+
    #include <iostream>
    #include <list>
    #include <string>
    #include <vector>
-   
+
    #include "MechanicalLayer.h"
-   
+
    using std::string, std::vector, std::list, std::cerr, std::cout, std::endl, std::ranges::find, std::ofstream;
-   
+
    //  Global variable: Mechanically active agents
    list<Agent*> mech_active_agents;
-   
+
    int initialiseSetting(const std::string& dynamicsFile, std::vector<unsigned>& nb_shapes_allagents, std::vector<unsigned>& shapeIDagent,
                          std::vector<int>& edges, std::vector<double>& radius_allshapes, std::vector<double>& masses,
                          std::vector<double>& mois, std::vector<double2>& delta_gtos)
    {
        /*  Allocate agents */
        agents = new Agent*[nAgents];
-   
+
        /*  Create ids of shapes for agents */
        vector<unsigned> Id_shapes(shapeIDagent.size());
        for (size_t i = 0; i < shapeIDagent.size(); i++)
        {
            Id_shapes[i] = i;
        }
-   
+
        /*  Create agents: read the dynamics file first  */
        tinyxml2::XMLDocument document;
        document.LoadFile(dynamicsFile.data());
@@ -85,7 +85,7 @@ Program Listing for File Crowd.cpp
            {
                a = agentMap[agentId];
            }
-   
+
            const unsigned ID_agent(a);
            vector<double2> delta_gtos_curr(&delta_gtos[edges[a]], &delta_gtos[edges[a + 1]]);
            double2 shoulders_direction(delta_gtos[edges[a + 1] - 1] - delta_gtos[edges[a]]);    // from left to right
@@ -93,11 +93,11 @@ Program Listing for File Crowd.cpp
            double theta_body_init(0.);
            if (!(orientation_vec.first == 0. && orientation_vec.second == 0.))
                theta_body_init = atan2(orientation_vec.second, orientation_vec.first);
-   
+
            vector<double> radius_shapes(&radius_allshapes[edges[a]], &radius_allshapes[edges[a + 1]]);
            const vector<unsigned> Ids_shapes_agent(&Id_shapes[edges[a]], &Id_shapes[edges[a + 1]]);
            const double mass_curr(masses[a]), moi_curr(mois[a]);
-   
+
            //  Kinematics and Dynamics
            const tinyxml2::XMLElement* kinematicsElement = agentElement->FirstChildElement("Kinematics");
            if (!kinematicsElement)
@@ -117,7 +117,7 @@ Program Listing for File Crowd.cpp
                cerr << "Error: Could not parse corner coordinates from XML file " << dynamicsFile << endl;
                return EXIT_FAILURE;
            }
-   
+
            if (kinematicsElement->QueryStringAttribute("Velocity", &buffer) != tinyxml2::XML_SUCCESS)
            {
                cerr << "Error: Could not parse agent velocity from XML file " << dynamicsFile << endl;
@@ -134,7 +134,7 @@ Program Listing for File Crowd.cpp
                cerr << "Error: could not get orientation of agent " << agentId << endl;
            if (kinematicsElement->QueryDoubleAttribute("omega", &omega) != tinyxml2::XML_SUCCESS)
                cerr << "Error: could not get angular velocity of agent " << agentId << endl;
-   
+
            const tinyxml2::XMLElement* dynamicsElement = agentElement->FirstChildElement("Dynamics");
            if (!dynamicsElement)
            {
@@ -162,7 +162,7 @@ Program Listing for File Crowd.cpp
            agents[ID_agent] =
                new Agent(ID_agent, Ids_shapes_agent, position.first, position.second, velocity.first, velocity.second, omega, Fp, Mp,
                          nb_shapes_allagents[a], delta_gtos_curr, radius_shapes, theta, theta_body_init, mass_curr, moi_curr);
-   
+
            agentElement = agentElement->NextSiblingElement("Agent");
            agentCounter++;
        }
@@ -172,18 +172,18 @@ Program Listing for File Crowd.cpp
            cerr << "Not all agents are present in the dynamics file" << dynamicsFile << endl;
            return EXIT_FAILURE;
        }
-   
+
        /*  Update neighbours before calling the mechanical layer   */
        determine_agents_neighbours();
-   
+
        return EXIT_SUCCESS;
    }
-   
+
    void determine_agents_neighbours()
    {
        const double criticalDistanceWall = dt * vMaxAgent;
        const double criticalDistance = 2 * criticalDistanceWall;
-   
+
        for (uint32_t a1 = 0; a1 < nAgents; a1++)
        {
            Agent* agent1 = agents[a1];
@@ -202,7 +202,7 @@ Program Listing for File Crowd.cpp
            for (uint32_t a2 = a1 + 1; a2 < nAgents; a2++)
            {
                Agent* agent2 = agents[a2];
-   
+
                const double2 r1 = agent1->get_r();
                const double2 r2 = agent2->get_r();
                if (const double r = get_distance(r1, r2); r < criticalDistance)
@@ -213,7 +213,7 @@ Program Listing for File Crowd.cpp
            }
        }
    }
-   
+
    void handleMechanicalLayer(const std::string& dynamicsFile)
    {
        /*  Handle mechanically active agents: mechanical layer */
@@ -222,7 +222,7 @@ Program Listing for File Crowd.cpp
            const MechanicalLayer* crowdMech = new MechanicalLayer(mech_active_agents);
            delete crowdMech;
        }
-   
+
        /*  Handle non mechanically active agents: simple positional update */
        for (uint32_t a = 0; a < nAgents; a++)
        {
@@ -236,25 +236,25 @@ Program Listing for File Crowd.cpp
            agent->_w = (1.0 - exp(-dt * inverseTauMechRotation)) * agent->_w_des + exp(-dt * inverseTauMechRotation) * agent->_w;
            agent->move();
        }
-   
+
        /*  Save output of mechanical layer to file */
        generateDynamicsOutputFile(dynamicsFile);
    }
-   
+
    bool is_mechanically_active(const Agent* agent) { return (find(mech_active_agents, agent) != mech_active_agents.end()); }
-   
+
    bool get_future_collision()
    {
        //  Test new positions
        for (uint32_t a = 0; a < nAgents; a++)
        {
            Agent* agent = agents[a];
-   
+
            agent->_x += agent->_vx_des * dt;
            agent->_y += agent->_vy_des * dt;
            agent->_theta += agent->_w_des * dt;
        }
-   
+
        //  Check if overlaps
        mech_active_agents.clear();
        for (uint32_t a = 0; a < nAgents; a++)
@@ -281,17 +281,17 @@ Program Listing for File Crowd.cpp
                }
            }
        }
-   
+
        //  Revert to former positions
        for (uint32_t a = 0; a < nAgents; a++)
        {
            Agent* agent = agents[a];
-   
+
            agent->_x -= agent->_vx_des * dt;
            agent->_y -= agent->_vy_des * dt;
            agent->_theta -= agent->_w_des * dt;
        }
-   
+
        //  Add agents with significant velocity changes
        for (uint32_t a = 0; a < nAgents; a++)
        {
@@ -300,7 +300,7 @@ Program Listing for File Crowd.cpp
                !is_mechanically_active(agent))
                mech_active_agents.push_back(agent);
        }
-   
+
        //  Add neighbours of active agents
        for (const Agent* agent : mech_active_agents)
        {
@@ -312,7 +312,7 @@ Program Listing for File Crowd.cpp
        }
        return (!mech_active_agents.empty());
    }
-   
+
    void generateDynamicsOutputFile(const std::string& dynamicsFile)
    {
        //  We'll  build the output from the input (the structure and fields are exactly the same)
@@ -320,12 +320,12 @@ Program Listing for File Crowd.cpp
        inputDoc.LoadFile((dynamicsFile).data());
        ofstream outputDoc;
        outputDoc.open(dynamicsFile);
-   
+
        outputDoc << R"(<?xml version="1.0" encoding="utf-8"?>)" << endl;
        //  Read the Agents block
        tinyxml2::XMLElement* InAgentsElement = inputDoc.FirstChildElement("Agents");
        outputDoc << "<Agents>" << endl;
-   
+
        const tinyxml2::XMLElement* InAgentElement = InAgentsElement->FirstChildElement("Agent");
        while (InAgentElement != nullptr)
        {
@@ -339,11 +339,11 @@ Program Listing for File Crowd.cpp
            outputDoc << "        <Kinematics Position=\"" << agent->_x << "," << agent->_y << "\" ";
            outputDoc << "Velocity=\"" << agent->_vx << "," << agent->_vy << "\" ";
            outputDoc << "theta=\"" << agent->_theta << "\" omega=\"" << agent->_w << "\"/>" << endl;
-   
+
            InAgentElement = InAgentElement->NextSiblingElement("Agent");
            outputDoc << "    </Agent>" << endl;
        }
        outputDoc << "</Agents>";
-   
+
        outputDoc.close();
    }

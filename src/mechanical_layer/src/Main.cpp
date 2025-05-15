@@ -1,5 +1,5 @@
 /*
- *  Copyright 2025 <Dufour Oscar, Maxime Stappel, David Rodney, Nicolas Alexandre, Institute of Light and Matter, CNRS UMR 5306>
+ *  Copyright 2025 <Dufour Oscar, Maxime Stappel, Nicolas Alexandre, Institute of Light and Matter, CNRS UMR 5306>
  *  "Mechanical layer" for handling agent collisions in agent-based models
  *  Designed as a shared library to be called from Python or C++
  *

@@ -26,7 +26,7 @@ def boundaries_dict_two_walls() -> GeometryDataType:
             "Wall": {
                 "Wall0": {
                     "Id": 0,
-                    "MaterialId": 0,
+                    "MaterialId": "concrete",
                     "Corners": {
                         "Corner0": {"Coordinates": (0.0, 0.0)},
                         "Corner1": {"Coordinates": (0.0, 0.0)},
@@ -37,7 +37,7 @@ def boundaries_dict_two_walls() -> GeometryDataType:
                 },
                 "Wall1": {
                     "Id": 1,
-                    "MaterialId": 0,
+                    "MaterialId": "human_naked",
                     "Corners": {
                         "Corner0": {"Coordinates": (0.0, 0.0)},
                         "Corner1": {"Coordinates": (0.0, 0.0)},
@@ -68,7 +68,7 @@ def boundaries_dict_one_wall() -> GeometryDataType:
             "Wall": {
                 "Wall0": {
                     "Id": 0,
-                    "MaterialId": 0,
+                    "MaterialId": "human_clothes",
                     "Corners": {
                         "Corner0": {"Coordinates": (0.0, 0.0)},
                         "Corner1": {"Coordinates": (0.0, 0.0)},

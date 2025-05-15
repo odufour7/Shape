@@ -95,7 +95,7 @@
         </childnode>
       </node>
       <node id="1">
-        <label>src/Crowd.cpp</label>
+        <label>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp</label>
         <link refid="_crowd_8cpp"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -174,7 +174,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Crowd.cpp" line="19" column="6" bodyfile="src/Crowd.cpp" bodystart="19" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp" line="19" column="6" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp" bodystart="19" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="func">
@@ -290,7 +290,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Crowd.cpp" line="37" column="5" bodyfile="src/Crowd.cpp" bodystart="37" bodyend="184"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp" line="37" column="5" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp" bodystart="37" bodyend="184"/>
       </memberdef>
       <memberdef kind="function" id="_crowd_8cpp_1ae71235d3057734af7fc3fa0b922867b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -305,7 +305,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Crowd.cpp" line="195" column="6" bodyfile="src/Crowd.cpp" bodystart="195" bodyend="228"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp" line="195" column="6" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp" bodystart="195" bodyend="228"/>
       </memberdef>
       <memberdef kind="function" id="_crowd_8cpp_1a56956a345edfef0a1f39d90f7e47b083" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -340,7 +340,7 @@
         <inbodydescription>
 <para>The dynamics follow a simple relaxation equation, ie dv/dt = (v_des - v) / tau_mech ==&gt; v(t)= v_des (1 - e^-t/tau_mech) + v(t=0) e^-t/tau_mech</para>
         </inbodydescription>
-        <location file="src/Crowd.cpp" line="241" column="6" bodyfile="src/Crowd.cpp" bodystart="241" bodyend="268"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp" line="241" column="6" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp" bodystart="241" bodyend="268"/>
       </memberdef>
       <memberdef kind="function" id="_crowd_8cpp_1a9147e71f48a9790e558b7caa2d53a83a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -370,7 +370,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Crowd.cpp" line="277" column="6" bodyfile="src/Crowd.cpp" bodystart="277" bodyend="277"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp" line="277" column="6" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp" bodystart="277" bodyend="277"/>
       </memberdef>
       <memberdef kind="function" id="_crowd_8cpp_1aa72faf5d2b73071c176c3db4d019d397" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -387,7 +387,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Crowd.cpp" line="284" column="6" bodyfile="src/Crowd.cpp" bodystart="284" bodyend="352"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp" line="284" column="6" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp" bodystart="284" bodyend="352"/>
       </memberdef>
       <memberdef kind="function" id="_crowd_8cpp_1a8207cfe8584181bf5a3f71014e3b9859" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -415,7 +415,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Crowd.cpp" line="359" column="6" bodyfile="src/Crowd.cpp" bodystart="359" bodyend="392"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp" line="359" column="6" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp" bodystart="359" bodyend="392"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -424,7 +424,7 @@
     </detaileddescription>
     <programlisting>
 <codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
-<codeline lineno="2"><highlight class="comment"><sp/><sp/><sp/><sp/>Copyright<sp/>2025<sp/>&lt;Dufour<sp/>Oscar,<sp/>Maxime<sp/>Stappel,<sp/>David<sp/>Rodney,<sp/>Nicolas<sp/>Alexandre,<sp/>Institute<sp/>of<sp/>Light<sp/>and<sp/>Matter,<sp/>CNRS<sp/>UMR<sp/>5306&gt;</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/><sp/><sp/><sp/>Copyright<sp/>2025<sp/>&lt;Dufour<sp/>Oscar,<sp/>Maxime<sp/>Stappel,<sp/>Nicolas<sp/>Alexandre,<sp/>Institute<sp/>of<sp/>Light<sp/>and<sp/>Matter,<sp/>CNRS<sp/>UMR<sp/>5306&gt;</highlight></codeline>
 <codeline lineno="3"><highlight class="comment"><sp/><sp/><sp/><sp/>Crowd.cpp<sp/>is<sp/>responsible<sp/>for<sp/>setting<sp/>up<sp/>the<sp/>global<sp/>situation,<sp/>decide<sp/>which<sp/>agents</highlight></codeline>
 <codeline lineno="4"><highlight class="comment"><sp/><sp/><sp/><sp/>are<sp/>mechanically<sp/>active<sp/>and<sp/>call<sp/>the<sp/>mechanical<sp/>layer<sp/>for<sp/>the<sp/>latter.</highlight></codeline>
 <codeline lineno="5"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
@@ -761,6 +761,6 @@
 <codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/>outputDoc.close();</highlight></codeline>
 <codeline lineno="392"><highlight class="normal">}</highlight></codeline>
     </programlisting>
-    <location file="src/Crowd.cpp"/>
+    <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Crowd.cpp"/>
   </compounddef>
 </doxygen>

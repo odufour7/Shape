@@ -1,4 +1,4 @@
-/* Copyright 2025 <Dufour Oscar, Maxime Stappel, David Rodney, Nicolas Alexandre, Institute of Light and Matter, CNRS UMR 5306> */
+/* Copyright 2025 <Dufour Oscar, Maxime Stappel, Nicolas Alexandre, Institute of Light and Matter, CNRS UMR 5306> */
 
 #ifndef SRC_MECHANICAL_LAYER_INCLUDE_GLOBAL_H_
 #define SRC_MECHANICAL_LAYER_INCLUDE_GLOBAL_H_

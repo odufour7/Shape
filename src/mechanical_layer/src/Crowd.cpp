@@ -1,5 +1,5 @@
 /*
-    Copyright 2025 <Dufour Oscar, Maxime Stappel, David Rodney, Nicolas Alexandre, Institute of Light and Matter, CNRS UMR 5306>
+    Copyright 2025 <Dufour Oscar, Maxime Stappel, Nicolas Alexandre, Institute of Light and Matter, CNRS UMR 5306>
     Crowd.cpp is responsible for setting up the global situation, decide which agents
     are mechanically active and call the mechanical layer for the latter.
  */

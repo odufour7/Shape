@@ -129,7 +129,7 @@ class InitialPedestrian:
             f"disk{i}": {
                 "type": cst.ShapeTypes.disk.name,
                 "radius": disk["radius"] * cst.PIXEL_TO_CM_PEDESTRIAN if isinstance(disk["radius"], float) else 0.0,
-                "material": cst.MaterialNames.human.name,
+                "material": cst.MaterialNames.human_naked.name,
                 "x": disk["center"][0] * cst.PIXEL_TO_CM_PEDESTRIAN if isinstance(disk["center"], tuple) else 0.0,
                 "y": disk["center"][1] * cst.PIXEL_TO_CM_PEDESTRIAN if isinstance(disk["center"], tuple) else 0.0,
             }
@@ -452,7 +452,7 @@ class InitialBike:
         return {
             "bike": {
                 "type": cst.ShapeTypes.rectangle.name,
-                "material": cst.MaterialNames.iron.name,
+                "material": cst.MaterialNames.concrete.name,
                 "min_x": bike["min_x"],
                 "min_y": bike["min_y"],
                 "max_x": bike["max_x"],
@@ -460,7 +460,7 @@ class InitialBike:
             },
             "rider": {
                 "type": cst.ShapeTypes.rectangle.name,
-                "material": cst.MaterialNames.iron.name,
+                "material": cst.MaterialNames.human_clothes.name,
                 "min_x": rider["min_x"],
                 "min_y": rider["min_y"],
                 "max_x": rider["max_x"],

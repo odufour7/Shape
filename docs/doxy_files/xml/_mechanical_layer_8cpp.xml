@@ -83,7 +83,7 @@
         </childnode>
       </node>
       <node id="1">
-        <label>src/MechanicalLayer.cpp</label>
+        <label>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/MechanicalLayer.cpp</label>
         <link refid="_mechanical_layer_8cpp"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -160,7 +160,7 @@
     </detaileddescription>
     <programlisting>
 <codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
-<codeline lineno="2"><highlight class="comment"><sp/><sp/><sp/><sp/>Copyright<sp/>2025<sp/>&lt;Dufour<sp/>Oscar,<sp/>Maxime<sp/>Stappel,<sp/>David<sp/>Rodney,<sp/>Nicolas<sp/>Alexandre,<sp/>Institute<sp/>of<sp/>Light<sp/>and<sp/>Matter,<sp/>CNRS<sp/>UMR<sp/>5306&gt;</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/><sp/><sp/><sp/>Copyright<sp/>2025<sp/>&lt;Dufour<sp/>Oscar,<sp/>Maxime<sp/>Stappel,<sp/>Nicolas<sp/>Alexandre,<sp/>Institute<sp/>of<sp/>Light<sp/>and<sp/>Matter,<sp/>CNRS<sp/>UMR<sp/>5306&gt;</highlight></codeline>
 <codeline lineno="3"><highlight class="comment"><sp/><sp/><sp/><sp/>This<sp/>file<sp/>contains<sp/>the<sp/>actual<sp/>mechanical<sp/>layer,<sp/>which<sp/>will<sp/>take<sp/>mechanically<sp/>active<sp/>agents<sp/>and<sp/>handle<sp/>possible<sp/>collisions.</highlight></codeline>
 <codeline lineno="4"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="5"><highlight class="normal"></highlight></codeline>
@@ -815,6 +815,6 @@
 <codeline lineno="711"><highlight class="normal"><sp/><sp/><sp/><sp/>outputDoc.close();</highlight></codeline>
 <codeline lineno="712"><highlight class="normal">}</highlight></codeline>
     </programlisting>
-    <location file="src/MechanicalLayer.cpp"/>
+    <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/MechanicalLayer.cpp"/>
   </compounddef>
 </doxygen>

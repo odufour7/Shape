@@ -11,17 +11,17 @@ Program Listing for File Agent.cpp
 .. code-block:: cpp
 
    /*
-      Copyright 2025 <Dufour Oscar, Maxime Stappel, David Rodney, Nicolas Alexandre, Institute of Light and Matter, CNRS UMR 5306>
+      Copyright 2025 <Dufour Oscar, Maxime Stappel, Nicolas Alexandre, Institute of Light and Matter, CNRS UMR 5306>
       Agent.cpp contains the constructor of the agent class, as well as functions related to the agent's properties.
     */
-   
+
    #include "Agent.h"
-   
+
    #include <utility>
    #include <vector>
-   
+
    using std::vector;
-   
+
    #if !defined(DOXYGEN_SHOULD_SKIP_THIS)
    static double size_body(const vector<double2>& delta_gtos, const vector<double>& radius_shapes)
    {
@@ -43,7 +43,7 @@ Program Listing for File Agent.cpp
        return radius + max_delta_gtos;
    }
    #endif   // DOXYGEN_SHOULD_SKIP_THIS
-   
+
    Agent::Agent(unsigned ID, vector<unsigned> Ids_shapes, double x, double y, double vx, double vy, double omega, double2 Fp, double Mp,
                 unsigned nb_shapes, const vector<double2>& delta_gtos, const vector<double>& radius_shapes, double theta_body,
                 double theta_body_init, double mass, double moi)
@@ -68,23 +68,23 @@ Program Listing for File Agent.cpp
        _vx_des = Fp.first / inverseTauMechTranslation / _mass;    //  vx_des := Fpx/m * tau_mech
        _vy_des = Fp.second / inverseTauMechTranslation / _mass;   //  vy_des := Fpy/m * tau_mech
        _w_des = Mp / inverseTauMechRotation / _moi;               //  w_des  := Mp/I  * tau_mech
-   
+
        if (!(_vx_des == 0. && _vy_des == 0.))
            _theta_des = atan2(_vy_des, _vx_des);
        else
            _theta_des = 0.;
        _v_des = double2(_vx_des, _vy_des);
    }
-   
+
    Agent::~Agent() = default;
-   
+
    void Agent::move()
    {
        _x += _vx * dt;
        _y += _vy * dt;
        _theta += _w * dt;
    }
-   
+
    vector<double2> Agent::get_delta_gtos()
    {
        vector<double2> delta_gtos_abs;

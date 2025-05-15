@@ -689,6 +689,19 @@ def run_crowd_from_config() -> None:
     - All three configuration files must be uploaded to proceed.
     - Displays errors or info messages in the Streamlit sidebar if files are missing or invalid.
     """
+    if "plot_twoD_run" not in st.session_state:
+        st.session_state["plot_twoD_run"] = True
+    if "plot_threeD_run" not in st.session_state:
+        st.session_state["plot_threeD_run"] = True
+    if "plot_threeD_layers_run" not in st.session_state:
+        st.session_state["plot_threeD_layers_run"] = True
+    if "twoD_scene" not in st.session_state:
+        st.session_state["twoD_scene"] = plt.figure()
+    if "threeD_scene" not in st.session_state:
+        st.session_state["threeD_scene"] = go.Figure()
+    if "threeD_layers" not in st.session_state:
+        st.session_state["threeD_layers"] = go.Figure()
+
     # --- File upload section ---
     st.sidebar.header("Upload configuration files")
     uploaded_dynamics = st.sidebar.file_uploader("Upload AgentDynamics.xml", type="xml", key="AgentDynamics")

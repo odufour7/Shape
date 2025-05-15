@@ -322,7 +322,7 @@ class Shapes2D:
         adjusted_shapes = {
             f"disk{i}": {
                 "type": cst.ShapeTypes.disk.name,
-                "material": cst.MaterialNames.human.name,
+                "material": cst.MaterialNames.human_naked.name,
                 "object": Point(disk["center"]).buffer(disk["radius"], quad_segs=cst.DISK_QUAD_SEGS),
             }
             for i, disk in enumerate(disks)
@@ -391,7 +391,7 @@ class Shapes2D:
             new_shapes = {
                 "bike": {
                     "type": cst.ShapeTypes.rectangle.name,
-                    "material": cst.MaterialNames.iron.name,
+                    "material": cst.MaterialNames.concrete.name,
                     "min_x": init_bike.shapes2D["bike"]["min_x"] * scale_bike_factor_x,
                     "min_y": init_bike.shapes2D["bike"]["min_y"] * scale_bike_factor_y,
                     "max_x": init_bike.shapes2D["bike"]["max_x"] * scale_bike_factor_x,
@@ -399,7 +399,7 @@ class Shapes2D:
                 },
                 "rider": {
                     "type": cst.ShapeTypes.rectangle.name,
-                    "material": cst.MaterialNames.iron.name,
+                    "material": cst.MaterialNames.human_clothes.name,
                     "min_x": init_bike.shapes2D["rider"]["min_x"] * scale_rider_factor_x,
                     "min_y": init_bike.shapes2D["rider"]["min_y"] * scale_rider_factor_y,
                     "max_x": init_bike.shapes2D["rider"]["max_x"] * scale_rider_factor_x,
@@ -434,7 +434,7 @@ class Shapes2D:
         adjusted_shapes = {
             "bike": {
                 "type": cst.ShapeTypes.rectangle.name,
-                "material": cst.MaterialNames.iron.name,
+                "material": cst.MaterialNames.concrete.name,
                 "object": Polygon(
                     [
                         (
@@ -458,7 +458,7 @@ class Shapes2D:
             },
             "rider": {
                 "type": cst.ShapeTypes.rectangle.name,
-                "material": cst.MaterialNames.iron.name,
+                "material": cst.MaterialNames.human_clothes.name,
                 "object": Polygon(
                     [
                         (
