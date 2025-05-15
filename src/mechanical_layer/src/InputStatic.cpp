@@ -367,6 +367,7 @@ int readAgents(
         return EXIT_FAILURE;
     }
     size_t sGlobal = 0;
+    edges.push_back(static_cast<int>(sGlobal));
     uint32_t agentId = 0;
     while (agentElement != nullptr)
     {
@@ -412,15 +413,6 @@ int readAgents(
         {
             //  Fill shapeIDagent - as many agentIds as there are shapes for it
             shapeIDagent.push_back(agentId);
-            //  Fetch id
-            const char* shapeExternId = nullptr;
-            if (shapeElement->QueryStringAttribute("Id", &shapeExternId) != tinyxml2::XML_SUCCESS)
-            {
-                cerr << "Error: please provide identifier for your shapes" << endl;
-                return EXIT_FAILURE;
-            }
-            shapeMap[{externId, shapeExternId}] = sGlobal;
-            shapeMapInverse.emplace_back(shapeExternId);
             //  Fetch material
             const char* materialId = nullptr;
             shapeElement->QueryStringAttribute("MaterialId", &materialId);
@@ -465,7 +457,6 @@ int readAgents(
     }
 
     nAgents = masses.size();
-    edges.insert(edges.begin(), 0);
 
     return EXIT_SUCCESS;
 }

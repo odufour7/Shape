@@ -43,10 +43,6 @@ map<string, uint32_t> agentMap;   //  Correspondence between user-given ids and 
 vector<string> agentMapInverse;   //  Inverse version for output
 Agent** agents;                   //  The array of pointers to the agent objects
 
-map<pair<string, string>, uint32_t> shapeMap;   //  Correspondence between user-given Shapeids and internal ids.
-vector<string> shapeMapInverse;                 //  We store the couple (Agent id, shape id) in shapeMap, but the
-                                                //  inverse map is only used for output, which is done by agent.
-
 //  Geometry
 double Lx;
 double Ly;

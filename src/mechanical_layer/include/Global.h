@@ -52,12 +52,6 @@ extern std::vector<std::string> agentMapInverse;   //  Inverse version for outpu
 struct Agent;                                      //  Defined in Agents.h
 extern Agent** agents;                             //  The array of pointers to the agent objects
 
-extern std::map<std::pair<std::string, std::string>, uint32_t> shapeMap;   //  Correspondence between user-given
-extern std::vector<std::string> shapeMapInverse;                           //  Shape ids and internal ids. We store the
-                                                                           //  couple (Agent id, shape id) in shapeMap,
-                                                                           //  but the inverse map is only used for
-                                                                           //  output, which is done by agent.
-
 //  Time variables
 extern double dt;        //  Time between two calls of the library
 extern double dt_mech;   //  Time step of the mechanical layer

@@ -224,14 +224,14 @@ int MechanicalLayer::readInteractionsInputFile(const std::string& interactionsFi
             const tinyxml2::XMLElement* interactionElement = agent2Element->FirstChildElement("Interaction");
             while (interactionElement)
             {
-                const char* shape1ExternId = nullptr;
-                const char* shape2ExternId = nullptr;
-                if (interactionElement->QueryStringAttribute("ParentShape", &shape1ExternId) != tinyxml2::XML_SUCCESS)
+                int32_t shapeParent;
+                int32_t shapeChild;
+                if (interactionElement->QueryIntAttribute("ParentShape", &shapeParent) != tinyxml2::XML_SUCCESS)
                 {
                     cerr << "Error: no shape identifier in interaction between agents in " << interactionsFile << endl;
                     return EXIT_FAILURE;
                 }
-                if (interactionElement->QueryStringAttribute("ChildShape", &shape2ExternId) != tinyxml2::XML_SUCCESS)
+                if (interactionElement->QueryIntAttribute("ChildShape", &shapeChild) != tinyxml2::XML_SUCCESS)
                 {
                     cerr << "Error: no shape identifier in interaction between agents in " << interactionsFile << endl;
                     return EXIT_FAILURE;
@@ -239,8 +239,9 @@ int MechanicalLayer::readInteractionsInputFile(const std::string& interactionsFi
                 const char* buffer = nullptr;
                 interactionElement->QueryStringAttribute("TangentialRelativeDisplacement", &buffer);
                 auto [rcSlip, inputSlip] = parse2DComponents(buffer);
-                uint32_t cpt_shape = shapeMap[{agent1ExternId, shape1ExternId}];
-                uint32_t cpt_shape_neigh = shapeMap[{agent2ExternId, shape2ExternId}];
+                uint32_t cpt_shape          = agentIDshape[agentMap[agent1ExternId]] + shapeParent;
+                uint32_t cpt_shape_neigh    = agentIDshape[agentMap[agent2ExternId]] + shapeChild;
+
                 slip[{cpt_shape, cpt_shape_neigh}] = inputSlip;
                 slip[{cpt_shape_neigh, cpt_shape}] = -1 * inputSlip;
             }
@@ -251,15 +252,15 @@ int MechanicalLayer::readInteractionsInputFile(const std::string& interactionsFi
         const tinyxml2::XMLElement* wallElement = agent1Element->FirstChildElement("Wall");
         while (wallElement)
         {
-            const char* shapeExternId = nullptr;
-            wallElement->QueryStringAttribute("ShapeId", &shapeExternId);
+            int32_t shape;
+            wallElement->QueryIntAttribute("ShapeId", &shape);
             int obstacleId, wallId;
             wallElement->QueryIntAttribute("ObstacleId", &obstacleId);
             wallElement->QueryIntAttribute("WallId", &wallId);
             const char* buffer = nullptr;
             wallElement->QueryStringAttribute("TangentialRelativeDisplacement", &buffer);
             auto [rcSlipWall, inputSlipWall] = parse2DComponents(buffer);
-            uint32_t cpt_shape = shapeMap[{agent1ExternId, shapeExternId}];
+            uint32_t cpt_shape = agentIDshape[agentMap[agent1ExternId]] + shape;
             slip_wall[{cpt_shape, obstacleId, wallId}] = inputSlipWall;
 
             wallElement = wallElement->NextSiblingElement("Wall");
@@ -655,8 +656,8 @@ void MechanicalLayer::generateInteractionsOutputFile(const string& interactionsF
                     outputDoc << "        <Agent Id=\"" << agentMapInverse[agentActiveIds[neighbour]] << "\">" << endl;
                     parentChild.insert({agent, neighbour});
                 }
-                outputDoc << "            <Interaction ParentShape=\"" << shapeMapInverse[shape] << "\" "
-                          << "ChildShape=\"" << shapeMapInverse[shapeNeighbour] << "\" ";
+                outputDoc << "            <Interaction ParentShape=\"" << (shape - agentIDshape[agent]) << "\" "
+                          << "ChildShape=\"" << (shapeNeighbour - agentIDshape[neighbour]) << "\" ";
                 if (output[SLIP] != double2(0., 0.))
                     outputDoc << "TangentialRelativeDisplacement=\"" << output[SLIP].first << "," << output[SLIP].second << "\" ";
                 if (output[FORCE_ORTHO] != double2(0., 0.))
@@ -691,7 +692,7 @@ void MechanicalLayer::generateInteractionsOutputFile(const string& interactionsF
                     outputDoc << "    <Agent Id=\"" << agentMapInverse[agentActiveIds[agent]] << "\">" << endl;
                     parent.insert(a);
                 }
-                outputDoc << "        <Wall ShapeId=\"" << shapeMapInverse[shape] << "\" "
+                outputDoc << "        <Wall ShapeId=\"" << (shape - agentIDshape[agent]) << "\" "
                           << "WallId=\"" << get<1>(key) << "\" CornerId=\"" << get<2>(key) << "\" ";
                 if (output[SLIP] != double2(0., 0.))
                     outputDoc << "TangentialRelativeDisplacement=\"" << output[SLIP].first << "," << output[SLIP].second << "\" ";
