@@ -64,15 +64,7 @@ extern double dt_mech;   //  Time step of the mechanical layer
 
 /*  Mechanical layer    */
 extern std::vector<double2> agentProperties;   //  1 / tau_mech: translational and rotational damping
-constexpr uint8_t nDefaultMaterials = 2;       //  We'll provide 2 default Materials (pedestrian and wall)
 extern uint32_t nMaterials;
-#if !defined(DOXYGEN_SHOULD_SKIP_THIS)
-enum __attribute__((__packed__))
-{
-    PEDESTRIAN = 0,
-    WALL = 1,
-};
-#endif   // DOXYGEN_SHOULD_SKIP_THIS
 extern double** intrinsicProperties;
 constexpr int nIntrinsicProperties = 2;
 #if !defined(DOXYGEN_SHOULD_SKIP_THIS)
@@ -104,20 +96,6 @@ extern std::string pathDynamic;
 /*
     Model parameters and user-defined constants
                                                 */
-//  Materials: default values
-constexpr double E_pedestrian = .24e+6;
-constexpr double G_pedestrian = .1e+6;
-constexpr double E_wall = .24e+6;
-constexpr double G_wall = .1e+6;
-constexpr double tau_mech_translational = 0.5;   //  0.5 corresponds to a stopping distance of 2.5 m
-constexpr double tau_mech_rotational = 0.5;
-constexpr double gamma_n = 1.3e+04;
-constexpr double gamma_t = 1.3e+04;
-constexpr double mu_dyn = 0.5;
-constexpr double gamma_n_wall = 1.3e+04;
-constexpr double gamma_t_wall = 1.3e+04;
-constexpr double mu_dyn_wall = 0.5;
-
 //  Maximum speed of an agent
 constexpr double vMaxAgent = 7.;
 

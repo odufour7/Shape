@@ -120,9 +120,11 @@ int readMaterials(const std::string& file, std::map<std::string, int32_t>& mater
     while (materialElement)
     {
         const char* id = nullptr;
-        if (materialElement->QueryStringAttribute("Id", &id) != tinyxml2::XML_SUCCESS)
+        if (materialElement->QueryStringAttribute("Id", &id) != tinyxml2::XML_SUCCESS) {
             cerr << "Error: found material with no id in " << file << endl;
-        materialMapping[id] = static_cast<int32_t>(nDefaultMaterials + nMaterials);
+            return EXIT_FAILURE;
+        }
+        materialMapping[id] = static_cast<int32_t>(nMaterials);
         double E, G;
         if (materialElement->QueryDoubleAttribute("YoungModulus", &E) != tinyxml2::XML_SUCCESS)
         {
@@ -143,70 +145,38 @@ int readMaterials(const std::string& file, std::map<std::string, int32_t>& mater
     intrinsicProperties = new double*[nIntrinsicProperties];
     for (uint32_t i = 0; i < nIntrinsicProperties; i++)
     {
-        intrinsicProperties[i] = new double[nDefaultMaterials + nMaterials];
+        intrinsicProperties[i] = new double[nMaterials];
     }
-    //  Populate intrinsic parameters
-    for (uint32_t i = 0; i < nMaterials; i++)
-    {
-        intrinsicProperties[YOUNG_MODULUS][nDefaultMaterials + i] = elasticProperties[i].first;
-        intrinsicProperties[SHEAR_MODULUS][nDefaultMaterials + i] = elasticProperties[i].second;
-    }
-    //  Default materials
-    intrinsicProperties[YOUNG_MODULUS][PEDESTRIAN] = E_pedestrian;
-    intrinsicProperties[SHEAR_MODULUS][PEDESTRIAN] = G_pedestrian;
-    intrinsicProperties[YOUNG_MODULUS][WALL] = E_wall;
-    intrinsicProperties[SHEAR_MODULUS][WALL] = G_wall;
-
     binaryProperties = new double**[nBinaryProperties];
     for (uint32_t i = 0; i < nBinaryProperties; i++)
     {
-        binaryProperties[i] = new double*[nDefaultMaterials + nMaterials];
-        for (uint32_t j = 0; j < nDefaultMaterials + nMaterials; j++)
+        binaryProperties[i] = new double*[nMaterials];
+        for (uint32_t j = 0; j < nMaterials; j++)
         {
-            binaryProperties[i][j] = new double[nDefaultMaterials + nMaterials];
+            binaryProperties[i][j] = new double[nMaterials];
         }
     }
-    //  Find stiffness combinations from intrinsic properties
-    for (uint32_t i = 0; i < nDefaultMaterials + nMaterials; i++)
+    /*  Populate intrinsic parameters   */
+    for (uint32_t i = 0; i < nMaterials; i++)
     {
-        for (uint32_t j = 0; j < nDefaultMaterials + nMaterials; j++)
+        intrinsicProperties[YOUNG_MODULUS][i]   = elasticProperties[i].first;
+        intrinsicProperties[SHEAR_MODULUS][i]   = elasticProperties[i].second;
+    }
+    /*  Populate binary parameters  */
+    //  Find stiffness combinations from intrinsic properties
+    for (uint32_t i = 0; i < nMaterials; i++)
+    {
+        for (uint32_t j = 0; j < nMaterials; j++)
         {
-            double stiffnessNormal = computeStiffnessNormal(i, j);
-            binaryProperties[STIFFNESS_NORMAL][j][i] = stiffnessNormal;
-            binaryProperties[STIFFNESS_NORMAL][i][j] = stiffnessNormal;
-            double stiffnessTangential = computeStiffnessTangential(i, j);
+            double stiffnessNormal      = computeStiffnessNormal(i, j);
+            binaryProperties[STIFFNESS_NORMAL][j][i]     = stiffnessNormal;
+            binaryProperties[STIFFNESS_NORMAL][i][j]     = stiffnessNormal;
+            double stiffnessTangential  = computeStiffnessTangential(i, j);
             binaryProperties[STIFFNESS_TANGENTIAL][j][i] = stiffnessTangential;
             binaryProperties[STIFFNESS_TANGENTIAL][i][j] = stiffnessTangential;
         }
     }
-
-    //  Populate binaryProperties for default materials
-    binaryProperties[DAMPING_NORMAL][PEDESTRIAN][PEDESTRIAN] = gamma_n;
-    binaryProperties[DAMPING_NORMAL][PEDESTRIAN][WALL] = gamma_n_wall;
-    binaryProperties[DAMPING_NORMAL][WALL][PEDESTRIAN] = gamma_n_wall;
-    binaryProperties[DAMPING_TANGENTIAL][PEDESTRIAN][PEDESTRIAN] = gamma_t;
-    binaryProperties[DAMPING_TANGENTIAL][PEDESTRIAN][WALL] = gamma_t_wall;
-    binaryProperties[DAMPING_TANGENTIAL][WALL][PEDESTRIAN] = gamma_t_wall;
-    binaryProperties[FRICTION_SLIDING][PEDESTRIAN][PEDESTRIAN] = mu_dyn;
-    binaryProperties[FRICTION_SLIDING][PEDESTRIAN][WALL] = mu_dyn_wall;
-    binaryProperties[FRICTION_SLIDING][WALL][PEDESTRIAN] = mu_dyn_wall;
-    for (uint32_t i = nDefaultMaterials; i < nDefaultMaterials + nMaterials; i++)
-    {
-        binaryProperties[DAMPING_NORMAL][PEDESTRIAN][i] = gamma_n;
-        binaryProperties[DAMPING_NORMAL][i][PEDESTRIAN] = gamma_n;
-        binaryProperties[DAMPING_NORMAL][WALL][i] = gamma_n_wall;
-        binaryProperties[DAMPING_NORMAL][i][WALL] = gamma_n_wall;
-        binaryProperties[DAMPING_TANGENTIAL][PEDESTRIAN][i] = gamma_t;
-        binaryProperties[DAMPING_TANGENTIAL][i][PEDESTRIAN] = gamma_t;
-        binaryProperties[DAMPING_TANGENTIAL][WALL][i] = gamma_t_wall;
-        binaryProperties[DAMPING_TANGENTIAL][i][WALL] = gamma_t_wall;
-        binaryProperties[FRICTION_SLIDING][PEDESTRIAN][i] = mu_dyn;
-        binaryProperties[FRICTION_SLIDING][i][PEDESTRIAN] = mu_dyn;
-        binaryProperties[FRICTION_SLIDING][WALL][i] = mu_dyn_wall;
-        binaryProperties[FRICTION_SLIDING][i][WALL] = mu_dyn_wall;
-    }
-
-    /*  Read relationships for the rest of the binary properties    */
+    //  Read the rest of the binary properties from the XML file - <Binary>
     const tinyxml2::XMLElement* relationshipsElement = materialsElement->FirstChildElement("Binary");
     if (!relationshipsElement)
     {
@@ -216,7 +186,7 @@ int readMaterials(const std::string& file, std::map<std::string, int32_t>& mater
     const tinyxml2::XMLElement* relationshipElement = relationshipsElement->FirstChildElement("Contact");
     if (!relationshipElement)
     {
-        cerr << "Error: no relationships in " << file << endl;
+        cerr << "Error: no binary properties at all in " << file << endl;
         return EXIT_FAILURE;
     }
     while (relationshipElement)
@@ -267,7 +237,7 @@ int readMaterials(const std::string& file, std::map<std::string, int32_t>& mater
  * @return EXIT_FAILURE in case of issue in the XML file (missing or unreadable field)
  *         EXIT_SUCCESS otherwise
  */
-int readGeometry(const std::string& file, std::map<std::string, int32_t>& materialMapping)
+int readGeometry(const string& file, map<string, int32_t>& materialMapping)
 {
     tinyxml2::XMLDocument document;
     document.LoadFile(file.data());
@@ -317,15 +287,14 @@ int readGeometry(const std::string& file, std::map<std::string, int32_t>& materi
         wallElement->QueryStringAttribute("MaterialId", &materialId);
         if (!materialId || !materialMapping.contains(materialId))
         {
-            // cout << "Warning: unknown or absent material id " << materialId << "given for one of the walls.";
-            // cout << "The default material will be used." << endl;
-            obstaclesMaterial.push_back(WALL);   //  If unknown id, give the default WALL material
+            cerr << "Error: unknown or absent material id " << materialId << " given for one of the walls" << endl;
+            return EXIT_FAILURE;
         }
         else
             obstaclesMaterial.push_back(materialMapping[materialId]);
 
         vector<double2> wall;
-        const tinyxml2::XMLElement* cornerElement = wallElement->FirstChildElement("Corner");
+        const tinyxml2::XMLElement* cornerElement   = wallElement->FirstChildElement("Corner");
         if (!cornerElement)
         {
             cerr << "Error: no corners in wall!" << endl;
@@ -371,9 +340,10 @@ int readGeometry(const std::string& file, std::map<std::string, int32_t>& materi
  * @return EXIT_FAILURE in case of issue in the XML file (missing or unreadable field)
  *         EXIT_SUCCESS otherwise
  */
-int readAgents(const std::string& file, std::vector<unsigned>& nShapesPerAgent, std::vector<unsigned>& shapeIDagent,
-               std::vector<int>& edges, std::vector<double>& radii, std::vector<double>& masses, std::vector<double>& mois,
-               std::vector<double2>& delta_gtos, std::map<std::string, int32_t>& materialMapping)
+int readAgents(
+    const string& file, vector<unsigned>& nShapesPerAgent,
+    vector<unsigned>& shapeIDagent, vector<int>& edges, vector<double>& radii, vector<double>& masses,
+    vector<double>& mois, vector<double2>& delta_gtos, map<string, int32_t>& materialMapping)
 {
     tinyxml2::XMLDocument document;
     document.LoadFile(file.data());
@@ -420,15 +390,13 @@ int readAgents(const std::string& file, std::vector<unsigned>& nShapesPerAgent, 
         double dampingTranslational, dampingRotational;
         if (agentElement->QueryDoubleAttribute("FloorDamping", &dampingTranslational) != tinyxml2::XML_SUCCESS)
         {
-            // cout << "Warning: for agent " << externId << ": translational damping (FloorDamping) not provided! ";
-            // cout << "Default value will be used." << endl;
-            dampingTranslational = 1 / tau_mech_translational;
+            cerr << "Error: for agent " << externId << ": translational damping (FloorDamping) not provided! " << endl;
+            return EXIT_FAILURE;
         }
         if (agentElement->QueryDoubleAttribute("AngularDamping", &dampingRotational) != tinyxml2::XML_SUCCESS)
         {
-            // cout << "Warning: for agent " << externId << ": rotational damping (AngularDamping) not provided! ";
-            // cout << "Default value will be used." << endl;
-            dampingRotational = 1 / tau_mech_rotational;
+            cerr << "Error: for agent " << externId << ": rotational damping (AngularDamping) not provided! " << endl;
+            return EXIT_FAILURE;
         }
         agentProperties.emplace_back(dampingTranslational, dampingRotational);
 
@@ -458,9 +426,8 @@ int readAgents(const std::string& file, std::vector<unsigned>& nShapesPerAgent, 
             shapeElement->QueryStringAttribute("MaterialId", &materialId);
             if (!materialId || !materialMapping.contains(materialId))
             {
-                // cout << "Warning: unknown or absent material id " << materialId << "given for one of the shapes.";
-                // cout << "The default material will be used." << endl;
-                shapesMaterial[sGlobal] = PEDESTRIAN;   //  if unknown material, give the default
+                cerr << "Error: unknown or absent material id " << materialId << "given for one of the shapes." << endl;
+                return EXIT_FAILURE;
             }
             else
                 shapesMaterial[sGlobal] = materialMapping[materialId];
