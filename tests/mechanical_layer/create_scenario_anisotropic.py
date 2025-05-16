@@ -126,6 +126,21 @@ class Agent:
         ------
         TypeError
             If `x` or `y` is not an float.
+
+        Attributes
+        ----------
+        x : float
+            The x-coordinate of the agent.
+        y : float
+            The y-coordinate of the agent.
+        Fx : float
+            The force applied in the x-direction (default: 0.0).
+        Fy : float
+            The force applied in the y-direction (default: 1.0).
+        theta : float
+            The orientation angle of the agent in radians (default: 0.0).
+        torque : float
+            The torque applied to the agent (default: 0.0).
         """
         if not isinstance(x, (int, float)) or not isinstance(y, (int, float)):
             raise TypeError("x and y must be int or float")
@@ -177,7 +192,22 @@ class Scenario:
     """Class representing the simulation scenario."""
 
     def __init__(self) -> None:
-        """Initialize a Scenario instance with empty walls and agents."""
+        """
+        Initialize a Scenario instance with empty walls and agents.
+
+        Attributes
+        ----------
+        walls : list[tuple[float,float]]
+            A list of walls, where each wall is a list of (x, y) tuples representing wall points.
+        totalwalls : int
+            The total number of walls in the scenario.
+        current_wallId : int
+            The index of the currently active wall (for editing or drawing).
+        agents : list
+            A list of agents present in the scenario.
+        current_agent : int
+            The index of the currently selected agent, or -1 if none is selected.
+        """
         # Walls Variables
         self.walls: list[list[tuple[float, float]]] = []
         self.totalwalls: int = 0
@@ -792,10 +822,23 @@ class MyWidget(Widget):  # type: ignore[misc]
 
 
 class MyApp(App):  # type: ignore[misc]
-    """Main application class for the Kivy simulation interface."""
+    """
+    Main application class for the Kivy simulation interface.
+
+    Attributes
+    ----------
+    widget : Widget | None
+        Reference to the main application widget. Initialized as None and set during the build process.
+    """
 
     def __init__(self) -> None:
-        """Initialize the MyApp application instance."""
+        """Initialize the MyApp application instance.
+
+        Attributes
+        ----------
+        widget : Widget | None
+            Reference to the main application widget. Initialized as None and set during the build process.
+        """
         super().__init__()
         self.widget: Widget | None = None
 
