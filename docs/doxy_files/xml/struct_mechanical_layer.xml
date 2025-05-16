@@ -509,7 +509,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="81" column="16" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/MechanicalLayer.cpp" bodystart="281" bodyend="474"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="81" column="16" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/MechanicalLayer.cpp" bodystart="282" bodyend="475"/>
       </memberdef>
       <memberdef kind="function" id="struct_mechanical_layer_1a53c534f15aff2820bb730d85887f0a4b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -525,7 +525,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="82" column="10" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/MechanicalLayer.cpp" bodystart="490" bodyend="572"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="82" column="10" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/MechanicalLayer.cpp" bodystart="491" bodyend="573"/>
       </memberdef>
       <memberdef kind="function" id="struct_mechanical_layer_1a045e015db6ee46b018e0c3085ef08f74" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -554,7 +554,7 @@ return EXIT_FAILURE in case of problem with the XML file EXIT_SUCCESS otherwise 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="84" column="9" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/MechanicalLayer.cpp" bodystart="176" bodyend="271"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="84" column="9" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/MechanicalLayer.cpp" bodystart="176" bodyend="272"/>
       </memberdef>
       <memberdef kind="function" id="struct_mechanical_layer_1a7abe08c3957a79371de41a99a285fe7e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::pair&lt; bool, bool &gt;</type>
@@ -572,7 +572,7 @@ return EXIT_FAILURE in case of problem with the XML file EXIT_SUCCESS otherwise 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="85" column="15" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/MechanicalLayer.cpp" bodystart="579" bodyend="601"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="85" column="15" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/MechanicalLayer.cpp" bodystart="580" bodyend="602"/>
       </memberdef>
       <memberdef kind="function" id="struct_mechanical_layer_1aac7fb2491918667ad9e7d45754deae0f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -613,7 +613,7 @@ return EXIT_FAILURE in case of problem with the XML file EXIT_SUCCESS otherwise 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="86" column="10" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/MechanicalLayer.cpp" bodystart="610" bodyend="712"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/MechanicalLayer.h" line="86" column="10" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/MechanicalLayer.cpp" bodystart="611" bodyend="713"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">

@@ -154,12 +154,9 @@
     <member refid="_global_8h_1a44e082dbf949303a43b6fa4a5e5c3cca" kind="variable"><name>agentMap</name></member>
     <member refid="_global_8h_1a92e99256a0e993d98492591f470fcf70" kind="variable"><name>agentMapInverse</name></member>
     <member refid="_global_8h_1acd1960d2e52407aba08102dc55c5891e" kind="variable"><name>agents</name></member>
-    <member refid="_global_8h_1a684b17f4a98db099e58d9edd8cef03a9" kind="variable"><name>shapeMap</name></member>
-    <member refid="_global_8h_1a72ae67a1be77382f01729a4f8a4b58a8" kind="variable"><name>shapeMapInverse</name></member>
     <member refid="_global_8h_1a03e28be41881b703c836edbfe9b51b17" kind="variable"><name>dt</name></member>
     <member refid="_global_8h_1a8bfe393342f0c199097b8a314cdc6dab" kind="variable"><name>dt_mech</name></member>
     <member refid="_global_8h_1a3277222a08d2a1a9bef000016a5bc383" kind="variable"><name>agentProperties</name></member>
-    <member refid="_global_8h_1a17de3a8a5c900b7b8847cf9b4db36653" kind="variable"><name>nDefaultMaterials</name></member>
     <member refid="_global_8h_1a8c0a8fe32456ebb50a4d4033e37ff4e5" kind="variable"><name>nMaterials</name></member>
     <member refid="_global_8h_1a449a06862d241ed51aafc2d9f103bd33" kind="variable"><name>intrinsicProperties</name></member>
     <member refid="_global_8h_1a725385e907dca1efd746427a21d02b18" kind="variable"><name>nIntrinsicProperties</name></member>
@@ -169,18 +166,6 @@
     <member refid="_global_8h_1a8cf6fd8677b31374a3f7b977386d679e" kind="variable"><name>shapesMaterial</name></member>
     <member refid="_global_8h_1a1dafd4caf95ef720e13da7d763236f91" kind="variable"><name>pathStatic</name></member>
     <member refid="_global_8h_1af643e0a93a86f1561a94baec6fa0b14e" kind="variable"><name>pathDynamic</name></member>
-    <member refid="_global_8h_1ae2992a497c7df6e0b9dbfaa4a8d61bae" kind="variable"><name>E_pedestrian</name></member>
-    <member refid="_global_8h_1a568583de2be59593b9ea58dfd98162fe" kind="variable"><name>G_pedestrian</name></member>
-    <member refid="_global_8h_1a64c3a2e0854813c20a4d0e701d208e5c" kind="variable"><name>E_wall</name></member>
-    <member refid="_global_8h_1adb90cf3779bd23a58acfbfa2b3a73560" kind="variable"><name>G_wall</name></member>
-    <member refid="_global_8h_1a1ad62af702fdf4317ff014bb308d6382" kind="variable"><name>tau_mech_translational</name></member>
-    <member refid="_global_8h_1a99b9faf61db1d311fde7fa7f9fe00200" kind="variable"><name>tau_mech_rotational</name></member>
-    <member refid="_global_8h_1aed0d50e2b0fea06e1d473382f8c9a16d" kind="variable"><name>gamma_n</name></member>
-    <member refid="_global_8h_1af99b3f66b10ab07303fe631c71cf10ad" kind="variable"><name>gamma_t</name></member>
-    <member refid="_global_8h_1a8e6c911cef1f465fcff2718db4f169f3" kind="variable"><name>mu_dyn</name></member>
-    <member refid="_global_8h_1ab0ca98e75ec6854bcad6013ed9625bf7" kind="variable"><name>gamma_n_wall</name></member>
-    <member refid="_global_8h_1adf53a33be7343d5fb8c32588235d7b5f" kind="variable"><name>gamma_t_wall</name></member>
-    <member refid="_global_8h_1a0fc383055f833df58d0b2c90155f4298" kind="variable"><name>mu_dyn_wall</name></member>
     <member refid="_global_8h_1a72db0ee84370892f3c8df7fadf2bfb80" kind="variable"><name>vMaxAgent</name></member>
     <member refid="_global_8h_1abe8198bc51fc4dba2f59ff2196bc31b5" kind="function"><name>operator+</name></member>
     <member refid="_global_8h_1a1862d4516e73ee3b3c2db581c9d7dfc4" kind="function"><name>operator-</name></member>
@@ -223,8 +208,6 @@
     <member refid="_global_8cpp_1a2d9c16ea9a48a801f040edbb1364a369" kind="variable"><name>agentMap</name></member>
     <member refid="_global_8cpp_1a9383e068c56024265f6b9fe837d586f6" kind="variable"><name>agentMapInverse</name></member>
     <member refid="_global_8cpp_1acd1960d2e52407aba08102dc55c5891e" kind="variable"><name>agents</name></member>
-    <member refid="_global_8cpp_1a2d4dde640507c44696ac86eeac30cc46" kind="variable"><name>shapeMap</name></member>
-    <member refid="_global_8cpp_1aeec3b5ebec2f8182b085aa4d7a009b04" kind="variable"><name>shapeMapInverse</name></member>
     <member refid="_global_8cpp_1ad538aa77abb694f8faf437a41e3e8037" kind="variable"><name>Lx</name></member>
     <member refid="_global_8cpp_1a9b3d111ccf7f82fb80aeb6f8b229c21b" kind="variable"><name>Ly</name></member>
     <member refid="_global_8cpp_1a7748aa3ec6479e25397cee7d2eb63b88" kind="variable"><name>listObstacles</name></member>

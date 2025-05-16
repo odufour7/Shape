@@ -11,10 +11,10 @@ Program Listing for File MechanicalLayer.h
 .. code-block:: cpp
 
    /* Copyright 2025 <Dufour Oscar, Maxime Stappel, Nicolas Alexandre, Institute of Light and Matter, CNRS UMR 5306> */
-
+   
    #ifndef SRC_MECHANICAL_LAYER_INCLUDE_MECHANICALLAYER_H_
    #define SRC_MECHANICAL_LAYER_INCLUDE_MECHANICALLAYER_H_
-
+   
    #include <array>
    #include <map>
    #include <set>
@@ -23,10 +23,10 @@ Program Listing for File MechanicalLayer.h
    #include <unordered_set>
    #include <utility>
    #include <vector>
-
+   
    #include "Agent.h"
    #include "Global.h"
-
+   
    //  Helper list to make indices explicit
    #if !defined(DOXYGEN_SHOULD_SKIP_THIS)
    enum __attribute__((__packed__)) interactionsOutput_e
@@ -70,28 +70,28 @@ Program Listing for File MechanicalLayer.h
        std::vector<double> masses;
        std::vector<double> mois;
        std::vector<double2> damping;
-
+   
        //  Tangential relative displacement when in contact
        std::map<std::pair<unsigned, unsigned>, double2> slip;
        std::map<std::tuple<unsigned, int, int>, double2> slip_wall;
-
+   
        //  For output purposes: the following variables will contain:
        //    - a copy of slip
        //    - fortho from shape to shape
        //    - ft from shape to shape
        std::map<std::pair<unsigned, unsigned>, std::array<double2, 3>> interactionsOutput;
        std::map<std::tuple<unsigned, int, int>, std::array<double2, 3>> interactionsOutputWall;
-
+   
        std::tuple<double2, double2, double> get_interactions(unsigned cpt_shape, bool AtTimen);
        void loop();
        //  AgentInteractions is an input and output file (ie "dynamic") of this process
        int readInteractionsInputFile(const std::string& interactionsFile);
        std::pair<bool, bool> existsContacts();   //  Do contacts exist?
        void generateInteractionsOutputFile(const std::string& interactionsFile, const std::pair<bool, bool>& exists);
-
+   
       public:
        explicit MechanicalLayer(std::list<Agent*>& mech_active_agents);
        ~MechanicalLayer();
    };
-
+   
    #endif   // SRC_MECHANICAL_LAYER_INCLUDE_MECHANICALLAYER_H_"

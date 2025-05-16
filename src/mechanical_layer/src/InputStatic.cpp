@@ -120,7 +120,8 @@ int readMaterials(const std::string& file, std::map<std::string, int32_t>& mater
     while (materialElement)
     {
         const char* id = nullptr;
-        if (materialElement->QueryStringAttribute("Id", &id) != tinyxml2::XML_SUCCESS) {
+        if (materialElement->QueryStringAttribute("Id", &id) != tinyxml2::XML_SUCCESS)
+        {
             cerr << "Error: found material with no id in " << file << endl;
             return EXIT_FAILURE;
         }
@@ -159,8 +160,8 @@ int readMaterials(const std::string& file, std::map<std::string, int32_t>& mater
     /*  Populate intrinsic parameters   */
     for (uint32_t i = 0; i < nMaterials; i++)
     {
-        intrinsicProperties[YOUNG_MODULUS][i]   = elasticProperties[i].first;
-        intrinsicProperties[SHEAR_MODULUS][i]   = elasticProperties[i].second;
+        intrinsicProperties[YOUNG_MODULUS][i] = elasticProperties[i].first;
+        intrinsicProperties[SHEAR_MODULUS][i] = elasticProperties[i].second;
     }
     /*  Populate binary parameters  */
     //  Find stiffness combinations from intrinsic properties
@@ -168,10 +169,10 @@ int readMaterials(const std::string& file, std::map<std::string, int32_t>& mater
     {
         for (uint32_t j = 0; j < nMaterials; j++)
         {
-            double stiffnessNormal      = computeStiffnessNormal(i, j);
-            binaryProperties[STIFFNESS_NORMAL][j][i]     = stiffnessNormal;
-            binaryProperties[STIFFNESS_NORMAL][i][j]     = stiffnessNormal;
-            double stiffnessTangential  = computeStiffnessTangential(i, j);
+            double stiffnessNormal = computeStiffnessNormal(i, j);
+            binaryProperties[STIFFNESS_NORMAL][j][i] = stiffnessNormal;
+            binaryProperties[STIFFNESS_NORMAL][i][j] = stiffnessNormal;
+            double stiffnessTangential = computeStiffnessTangential(i, j);
             binaryProperties[STIFFNESS_TANGENTIAL][j][i] = stiffnessTangential;
             binaryProperties[STIFFNESS_TANGENTIAL][i][j] = stiffnessTangential;
         }
@@ -237,7 +238,7 @@ int readMaterials(const std::string& file, std::map<std::string, int32_t>& mater
  * @return EXIT_FAILURE in case of issue in the XML file (missing or unreadable field)
  *         EXIT_SUCCESS otherwise
  */
-int readGeometry(const string& file, map<string, int32_t>& materialMapping)
+int readGeometry(const std::string& file, std::map<std::string, int32_t>& materialMapping)
 {
     tinyxml2::XMLDocument document;
     document.LoadFile(file.data());
@@ -294,7 +295,7 @@ int readGeometry(const string& file, map<string, int32_t>& materialMapping)
             obstaclesMaterial.push_back(materialMapping[materialId]);
 
         vector<double2> wall;
-        const tinyxml2::XMLElement* cornerElement   = wallElement->FirstChildElement("Corner");
+        const tinyxml2::XMLElement* cornerElement = wallElement->FirstChildElement("Corner");
         if (!cornerElement)
         {
             cerr << "Error: no corners in wall!" << endl;
@@ -340,10 +341,9 @@ int readGeometry(const string& file, map<string, int32_t>& materialMapping)
  * @return EXIT_FAILURE in case of issue in the XML file (missing or unreadable field)
  *         EXIT_SUCCESS otherwise
  */
-int readAgents(
-    const string& file, vector<unsigned>& nShapesPerAgent,
-    vector<unsigned>& shapeIDagent, vector<int>& edges, vector<double>& radii, vector<double>& masses,
-    vector<double>& mois, vector<double2>& delta_gtos, map<string, int32_t>& materialMapping)
+int readAgents(const std::string& file, std::vector<unsigned>& nShapesPerAgent, std::vector<unsigned>& shapeIDagent,
+               std::vector<int>& edges, std::vector<double>& radii, std::vector<double>& masses, std::vector<double>& mois,
+               std::vector<double2>& delta_gtos, std::map<std::string, int32_t>& materialMapping)
 {
     tinyxml2::XMLDocument document;
     document.LoadFile(file.data());

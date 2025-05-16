@@ -15,16 +15,16 @@ Program Listing for File InputStatic.cpp
        The file contains the functions that will handle "static" input files.
        It will also compute physical parameters depending on materials.
     */
-
+   
    #include "InputStatic.h"
-
+   
    #include <iostream>
    #include <map>
    #include <string>
    #include <vector>
-
+   
    using std::cout, std::cerr, std::string, std::endl, std::vector, std::map;
-
+   
    int readParameters(const std::string& file)
    {
        tinyxml2::XMLDocument document;
@@ -75,7 +75,7 @@ Program Listing for File InputStatic.cpp
            pathStatic = staticDirectory;
            pathDynamic = dynamicDirectory;
        }
-
+   
        return EXIT_SUCCESS;
    }
    int readMaterials(const std::string& file, std::map<std::string, int32_t>& materialMapping)
@@ -87,7 +87,7 @@ Program Listing for File InputStatic.cpp
            cerr << "Error: Could not load or parse XML file " << file << endl;
            return EXIT_FAILURE;
        }
-
+   
        /*  Read the Materials block */
        tinyxml2::XMLElement* materialsElement = document.FirstChildElement("Materials");
        if (!materialsElement)
@@ -95,7 +95,7 @@ Program Listing for File InputStatic.cpp
            cerr << "Error: Information about materials must be embedded in \"Materials\" tag!" << endl;
            return EXIT_FAILURE;
        }
-
+   
        /*  Read intrinsic properties */
        const tinyxml2::XMLElement* intrinsicElement = materialsElement->FirstChildElement("Intrinsic");
        if (!intrinsicElement)
@@ -116,8 +116,11 @@ Program Listing for File InputStatic.cpp
        {
            const char* id = nullptr;
            if (materialElement->QueryStringAttribute("Id", &id) != tinyxml2::XML_SUCCESS)
+           {
                cerr << "Error: found material with no id in " << file << endl;
-           materialMapping[id] = static_cast<int32_t>(nDefaultMaterials + nMaterials);
+               return EXIT_FAILURE;
+           }
+           materialMapping[id] = static_cast<int32_t>(nMaterials);
            double E, G;
            if (materialElement->QueryDoubleAttribute("YoungModulus", &E) != tinyxml2::XML_SUCCESS)
            {
@@ -130,7 +133,7 @@ Program Listing for File InputStatic.cpp
                return EXIT_FAILURE;
            }
            elasticProperties.emplace_back(E, G);
-
+   
            materialElement = materialElement->NextSiblingElement("Material");
            nMaterials++;
        }
@@ -138,33 +141,28 @@ Program Listing for File InputStatic.cpp
        intrinsicProperties = new double*[nIntrinsicProperties];
        for (uint32_t i = 0; i < nIntrinsicProperties; i++)
        {
-           intrinsicProperties[i] = new double[nDefaultMaterials + nMaterials];
+           intrinsicProperties[i] = new double[nMaterials];
        }
-       //  Populate intrinsic parameters
-       for (uint32_t i = 0; i < nMaterials; i++)
-       {
-           intrinsicProperties[YOUNG_MODULUS][nDefaultMaterials + i] = elasticProperties[i].first;
-           intrinsicProperties[SHEAR_MODULUS][nDefaultMaterials + i] = elasticProperties[i].second;
-       }
-       //  Default materials
-       intrinsicProperties[YOUNG_MODULUS][PEDESTRIAN] = E_pedestrian;
-       intrinsicProperties[SHEAR_MODULUS][PEDESTRIAN] = G_pedestrian;
-       intrinsicProperties[YOUNG_MODULUS][WALL] = E_wall;
-       intrinsicProperties[SHEAR_MODULUS][WALL] = G_wall;
-
        binaryProperties = new double**[nBinaryProperties];
        for (uint32_t i = 0; i < nBinaryProperties; i++)
        {
-           binaryProperties[i] = new double*[nDefaultMaterials + nMaterials];
-           for (uint32_t j = 0; j < nDefaultMaterials + nMaterials; j++)
+           binaryProperties[i] = new double*[nMaterials];
+           for (uint32_t j = 0; j < nMaterials; j++)
            {
-               binaryProperties[i][j] = new double[nDefaultMaterials + nMaterials];
+               binaryProperties[i][j] = new double[nMaterials];
            }
        }
-       //  Find stiffness combinations from intrinsic properties
-       for (uint32_t i = 0; i < nDefaultMaterials + nMaterials; i++)
+       /*  Populate intrinsic parameters   */
+       for (uint32_t i = 0; i < nMaterials; i++)
        {
-           for (uint32_t j = 0; j < nDefaultMaterials + nMaterials; j++)
+           intrinsicProperties[YOUNG_MODULUS][i] = elasticProperties[i].first;
+           intrinsicProperties[SHEAR_MODULUS][i] = elasticProperties[i].second;
+       }
+       /*  Populate binary parameters  */
+       //  Find stiffness combinations from intrinsic properties
+       for (uint32_t i = 0; i < nMaterials; i++)
+       {
+           for (uint32_t j = 0; j < nMaterials; j++)
            {
                double stiffnessNormal = computeStiffnessNormal(i, j);
                binaryProperties[STIFFNESS_NORMAL][j][i] = stiffnessNormal;
@@ -174,34 +172,7 @@ Program Listing for File InputStatic.cpp
                binaryProperties[STIFFNESS_TANGENTIAL][i][j] = stiffnessTangential;
            }
        }
-
-       //  Populate binaryProperties for default materials
-       binaryProperties[DAMPING_NORMAL][PEDESTRIAN][PEDESTRIAN] = gamma_n;
-       binaryProperties[DAMPING_NORMAL][PEDESTRIAN][WALL] = gamma_n_wall;
-       binaryProperties[DAMPING_NORMAL][WALL][PEDESTRIAN] = gamma_n_wall;
-       binaryProperties[DAMPING_TANGENTIAL][PEDESTRIAN][PEDESTRIAN] = gamma_t;
-       binaryProperties[DAMPING_TANGENTIAL][PEDESTRIAN][WALL] = gamma_t_wall;
-       binaryProperties[DAMPING_TANGENTIAL][WALL][PEDESTRIAN] = gamma_t_wall;
-       binaryProperties[FRICTION_SLIDING][PEDESTRIAN][PEDESTRIAN] = mu_dyn;
-       binaryProperties[FRICTION_SLIDING][PEDESTRIAN][WALL] = mu_dyn_wall;
-       binaryProperties[FRICTION_SLIDING][WALL][PEDESTRIAN] = mu_dyn_wall;
-       for (uint32_t i = nDefaultMaterials; i < nDefaultMaterials + nMaterials; i++)
-       {
-           binaryProperties[DAMPING_NORMAL][PEDESTRIAN][i] = gamma_n;
-           binaryProperties[DAMPING_NORMAL][i][PEDESTRIAN] = gamma_n;
-           binaryProperties[DAMPING_NORMAL][WALL][i] = gamma_n_wall;
-           binaryProperties[DAMPING_NORMAL][i][WALL] = gamma_n_wall;
-           binaryProperties[DAMPING_TANGENTIAL][PEDESTRIAN][i] = gamma_t;
-           binaryProperties[DAMPING_TANGENTIAL][i][PEDESTRIAN] = gamma_t;
-           binaryProperties[DAMPING_TANGENTIAL][WALL][i] = gamma_t_wall;
-           binaryProperties[DAMPING_TANGENTIAL][i][WALL] = gamma_t_wall;
-           binaryProperties[FRICTION_SLIDING][PEDESTRIAN][i] = mu_dyn;
-           binaryProperties[FRICTION_SLIDING][i][PEDESTRIAN] = mu_dyn;
-           binaryProperties[FRICTION_SLIDING][WALL][i] = mu_dyn_wall;
-           binaryProperties[FRICTION_SLIDING][i][WALL] = mu_dyn_wall;
-       }
-
-       /*  Read relationships for the rest of the binary properties    */
+       //  Read the rest of the binary properties from the XML file - <Binary>
        const tinyxml2::XMLElement* relationshipsElement = materialsElement->FirstChildElement("Binary");
        if (!relationshipsElement)
        {
@@ -211,7 +182,7 @@ Program Listing for File InputStatic.cpp
        const tinyxml2::XMLElement* relationshipElement = relationshipsElement->FirstChildElement("Contact");
        if (!relationshipElement)
        {
-           cerr << "Error: no relationships in " << file << endl;
+           cerr << "Error: no binary properties at all in " << file << endl;
            return EXIT_FAILURE;
        }
        while (relationshipElement)
@@ -250,7 +221,7 @@ Program Listing for File InputStatic.cpp
            binaryProperties[FRICTION_SLIDING][materialMapping[id2]][materialMapping[id1]] = mu_d;
            relationshipElement = relationshipElement->NextSiblingElement("Contact");
        }
-
+   
        return EXIT_SUCCESS;
    }
    int readGeometry(const std::string& file, std::map<std::string, int32_t>& materialMapping)
@@ -262,7 +233,7 @@ Program Listing for File InputStatic.cpp
            cerr << "Error: Could not load or parse XML file " << file << endl;
            return EXIT_FAILURE;
        }
-
+   
        /*  Read the Geometry block */
        tinyxml2::XMLElement* geometryElement = document.FirstChildElement("Geometry");
        if (!geometryElement)
@@ -270,7 +241,7 @@ Program Listing for File InputStatic.cpp
            cerr << "Error: Information about geometry must be embedded in \"Geometry\" tag!" << endl;
            return EXIT_FAILURE;
        }
-
+   
        /*  Read dimensions */
        const tinyxml2::XMLElement* dimensionsElement = geometryElement->FirstChildElement("Dimensions");
        if (!dimensionsElement)
@@ -288,7 +259,7 @@ Program Listing for File InputStatic.cpp
            cerr << "Error: Could not parse domain dimensions from XML file " << file << endl;
            return EXIT_FAILURE;
        }
-
+   
        /*  Read Walls  */
        const tinyxml2::XMLElement* wallElement = geometryElement->FirstChildElement("Wall");
        if (!wallElement)
@@ -303,13 +274,12 @@ Program Listing for File InputStatic.cpp
            wallElement->QueryStringAttribute("MaterialId", &materialId);
            if (!materialId || !materialMapping.contains(materialId))
            {
-               // cout << "Warning: unknown or absent material id " << materialId << "given for one of the walls.";
-               // cout << "The default material will be used." << endl;
-               obstaclesMaterial.push_back(WALL);   //  If unknown id, give the default WALL material
+               cerr << "Error: unknown or absent material id " << materialId << " given for one of the walls" << endl;
+               return EXIT_FAILURE;
            }
            else
                obstaclesMaterial.push_back(materialMapping[materialId]);
-
+   
            vector<double2> wall;
            const tinyxml2::XMLElement* cornerElement = wallElement->FirstChildElement("Corner");
            if (!cornerElement)
@@ -335,10 +305,10 @@ Program Listing for File InputStatic.cpp
                cornerElement = cornerElement->NextSiblingElement("Corner");
            }
            listObstacles.push_back(wall);
-
+   
            wallElement = wallElement->NextSiblingElement("Wall");
        }
-
+   
        return EXIT_SUCCESS;
    }
    int readAgents(const std::string& file, std::vector<unsigned>& nShapesPerAgent, std::vector<unsigned>& shapeIDagent,
@@ -352,7 +322,7 @@ Program Listing for File InputStatic.cpp
            cerr << "Error: Could not load or parse XML file" << file << endl;
            return EXIT_FAILURE;
        }
-
+   
        /*  Read the Agents block   */
        tinyxml2::XMLElement* agentsElement = document.FirstChildElement("Agents");
        if (!agentsElement)
@@ -367,6 +337,7 @@ Program Listing for File InputStatic.cpp
            return EXIT_FAILURE;
        }
        size_t sGlobal = 0;
+       edges.push_back(static_cast<int>(sGlobal));
        uint32_t agentId = 0;
        while (agentElement != nullptr)
        {
@@ -390,18 +361,16 @@ Program Listing for File InputStatic.cpp
            double dampingTranslational, dampingRotational;
            if (agentElement->QueryDoubleAttribute("FloorDamping", &dampingTranslational) != tinyxml2::XML_SUCCESS)
            {
-               // cout << "Warning: for agent " << externId << ": translational damping (FloorDamping) not provided! ";
-               // cout << "Default value will be used." << endl;
-               dampingTranslational = 1 / tau_mech_translational;
+               cerr << "Error: for agent " << externId << ": translational damping (FloorDamping) not provided! " << endl;
+               return EXIT_FAILURE;
            }
            if (agentElement->QueryDoubleAttribute("AngularDamping", &dampingRotational) != tinyxml2::XML_SUCCESS)
            {
-               // cout << "Warning: for agent " << externId << ": rotational damping (AngularDamping) not provided! ";
-               // cout << "Default value will be used." << endl;
-               dampingRotational = 1 / tau_mech_rotational;
+               cerr << "Error: for agent " << externId << ": rotational damping (AngularDamping) not provided! " << endl;
+               return EXIT_FAILURE;
            }
            agentProperties.emplace_back(dampingTranslational, dampingRotational);
-
+   
            //  Shapes
            const tinyxml2::XMLElement* shapeElement = agentElement->FirstChildElement("Shape");
            if (!shapeElement)
@@ -414,27 +383,17 @@ Program Listing for File InputStatic.cpp
            {
                //  Fill shapeIDagent - as many agentIds as there are shapes for it
                shapeIDagent.push_back(agentId);
-               //  Fetch id
-               const char* shapeExternId = nullptr;
-               if (shapeElement->QueryStringAttribute("Id", &shapeExternId) != tinyxml2::XML_SUCCESS)
-               {
-                   cerr << "Error: please provide identifier for your shapes" << endl;
-                   return EXIT_FAILURE;
-               }
-               shapeMap[{externId, shapeExternId}] = sGlobal;
-               shapeMapInverse.emplace_back(shapeExternId);
                //  Fetch material
                const char* materialId = nullptr;
                shapeElement->QueryStringAttribute("MaterialId", &materialId);
                if (!materialId || !materialMapping.contains(materialId))
                {
-                   // cout << "Warning: unknown or absent material id " << materialId << "given for one of the shapes.";
-                   // cout << "The default material will be used." << endl;
-                   shapesMaterial[sGlobal] = PEDESTRIAN;   //  if unknown material, give the default
+                   cerr << "Error: unknown or absent material id " << materialId << "given for one of the shapes." << endl;
+                   return EXIT_FAILURE;
                }
                else
                    shapesMaterial[sGlobal] = materialMapping[materialId];
-
+   
                double radius;
                if (shapeElement->QueryDoubleAttribute("Radius", &radius) != tinyxml2::XML_SUCCESS)
                {
@@ -455,31 +414,30 @@ Program Listing for File InputStatic.cpp
                    return EXIT_FAILURE;
                }
                delta_gtos.emplace_back(coordinates);
-
+   
                shapeElement = shapeElement->NextSiblingElement("Shape");
                s++;
                sGlobal++;
            }
            nShapesPerAgent.push_back(s);
            edges.push_back(static_cast<int>(sGlobal));
-
+   
            agentElement = agentElement->NextSiblingElement("Agent");
            agentId++;
        }
-
+   
        nAgents = masses.size();
-       edges.insert(edges.begin(), 0);
-
+   
        return EXIT_SUCCESS;
    }
-
+   
    double computeStiffnessNormal(const uint32_t i, const uint32_t j)
    {
        const double Ei = intrinsicProperties[YOUNG_MODULUS][i];
        const double Ej = intrinsicProperties[YOUNG_MODULUS][j];
        const double Gi = intrinsicProperties[SHEAR_MODULUS][i];
        const double Gj = intrinsicProperties[SHEAR_MODULUS][j];
-
+   
        return 1 / ((4 * Gi - Ei) / (4 * pow(Gi, 2)) + (4 * Gj - Ej) / (4 * pow(Gj, 2)));
    }
    double computeStiffnessTangential(const uint32_t i, const uint32_t j)
@@ -488,6 +446,6 @@ Program Listing for File InputStatic.cpp
        const double Ej = intrinsicProperties[YOUNG_MODULUS][j];
        const double Gi = intrinsicProperties[SHEAR_MODULUS][i];
        const double Gj = intrinsicProperties[SHEAR_MODULUS][j];
-
+   
        return 1 / ((6 * Gi - Ei) / (8 * pow(Gi, 2)) + (6 * Gj - Ej) / (8 * pow(Gj, 2)));
    }
