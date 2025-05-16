@@ -134,9 +134,9 @@ int initialiseSetting(const std::string& dynamicsFile, std::vector<unsigned>& nb
             return EXIT_FAILURE;
         }
         double theta, omega;
-        if (kinematicsElement->QueryDoubleAttribute("theta", &theta) != tinyxml2::XML_SUCCESS)
+        if (kinematicsElement->QueryDoubleAttribute("Theta", &theta) != tinyxml2::XML_SUCCESS)
             cerr << "Error: could not get orientation of agent " << agentId << endl;
-        if (kinematicsElement->QueryDoubleAttribute("omega", &omega) != tinyxml2::XML_SUCCESS)
+        if (kinematicsElement->QueryDoubleAttribute("Omega", &omega) != tinyxml2::XML_SUCCESS)
             cerr << "Error: could not get angular velocity of agent " << agentId << endl;
 
         const tinyxml2::XMLElement* dynamicsElement = agentElement->FirstChildElement("Dynamics");

@@ -198,31 +198,31 @@ Note that in the example, the first wall is actually enclosing the whole domain 
 <?xml version="1.0" encoding="utf-8"?>
 <Agents>
     <Agent Id="0">
-        <Kinematics Position="-0.3238412322203901,0.259771701823956" Velocity="0.0,0.0" theta="-0.066937014534676" omega="0.0"/>
+        <Kinematics Position="-0.3238412322203901,0.259771701823956" Velocity="0.0,0.0" Theta="-0.066937014534676" Omega="0.0"/>
         <Dynamics Fp="1000.0,1000.0" Mp="0.0"/>
     </Agent>
     <Agent Id="1">
-        <Kinematics Position="-0.4196349241832557,-0.60110130122263598" Velocity="0.0,0.0" theta="-1.921604453854156" omega="0.0"/>
+        <Kinematics Position="-0.4196349241832557,-0.60110130122263598" Velocity="0.0,0.0" Theta="-1.921604453854156" Omega="0.0"/>
         <Dynamics Fp="1000.0,1000.0" Mp="0.0"/>
     </Agent>
     <Agent Id="2">
-        <Kinematics Position="0.5535867845797549,0.05479066198570259" Velocity="0.0,0.0" theta="0.040357044672756144" omega="0.0"/>
+        <Kinematics Position="0.5535867845797549,0.05479066198570259" Velocity="0.0,0.0" Theta="0.040357044672756144" Omega="0.0"/>
         <Dynamics Fp="1000.0,1000.0" Mp="0.0"/>
     </Agent>
     <Agent Id="3">
-        <Kinematics Position="0.5509433024348762,-0.5054351424434713" Velocity="0.0,0.0" theta="0.08475135886610266" omega="0.0"/>
+        <Kinematics Position="0.5509433024348762,-0.5054351424434713" Velocity="0.0,0.0" Theta="0.08475135886610266" Omega="0.0"/>
         <Dynamics Fp="1000.0,1000.0" Mp="0.0"/>
     </Agent>
     <Agent Id="4">
-        <Kinematics Position="-0.017292568706642242,-0.5950742365642409" Velocity="0.0,0.0" theta="-0.7694589274884652" omega="0.0"/>
+        <Kinematics Position="-0.017292568706642242,-0.5950742365642409" Velocity="0.0,0.0" Theta="-0.7694589274884652" Omega="0.0"/>
         <Dynamics Fp="1000.0,1000.0" Mp="0.0"/>
     </Agent>
     <Agent Id="5">
-        <Kinematics Position="0.4133925313777592,0.5507301162474092" Velocity="0.0,0.0" theta="0.7290673029090031" omega="0.0"/>
+        <Kinematics Position="0.4133925313777592,0.5507301162474092" Velocity="0.0,0.0" Theta="0.7290673029090031" Omega="0.0"/>
         <Dynamics Fp="1000.0,1000.0" Mp="0.0"/>
     </Agent>
     <Agent Id="6">
-        <Kinematics Position="-0.034584742853356644,0.47093271500912293" Velocity="0.0,0.0" theta="0.5070191866356232" omega="0.0"/>
+        <Kinematics Position="-0.034584742853356644,0.47093271500912293" Velocity="0.0,0.0" Theta="0.5070191866356232" Omega="0.0"/>
         <Dynamics Fp="1000.0,1000.0" Mp="0.0"/>
     </Agent>
 </Agents>
@@ -232,8 +232,8 @@ Note that in the example, the first wall is actually enclosing the whole domain 
     - (*mandatory*) The ```<Kinematics>``` tag is the current state of the agent, and contains the following fields:
       - (*mandatory*) ```Position``` (type ```std::pair<double>```) is the position of the center of mass of the agent;
       - (*mandatory*) ```Velocity``` (type ```std::pair<double>```) is the velocity of the center of mass of the agent;
-      - (*mandatory*) ```theta``` (type ```double```) is the angle between the direction of the body, ie the line of sight when looking straight, and the x-axis.
-      - (*mandatory*) ```omega``` (type ```double```) is the angular speed of the body.
+      - (*mandatory*) ```Theta``` (type ```double```) is the angle between the direction of the body, ie the line of sight when looking straight, and the x-axis.
+      - (*mandatory*) ```Omega``` (type ```double```) is the angular speed of the body.
     - (*mandatory*) The ```<Dynamics>``` tag is the driving forces given to the agent, and contains the following fields:
       - (*mandatory*) ```Fp``` (type ```std::pair<double>```) is the driving force;
       - (*mandatory*) ```Mp``` (type ```double```) is the driving torque;
@@ -252,25 +252,25 @@ The output of ```CrowdMechanics``` will have the same structure, except that the
 <?xml version="1.0" encoding="utf-8"?>
 <Agents>
     <Agent Id="0">
-        <Kinematics Position="-0.269507,0.314106" Velocity="1.05166,1.05166" theta="-0.066937" omega="0"/>
+        <Kinematics Position="-0.269507,0.314106" Velocity="1.05166,1.05166" Theta="-0.066937" Omega="0"/>
     </Agent>
     <Agent Id="1">
-        <Kinematics Position="-0.352324,-0.515387" Velocity="1.37579,1.38508" theta="-1.92214" omega="-0.110773"/>
+        <Kinematics Position="-0.352324,-0.515387" Velocity="1.37579,1.38508" Theta="-1.92214" Omega="-0.110773"/>
     </Agent>
     <Agent Id="2">
-        <Kinematics Position="0.585494,0.0468851" Velocity="-0.00640525,0.0626351" theta="0.0404432" omega="-0.100961"/>
+        <Kinematics Position="0.585494,0.0468851" Velocity="-0.00640525,0.0626351" Theta="0.0404432" Omega="-0.100961"/>
     </Agent>
     <Agent Id="3">
-        <Kinematics Position="0.621465,-0.441009" Velocity="-0.0029103,0.0656684" theta="0.0886958" omega="0.239468"/>
+        <Kinematics Position="0.621465,-0.441009" Velocity="-0.0029103,0.0656684" Theta="0.0886958" Omega="0.239468"/>
     </Agent>
     <Agent Id="4">
-        <Kinematics Position="0.012522,-0.597122" Velocity="0.250815,0.0201641" theta="-0.882874" omega="-0.991497"/>
+        <Kinematics Position="0.012522,-0.597122" Velocity="0.250815,0.0201641" Theta="-0.882874" Omega="-0.991497"/>
     </Agent>
     <Agent Id="5">
-        <Kinematics Position="0.442605,0.548886" Velocity="0.0826052,0.0454557" theta="0.755286" omega="0.407788"/>
+        <Kinematics Position="0.442605,0.548886" Velocity="0.0826052,0.0454557" Theta="0.755286" Omega="0.407788"/>
     </Agent>
     <Agent Id="6">
-        <Kinematics Position="0.0150781,0.519899" Velocity="0.498381,0.0220522" theta="0.507439" omega="0.286958"/>
+        <Kinematics Position="0.0150781,0.519899" Velocity="0.498381,0.0220522" Theta="0.507439" Omega="0.286958"/>
     </Agent>
 </Agents>
 ```
