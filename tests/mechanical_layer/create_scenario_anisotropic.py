@@ -177,22 +177,7 @@ class Scenario:
     """Class representing the simulation scenario."""
 
     def __init__(self) -> None:
-        """
-        Initialize a Scenario instance with empty walls and agents.
-
-        Attributes
-        ----------
-        walls : list[tuple[float,float]]
-            A list of walls, where each wall is a list of (x, y) tuples representing wall points.
-        totalwalls : int
-            The total number of walls in the scenario.
-        current_wallId : int
-            The index of the currently active wall (for editing or drawing).
-        agents : list
-            A list of agents present in the scenario.
-        current_agent : int
-            The index of the currently selected agent, or -1 if none is selected.
-        """
+        """Initialize a Scenario instance with empty walls and agents."""
         # Walls Variables
         self.walls: list[list[tuple[float, float]]] = []
         self.totalwalls: int = 0
@@ -810,14 +795,7 @@ class MyApp(App):  # type: ignore[misc]
     """Main application class for the Kivy simulation interface."""
 
     def __init__(self) -> None:
-        """
-        Initialize the MyApp application instance.
-
-        Attributes
-        ----------
-        widget : Widget | None
-            Reference to the main application widget. Initialized as None and set during the build process.
-        """
+        """Initialize the MyApp application instance."""
         super().__init__()
         self.widget: Widget | None = None
 
