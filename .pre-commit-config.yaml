@@ -35,7 +35,7 @@ repos:
     rev: v1.8.0
     hooks:
       - id: numpydoc-validation
-        files: ^src/.*\.py$
+        files: ^(src|tests)/.*\.py$
 
   # # Test of Jupyter notebooks
   # - repo: local

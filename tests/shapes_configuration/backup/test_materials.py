@@ -11,7 +11,15 @@ from configuration.utils.typing_custom import MaterialsDataType
 
 @pytest.fixture
 def materials_dict() -> MaterialsDataType:
-    """Fixture to provide material parameters for testing."""
+    """
+    Fixture to provide material parameters for testing.
+
+    Returns
+    -------
+    MaterialsDataType
+        A dictionary containing material parameters, including intrinsic properties
+        and binary contact properties between different materials.
+    """
     return {
         "Materials": {
             "Intrinsic": {
@@ -75,8 +83,15 @@ def test_materials_dict_to_xml_and_back(materials_dict_fixture: MaterialsDataTyp
     """
     Test the loading and saving of material parameters in XML format.
 
-    This test converts a dictionary to XML, saves it to a temporary file,
-    reads it back, and ensures that the parsed dictionary matches the original.
+    This test converts a dictionary to XML, saves it to a temporary file, reads it back,
+    and ensures that the parsed dictionary matches the original.
+
+    Parameters
+    ----------
+    materials_dict_fixture : MaterialsDataType
+        A fixture containing material parameters for testing.
+    tmp_path : Path
+        A temporary directory provided by pytest for file operations.
     """
     # Convert the dictionary to XML format
     xml_data = fun_xml.materials_dict_to_xml(materials_dict_fixture)
