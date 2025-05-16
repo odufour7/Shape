@@ -54,6 +54,8 @@ def initialize_session_state() -> None:
         "twoD_scene": plt.figure(),
         "threeD_scene": go.Figure(),
         "threeD_layers": go.Figure(),
+        "selected_packing_option": "grid",
+        "pack_options": {"grid": "Grid", "pack": "Custom packing \n (time consuming)"},
     }
 
     for key, value in default_values.items():
@@ -129,17 +131,20 @@ def update_crowd(boundaries: Polygon, num_agents: int) -> Crowd:
 def display_interpenetration_warning() -> None:
     """Display a warning if interpenetration is too high."""
     interpenetration_between_agents, interpenetration_with_boundaries = st.session_state.current_crowd.calculate_interpenetration()
+    string_packing = " or pack closely." if st.session_state.selected_packing_option == st.session_state.pack_options["grid"] else "."
     if interpenetration_between_agents > 1e-4:
         st.warning(
             f"The interpenetration area **between agents** is {interpenetration_between_agents:.2f} cm².\n"
-            + "Please rerun or increase the boundaries.",
+            + "Please rerun or increase the boundaries"
+            + string_packing,
             icon="⚠️",
         )
     if st.session_state.wall_interaction:
         if interpenetration_with_boundaries > 1e-4:
             st.warning(
                 f"The interpenetration area **with boundaries** is {interpenetration_with_boundaries:.2f} cm².\n"
-                + "Please rerun or increase the boundaries.",
+                + "Please rerun or increase the boundaries or pack closely"
+                + string_packing,
                 icon="⚠️",
             )
 
@@ -514,6 +519,14 @@ def general_settings() -> Polygon:
     Polygon
         The updated boundaries of the simulation area.
     """
+    selected_packing_option = st.sidebar.pills(
+        " ", list(st.session_state.pack_options.values()), label_visibility="collapsed", default=st.session_state.pack_options["grid"]
+    )
+    if selected_packing_option != st.session_state.selected_packing_option:
+        st.session_state.selected_packing_option = selected_packing_option
+        parameter_changed()
+    close_packing_enabled = st.session_state.selected_packing_option == st.session_state.pack_options["pack"]
+
     num_agents = st.sidebar.number_input(
         "Number of agents",
         min_value=cst_app.DEFAULT_AGENT_NUMBER_MIN,
@@ -526,40 +539,45 @@ def general_settings() -> Polygon:
     if num_agents != st.session_state.num_agents:
         st.session_state.num_agents = num_agents
 
-    desired_direction = st.sidebar.number_input(
-        "Desired direction (degrees)",
-        min_value=-180.0,
-        max_value=180.0,
-        value=st.session_state.desired_direction,
-        step=1.0,
-        on_change=parameter_changed,
-    )
-    if desired_direction != st.session_state.desired_direction:
-        st.session_state.desired_direction = desired_direction
+    if close_packing_enabled:
+        desired_direction = st.sidebar.number_input(
+            "Desired direction (degrees)",
+            min_value=-180.0,
+            max_value=180.0,
+            value=st.session_state.desired_direction,
+            step=1.0,
+            on_change=parameter_changed,
+        )
+        if desired_direction != st.session_state.desired_direction:
+            st.session_state.desired_direction = desired_direction
 
-    variable_orientation: bool = st.sidebar.checkbox("Variable orientation", value=False, on_change=parameter_changed)
-    if variable_orientation != st.session_state.variable_orientation:
-        st.session_state.variable_orientation = variable_orientation
+        variable_orientation: bool = st.sidebar.checkbox("Variable orientation", value=False, on_change=parameter_changed)
+        if variable_orientation != st.session_state.variable_orientation:
+            st.session_state.variable_orientation = variable_orientation
 
-    wall_interaction: bool = st.sidebar.checkbox(
-        "Enable wall interaction",
-        on_change=parameter_changed,
-    )
-    if wall_interaction != st.session_state.wall_interaction:
-        st.session_state.wall_interaction = wall_interaction
+        # Sidebar: Wall interaction checkbox
+        wall_interaction = st.sidebar.checkbox(
+            "Enable wall interaction",
+            value=st.session_state.wall_interaction,
+            on_change=parameter_changed,
+            key="wall_interaction",
+        )
+
+        if wall_interaction != st.session_state.wall_interaction:
+            st.session_state.wall_interaction = wall_interaction
+
+        repulsion_length: float = st.sidebar.slider(
+            "Initial spacing (cm)",
+            min_value=cst_app.DEFAULT_REPULSION_LENGTH_MIN,
+            max_value=cst_app.DEFAULT_REPULSION_LENGTH_MAX,
+            value=cst.DEFAULT_REPULSION_LENGTH,
+            step=0.01,
+            on_change=parameter_changed,
+        )
+        if repulsion_length != st.session_state.repulsion_length:
+            st.session_state.repulsion_length = repulsion_length
 
     new_boundaries = boundaries_state()
-
-    repulsion_length: float = st.sidebar.slider(
-        "Initial spacing (cm)",
-        min_value=cst_app.DEFAULT_REPULSION_LENGTH_MIN,
-        max_value=cst_app.DEFAULT_REPULSION_LENGTH_MAX,
-        value=cst.DEFAULT_REPULSION_LENGTH,
-        step=0.01,
-        on_change=parameter_changed,
-    )
-    if repulsion_length != st.session_state.repulsion_length:
-        st.session_state.repulsion_length = repulsion_length
 
     return new_boundaries
 
@@ -601,7 +619,7 @@ def run_crowd_init() -> None:
 
     # Rolling menu to select between ANSURII database  / Custom Statistics
     database_option = st.sidebar.selectbox(
-        "Select database origin",
+        "Database origin",
         options=["ANSURII database", "Custom statistics"],
     )
     if "database_option" not in st.session_state:
@@ -625,15 +643,19 @@ def run_crowd_init() -> None:
 
     if st.session_state.simulation_run:
         info_placeholder = st.empty()
-        info_placeholder.info(
-            "The packing of the crowd is ongoing and may take some time. Please be patient.",
-            icon="⏳",
-        )
-        st.session_state.current_crowd.pack_agents_with_forces(
-            st.session_state.repulsion_length, st.session_state.desired_direction, st.session_state.variable_orientation
-        )
-        st.session_state.simulation_run = False
-        info_placeholder.empty()
+        if st.session_state.selected_packing_option == st.session_state.pack_options["pack"]:
+            info_placeholder.info(
+                "The packing of the crowd is ongoing and may take some time. Please be patient.",
+                icon="⏳",
+            )
+            st.session_state.current_crowd.pack_agents_with_forces(
+                st.session_state.repulsion_length, st.session_state.desired_direction, st.session_state.variable_orientation
+            )
+            st.session_state.simulation_run = False
+            info_placeholder.empty()
+        else:
+            st.session_state.current_crowd.pack_agents_on_grid()
+            st.session_state.simulation_run = False
 
     display_interpenetration_warning()
 

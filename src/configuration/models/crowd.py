@@ -523,6 +523,31 @@ class Crowd:
             translation_vector = np.array([-current_position.x, -current_position.y])
             agent.translate(*translation_vector)
 
+    def pack_agents_on_grid(self, grid_size_x: float = 30.0, grid_size_y: float = 60.0) -> None:
+        """
+        Arrange agents evenly on a 2D grid with specified cell sizes.
+
+        Parameters
+        ----------
+        grid_size_x : float
+            Width of each grid cell (distance between agents in x-direction).
+        grid_size_y : float
+            Height of each grid cell (distance between agents in y-direction).
+        """
+        num_agents = self.get_number_agents()
+        num_columns = int(np.ceil(np.sqrt(num_agents)))
+        # num_rows = int(np.ceil(num_agents / num_columns))
+
+        for i, agent in enumerate(self.agents):
+            current_position = agent.get_position()
+            col = i % num_columns
+            row = i // num_columns
+            x = col * grid_size_x
+            y = row * grid_size_y
+            agent.translate(x - current_position.x, y - current_position.y)
+
+        self.update_shapes3D_based_on_shapes2D()
+
     @staticmethod
     def compute_stats(data: list[float | None], stats_key: str) -> float | None:
         """

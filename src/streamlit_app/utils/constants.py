@@ -42,4 +42,4 @@ DEFAULT_REPULSION_LENGTH_MAX: float = 70.0
 DEFAULT_WALL_INTERACTION: float = False
 
 # Developer
-SHOW_DEV: bool = True
+SHOW_DEV: bool = False
