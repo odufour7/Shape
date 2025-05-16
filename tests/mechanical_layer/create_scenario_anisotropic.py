@@ -100,22 +100,15 @@ def get_closest_node(x: int, y: int) -> tuple[int, int]:
 
 
 class Agent:
-    """Class representing an agent in the simulation.
+    """
+    Class representing an agent in the simulation.
 
-    Attributes
+    Parameters
     ----------
     x : float
-        The x-coordinate of the agent.
+        The initial x-coordinate of the agent.
     y : float
-        The y-coordinate of the agent.
-    Fx : float
-        The force applied in the x-direction.
-    Fy : float
-        The force applied in the y-direction.
-    theta : float
-        The orientation angle of the agent in radians.
-    torque : float
-        The torque applied to the agent.
+        The initial y-coordinate of the agent.
     """
 
     def __init__(self, x: float, y: float) -> None:
@@ -133,21 +126,6 @@ class Agent:
         ------
         TypeError
             If `x` or `y` is not an float.
-
-        Attributes
-        ----------
-        x : float
-            The x-coordinate of the agent.
-        y : float
-            The y-coordinate of the agent.
-        Fx : float
-            The force applied in the x-direction (default: 0.0).
-        Fy : float
-            The force applied in the y-direction (default: 1.0).
-        theta : float
-            The orientation angle of the agent in radians (default: 0.0).
-        torque : float
-            The torque applied to the agent (default: 0.0).
         """
         if not isinstance(x, (int, float)) or not isinstance(y, (int, float)):
             raise TypeError("x and y must be int or float")
@@ -196,22 +174,7 @@ class Agent:
 
 
 class Scenario:
-    """
-    Class representing the simulation scenario.
-
-    Attributes
-    ----------
-    walls : list[tuple[float,float]]
-        A list of walls, where each wall is a list of (x, y) tuples representing wall points.
-    totalwalls : int
-        The total number of walls in the scenario.
-    current_wallId : int
-        The index of the currently active wall (for editing or drawing).
-    agents : list
-        A list of agents present in the scenario.
-    current_agent : int
-        The index of the currently selected agent, or -1 if none is selected.
-    """
+    """Class representing the simulation scenario."""
 
     def __init__(self) -> None:
         """
@@ -352,26 +315,12 @@ class Scenario:
 
 
 class MyWidget(Widget):  # type: ignore[misc]
-    """Class representing the main widget for the Kivy application.
+    """
+    Class representing the main widget for the Kivy application.
 
     This class handles the drawing of the simulation environment, including walls,
     agents, and UI elements. It also manages user interactions such as mouse clicks
     and keyboard events.
-
-    Attributes
-    ----------
-    conf_save : bool | None
-        Indicates whether the configuration has been saved.
-    scenario : Scenario | None
-        Reference to the current Scenario instance.
-    pos_pressed : tuple[float,float] | None
-        The (x, y) position of the last mouse or touch press.
-    time_pressed : float | None
-        The timestamp of the last mouse or touch press.
-    current : int | None
-        The current interaction mode or stage (e.g., wall creation, agent creation).
-    drawing_walls : bool | None
-        Indicates whether the user is currently drawing walls.
     """
 
     def __init__(self) -> None:
@@ -571,6 +520,11 @@ class MyWidget(Widget):  # type: ignore[misc]
 
         The current agent (defined by `self.scenario.current_agent`) is drawn with full opacity,
         while others are rendered at 30% opacity.
+
+        Raises
+        ------
+        ValueError
+            If `self.scenario` is not initialized.
         """
         if self.scenario is None:
             raise ValueError("Scenario is not initialized")
@@ -605,7 +559,14 @@ class MyWidget(Widget):  # type: ignore[misc]
                 )
 
     def draw_walls(self) -> None:
-        """Draw all walls on the canvas as connected line segments."""
+        """
+        Draw all walls on the canvas as connected line segments.
+
+        Raises
+        ------
+        ValueError
+            If `self.scenario` is not initialized.
+        """
         if self.scenario is None:
             raise ValueError("Scenario is not initialized")
 
@@ -652,6 +613,11 @@ class MyWidget(Widget):  # type: ignore[misc]
         -------
         bool
             True if the last click was within the torque button area, False otherwise.
+
+        Raises
+        ------
+        ValueError
+            If `self.pos_pressed` is not initialized.
         """
         if self.pos_pressed is None:
             raise ValueError("Position pressed is not initialized")
@@ -841,17 +807,11 @@ class MyWidget(Widget):  # type: ignore[misc]
 
 
 class MyApp(App):  # type: ignore[misc]
-    """
-    Main application class for the Kivy simulation interface.
-
-    Attributes
-    ----------
-    widget : Widget | None
-        Reference to the main application widget. Initialized as None and set during the build process.
-    """
+    """Main application class for the Kivy simulation interface."""
 
     def __init__(self) -> None:
-        """Initialize the MyApp application instance.
+        """
+        Initialize the MyApp application instance.
 
         Attributes
         ----------
