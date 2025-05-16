@@ -11,7 +11,6 @@ one\_agent\_tab
 
 one\_agent\_2D
 --------------
-
 .. automodule:: streamlit_app.tabs.one_agent_2D
    :members:
    :show-inheritance:

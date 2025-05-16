@@ -11,7 +11,14 @@ from configuration.utils.typing_custom import DynamicCrowdDataType
 
 @pytest.fixture
 def dynamical_parameters_crowd() -> DynamicCrowdDataType:
-    """Fixture to provide dynamic parameters for the crowd."""
+    """
+    Fixture to provide dynamic parameters for the crowd.
+
+    Returns
+    -------
+    DynamicCrowdDataType
+        A dictionary containing dynamic parameters for two agents.
+    """
     return {
         "Agents": {
             "Agent0": {
@@ -54,6 +61,13 @@ def test_dynamic_parameters_dict_to_xml_and_back(dynamical_parameters_crowd_dict
 
     This test converts a dictionary to XML, saves it to a temporary file, reads it back, and ensures
     that the parsed dictionary matches the original.
+
+    Parameters
+    ----------
+    dynamical_parameters_crowd_dict : DynamicCrowdDataType
+        A dictionary containing dynamic parameters for two agents.
+    tmp_path : Path
+        Temporary directory for XML file storage.
     """
     # Convert the dictionary to XML format
     xml_data = fun_xml.dynamic_dict_to_xml(dynamical_parameters_crowd_dict)

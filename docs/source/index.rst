@@ -32,3 +32,4 @@ Welcome to the official shapes package documentation! This guide provides compre
    api/library_root
    streamlit_app
    configuration
+   tests

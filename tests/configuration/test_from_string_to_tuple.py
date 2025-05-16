@@ -2,9 +2,9 @@
 Unit tests for the from_string_to_tuple function.
 
 Tests cover:
-- Valid string inputs (with/without parentheses, with extra spaces)
-- Invalid formats (wrong number of elements, not a string, non-numeric)
-- Edge cases (negative numbers, scientific notation, leading/trailing whitespace)
+    - Valid string inputs (with/without parentheses, with extra spaces)
+    - Invalid formats (wrong number of elements, not a string, non-numeric)
+    - Edge cases (negative numbers, scientific notation, leading/trailing whitespace)
 """
 
 import pytest

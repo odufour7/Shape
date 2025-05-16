@@ -17,12 +17,12 @@ def crowd(request: pytest.FixtureRequest) -> Crowd:
     Parameters
     ----------
     request : pytest.FixtureRequest
-        Contains tuple of (agent_count, should_pack) parameters
+        Contains tuple of (agent_count, should_pack) parameters.
 
     Returns
     -------
     Crowd
-        Configured instance with agents and optional force packing
+        Configured instance with agents and optional force packing.
     """
     agent_count, should_pack = request.param
     c = Crowd()

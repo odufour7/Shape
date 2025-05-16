@@ -2,11 +2,11 @@
 Unit tests for the rotate_vectors function.
 
 Tests cover:
-- Correct rotation for canonical angles (0, 90, 180, 270 degrees)
-- Multiple vectors in the dictionary
-- Empty dictionary
-- Negative and non-integer angles
-- Floating point precision handling
+    - Correct rotation for canonical angles (0, 90, 180, 270 degrees)
+    - Multiple vectors in the dictionary
+    - Empty dictionary
+    - Negative and non-integer angles
+    - Floating point precision handling
 """
 
 import math
@@ -23,13 +23,16 @@ def vectors_close(vec1: tuple[float, float], vec2: tuple[float, float], tol: flo
     Parameters
     ----------
     vec1 : tuple[float, float]
+        First vector to compare.
     vec2 : tuple[float, float]
+        Second vector to compare.
     tol : float
         Tolerance for comparison.
 
     Returns
     -------
     bool
+        True if the vectors are approximately equal, False otherwise.
     """
     return math.isclose(vec1[0], vec2[0], abs_tol=tol) and math.isclose(vec1[1], vec2[1], abs_tol=tol)
 
@@ -38,8 +41,8 @@ def test_rotate_0_degrees() -> None:
     """Test rotation by 0 degrees (should return original vectors)."""
     vectors = {"a": (1.0, 0.0), "b": (0.0, 1.0)}
     result = rotate_vectors(vectors, 0)
-    for k in vectors:
-        assert vectors_close(result[k], vectors[k])
+    for k, v in vectors.items():
+        assert vectors_close(result[k], v)
 
 
 def test_rotate_90_degrees() -> None:
@@ -91,7 +94,7 @@ def test_rotate_non_integer_angle() -> None:
 
 def test_rotate_empty_dict() -> None:
     """Test rotating an empty dictionary."""
-    assert rotate_vectors({}, 45) == {}
+    assert not rotate_vectors({}, 45)
 
 
 def test_multiple_vectors() -> None:

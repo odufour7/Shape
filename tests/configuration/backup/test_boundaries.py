@@ -90,7 +90,17 @@ def boundaries_dict_one_wall() -> GeometryDataType:
     ],
 )
 def test_geometry_dict_to_xml_and_back(boundaries_dict: GeometryDataType, tmp_path: Path) -> None:
-    """Test the loading and saving of boundaries parameters in XML format."""
+    """
+    Test the loading and saving of boundaries parameters in XML format.
+
+    Parameters
+    ----------
+    boundaries_dict : GeometryDataType
+        A dictionary representing the geometry data, including dimensions and
+        wall properties such as material ID and corner coordinates.
+    tmp_path : Path
+        Temporary directory for XML file storage.
+    """
     # Convert dictionary to XML
     xml_data = fun_xml.geometry_dict_to_xml(boundaries_dict)
 

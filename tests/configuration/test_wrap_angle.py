@@ -2,11 +2,11 @@
 Unit tests for the wrap_angle function.
 
 Tests cover:
-- Canonical angles (0, 180, -180, 360, -360, 720, -720)
-- Angles just outside the bounds
-- Negative and positive values
-- Large and small angles
-- Floating point precision
+    - Canonical angles (0, 180, -180, 360, -360, 720, -720)
+    - Angles just outside the bounds
+    - Negative and positive values
+    - Large and small angles
+    - Floating point precision
 """
 
 import numpy as np

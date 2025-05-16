@@ -228,8 +228,8 @@ Program Listing for File MechanicalLayer.cpp
                    const char* buffer = nullptr;
                    interactionElement->QueryStringAttribute("TangentialRelativeDisplacement", &buffer);
                    auto [rcSlip, inputSlip] = parse2DComponents(buffer);
-                   uint32_t cpt_shape          = agentIDshape[agentMap[agent1ExternId]] + shapeParent;
-                   uint32_t cpt_shape_neigh    = agentIDshape[agentMap[agent2ExternId]] + shapeChild;
+                   uint32_t cpt_shape = agentIDshape[agentMap[agent1ExternId]] + shapeParent;
+                   uint32_t cpt_shape_neigh = agentIDshape[agentMap[agent2ExternId]] + shapeChild;
    
                    slip[{cpt_shape, cpt_shape_neigh}] = inputSlip;
                    slip[{cpt_shape_neigh, cpt_shape}] = -1 * inputSlip;

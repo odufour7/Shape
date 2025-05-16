@@ -2,13 +2,13 @@
 Unit tests for the compute_chest_depth_from_multipolygon function.
 
 Tests cover:
-- Simple MultiPolygon with known vertical depth
-- MultiPolygon with two separated polygons
-- Single Polygon wrapped in MultiPolygon
-- Non-MultiPolygon input (error)
-- Degenerate case: all points on a horizontal line (depth zero)
-- Centroid shift invariance
-- Irregular shape with known max vertical distance at similar x
+    - Simple MultiPolygon with known vertical depth
+    - MultiPolygon with two separated polygons
+    - Single Polygon wrapped in MultiPolygon
+    - Non-MultiPolygon input (error)
+    - Degenerate case: all points on a horizontal line (depth zero)
+    - Centroid shift invariance
+    - Irregular shape with known max vertical distance at similar x
 """
 
 import numpy as np

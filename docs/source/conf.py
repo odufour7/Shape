@@ -8,6 +8,9 @@ import sys
 
 # Add the source directory to sys.path so Sphinx can find your modules
 sys.path.insert(0, os.path.abspath("../../src"))
+sys.path.insert(0, os.path.abspath("../../tests/configuration"))
+sys.path.insert(0, os.path.abspath("../../tests/configuration/backup"))
+sys.path.insert(0, os.path.abspath("../../tests/mechanical_layer"))
 smartquotes = False
 
 # -- Project information -----------------------------------------------------
@@ -59,6 +62,7 @@ intersphinx_mapping = {
     "shapely": ("https://shapely.readthedocs.io/en/stable/", None),  # Link to Shapely documentation
     "plotly": ("https://plotly.com/python-api-reference/", None),  # Link to Plotly documentation
     "numpy": ("https://numpy.org/doc/stable/", None),  # Link to NumPy documentation
+    "kivy": ("https://kivy.org/doc/stable/", None),  # Link to Kivy documentation
 }
 
 # -- Autodoc settings --------------------------------------------------------
@@ -70,6 +74,7 @@ autodoc_default_options = {
 
 autodoc_typehints = "description"  # Show type hints in the description section of the docstring
 autodoc_member_order = "bysource"  # Order members by their source code order
+autodoc_mock_imports = ["kivy"]
 
 
 # -- Exhale configuration ----------------------------------------------------

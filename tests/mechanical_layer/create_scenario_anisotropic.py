@@ -26,25 +26,6 @@ import configuration.utils.functions as fun
 from configuration.models.agents import Agent
 from configuration.models.measures import CrowdMeasures, create_pedestrian_measures
 
-# Set Kivy configuration to use the mouse
-Config.set("input", "mouse", "mouse,multitouch_on_demand")
-
-
-# Load the CrowdMechanics library into ctypes
-libname = str(Path().absolute().parent.parent / "src" / "mechanical_layer" / "build" / "libCrowdMechanics.dylib")
-mechanicalLayer = ctypes.CDLL(libname)
-files = [
-    b"/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/tests/mechanical_layer/Parameters.xml",
-    b"Materials.xml",
-    b"Geometry.xml",
-    b"Agents.xml",
-    b"AgentDynamics.xml",
-]
-nFiles = len(files)
-filesInput = cast(list[ctypes.c_char_p | bytes | None], (ctypes.c_char_p * nFiles)())
-filesInput[:] = files
-
-
 ########## PARAMETERS ##########
 
 # Define global parameters for the window size and system size
@@ -164,11 +145,6 @@ class AgentKivy:
         y : float
             The initial y-coordinate of the agent.
 
-        Raises
-        ------
-        TypeError
-            If `x` or `y` is not an float.
-
         Attributes
         ----------
         x : float
@@ -183,6 +159,11 @@ class AgentKivy:
             The orientation angle of the agent in radians (default: 0.0).
         torque : float
             The torque applied to the agent (default: 0.0).
+
+        Raises
+        ------
+        TypeError
+            If `x` or `y` is not an float.
         """
         if not isinstance(x, (int, float)) or not isinstance(y, (int, float)):
             raise TypeError("x and y must be int or float")
@@ -418,7 +399,7 @@ class MyWidget(Widget):  # type: ignore[misc]
         """
         Initialize the MyWidget instance with default state variables.
 
-        Parameters
+        Attributes
         ----------
         conf_save : bool | None
             Indicates whether the configuration has been saved.
@@ -646,28 +627,6 @@ class MyWidget(Widget):  # type: ignore[misc]
                     for vertices, indices in tess.meshes:
                         Mesh(vertices=vertices, indices=indices, mode="triangle_fan")
 
-                # alphach = 1.0 if cpt_agent == self.scenario.current_agent_kivy_selected_id else 0.3
-                # Color(rc[0, 0], rc[0, 1], rc[0, 2], alphach, mode="bgra")
-                # Line(
-                #     circle=(pixel_density * current_agent_kivy.x, pixel_density * current_agent_kivy.y, pixel_density * radius),
-                #     width=3,
-                # )
-                # Line(
-                #     circle=(
-                #         pixel_density * (current_agent_kivy.x - radius * np.cos(current_agent_kivy.theta)),
-                #         pixel_density * (current_agent_kivy.y - radius * np.sin(current_agent_kivy.theta)),
-                #         pixel_density * radius,
-                #     ),
-                #     width=3,
-                # )
-                # Line(
-                #     circle=(
-                #         pixel_density * (current_agent_kivy.x + radius * np.cos(current_agent_kivy.theta)),
-                #         pixel_density * (current_agent_kivy.y + radius * np.sin(current_agent_kivy.theta)),
-                #         pixel_density * radius,
-                #     ),
-                #     width=3,
-                # )
                 Color(rc[2, 0], rc[2, 1], rc[2, 2], alphach, mode="bgra")
                 self.draw_arrow(
                     pixel_density * current_agent_kivy.x,
@@ -721,12 +680,6 @@ class MyWidget(Widget):  # type: ignore[misc]
         """
         Check if the last mouse click was on the torque button.
 
-        Returns True if the coordinates of the last pressed position (`self.pos_pressed`) are within the bounds
-        of the torque button defined by the x and y coordinates of the bottom left corner and square size:
-            - `torque_button_xs`
-            - `torque_button_ys`
-            - `torque_button_size`
-
         Returns
         -------
         bool
@@ -736,6 +689,15 @@ class MyWidget(Widget):  # type: ignore[misc]
         ------
         ValueError
             If `self.pos_pressed` is not initialized.
+
+        Notes
+        -----
+        Returns True if the coordinates of the last pressed position (`self.pos_pressed`) are within the bounds
+        of the torque button defined by the x and y coordinates of the bottom left corner and square size:
+
+            - `torque_button_xs`
+            - `torque_button_ys`
+            - `torque_button_size`
         """
         if self.pos_pressed is None:
             raise ValueError("Position pressed is not initialized")
@@ -936,7 +898,8 @@ class MyApp(App):  # type: ignore[misc]
     """
 
     def __init__(self) -> None:
-        """Initialize the MyApp application instance.
+        """
+        Initialize the MyApp application instance.
 
         Attributes
         ----------
@@ -983,15 +946,15 @@ class MyApp(App):  # type: ignore[misc]
         Parameters
         ----------
         keyboard : object
-            Kivy keyboard reference (unused but required by Kivy event system)
+            Kivy keyboard reference (unused but required by Kivy event system).
         keycode0 : int
-            Native keycode (unused but required by Kivy event system)
+            Native keycode (unused but required by Kivy event system).
         keycode1 : int
-            Kivy keycode (unused but required by Kivy event system)
+            Kivy keycode (unused but required by Kivy event system).
         text : str
-            The character representation of the pressed key
+            The character representation of the pressed key.
         modifiers : list
-            Active modifier keys (e.g., shift, ctrl) - unused but required by Kivy event system
+            Active modifier keys (e.g., shift, ctrl) - unused but required by Kivy event system.
 
         Notes
         -----
@@ -1001,6 +964,7 @@ class MyApp(App):  # type: ignore[misc]
             - 's' : Save current configuration
             - ' ' : Space - Advance to next interaction stage
             - 'q' : Quit the application
+
         The stage progression (space bar) cycles through modes: walls -> agents -> simulation
         """
         if self.widget is None:
@@ -1059,4 +1023,21 @@ class MyApp(App):  # type: ignore[misc]
 
 
 if __name__ == "__main__":
+    # Set Kivy configuration to use the mouse
+    Config.set("input", "mouse", "mouse,multitouch_on_demand")
+
+    # Load the CrowdMechanics library into ctypes
+    libname = str(Path().absolute().parent.parent / "src" / "mechanical_layer" / "build" / "libCrowdMechanics.dylib")
+    mechanicalLayer = ctypes.CDLL(libname)
+    files = [
+        b"/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/tests/mechanical_layer/Parameters.xml",
+        b"Materials.xml",
+        b"Geometry.xml",
+        b"Agents.xml",
+        b"AgentDynamics.xml",
+    ]
+    nFiles = len(files)
+    filesInput = cast(list[ctypes.c_char_p | bytes | None], (ctypes.c_char_p * nFiles)())
+    filesInput[:] = files
+
     MyApp().run()

@@ -11,7 +11,14 @@ from configuration.utils.typing_custom import StaticCrowdDataType
 
 @pytest.fixture
 def crowd_static_dict() -> StaticCrowdDataType:
-    """Fixture to provide static parameters for pedestrians."""
+    """
+    Fixture to provide static parameters for pedestrians.
+
+    Returns
+    -------
+    StaticCrowdDataType
+        A dictionary containing static parameters for two pedestrians.
+    """
     return {
         "Agents": {
             "Agent0": {
@@ -60,6 +67,13 @@ def test_static_parameters_pedestrians_dict_to_xml_and_back(crowd_static_dict_fi
 
     This test converts a dictionary to XML format, saves it to a temporary file,
     reads it back from the file, and ensures that the parsed dictionary matches the original.
+
+    Parameters
+    ----------
+    crowd_static_dict_fixture : StaticCrowdDataType
+        A fixture providing static parameters for pedestrians.
+    tmp_path : Path
+        A pytest fixture providing a temporary directory for file operations.
     """
     # Convert the dictionary to XML format
     xml_data = fun_xml.static_dict_to_xml(crowd_static_dict_fixture)

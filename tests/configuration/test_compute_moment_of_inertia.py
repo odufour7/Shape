@@ -2,11 +2,11 @@
 Unit tests for the compute_moment_of_inertia function.
 
 Tests cover:
-- Correct computation for simple polygons (square, triangle)
-- Handling of MultiPolygon (sum of moments)
-- Zero or negative weight handling
-- Invalid geometry types
-- Consistency with area scaling
+    - Correct computation for simple polygons (square, triangle)
+    - Handling of MultiPolygon (sum of moments)
+    - Zero or negative weight handling
+    - Invalid geometry types
+    - Consistency with area scaling
 """
 
 import math

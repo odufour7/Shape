@@ -2,11 +2,11 @@
 Unit tests for the compute_bideltoid_breadth_from_multipolygon function.
 
 Tests cover:
-- Simple MultiPolygon with known maximum horizontal breadth
-- MultiPolygon with two separated polygons
-- Single Polygon wrapped in MultiPolygon
-- Non-MultiPolygon input (error)
-- Degenerate case: all points on a vertical line (breadth zero)
+    - Simple MultiPolygon with known maximum horizontal breadth
+    - MultiPolygon with two separated polygons
+    - Single Polygon wrapped in MultiPolygon
+    - Non-MultiPolygon input (error)
+    - Degenerate case: all points on a vertical line (breadth zero)
 """
 
 import numpy as np
