@@ -6,7 +6,7 @@ from typing import cast
 
 # Load the shared library into ctypes
 # Change the paths below if you are running the library from elsewhere
-libname = str(pathlib.Path().absolute().parent / "src" / "mechanical_layer" / "build/libCrowdMechanics.dylib")
+libname = str(pathlib.Path().absolute().parent / "src" / "mechanical_layer" / "build" / "libCrowdMechanics.dylib")
 c_lib = ctypes.CDLL(libname)
 
 # Input of the CrowdMechanics main function
