@@ -396,7 +396,7 @@ class Crowd:
         desired_direction : float
             The desired direction, which must be a float.
         variable_orientation : bool
-            A flag indicating whether random packing is enabled, which must be a boolean.
+            A flag indicating whether variable orientation is enabled, which must be a boolean.
         """
         if not isinstance(repulsion_length, float):
             raise TypeError("`repulsion_length` should be a float.")

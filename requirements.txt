@@ -84,6 +84,7 @@ distlib==0.3.9
     # via virtualenv
 docutils==0.21.2
     # via
+    #   kivy
     #   myst-parser
     #   nbsphinx
     #   sphinx
@@ -99,6 +100,8 @@ fastjsonschema==2.21.1
     # via nbformat
 filelock==3.18.0
     # via virtualenv
+filetype==1.2.0
+    # via kivy
 fonttools==4.56.0
     # via matplotlib
 fqdn==1.5.1
@@ -224,6 +227,10 @@ jupyterlab-widgets==3.0.13
     # via ipywidgets
 kaleido==0.2.1
     # via shapes (pyproject.toml)
+kivy==2.3.1
+    # via shapes (pyproject.toml)
+kivy-garden==0.1.5
+    # via kivy
 kiwisolver==1.4.8
     # via matplotlib
 lxml==5.4.0
@@ -347,8 +354,9 @@ parso==0.8.4
     # via jedi
 pexpect==4.9.0
     # via ipython
-pillow==11.1.0
+pillow==10.4.0
     # via
+    #   kivy
     #   matplotlib
     #   pyvista
     #   streamlit
@@ -392,6 +400,7 @@ pygments==2.19.1
     #   ipython
     #   ipython-pygments-lexers
     #   jupyter-console
+    #   kivy
     #   nbconvert
     #   nbmake
     #   sphinx
@@ -441,6 +450,8 @@ referencing==0.36.2
 requests==2.32.3
     # via
     #   jupyterlab-server
+    #   kivy
+    #   kivy-garden
     #   pooch
     #   sphinx
     #   streamlit
