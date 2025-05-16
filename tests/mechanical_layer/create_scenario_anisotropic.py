@@ -434,9 +434,8 @@ class MyWidget(Widget):  # type: ignore[misc]
         size : int
             The thickness of the line.
         """
-        int_y = int(y)
         with self.canvas:
-            Line(points=[WS_X, int_y, 0, int_y], width=int(round(size / 2)))
+            Line(points=[WS_X, int(y), 0, int(y)], width=int(round(size / 2)))
 
     def draw_vertical_line(self, x: float, size: float) -> None:
         """
@@ -609,6 +608,7 @@ class MyWidget(Widget):  # type: ignore[misc]
         """Draw all walls on the canvas as connected line segments."""
         if self.scenario is None:
             raise ValueError("Scenario is not initialized")
+
         with self.canvas:
             for _, cw in enumerate(self.scenario.walls):
                 Color(0, 0, 0, 1, mode="bgra")
@@ -653,8 +653,9 @@ class MyWidget(Widget):  # type: ignore[misc]
         bool
             True if the last click was within the torque button area, False otherwise.
         """
-        if not isinstance(self.pos_pressed, tuple):
-            return False
+        if self.pos_pressed is None:
+            raise ValueError("Position pressed is not initialized")
+
         return bool(
             torque_button_xs <= self.pos_pressed[0] < torque_button_xs + torque_button_size
             and torque_button_ys <= self.pos_pressed[1] < torque_button_ys + torque_button_size
@@ -673,10 +674,11 @@ class MyWidget(Widget):  # type: ignore[misc]
         bool
             True if the last click was within the agent's disk area, False otherwise.
         """
-        if not isinstance(self.pos_pressed, tuple):
-            return False
+        if self.pos_pressed is None:
+            raise ValueError("Position pressed is not initialized")
         if self.scenario is None:
             raise ValueError("Scenario is not initialized")
+
         agent = self.scenario.agents[self.scenario.current_agent]
         return bool(
             np.sqrt((self.pos_pressed[0] - pixel_density * agent.x) ** 2 + (self.pos_pressed[1] - pixel_density * agent.y) ** 2)
@@ -918,6 +920,7 @@ class MyApp(App):  # type: ignore[misc]
         """
         if self.widget is None:
             raise ValueError("Widget is not initialized")
+
         if text == "a":  # Spawn agent
             self.widget.current = 1
             self.widget.drawing_walls = False
