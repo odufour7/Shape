@@ -320,7 +320,7 @@ class Scenario:
                     # Write shapes too
                     dynamicsFile.write(
                         f'\t\t<Kinematics Position="{agent.x:.2f},{agent.y:.2f}" Velocity="0,0"'
-                        'theta="{agent.theta:.2f}" omega="0"/>\n'
+                        ' Theta="{agent.theta:.2f}" Omega="0"/>\n'
                     )
                     dynamicsFile.write(f'\t\t<Dynamics Fp="{agent.Fx:.2f},{agent.Fy:.2f}" Mp="{agent.torque:.2f}"/>\n')
                     agentsFile.write("\t</Agent>\n")

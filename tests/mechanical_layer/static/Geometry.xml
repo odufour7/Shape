@@ -3,9 +3,9 @@
 	<Dimensions Lx="20.00" Ly="20.00"/>
 	<Wall Id="0" MaterialId="concrete">
 		<Corner Coordinates="5.00,16.50"/>
-		<Corner Coordinates="14.00,14.00"/>
-		<Corner Coordinates="13.00,7.00"/>
-		<Corner Coordinates="4.00,6.00"/>
+		<Corner Coordinates="14.00,16.00"/>
+		<Corner Coordinates="15.50,8.00"/>
+		<Corner Coordinates="5.00,7.00"/>
 		<Corner Coordinates="5.00,16.50"/>
 	</Wall>
 </Geometry>

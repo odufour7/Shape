@@ -1,3 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Agents>
+	<Agent Id="0" Mass="" MomentOfInertia="" FloorDamping="2.0" AngularDamping="5.0">
+	</Agent>
+	<Agent Id="1" Mass="" MomentOfInertia="" FloorDamping="2.0" AngularDamping="5.0">
+	</Agent>
+	<Agent Id="2" Mass="" MomentOfInertia="" FloorDamping="2.0" AngularDamping="5.0">
+	</Agent>
 </Agents>
