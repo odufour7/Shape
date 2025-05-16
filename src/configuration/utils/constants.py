@@ -53,10 +53,12 @@ DEFAULT_AGENT_NUMBER: int = 4  # Default number of agents
 MAX_NB_ITERATIONS: int = 100  # Maximum number of iterations for the parking algorithm
 DEFAULT_REPULSION_LENGTH: float = 5.0  # cm
 DEFAULT_DESIRED_DIRECTION: float = 0.0  # degrees
-DEFAULT_RANDOM_PACKING: bool = False
+DEFAULT_VARIABLE_ORIENTATION: bool = False
 INFINITE: float = 1.0e10  # Infinite value for the simulation
 INTENSITY_ROTATIONAL_FORCE: float = 10.0  # degrees
 INTENSITY_TRANSLATIONAL_FORCE: float = 3.0  # arbitrary units
+GRID_SIZE_X: float = 31.0  # cm
+GRID_SIZE_Y: float = 60.0  # cm
 
 # Crowd Statistics
 DEFAULT_PEDESTRIAN_HEIGHT: float = 170.0  # cm

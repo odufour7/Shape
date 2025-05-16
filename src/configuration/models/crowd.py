@@ -383,7 +383,9 @@ class Crowd:
         return forces + wall_forces
 
     @staticmethod
-    def check_validity_parameters_agents_packing(repulsion_length: float, desired_direction: float, random_packing: bool) -> None:
+    def check_validity_parameters_agents_packing(
+        repulsion_length: float, desired_direction: float, variable_orientation: bool
+    ) -> None:
         """
         Validate the input parameters for agent packing.
 
@@ -393,15 +395,15 @@ class Crowd:
             The repulsion length, which must be a strictly positive float.
         desired_direction : float
             The desired direction, which must be a float.
-        random_packing : bool
+        variable_orientation : bool
             A flag indicating whether random packing is enabled, which must be a boolean.
         """
         if not isinstance(repulsion_length, float):
             raise TypeError("`repulsion_length` should be a float.")
         if not isinstance(desired_direction, float):
             raise TypeError("`desired_direction` should be a float.")
-        if not isinstance(random_packing, bool):
-            raise TypeError("`random_packing` should be a boolean.")
+        if not isinstance(variable_orientation, bool):
+            raise TypeError("`variable_orientation` should be a boolean.")
         if repulsion_length <= 0:
             raise ValueError("`repulsion_length` should be a strictly positive float.")
 
@@ -429,7 +431,7 @@ class Crowd:
         self,
         repulsion_length: float = cst.DEFAULT_REPULSION_LENGTH,
         desired_direction: float = cst.DEFAULT_DESIRED_DIRECTION,
-        random_packing: bool = cst.DEFAULT_RANDOM_PACKING,
+        variable_orientation: bool = cst.DEFAULT_VARIABLE_ORIENTATION,
     ) -> None:
         """
         Simulate crowd dynamics using physics-based forces to resolve agent overlaps.
@@ -445,7 +447,7 @@ class Crowd:
             Higher values increase the effective range of repulsion.
         desired_direction : float
             Initial orientation angle in degrees for all agents.
-        random_packing : bool
+        variable_orientation : bool
             Whether to apply rotational forces during packing. When True, enables
             random angular adjustments based on collision forces.
 
@@ -459,12 +461,12 @@ class Crowd:
             1. Agent-agent repulsion (exponential decay with distance)
             2. Contact forces for overlapping agents
             3. Boundary repulsion for agents near edges
-            4. Rotational forces (only when random_packing=True)
+            4. Rotational forces (only when variable_orientation=True)
         """
         Crowd.check_validity_parameters_agents_packing(
             repulsion_length=repulsion_length,
             desired_direction=desired_direction,
-            random_packing=random_packing,
+            variable_orientation=variable_orientation,
         )
 
         # Initially, all agents have 0° orientation (head facing right), so we need to rotate them to the desired direction
@@ -499,7 +501,7 @@ class Crowd:
                 )
 
                 # Rotate pedestrian
-                if random_packing:
+                if variable_orientation:
                     current_agent.rotate(forces[-1])
 
                 # Translate pedestrian
@@ -523,9 +525,9 @@ class Crowd:
             translation_vector = np.array([-current_position.x, -current_position.y])
             agent.translate(*translation_vector)
 
-    def pack_agents_on_grid(self, grid_size_x: float = 30.0, grid_size_y: float = 60.0) -> None:
+    def pack_agents_on_grid(self, grid_size_x: float = cst.GRID_SIZE_X, grid_size_y: float = cst.GRID_SIZE_Y) -> None:
         """
-        Arrange agents evenly on a 2D grid with specified cell sizes.
+        Arrange agents evenly on a square 2D grid with specified cell sizes, centered at (0, 0).
 
         Parameters
         ----------
@@ -535,17 +537,24 @@ class Crowd:
             Height of each grid cell (distance between agents in y-direction).
         """
         num_agents = self.get_number_agents()
-        num_columns = int(np.ceil(np.sqrt(num_agents)))
-        # num_rows = int(np.ceil(num_agents / num_columns))
+        best_n_cols, best_n_rows, min_diff = 1, num_agents, float("inf")
+
+        for n_cols in range(1, num_agents + 1):
+            n_rows = (num_agents + n_cols - 1) // n_cols
+            diff = abs(n_cols * grid_size_x - n_rows * grid_size_y)
+            if diff < min_diff:
+                min_diff, best_n_cols, best_n_rows = diff, n_cols, n_rows
+
+        total_width = best_n_cols * grid_size_x
+        total_height = best_n_rows * grid_size_y
+
+        x_offset = -(total_width - grid_size_x) / 2
+        y_offset = -(total_height - grid_size_y) / 2
 
         for i, agent in enumerate(self.agents):
-            current_position = agent.get_position()
-            col = i % num_columns
-            row = i // num_columns
-            x = col * grid_size_x
-            y = row * grid_size_y
-            agent.translate(x - current_position.x, y - current_position.y)
-
+            pos = agent.get_position()
+            col, row = i % best_n_cols, i // best_n_cols
+            agent.translate(col * grid_size_x + x_offset - pos.x, row * grid_size_y + y_offset - pos.y)
         self.update_shapes3D_based_on_shapes2D()
 
     @staticmethod
