@@ -8,15 +8,18 @@ from typing import cast
 
 import kivy
 import numpy as np
+import shapely.affinity as affin
 from kivy.app import App
 from kivy.config import Config
 from kivy.core.text import Label as CoreLabel
 from kivy.core.window import Window
-from kivy.graphics import Color, Line, Rectangle
+from kivy.graphics import Color, Line, Mesh, Rectangle
+from kivy.graphics.tesselator import Tesselator  # pylint: disable=no-name-in-module
 from kivy.uix.popup import Popup
 from kivy.uix.textinput import TextInput
 from kivy.uix.widget import Widget
-from shapely.geometry import Point
+from shapely.geometry import MultiPolygon, Point, Polygon
+from shapely.geometry.base import BaseGeometry
 
 import configuration.utils.constants as cst
 import configuration.utils.functions as fun
@@ -104,6 +107,37 @@ def get_closest_node(x: int, y: int) -> tuple[int, int]:
     return (int(round(x / pixel_density / dx) * dx * pixel_density), int(round(y / pixel_density / dy) * dy * pixel_density))
 
 
+def shapely_to_kivy_contours(geometry: BaseGeometry) -> list[list[float]]:
+    """
+    Convert a Shapely geometry (Polygon or MultiPolygon) to Kivy-compatible contours.
+
+    Parameters
+    ----------
+    geometry : shapely.geometry.base.BaseGeometry
+        A Shapely geometry object, either a Polygon or MultiPolygon.
+
+    Returns
+    -------
+    list[list[float]]
+        A list of contours, where each contour is a flat list of x, y coordinates
+        suitable for Kivy tesselation.
+
+    Notes
+    -----
+    - For a Polygon, the exterior and all interiors (holes) are converted to contours.
+    - For a MultiPolygon, all constituent polygons are processed recursively.
+    """
+    contours: list[list[float]] = []
+    if isinstance(geometry, Polygon):
+        contours.append([coord for xy in geometry.exterior.coords for coord in xy])
+        for interior in geometry.interiors:
+            contours.append([coord for xy in interior.coords for coord in xy])
+    elif isinstance(geometry, MultiPolygon):
+        for poly in geometry.geoms:
+            contours.extend(shapely_to_kivy_contours(poly))
+    return contours
+
+
 ########## KIVY INTERFACE CLASSES ##########
 
 
@@ -158,19 +192,19 @@ class AgentKivy:
         current_agent_big = Agent(agent_type=cst.AgentTypes.pedestrian, measures=agent_measures)
         self.current_agent_big = current_agent_big
         agent_position: Point = self.current_agent_big.get_position()
-        self.current_agent_big.translate(x - agent_position.x, y - agent_position.y)
-        self.current_agent_big.translate_body3D(x - agent_position.x, y - agent_position.y, 0.0)
+        self.current_agent_big.translate(x * cst.M_TO_CM - agent_position.x, y * cst.M_TO_CM - agent_position.y)
+        self.current_agent_big.translate_body3D(x * cst.M_TO_CM - agent_position.x, y * cst.M_TO_CM - agent_position.y, 0.0)
         agent_position_translated: Point = self.current_agent_big.get_position()
-        self.x: float = agent_position_translated.x
-        self.y: float = agent_position_translated.y
+        self.x: float = agent_position_translated.x * cst.CM_TO_M
+        self.y: float = agent_position_translated.y * cst.CM_TO_M
         self.Fx: float = 0.0
         self.Fy: float = 1.0
         self.theta: float = 0.0
         self.torque: float = 0.0
 
         current_orientation = self.current_agent_big.get_agent_orientation()
-        self.current_agent_big.rotate(self.theta - current_orientation)
-        self.current_agent_big.rotate_body3D(self.theta - current_orientation)
+        self.current_agent_big.rotate(np.rad2deg(self.theta) - current_orientation)
+        self.current_agent_big.rotate_body3D(np.rad2deg(self.theta) - current_orientation)
 
     def set_target(self, Fx: float, Fy: float) -> None:
         """
@@ -196,8 +230,8 @@ class AgentKivy:
             The value to add to the attribute `theta`.
         """
         self.theta += theta
-        self.current_agent_big.rotate(theta - self.theta)
-        self.current_agent_big.rotate_body3D(theta - self.theta)
+        self.current_agent_big.rotate(np.rad2deg(theta - self.theta))
+        self.current_agent_big.rotate_body3D(np.rad2deg(theta - self.theta))
 
     def update_torque(self, torque: float) -> None:
         """
@@ -588,28 +622,52 @@ class MyWidget(Widget):  # type: ignore[misc]
 
         with self.canvas:
             for cpt_agent, current_agent_kivy in enumerate(self.scenario.agents):
-                alphach = 1.0 if cpt_agent == self.scenario.current_agent_kivy_selected_id else 0.3
-                Color(rc[0, 0], rc[0, 1], rc[0, 2], alphach, mode="bgra")
-                Line(
-                    circle=(pixel_density * current_agent_kivy.x, pixel_density * current_agent_kivy.y, pixel_density * radius),
-                    width=3,
+                geometric_agent = current_agent_kivy.current_agent_big.shapes2D.get_geometric_shape()
+                agent_position: Point = current_agent_kivy.current_agent_big.get_position()
+                geometric_agent_in_pixels = affin.scale(
+                    geometric_agent, cst.CM_TO_M * pixel_density, cst.CM_TO_M * pixel_density, origin=agent_position
                 )
-                Line(
-                    circle=(
-                        pixel_density * (current_agent_kivy.x - radius * np.cos(current_agent_kivy.theta)),
-                        pixel_density * (current_agent_kivy.y - radius * np.sin(current_agent_kivy.theta)),
-                        pixel_density * radius,
-                    ),
-                    width=3,
+                agent_position_in_pixels = affin.scale(
+                    agent_position, cst.CM_TO_M * pixel_density, cst.CM_TO_M * pixel_density, origin=(0.0, 0.0)
                 )
-                Line(
-                    circle=(
-                        pixel_density * (current_agent_kivy.x + radius * np.cos(current_agent_kivy.theta)),
-                        pixel_density * (current_agent_kivy.y + radius * np.sin(current_agent_kivy.theta)),
-                        pixel_density * radius,
-                    ),
-                    width=3,
+                new_agent_in_pixels = affin.translate(
+                    geometric_agent_in_pixels,
+                    agent_position_in_pixels.x - agent_position.x,
+                    agent_position_in_pixels.y - agent_position.y,
                 )
+                contours = shapely_to_kivy_contours(new_agent_in_pixels)
+                tess = Tesselator()
+                for contour in contours:
+                    tess.add_contour(contour)
+                tess.tesselate()
+                with self.canvas:
+                    alphach = 1.0 if cpt_agent == self.scenario.current_agent_kivy_selected_id else 0.3
+                    Color(rc[0, 0], rc[0, 1], rc[0, 2], alphach, mode="bgra")
+                    for vertices, indices in tess.meshes:
+                        Mesh(vertices=vertices, indices=indices, mode="triangle_fan")
+
+                # alphach = 1.0 if cpt_agent == self.scenario.current_agent_kivy_selected_id else 0.3
+                # Color(rc[0, 0], rc[0, 1], rc[0, 2], alphach, mode="bgra")
+                # Line(
+                #     circle=(pixel_density * current_agent_kivy.x, pixel_density * current_agent_kivy.y, pixel_density * radius),
+                #     width=3,
+                # )
+                # Line(
+                #     circle=(
+                #         pixel_density * (current_agent_kivy.x - radius * np.cos(current_agent_kivy.theta)),
+                #         pixel_density * (current_agent_kivy.y - radius * np.sin(current_agent_kivy.theta)),
+                #         pixel_density * radius,
+                #     ),
+                #     width=3,
+                # )
+                # Line(
+                #     circle=(
+                #         pixel_density * (current_agent_kivy.x + radius * np.cos(current_agent_kivy.theta)),
+                #         pixel_density * (current_agent_kivy.y + radius * np.sin(current_agent_kivy.theta)),
+                #         pixel_density * radius,
+                #     ),
+                #     width=3,
+                # )
                 Color(rc[2, 0], rc[2, 1], rc[2, 2], alphach, mode="bgra")
                 self.draw_arrow(
                     pixel_density * current_agent_kivy.x,
@@ -769,7 +827,6 @@ class MyWidget(Widget):  # type: ignore[misc]
 
                 # 2. Check if the Current Agent is being pressed (to rotate it)
                 elif len(self.scenario.agents) >= 1 and self.time_pressed > 0 and self.IsClickOnCurrentAgent():
-                    print("Rotation")
                     agent_kivy = self.scenario.agents[self.scenario.current_agent_kivy_selected_id]
                     intensity = 0.5 * (time.time() - self.time_pressed)
                     if touch.button == "right":

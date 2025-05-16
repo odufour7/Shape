@@ -17,7 +17,7 @@ repos:
       - id: codespell
         args:
           - --skip=*.js,*.html,*.css,*.pdf,*.png,*.csv,*.pkl,*.json,*.xml
-          - --ignore-words-list=teh,fo,bar
+          - --ignore-words-list=teh,fo,bar,tesselator,Tesselator,tesselation,tesselate
         files: '\.(py|md|c|cpp|h|hpp)$'
 
   # Mypy: Static type checker (local hook)
