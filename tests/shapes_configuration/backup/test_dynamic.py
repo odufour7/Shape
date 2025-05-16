@@ -19,8 +19,8 @@ def dynamical_parameters_crowd() -> DynamicCrowdDataType:
                 "Kinematics": {
                     "Position": (1.98, 0.96),
                     "Velocity": (0.0, 0.0),
-                    "theta": 0.52,
-                    "omega": 0,
+                    "Theta": 0.52,
+                    "Omega": 0,
                 },
                 "Dynamics": {
                     "Fp": (55.74, 225.83),
@@ -32,8 +32,8 @@ def dynamical_parameters_crowd() -> DynamicCrowdDataType:
                 "Kinematics": {
                     "Position": (2.68, 0.98),
                     "Velocity": (0.0, 0.0),
-                    "theta": -0.23,
-                    "omega": 0,
+                    "Theta": -0.23,
+                    "Omega": 0,
                 },
                 "Dynamics": {
                     "Fp": (52.47, 187.62),

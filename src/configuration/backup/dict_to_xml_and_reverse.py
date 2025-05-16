@@ -130,8 +130,8 @@ def dynamic_dict_to_xml(dynamical_parameters_crowd: DynamicCrowdDataType) -> byt
             "Kinematics",
             Position=f"{kinematics_data['Position'][0]:.3f},{kinematics_data['Position'][1]:.3f}",
             Velocity=f"{kinematics_data['Velocity'][0]:.2f},{kinematics_data['Velocity'][1]:.2f}",
-            theta=f"{kinematics_data['theta']:.2f}",
-            omega=f"{kinematics_data['omega']:.2f}",
+            Theta=f"{kinematics_data['Theta']:.2f}",
+            Omega=f"{kinematics_data['Omega']:.2f}",
         )
 
         # Create Dynamics element
@@ -402,16 +402,16 @@ def dynamic_xml_to_dict(xml_data: str) -> DynamicCrowdDataType:
         try:
             position_str = kinematics.attrib["Position"]
             velocity_str = kinematics.attrib["Velocity"]
-            theta_str = kinematics.attrib["theta"]
-            omega_str = kinematics.attrib["omega"]
+            theta_str = kinematics.attrib["Theta"]
+            omega_str = kinematics.attrib["Omega"]
         except KeyError as e:
             raise ValueError(f"Missing '{e.args[0]}' attribute in <Kinematics> for <Agent> with Id={agent_id}.") from e
         try:
             kinematics_dict = {
                 "Position": fun.from_string_to_tuple(position_str),
                 "Velocity": fun.from_string_to_tuple(velocity_str),
-                "theta": float(theta_str),
-                "omega": float(omega_str),
+                "Theta": float(theta_str),
+                "Omega": float(omega_str),
             }
         except ValueError as e:
             raise ValueError(f"Type error in <Kinematics> for <Agent> with Id={agent_id}: {e}") from e
@@ -495,8 +495,6 @@ def geometry_xml_to_dict(xml_data: str) -> GeometryDataType:
             raise ValueError(f"Type error in <Wall> at position {wall_idx}: {e}") from e
 
         # Validate corners section
-        # corners_element = wall.find("Corners")
-
         corners: dict[str, dict[str, tuple[float, float]]] = {}
         for i, corner in enumerate(wall.findall("Corner")):
             try:

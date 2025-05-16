@@ -751,7 +751,7 @@ def create_agents_from_dynamic_static_geometry_parameters(
 
     # --- Extract agent positions and orientations ---
     agent_positions = {agent["Id"]: agent["Kinematics"]["Position"] for agent in dynamic_dict.get("Agents", {}).values()}
-    agent_orientations = {agent["Id"]: agent["Kinematics"]["theta"] for agent in dynamic_dict.get("Agents", {}).values()}
+    agent_orientations = {agent["Id"]: agent["Kinematics"]["Theta"] for agent in dynamic_dict.get("Agents", {}).values()}
 
     # --- Create agents ---
     all_agents = []

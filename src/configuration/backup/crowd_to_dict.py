@@ -146,8 +146,8 @@ def get_dynamic_params(current_crowd: Crowd) -> DynamicCrowdDataType:
                         float(np.round(cst.INITIAL_TRANSLATIONAL_VELOCITY_X, 2)),
                         float(np.round(cst.INITIAL_TRANSLATIONAL_VELOCITY_Y, 2)),
                     ),
-                    "theta": float(np.round(np.radians(agent.get_agent_orientation()), 2)),
-                    "omega": float(np.round(cst.INITIAL_ROTATIONAL_VELOCITY, 2)),
+                    "Theta": float(np.round(np.radians(agent.get_agent_orientation()), 2)),
+                    "Omega": float(np.round(cst.INITIAL_ROTATIONAL_VELOCITY, 2)),
                 },
                 "Dynamics": {
                     "Fp": (
