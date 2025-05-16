@@ -554,6 +554,7 @@ toml==0.10.2
     # via streamlit
 tornado==6.4.2
     # via
+    #   shapes (pyproject.toml)
     #   ipykernel
     #   jupyter-client
     #   jupyter-server

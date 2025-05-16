@@ -2237,6 +2237,7 @@ dependencies = [
     { name = "sphinx-rtd-theme" },
     { name = "streamlit" },
     { name = "streamlit-option-menu" },
+    { name = "tornado" },
     { name = "watchdog" },
     { name = "xmltodict" },
 ]
@@ -2303,6 +2304,7 @@ requires-dist = [
     { name = "sphinx-rtd-theme", marker = "extra == 'dev'", specifier = ">=3.0.2" },
     { name = "streamlit", specifier = ">=1.43.0" },
     { name = "streamlit-option-menu", specifier = ">=0.4.0" },
+    { name = "tornado", specifier = ">=6.4.2" },
     { name = "watchdog", specifier = ">=6.0.0" },
     { name = "xmltodict", specifier = ">=0.14.2" },
 ]
