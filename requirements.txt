@@ -113,7 +113,9 @@ gitpython==3.1.44
 gprof2dot==2025.4.14
     # via shapes (pyproject.toml)
 h11==0.14.0
-    # via httpcore
+    # via
+    #   shapes (pyproject.toml)
+    #   httpcore
 httpcore==1.0.7
     # via httpx
 httpx==0.28.1
