@@ -7,7 +7,7 @@ import numpy as np
 from numpy.typing import NDArray
 from scipy.optimize import dual_annealing
 from shapely.affinity import scale
-from shapely.geometry import Point, Polygon
+from shapely.geometry import MultiPolygon, Point, Polygon
 from shapely.ops import unary_union
 
 import configuration.utils.constants as cst
@@ -483,17 +483,6 @@ class Shapes2D:
         }
         self.shapes = adjusted_shapes
 
-    def get_geometric_shape(self) -> Polygon:
-        """
-        Return the geometric union of all shapes that constitute a pedestrian physical shape.
-
-        Returns
-        -------
-        Polygon
-            The union of all stored shapes as a single Polygon object.
-        """
-        return unary_union([shape["object"] for shape in self.shapes.values()])
-
     def get_geometric_shapes(self) -> list[Polygon]:
         """
         Return the geometric shapes that constitute a pedestrian physical shape.
@@ -504,6 +493,17 @@ class Shapes2D:
             A list of Polygon objects representing the individual shapes.
         """
         return [shape["object"] for shape in self.shapes.values()]
+
+    def get_geometric_shape(self) -> Polygon | MultiPolygon:
+        """
+        Return the geometric union of all shapes that constitute a pedestrian physical shape.
+
+        Returns
+        -------
+        Polygon
+            The union of all stored shapes as a single Polygon object.
+        """
+        return unary_union(self.get_geometric_shapes())
 
     def get_area(self) -> float:
         """
