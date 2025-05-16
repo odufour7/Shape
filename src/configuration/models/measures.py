@@ -89,7 +89,6 @@ class AgentMeasures:
 class CrowdMeasures:
     """Collection of dictionaries (databases and statistics) representing the characteristics of the crowd, used to create agents."""
 
-    # ANSURII dataset by default (for men and women)
     default_database: dict[int, dict[str, float]] = field(default_factory=dict)
     agent_statistics: dict[str, float] = field(default_factory=dict)
 

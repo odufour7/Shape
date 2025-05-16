@@ -16,6 +16,12 @@ from kivy.graphics import Color, Line, Rectangle
 from kivy.uix.popup import Popup
 from kivy.uix.textinput import TextInput
 from kivy.uix.widget import Widget
+from shapely.geometry import Point
+
+import configuration.utils.constants as cst
+import configuration.utils.functions as fun
+from configuration.models.agents import Agent
+from configuration.models.measures import CrowdMeasures, create_pedestrian_measures
 
 # Set Kivy configuration to use the mouse
 Config.set("input", "mouse", "mouse,multitouch_on_demand")
@@ -73,6 +79,8 @@ folderDynamic = Path().absolute() / "dynamic"
 Path(folderStatic).mkdir(parents=True, exist_ok=True)
 Path(folderDynamic).mkdir(parents=True, exist_ok=True)
 
+# crowd parameters
+crowd_measures = CrowdMeasures()
 
 ########## AUXILIARY FUNCTIONS ##########
 
@@ -99,7 +107,7 @@ def get_closest_node(x: int, y: int) -> tuple[int, int]:
 ########## KIVY INTERFACE CLASSES ##########
 
 
-class Agent:
+class AgentKivy:
     """
     Class representing an agent in the simulation.
 
@@ -144,12 +152,25 @@ class Agent:
         """
         if not isinstance(x, (int, float)) or not isinstance(y, (int, float)):
             raise TypeError("x and y must be int or float")
-        self.x: float = x
-        self.y: float = y
+
+        drawn_agent_data = np.random.choice(np.array(list(crowd_measures.default_database.values()), dtype="object"))
+        agent_measures = create_pedestrian_measures(drawn_agent_data)
+        current_agent_big = Agent(agent_type=cst.AgentTypes.pedestrian, measures=agent_measures)
+        self.current_agent_big = current_agent_big
+        agent_position: Point = self.current_agent_big.get_position()
+        self.current_agent_big.translate(x - agent_position.x, y - agent_position.y)
+        self.current_agent_big.translate_body3D(x - agent_position.x, y - agent_position.y, 0.0)
+        agent_position_translated: Point = self.current_agent_big.get_position()
+        self.x: float = agent_position_translated.x
+        self.y: float = agent_position_translated.y
         self.Fx: float = 0.0
         self.Fy: float = 1.0
         self.theta: float = 0.0
         self.torque: float = 0.0
+
+        current_orientation = self.current_agent_big.get_agent_orientation()
+        self.current_agent_big.rotate(self.theta - current_orientation)
+        self.current_agent_big.rotate_body3D(self.theta - current_orientation)
 
     def set_target(self, Fx: float, Fy: float) -> None:
         """
@@ -175,6 +196,8 @@ class Agent:
             The value to add to the attribute `theta`.
         """
         self.theta += theta
+        self.current_agent_big.rotate(theta - self.theta)
+        self.current_agent_big.rotate_body3D(theta - self.theta)
 
     def update_torque(self, torque: float) -> None:
         """
@@ -205,7 +228,7 @@ class Scenario:
             The index of the currently active wall (for editing or drawing).
         agents : list
             A list of agents present in the scenario.
-        current_agent : int
+        current_agent_kivy_selected_id : int
             The index of the currently selected agent, or -1 if none is selected.
         """
         # Walls Variables
@@ -214,8 +237,8 @@ class Scenario:
         self.current_wallId: int = 0
 
         # List of agents
-        self.agents: list[Agent] = []
-        self.current_agent: int = -1  # index of the current agent
+        self.agents: list[AgentKivy] = []
+        self.current_agent_kivy_selected_id: int = -1  # index of the current agent
 
     def add_agent(self, x: int, y: int) -> None:
         """
@@ -223,7 +246,7 @@ class Scenario:
 
         The agent's position is converted from pixel coordinates to world coordinates
         using the `pixel_density` factor, and the agent is appended to the `self.agents` list.
-        The index of the newly added agent is stored in `self.current_agent`.
+        The index of the newly added agent is stored in `self.current_agent_kivy_selected_id`.
 
         Parameters
         ----------
@@ -232,8 +255,8 @@ class Scenario:
         y : int
             The y-coordinate of the agent in pixels.
         """
-        self.agents.append(Agent(float(x) / pixel_density, float(y) / pixel_density))
-        self.current_agent = len(self.agents) - 1
+        self.agents.append(AgentKivy(float(x) / pixel_density, float(y) / pixel_density))
+        self.current_agent_kivy_selected_id = len(self.agents) - 1
 
     def add_NewWall(self, x0: int, y0: int) -> None:
         """
@@ -314,15 +337,34 @@ class Scenario:
                 dynamicsFile.write(r'<?xml version="1.0" encoding="utf-8"?>' + "\n")
                 agentsFile.write("<Agents>\n")
                 dynamicsFile.write("<Agents>\n")
-                for a, agent in enumerate(self.agents):
-                    agentsFile.write(f'\t<Agent Id="{a}" Mass="" MomentOfInertia="" FloorDamping="2.0" AngularDamping="5.0">\n')
+                for a, agent_kivy in enumerate(self.agents):
+                    mass = agent_kivy.current_agent_big.measures.measures[cst.CommonMeasures.weight.name]
+                    moment_of_inertia = agent_kivy.current_agent_big.measures.measures[cst.CommonMeasures.moment_of_inertia.name]
+                    agentsFile.write(
+                        f'\t<Agent Type="{agent_kivy.current_agent_big.agent_type.name}" Id="{a}" Mass="{mass:.2f}" '
+                        f'fMomentOfInertia="{moment_of_inertia:.2f}" FloorDamping="2.0" '
+                        'AngularDamping="5.0">\n'
+                    )
+                    all_shape_params = agent_kivy.current_agent_big.shapes2D.get_additional_parameters()
+                    delta_g_to_gi: dict[str, tuple[float, float]] = agent_kivy.current_agent_big.get_delta_GtoGi()
+                    theta: float = agent_kivy.current_agent_big.get_agent_orientation()
+                    delta_g_to_gi_rotated = fun.rotate_vectors(delta_g_to_gi, -theta)
+                    for shape_name, shape_params in all_shape_params.items():
+                        delta_g_to_gi_shape = delta_g_to_gi_rotated[shape_name]
+                        agentsFile.write(
+                            f'\t\t<Shape Type="{shape_params["type"]}" Radius="{float(np.round(shape_params["radius"], 3))}" '
+                            f'MaterialId="{shape_params["material"]}" '
+                            f'Position="{float(np.round(delta_g_to_gi_shape[0] * cst.CM_TO_M, 3))},'
+                            f'{float(np.round(delta_g_to_gi_shape[1] * cst.CM_TO_M, 3))}"/>\n'
+                        )
+
                     dynamicsFile.write(f'\t<Agent Id="{a}">\n')
                     # Write shapes too
                     dynamicsFile.write(
-                        f'\t\t<Kinematics Position="{agent.x:.2f},{agent.y:.2f}" Velocity="0,0"'
-                        ' Theta="{agent.theta:.2f}" Omega="0"/>\n'
+                        f'\t\t<Kinematics Position="{agent_kivy.x:.2f},{agent_kivy.y:.2f}" Velocity="0,0"'
+                        f' Theta="{agent_kivy.theta:.2f}" Omega="0"/>\n'
                     )
-                    dynamicsFile.write(f'\t\t<Dynamics Fp="{agent.Fx:.2f},{agent.Fy:.2f}" Mp="{agent.torque:.2f}"/>\n')
+                    dynamicsFile.write(f'\t\t<Dynamics Fp="{agent_kivy.Fx:.2f},{agent_kivy.Fy:.2f}" Mp="{agent_kivy.torque:.2f}"/>\n')
                     agentsFile.write("\t</Agent>\n")
                     dynamicsFile.write("\t</Agent>\n")
                 dynamicsFile.write("</Agents>")
@@ -533,7 +575,7 @@ class MyWidget(Widget):  # type: ignore[misc]
             - Two smaller circles indicating orientation (forward/backward)
             - An arrow showing the force vector applied to the agent
 
-        The current agent (defined by `self.scenario.current_agent`) is drawn with full opacity,
+        The current agent (defined by `self.scenario.current_agent_kivy_id`) is drawn with full opacity,
         while others are rendered at 30% opacity.
 
         Raises
@@ -545,32 +587,35 @@ class MyWidget(Widget):  # type: ignore[misc]
             raise ValueError("Scenario is not initialized")
 
         with self.canvas:
-            for cpt_agent, current_agent in enumerate(self.scenario.agents):
-                alphach = 1.0 if cpt_agent == self.scenario.current_agent else 0.3
+            for cpt_agent, current_agent_kivy in enumerate(self.scenario.agents):
+                alphach = 1.0 if cpt_agent == self.scenario.current_agent_kivy_selected_id else 0.3
                 Color(rc[0, 0], rc[0, 1], rc[0, 2], alphach, mode="bgra")
-                Line(circle=(pixel_density * current_agent.x, pixel_density * current_agent.y, pixel_density * radius), width=3)
+                Line(
+                    circle=(pixel_density * current_agent_kivy.x, pixel_density * current_agent_kivy.y, pixel_density * radius),
+                    width=3,
+                )
                 Line(
                     circle=(
-                        pixel_density * (current_agent.x - radius * np.cos(current_agent.theta)),
-                        pixel_density * (current_agent.y - radius * np.sin(current_agent.theta)),
+                        pixel_density * (current_agent_kivy.x - radius * np.cos(current_agent_kivy.theta)),
+                        pixel_density * (current_agent_kivy.y - radius * np.sin(current_agent_kivy.theta)),
                         pixel_density * radius,
                     ),
                     width=3,
                 )
                 Line(
                     circle=(
-                        pixel_density * (current_agent.x + radius * np.cos(current_agent.theta)),
-                        pixel_density * (current_agent.y + radius * np.sin(current_agent.theta)),
+                        pixel_density * (current_agent_kivy.x + radius * np.cos(current_agent_kivy.theta)),
+                        pixel_density * (current_agent_kivy.y + radius * np.sin(current_agent_kivy.theta)),
                         pixel_density * radius,
                     ),
                     width=3,
                 )
                 Color(rc[2, 0], rc[2, 1], rc[2, 2], alphach, mode="bgra")
                 self.draw_arrow(
-                    pixel_density * current_agent.x,
-                    pixel_density * current_agent.y,
-                    pixel_density * (current_agent.x + current_agent.Fx),
-                    pixel_density * (current_agent.y + current_agent.Fy),
+                    pixel_density * current_agent_kivy.x,
+                    pixel_density * current_agent_kivy.y,
+                    pixel_density * (current_agent_kivy.x + current_agent_kivy.Fx),
+                    pixel_density * (current_agent_kivy.y + current_agent_kivy.Fy),
                 )
 
     def draw_walls(self) -> None:
@@ -660,9 +705,11 @@ class MyWidget(Widget):  # type: ignore[misc]
         if self.scenario is None:
             raise ValueError("Scenario is not initialized")
 
-        agent = self.scenario.agents[self.scenario.current_agent]
+        agent_kivy = self.scenario.agents[self.scenario.current_agent_kivy_selected_id]
         return bool(
-            np.sqrt((self.pos_pressed[0] - pixel_density * agent.x) ** 2 + (self.pos_pressed[1] - pixel_density * agent.y) ** 2)
+            np.sqrt(
+                (self.pos_pressed[0] - pixel_density * agent_kivy.x) ** 2 + (self.pos_pressed[1] - pixel_density * agent_kivy.y) ** 2
+            )
             <= pixel_density * radius
         )
 
@@ -713,21 +760,21 @@ class MyWidget(Widget):  # type: ignore[misc]
             elif self.current == 1:  # New agent
                 # 1. Check if the Add torque button is being pressed
                 if len(self.scenario.agents) >= 1 and self.time_pressed > 0 and self.IsClickOnTorqueButton():
-                    agent = self.scenario.agents[self.scenario.current_agent]
+                    agent_kivy = self.scenario.agents[self.scenario.current_agent_kivy_selected_id]
                     intensity = 0.5 * (time.time() - self.time_pressed)
                     if touch.button == "right":
                         intensity *= -1.0
-                    agent.update_torque(intensity)
+                    agent_kivy.update_torque(intensity)
                     print(f"Torque={intensity:.2f}")
 
                 # 2. Check if the Current Agent is being pressed (to rotate it)
                 elif len(self.scenario.agents) >= 1 and self.time_pressed > 0 and self.IsClickOnCurrentAgent():
                     print("Rotation")
-                    agent = self.scenario.agents[self.scenario.current_agent]
+                    agent_kivy = self.scenario.agents[self.scenario.current_agent_kivy_selected_id]
                     intensity = 0.5 * (time.time() - self.time_pressed)
                     if touch.button == "right":
                         intensity *= -1.0
-                    agent.update_theta(intensity)
+                    agent_kivy.update_theta(intensity)
 
                 # 3. Spawn new agent
                 elif touch.button == "left":
@@ -736,10 +783,10 @@ class MyWidget(Widget):  # type: ignore[misc]
 
                 # 4. Set target for current agent
                 elif len(self.scenario.agents) >= 1:
-                    agent = self.scenario.agents[self.scenario.current_agent]
+                    agent_kivy = self.scenario.agents[self.scenario.current_agent_kivy_selected_id]
                     F_norm = 2.0 * (time.time() - self.time_pressed) if self.time_pressed > 0 else 1.0
-                    F_norm /= np.sqrt((x / pixel_density - agent.x) ** 2 + (y / pixel_density - agent.y) ** 2)
-                    agent.set_target(F_norm * (x / pixel_density - agent.x), F_norm * (y / pixel_density - agent.y))
+                    F_norm /= np.sqrt((x / pixel_density - agent_kivy.x) ** 2 + (y / pixel_density - agent_kivy.y) ** 2)
+                    agent_kivy.set_target(F_norm * (x / pixel_density - agent_kivy.x), F_norm * (y / pixel_density - agent_kivy.y))
 
         self.time_pressed = -1
         self.canvas.clear()

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Agents>
 	<Agent Id="0">
-		<Kinematics Position="9.20,13.61" Velocity="0,0" theta="{agent.theta:.2f}" omega="0"/>
+		<Kinematics Position="8.28,12.41" Velocity="0,0" Theta="0.00" Omega="0"/>
 		<Dynamics Fp="0.00,1.00" Mp="0.00"/>
 	</Agent>
 	<Agent Id="1">
-		<Kinematics Position="12.33,12.25" Velocity="0,0" theta="{agent.theta:.2f}" omega="0"/>
+		<Kinematics Position="11.61,11.89" Velocity="0,0" Theta="0.00" Omega="0"/>
 		<Dynamics Fp="0.00,1.00" Mp="0.00"/>
 	</Agent>
 	<Agent Id="2">
-		<Kinematics Position="9.68,11.57" Velocity="0,0" theta="{agent.theta:.2f}" omega="0"/>
+		<Kinematics Position="9.40,10.37" Velocity="0,0" Theta="0.00" Omega="0"/>
 		<Dynamics Fp="0.00,1.00" Mp="0.00"/>
 	</Agent>
 </Agents>

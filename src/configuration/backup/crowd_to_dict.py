@@ -47,7 +47,7 @@ def get_light_agents_params(current_crowd: Crowd) -> StaticCrowdDataType:
                     if agent.agent_type.name == cst.AgentTypes.pedestrian.name
                     else {}
                 ),
-                "MomentOfInertia": float(np.round(agent.measures.measures["moment_of_inertia"], 2)),  # in kg*m^2
+                "MomentOfInertia": float(np.round(agent.measures.measures[cst.CommonMeasures.moment_of_inertia.name], 2)),  # in kg*m^2
                 "FloorDamping": float(np.round(cst.DEFAULT_FLOOR_DAMPING, 2)),
                 "AngularDamping": float(np.round(cst.DEFAULT_ANGULAR_DAMPING, 2)),
                 "Shapes": agent.shapes2D.get_additional_parameters(),
@@ -88,7 +88,6 @@ def get_static_params(current_crowd: Crowd) -> StaticCrowdDataType:
         delta_g_to_gi_rotated = fun.rotate_vectors(delta_g_to_gi, -theta)
 
         # Extract all shape parameters for the current agent
-        cpt_shape: int = 0
         for shape_name, shape_params in all_shape_params.items():
             delta_g_to_gi_shape = delta_g_to_gi_rotated[shape_name]
 
@@ -102,7 +101,6 @@ def get_static_params(current_crowd: Crowd) -> StaticCrowdDataType:
                     float(np.round(delta_g_to_gi_shape[1] * cst.CM_TO_M, 3)),
                 ),
             }
-            cpt_shape += 1
 
         # Add agent data to crowd_dict
         crowd_dict["Agents"][f"Agent{agent_id}"] = {
@@ -110,7 +108,7 @@ def get_static_params(current_crowd: Crowd) -> StaticCrowdDataType:
             "Id": agent_id,
             "Mass": float(np.round(agent.measures.measures[cst.CommonMeasures.weight.name], 2)),  # in kg
             "Height": float(np.round(agent.measures.measures[cst.PedestrianParts.height.name] * cst.CM_TO_M, 2)),  # in m
-            "MomentOfInertia": float(np.round(agent.measures.measures["moment_of_inertia"], 2)),  # in kg*m^2
+            "MomentOfInertia": float(np.round(agent.measures.measures[cst.CommonMeasures.moment_of_inertia.name], 2)),  # in kg*m^2
             "FloorDamping": float(np.round(cst.DEFAULT_FLOOR_DAMPING, 2)),
             "AngularDamping": float(np.round(cst.DEFAULT_ANGULAR_DAMPING, 2)),
             "Shapes": shapes_dict,
