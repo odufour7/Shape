@@ -1,6 +1,7 @@
 """Module containing the Crowd class, which represents a crowd of pedestrians in a room."""
 
 import numpy as np
+import shapely.affinity as affin
 from numpy.typing import NDArray
 from shapely.geometry import Point, Polygon
 
@@ -427,6 +428,25 @@ class Crowd:
                 dz=0.0 - actual_lowest_height,
             )
 
+    def translate_crowd(self, dx: float, dy: float) -> None:
+        """
+        Translate all agents in the crowd by a specified distance.
+
+        Parameters
+        ----------
+        dx : float
+            The distance to translate in the x-direction.
+        dy : float
+            The distance to translate in the y-direction.
+        """
+        for agent in self.agents:
+            agent.translate(dx, dy)
+        self.boundaries = affin.translate(self.boundaries, dx, dy)
+
+        # Update the 3d shapes only if all agents are pedestrians
+        if all(agent.agent_type == cst.AgentTypes.pedestrian for agent in self.agents):
+            self.update_shapes3D_based_on_shapes2D()
+
     def pack_agents_with_forces(
         self,
         repulsion_length: float = cst.DEFAULT_REPULSION_LENGTH,
@@ -514,9 +534,10 @@ class Crowd:
             # Decrease the temperature at each iteration
             Temperature = max(0.0, Temperature - 0.1)
 
-        # Update the 3d shapes only if all agents are pedestrians
-        if all(agent.agent_type == cst.AgentTypes.pedestrian for agent in self.agents):
-            self.update_shapes3D_based_on_shapes2D()
+        # Translate all agents and wall to get the minimum x-coordinates and minimum y-coordinates at (0., 0.)
+        min_x = min(min(agent.shapes2D.get_geometric_shape().bounds[0] for agent in self.agents), self.boundaries.bounds[0])
+        min_y = min(min(agent.shapes2D.get_geometric_shape().bounds[1] for agent in self.agents), self.boundaries.bounds[1])
+        self.translate_crowd(-min_x, -min_y)
 
     def unpack_crowd(self) -> None:
         """Translate all agents in the crowd to the origin (0, 0)."""
@@ -527,7 +548,7 @@ class Crowd:
 
     def pack_agents_on_grid(self, grid_size_x: float = cst.GRID_SIZE_X, grid_size_y: float = cst.GRID_SIZE_Y) -> None:
         """
-        Arrange agents evenly on a square 2D grid with specified cell sizes, centered at (0, 0).
+        Arrange the agents on a square 2D grid with specified cell sizes, ensuring that the smallest x and y coordinates are at (0, 0).
 
         Parameters
         ----------
@@ -536,25 +557,22 @@ class Crowd:
         grid_size_y : float
             Height of each grid cell (distance between agents in y-direction).
         """
-        num_agents = self.get_number_agents()
-        best_n_cols, best_n_rows, min_diff = 1, num_agents, float("inf")
+        best_n_cols, min_diff = 1, float("inf")
 
-        for n_cols in range(1, num_agents + 1):
-            n_rows = (num_agents + n_cols - 1) // n_cols
+        for n_cols in range(1, self.get_number_agents() + 1):
+            n_rows = (self.get_number_agents() + n_cols - 1) // n_cols
             diff = abs(n_cols * grid_size_x - n_rows * grid_size_y)
             if diff < min_diff:
-                min_diff, best_n_cols, best_n_rows = diff, n_cols, n_rows
+                min_diff, best_n_cols = diff, n_cols
 
-        total_width = best_n_cols * grid_size_x
-        total_height = best_n_rows * grid_size_y
-
-        x_offset = -(total_width - grid_size_x) / 2
-        y_offset = -(total_height - grid_size_y) / 2
+        x_offset = -min(agent.shapes2D.get_geometric_shape().bounds[0] for agent in self.agents)
+        y_offset = -min(agent.shapes2D.get_geometric_shape().bounds[1] for agent in self.agents)
 
         for i, agent in enumerate(self.agents):
             pos = agent.get_position()
             col, row = i % best_n_cols, i // best_n_cols
             agent.translate(col * grid_size_x + x_offset - pos.x, row * grid_size_y + y_offset - pos.y)
+
         self.update_shapes3D_based_on_shapes2D()
 
     @staticmethod

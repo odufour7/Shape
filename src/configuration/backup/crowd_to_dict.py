@@ -185,10 +185,10 @@ def get_geometry_params(current_crowd: Crowd) -> GeometryDataType:
         # create a boundaries with a large square
         current_boundaries = Polygon(
             [
-                Point(-cst.INFINITE, -cst.INFINITE),
-                Point(-cst.INFINITE, cst.INFINITE),
+                Point(0.0, 0.0),
+                Point(0.0, cst.INFINITE),
                 Point(cst.INFINITE, cst.INFINITE),
-                Point(cst.INFINITE, -cst.INFINITE),
+                Point(cst.INFINITE, 0.0),
             ]
         )
     # Extract coordinates from the polygon's exterior

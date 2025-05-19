@@ -313,44 +313,6 @@ def plot_and_download_crowd2D(current_crowd: Crowd) -> None:
         )
 
 
-def boundaries_state() -> Polygon:
-    """
-    Create room boundaries and update the session state.
-
-    Returns
-    -------
-    Polygon
-        The new boundaries of the room.
-    """
-    if st.session_state.wall_interaction:
-        boundary_x = st.sidebar.number_input(
-            "Length X (cm)",
-            min_value=cst_app.DEFAULT_BOUNDARY_X_MIN,
-            max_value=cst_app.DEFAULT_BOUNDARY_X_MAX,
-            value=st.session_state.boundary_x,
-            step=1.0,
-            on_change=parameter_changed,
-        )
-        boundary_y = st.sidebar.number_input(
-            "Length Y (cm)",
-            min_value=cst_app.DEFAULT_BOUNDARY_Y_MIN,
-            max_value=cst_app.DEFAULT_BOUNDARY_Y_MAX,
-            value=st.session_state.boundary_y,
-            step=1.0,
-            on_change=parameter_changed,
-        )
-        if boundary_x != st.session_state.boundary_x or boundary_y != st.session_state.boundary_y:
-            st.session_state.boundary_x = boundary_x
-            st.session_state.boundary_y = boundary_y
-            st.session_state.simulation_run = True
-
-        new_boundaries = create_boundaries(st.session_state.boundary_x, st.session_state.boundary_y)
-    else:
-        new_boundaries = Polygon()
-
-    return new_boundaries
-
-
 def agent_statistics_state(new_boundaries: Polygon, num_agents: int) -> None:
     """
     Create custom statistics and update the session state.
@@ -510,6 +472,48 @@ def agent_statistics_state(new_boundaries: Polygon, num_agents: int) -> None:
         st.session_state.current_crowd = current_crowd
 
 
+def boundaries_state() -> Polygon:
+    """
+    Create room boundaries and update the session state.
+
+    Returns
+    -------
+    Polygon
+        The new boundaries of the room.
+    """
+    if st.session_state.wall_interaction:
+        boundary_x = st.sidebar.number_input(
+            "Length X (cm)",
+            min_value=cst_app.DEFAULT_BOUNDARY_X_MIN,
+            max_value=cst_app.DEFAULT_BOUNDARY_X_MAX,
+            value=st.session_state.get("boundary_x", cst_app.DEFAULT_BOUNDARY_X_MIN),
+            step=1.0,
+            on_change=parameter_changed,
+        )
+        boundary_y = st.sidebar.number_input(
+            "Length Y (cm)",
+            min_value=cst_app.DEFAULT_BOUNDARY_Y_MIN,
+            max_value=cst_app.DEFAULT_BOUNDARY_Y_MAX,
+            value=st.session_state.get("boundary_y", cst_app.DEFAULT_BOUNDARY_Y_MIN),
+            step=1.0,
+            on_change=parameter_changed,
+        )
+
+        # Update session state if changed
+        if boundary_x != st.session_state.get("boundary_x", cst_app.DEFAULT_BOUNDARY_X_MIN) or boundary_y != st.session_state.get(
+            "boundary_y", cst_app.DEFAULT_BOUNDARY_Y_MIN
+        ):
+            st.session_state.boundary_x = boundary_x
+            st.session_state.boundary_y = boundary_y
+            st.session_state.simulation_run = True
+
+        new_boundaries = create_boundaries(st.session_state.boundary_x, st.session_state.boundary_y)
+    else:
+        new_boundaries = Polygon()
+
+    return new_boundaries
+
+
 def general_settings() -> Polygon:
     """
     Configure and return general settings for the simulation.
@@ -555,17 +559,6 @@ def general_settings() -> Polygon:
         if variable_orientation != st.session_state.variable_orientation:
             st.session_state.variable_orientation = variable_orientation
 
-        # Sidebar: Wall interaction checkbox
-        wall_interaction = st.sidebar.checkbox(
-            "Enable wall interaction",
-            value=st.session_state.wall_interaction,
-            on_change=parameter_changed,
-            key="wall_interaction",
-        )
-
-        if wall_interaction != st.session_state.wall_interaction:
-            st.session_state.wall_interaction = wall_interaction
-
         repulsion_length: float = st.sidebar.slider(
             "Initial spacing (cm)",
             min_value=cst_app.DEFAULT_REPULSION_LENGTH_MIN,
@@ -577,7 +570,19 @@ def general_settings() -> Polygon:
         if repulsion_length != st.session_state.repulsion_length:
             st.session_state.repulsion_length = repulsion_length
 
-    new_boundaries = boundaries_state()
+        wall_interaction = st.sidebar.checkbox(
+            "Enable wall interaction",
+            value=cst_app.DEFAULT_WALL_INTERACTION,
+            key="wall_interaction",
+            on_change=parameter_changed,
+        )
+        if wall_interaction != st.session_state.get("wall_interaction", False):
+            st.session_state.wall_interaction = wall_interaction
+
+        new_boundaries = boundaries_state()
+    else:
+        st.session_state.wall_interaction = False
+        new_boundaries = Polygon()
 
     return new_boundaries
 

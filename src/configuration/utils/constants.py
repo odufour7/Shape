@@ -40,7 +40,7 @@ YOUNG_MODULUS_CONCRETE: float = 17.0e9  # Pa (https://www.engineeringtoolbox.com
 YOUNG_MODULUS_HUMAN_NAKED: float = 3.05e6  # Pa (https://doi.org/10.1103/PhysRevE.87.063305)
 YOUNG_MODULUS_HUMAN_CLOTHES: float = 3.05e6  # Pa
 
-SHEAR_MODULUS_CONCRETE: float = 21.00e9  # Pa (https://www.engineersedge.com/materials/shear_modulus_of_rigidity_13122.htm)
+SHEAR_MODULUS_CONCRETE: float = 0.710e10  # Pa
 SHEAR_MODULUS_HUMAN_NAKED: float = 1.02e9  # Pa, incompressibility hypothesis, nu = 0.5
 SHEAR_MODULUS_HUMAN_CLOTHES: float = 1.02e9  # Pa, incompressibility hypothesis, nu = 0.5
 

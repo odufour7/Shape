@@ -63,7 +63,7 @@ folderDynamic = Path().absolute() / "dynamic"
 Path(folderStatic).mkdir(parents=True, exist_ok=True)
 Path(folderDynamic).mkdir(parents=True, exist_ok=True)
 
-# crowd parameters
+# Crowd parameters
 crowd_measures = CrowdMeasures()
 
 ########## AUXILIARY FUNCTIONS ##########
@@ -163,7 +163,7 @@ class AgentKivy:
         Raises
         ------
         TypeError
-            If `x` or `y` is not an float.
+            If `x` or `y` is not a float or an int.
         """
         if not isinstance(x, (int, float)) or not isinstance(y, (int, float)):
             raise TypeError("x and y must be int or float")
@@ -586,9 +586,8 @@ class MyWidget(Widget):  # type: ignore[misc]
         Render all agents on the canvas with visual indicators.
 
         For each agent, this method draws:
-            - A circle representing the agent's position
-            - Two smaller circles indicating orientation (forward/backward)
-            - An arrow showing the force vector applied to the agent
+            - A polygon representing the agent's shape
+            - An arrow showing the propulsion force vector applied to the agent
 
         The current agent (defined by `self.scenario.current_agent_kivy_id`) is drawn with full opacity,
         while others are rendered at 30% opacity.
