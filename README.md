@@ -1,64 +1,46 @@
-<table  align="center"><td align="center" width="9999">
-
-<img src="./docs/source/_static/logo/art_light.png" align="center" width="300" alt="project icon">
-
-</td>
-<tr>
-<td align="left" width="9999" >
-
+<table align="center" style="width:100%; border-collapse:collapse;">
+  <tr>
+    <td align="center" style="width:100%;">
+      <img src="./docs/source/_static/logo/art_light.png" width="300" alt="Project icon" style="display:block; margin:auto;">
+    </td>
+  </tr>
+  <tr>
+    <td align="left" style="width:100%;">
+      <!-- Your content goes here -->
+    </td>
+  </tr>
+</table>
 <div align="center">
 
-[![PyPI](https://img.shields.io/pypi/v/hypertiling)](https://pypi.org/project/hypertiling/)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7559393.svg)](https://doi.org/10.5281/zenodo.7559393)
+[![](https://badgen.net/badge/DOI/open%20access/orange)](https://scipost.org/SciPostPhysCodeb)
+[![](https://badgen.net/static/DOC/shapes-docs/cyan?icon=https://icons.getbootstrap.com/icons/filetype-doc/)](https://shapes-crowd.readthedocs.io/en/latest/index.html)
+[![](https://badgen.net/badge/icon/GitHub?icon=github&label)](https://github.com/odufour7/Shape)
+[![](https://badgen.net/badge/🚀/Streamlit%20App/green)](https://crowdmecha.streamlit.app/)
 
 </div>
-
-**shapes** is a new project interesting ...
-
-## Installation
-
-To set up, follow these steps after downloading the repository:
-
-**1. Environment Setup**
-
-Create and activate a virtual environment to manage dependencies efficiently:
-
-```bash
-pip install uv
-uv sync
-```
-
-**2. Launch the App**
-
-Start the app with the following command:
-
-```bash
-uv run streamlit run src/configuration/streamlit_app/app/app.py
-```
 
 
 ## Documentation
 
-Further usage examples and a full API reference are available in our [documentation](https://shapes-crowd.readthedocs.io/en/latest/).
-
+Comprehensive installation guidelines, tutorials, and a complete API reference are available in our [official documentation](https://shapes-crowd.readthedocs.io/en/latest/).
 ## Authors
 
 * Oscar Dufour
 * Maxime Stapelle
 * Alexandre Nicolas
 
-This project is developed at:
-[Institute of Light and Matter](https://ilm.univ-lyon1.fr/)
+This project is developed at
+[Institute of Light and Matter](https://ilm.univ-lyon1.fr/).
 
 ## Citation
 
-If you use _shapes_, we encourage you to cite or reference this work as you would any other scientific research. The package is a result of a huge amount of time and effort invested by the authors. Citing us allows us to measure the impact of the research and encourages others to use the library.
+If you use `shapes`, we encourage you to cite or reference this work as you would any other scientific research. The package is a result of a huge amount of time and effort invested by the authors. Citing us allows us to measure the impact of the research and encourages others to use the library.
 
 Cite us:
 ```
 @software{dufour_2025_14906931,
     author    = {Dufour, Oscar and Stapelle, Maxime and Nicolas, Alexandre},
-    title     = {CrowdMorph - Realistic Crowd Generator and Simulation},
+    title     = {Shapes - Realistic Crowd Generator and Simulation},
     month     = {jun},
     year      = {2025},
     publisher = {Zenodo},
@@ -68,13 +50,13 @@ Cite us:
 }
 ```
 
-## Some use cases
+<!-- ## Some use cases
 
-### pedestrian crowds
+### pedestrian crowds -->
 
 
 ## License
-Every part of shapes is available under the MIT license.
+Every part of `shapes` is available under the [`CeCILL-B`](https://cecill.info/licences.fr.html) license.
 
 
 
