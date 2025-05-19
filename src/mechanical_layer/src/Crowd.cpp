@@ -381,7 +381,7 @@ void generateDynamicsOutputFile(const std::string& dynamicsFile)
         //  Kinematics
         outputDoc << "        <Kinematics Position=\"" << agent->_x << "," << agent->_y << "\" ";
         outputDoc << "Velocity=\"" << agent->_vx << "," << agent->_vy << "\" ";
-        outputDoc << "theta=\"" << agent->_theta << "\" omega=\"" << agent->_w << "\"/>" << endl;
+        outputDoc << "Theta=\"" << agent->_theta << "\" Omega=\"" << agent->_w << "\"/>" << endl;
 
         InAgentElement = InAgentElement->NextSiblingElement("Agent");
         outputDoc << "    </Agent>" << endl;
