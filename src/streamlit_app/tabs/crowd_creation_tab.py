@@ -731,9 +731,11 @@ def run_crowd_from_config() -> None:
 
     # --- File upload section ---
     st.sidebar.header("Upload configuration files")
-    uploaded_dynamics = st.sidebar.file_uploader("Upload AgentDynamics.xml", type="xml", key="AgentDynamics")
-    uploaded_agents = st.sidebar.file_uploader("Upload Agents.xml", type="xml", key="Agents")
-    uploaded_geometry = st.sidebar.file_uploader("Upload Geometry.xml", type="xml", key="Geometry")
+    uploaded_dynamics = st.sidebar.file_uploader(
+        "Upload AgentDynamics.xml", type="xml", key="AgentDynamics", on_change=parameter_changed
+    )
+    uploaded_agents = st.sidebar.file_uploader("Upload Agents.xml", type="xml", key="Agents", on_change=parameter_changed)
+    uploaded_geometry = st.sidebar.file_uploader("Upload Geometry.xml", type="xml", key="Geometry", on_change=parameter_changed)
 
     # --- File validation ---
     files = {
@@ -748,7 +750,7 @@ def run_crowd_from_config() -> None:
         st.info("Please upload all three configuration files to continue.")
 
     # --- XML Parsing ---
-    if all(file is not None and (not hasattr(file, "size") or file.size > 0) for file in files.values()):
+    if all(file is not None and (not hasattr(file, "size") or file.size > 0) for file in files.values()):  #
         crowd_xml: str = uploaded_agents.read().decode("utf-8")  # type: ignore
         static_dict: StaticCrowdDataType = fun_xml.static_xml_to_dict(crowd_xml)
 
