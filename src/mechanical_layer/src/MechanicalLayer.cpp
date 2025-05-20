@@ -621,16 +621,16 @@ pair<bool, bool> MechanicalLayer::existsContacts()
  */
 void MechanicalLayer::generateInteractionsOutputFile(const string& interactionsFile, const pair<bool, bool>& exists)
 {
+    if (!exists.first && !exists.second)
+    {
+        return;
+    }
+
     ofstream outputDoc;
     outputDoc.open(interactionsFile);
 
     outputDoc << R"(<?xml version="1.0" encoding="utf-8"?>)" << endl;
     outputDoc << "<Interactions>" << endl;
-    if (!exists.first && !exists.second)
-    {
-        outputDoc << "</Interactions>";
-        return;
-    }
 
     /*  Loop over active agents */
     set<unsigned> parent;                        //  Variable to remember if we have opening tags for parents
