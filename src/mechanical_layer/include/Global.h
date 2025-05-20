@@ -41,6 +41,8 @@ extern int2 operator*(int2 const& a, int2 const& b);
 /*
     Global variables
                         */
+extern bool firstRun;
+
 //  Geometry
 extern std::vector<std::vector<double2>> listObstacles;
 extern double Lx;

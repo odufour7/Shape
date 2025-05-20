@@ -44,9 +44,8 @@ struct Agent
     std::list<std::pair<unsigned, unsigned>> _neighbours_walls;   ///<  List of neighbouring walls
 
     /*  Constructor for the class   */
-    Agent(unsigned ID, std::vector<unsigned> Ids_shapes, double x, double y, double vx, double vy, double omega, double2 Fp, double Mp,
-          unsigned nb_shapes, const std::vector<double2>& delta_gtos, const std::vector<double>& radius_shapes, double theta_body,
-          double theta_body_init, double mass, double moi);
+    Agent(unsigned ID, std::vector<unsigned> Ids_shapes, unsigned nb_shapes, const std::vector<double2>& delta_gtos,
+          const std::vector<double>& radius_shapes, double theta_body_init, double mass, double moi);
     ~Agent();
 
     void move();

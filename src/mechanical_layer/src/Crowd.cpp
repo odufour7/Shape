@@ -5,12 +5,6 @@
  */
 
 #include "Crowd.h"
-
-#include <iostream>
-#include <list>
-#include <string>
-#include <vector>
-
 #include "MechanicalLayer.h"
 
 using std::string, std::vector, std::list, std::cerr, std::cout, std::endl, std::ranges::find, std::ofstream;
@@ -48,6 +42,32 @@ int initialiseSetting(const std::string& dynamicsFile, std::vector<unsigned>& nb
         Id_shapes[i] = i;
     }
 
+    /*  Create the agents  */
+    for (uint32_t a = 0; a < nAgents; a++) {
+        vector<double2> delta_gtos_curr(&delta_gtos[edges[a]], &delta_gtos[edges[a + 1]]);
+        double2 shoulders_direction(delta_gtos[edges[a + 1] - 1] - delta_gtos[edges[a]]);    // from left to right
+        double2 orientation_vec({-shoulders_direction.second, shoulders_direction.first});   // normal to the shoulders direction
+        double theta_body_init(0.);
+        if (!(orientation_vec.first == 0. && orientation_vec.second == 0.))
+            theta_body_init = atan2(orientation_vec.second, orientation_vec.first);
+
+        vector<double> radius_shapes(&radius_allshapes[edges[a]], &radius_allshapes[edges[a + 1]]);
+        const vector<unsigned> Ids_shapes_agent(&Id_shapes[edges[a]], &Id_shapes[edges[a + 1]]);
+        const double mass_curr(masses[a]), moi_curr(mois[a]);
+
+        //  Actual creation of the Agent object
+        agents[a] =
+            new Agent(a, Ids_shapes_agent, nb_shapes_allagents[a], delta_gtos_curr, radius_shapes,
+                      theta_body_init, mass_curr, moi_curr);
+    }
+
+    /*  Update the agents with the Dynamics file  */
+    updateSetting(dynamicsFile);
+
+    return EXIT_SUCCESS;
+}
+int updateSetting(const string& dynamicsFile)
+{
     /*  Create agents: read the dynamics file first  */
     tinyxml2::XMLDocument document;
     document.LoadFile(dynamicsFile.data());
@@ -89,19 +109,6 @@ int initialiseSetting(const std::string& dynamicsFile, std::vector<unsigned>& nb
         {
             a = agentMap[agentId];
         }
-
-        const unsigned ID_agent(a);
-        vector<double2> delta_gtos_curr(&delta_gtos[edges[a]], &delta_gtos[edges[a + 1]]);
-        double2 shoulders_direction(delta_gtos[edges[a + 1] - 1] - delta_gtos[edges[a]]);    // from left to right
-        double2 orientation_vec({-shoulders_direction.second, shoulders_direction.first});   // normal to the shoulders direction
-        double theta_body_init(0.);
-        if (!(orientation_vec.first == 0. && orientation_vec.second == 0.))
-            theta_body_init = atan2(orientation_vec.second, orientation_vec.first);
-
-        vector<double> radius_shapes(&radius_allshapes[edges[a]], &radius_allshapes[edges[a + 1]]);
-        const vector<unsigned> Ids_shapes_agent(&Id_shapes[edges[a]], &Id_shapes[edges[a + 1]]);
-        const double mass_curr(masses[a]), moi_curr(mois[a]);
-
         //  Kinematics and Dynamics
         const tinyxml2::XMLElement* kinematicsElement = agentElement->FirstChildElement("Kinematics");
         if (!kinematicsElement)
@@ -162,18 +169,30 @@ int initialiseSetting(const std::string& dynamicsFile, std::vector<unsigned>& nb
             cerr << "Error: could not get driving torque of agent " << agentId << endl;
             return EXIT_FAILURE;
         }
-        //  Actual creation of the Agent object
-        agents[ID_agent] =
-            new Agent(ID_agent, Ids_shapes_agent, position.first, position.second, velocity.first, velocity.second, omega, Fp, Mp,
-                      nb_shapes_allagents[a], delta_gtos_curr, radius_shapes, theta, theta_body_init, mass_curr, moi_curr);
+        //  Update agent with the kinematics and dynamics
+        agents[a]->_x  = position.first;
+        agents[a]->_y  = position.second;
+        agents[a]->_theta = theta;
+        agents[a]->_vx = velocity.first;
+        agents[a]->_vy = velocity.second;
+        agents[a]->_w  = omega;
+        const double inverseTauMechTranslation = agentProperties[a].first;
+        const double inverseTauMechRotation = agentProperties[a].second;
+        agents[a]->_vx_des = Fp.first / inverseTauMechTranslation / agents[a]->_mass;    //  vx_des := Fpx/m * tau_mech
+        agents[a]->_vy_des = Fp.second / inverseTauMechTranslation / agents[a]->_mass;
+        agents[a]->_w_des  = Mp / inverseTauMechRotation / agents[a]->_moi;              //  w_des  := Mp/I  * tau_mech
+        if (!(agents[a]->_vx_des == 0. && agents[a]->_vy_des == 0.))
+            agents[a]->_theta_des = atan2(agents[a]->_vy_des, agents[a]->_vx_des);
+        else
+            agents[a]->_theta_des = 0.;
+        agents[a]->_v_des = double2(agents[a]->_vx_des, agents[a]->_vy_des);
+        agents[a]->_neighbours.clear();
 
         agentElement = agentElement->NextSiblingElement("Agent");
         agentCounter++;
     }
-    //  Check if the number of agents in the Dynamics file is the same as in the Agents file
-    if (agentCounter != nAgents)
-    {
-        cerr << "Not all agents are present in the dynamics file" << dynamicsFile << endl;
+    if (agentCounter < nAgents) {
+        cerr << "Agents are missing in the dynamics file!" << endl;
         return EXIT_FAILURE;
     }
 

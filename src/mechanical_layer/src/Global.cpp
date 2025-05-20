@@ -38,6 +38,8 @@ int2 operator*(int2 const& a, int2 const& b) { return {a.first * b.first, a.seco
 /*
     Global variables
                         */
+bool firstRun = true;
+
 uint32_t nAgents;
 map<string, uint32_t> agentMap;   //  Correspondence between user-given ids and internal ids
 vector<string> agentMapInverse;   //  Inverse version for output
