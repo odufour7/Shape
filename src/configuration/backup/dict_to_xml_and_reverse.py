@@ -5,8 +5,10 @@ from typing import Any
 from xml.dom import minidom
 from xml.dom.minidom import parseString
 
+import numpy as np
 from dicttoxml import dicttoxml
 
+import configuration.utils.constants as cst
 import configuration.utils.functions as fun
 from configuration.utils.typing_custom import (
     DynamicCrowdDataType,
@@ -416,22 +418,24 @@ def dynamic_xml_to_dict(xml_data: str) -> DynamicCrowdDataType:
         except ValueError as e:
             raise ValueError(f"Type error in <Kinematics> for <Agent> with Id={agent_id}: {e}") from e
 
-        # Extract and validate dynamics
+        # Extract and validate dynamics parameters
         dynamics = agent.find("Dynamics")
-        if dynamics is None:
-            raise ValueError(f"Missing <Dynamics> section for <Agent> with Id={agent_id}.")
-        try:
-            fp_str = dynamics.attrib["Fp"]
-            mp_str = dynamics.attrib["Mp"]
-        except KeyError as e:
-            raise ValueError(f"Missing '{e.args[0]}' attribute in <Dynamics> for <Agent> with Id={agent_id}.") from e
-        try:
-            dynamics_dict = {
-                "Fp": fun.from_string_to_tuple(fp_str),
-                "Mp": float(mp_str),
-            }
-        except ValueError as e:
-            raise ValueError(f"Type error in <Dynamics> for <Agent> with Id={agent_id}: {e}") from e
+        fp_str_default = (
+            f"{float(np.round(cst.DECISIONAL_TRANSLATIONAL_FORCE_X, 2))},{float(np.round(cst.DECISIONAL_TRANSLATIONAL_FORCE_Y, 2))}"
+        )
+        mp_str_default = f"{float(np.round(cst.DECISIONAL_TORQUE, 2))}"
+        if dynamics is not None:
+            # Get the 'Fp' and 'Mp' attributes, or use defaults if not present
+            fp_str = dynamics.attrib.get("Fp", fp_str_default)
+            mp_str = dynamics.attrib.get("Mp", mp_str_default)
+        else:
+            # Use default values if 'Dynamics' element is missing
+            fp_str = fp_str_default
+            mp_str = mp_str_default
+        dynamics_dict = {
+            "Fp": fun.from_string_to_tuple(fp_str),
+            "Mp": float(mp_str),
+        }
 
         # Combine into agent dictionary
         agents[f"Agent{agent_id}"] = {

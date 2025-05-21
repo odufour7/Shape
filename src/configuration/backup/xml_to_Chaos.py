@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 
 regex_nb = r"[+-]?(?:\d+\.\d*|\.\d+|\d+)(?:[eE][+-]?\d+)?"
+trajectories_csv_filename = "all_trajectories.csv"
 
 
 def get_list_of_agents_and_times_from_XML(
@@ -34,12 +35,15 @@ def get_list_of_agents_and_times_from_XML(
     -----
     Assumes XML files are named with the pattern 'AgentDyn...output t=<time>.xml'.
     """
+    folder_path.mkdir(parents=True, exist_ok=True)
+
     ID_agents: set[str] = set()
     times: list[float] = []
     filenames: dict[int, str] = {}
 
     for fichier in folder_path.iterdir():
         if fichier.is_file() and fichier.name.startswith("AgentDyn") and fichier.name.endswith("xml"):
+            print(f"Processing file: {fichier}")
             m = re.fullmatch(r".*output t=(" + regex_nb + r").xml", str(fichier))
             if not m:
                 continue
@@ -126,7 +130,7 @@ def create_dict_of_agent_trajectories(
     return times, agents
 
 
-def export_dict_to_CSV(folder_path: Path, filename_CSV: str) -> None:
+def export_dict_to_CSV(PathCSV: Path, PathXML: Path) -> None:
     """
     Export agent trajectories to a CSV file with header: t,ID,x,y,vx,vy.
 
@@ -134,14 +138,14 @@ def export_dict_to_CSV(folder_path: Path, filename_CSV: str) -> None:
 
     Parameters
     ----------
-    folder_path : Path
+    PathCSV : Path
         Path to the folder containing the XML files.
-    filename_CSV : str
-        Name of the output CSV file to create within the folder.
+    PathXML : Path
+        Path to the folder containing the CSV files.
     """
-    times, agents = create_dict_of_agent_trajectories(folder_path)
+    times, agents = create_dict_of_agent_trajectories(PathXML)
     ID_agents = sorted(agents.keys())
-    csv_path = folder_path / filename_CSV
+    csv_path = PathCSV / trajectories_csv_filename
 
     with open(csv_path, "w", encoding="utf-8") as monfichier:
         monfichier.write("t,ID,x,y,vx,vy")
@@ -154,7 +158,7 @@ def export_dict_to_CSV(folder_path: Path, filename_CSV: str) -> None:
                     )
 
 
-def export_from_CSV_to_CHAOS(path_to_CSV: Path, folder_CHAOS: Path, dt: float) -> None:
+def export_from_CSV_to_CHAOS(PathCSV: Path, dt: float) -> None:
     """
     Read agent trajectories from a CSV file and exports them into multiple text files in the format required by the CHAOS software.
 
@@ -162,10 +166,8 @@ def export_from_CSV_to_CHAOS(path_to_CSV: Path, folder_CHAOS: Path, dt: float) -
 
     Parameters
     ----------
-    path_to_CSV : Path
-        Path to the input CSV file containing columns: t, ID, x, y, vx, vy.
-    folder_CHAOS : Path
-        Path to the output folder where CHAOS trajectory files will be saved.
+    PathCSV : Path
+        Path to the folder containing the CSV file containing columns: t, ID, x, y, vx, vy.
     dt : float
         Timestep to use for interpolation in the CHAOS output.
 
@@ -174,16 +176,18 @@ def export_from_CSV_to_CHAOS(path_to_CSV: Path, folder_CHAOS: Path, dt: float) -
     Each output file is named 'trajXXX.csv' where XXX is the zero-padded agent index.
     Each line in the output file contains: t, x, y, 0.0
     """
-    folder_CHAOS.mkdir(parents=True, exist_ok=True)
-    if not path_to_CSV.is_file() or path_to_CSV.suffix != ".csv":
-        raise ValueError(f"Path {path_to_CSV} is not a valid CSV file.")
+    PathCSV.mkdir(parents=True, exist_ok=True)
+    PathCHAOS = PathCSV / "ForCHAOS"
+    PathCHAOS.mkdir(parents=True, exist_ok=True)
 
-    lignes = pd.read_csv(path_to_CSV, sep=",", header=0, index_col=False)
+    path_to_CSV_main_file = PathCSV / trajectories_csv_filename
+    lignes = pd.read_csv(path_to_CSV_main_file, sep=",", header=0, index_col=False)
     lignes["t"] = lignes["t"].astype(float)
     lignes.sort_values(by=["ID", "t"], inplace=True)
 
     t_min = lignes["t"].min()
     t_max = lignes["t"].max()
+    print(f"t_min = {t_min:.3f}, t_max = {t_max:.3f}, dt = {dt:.3f}")
     t_vec = np.arange(t_min, t_max, dt)
 
     for cpt_agent, ID in enumerate(sorted(lignes["ID"].unique())):
@@ -192,7 +196,7 @@ def export_from_CSV_to_CHAOS(path_to_CSV: Path, folder_CHAOS: Path, dt: float) -
         xs = lignes_loc["x"].values
         ys = lignes_loc["y"].values
 
-        out_path = folder_CHAOS / f"traj{cpt_agent:03d}.csv"
+        out_path = PathCHAOS / f"traj{cpt_agent:03d}.csv"
         with open(out_path, "w", encoding="utf-8") as monfichier:
             for t in t_vec:
                 # Find indices before and after t

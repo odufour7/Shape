@@ -36,13 +36,13 @@ KNEES_HEIGHT_FEMALE: float = 50.0  # Height of the knees in cm
 HEIGHT_OF_BIDELTOID_OVER_HEIGHT: float = 151.6 / 186.6  # Ratio of the height of the bideltoid to the agent height (male = female)
 
 # Material properties
-YOUNG_MODULUS_CONCRETE: float = 17.0e9  # Pa (https://www.engineeringtoolbox.com/young-modulus-d_417.html)
+YOUNG_MODULUS_CONCRETE: float = 1.7e10  # Pa (https://www.engineeringtoolbox.com/young-modulus-d_417.html)
 YOUNG_MODULUS_HUMAN_NAKED: float = 3.05e6  # Pa (https://doi.org/10.1103/PhysRevE.87.063305)
 YOUNG_MODULUS_HUMAN_CLOTHES: float = 3.05e6  # Pa
 
-SHEAR_MODULUS_CONCRETE: float = 0.710e10  # Pa
-SHEAR_MODULUS_HUMAN_NAKED: float = 1.02e9  # Pa, incompressibility hypothesis, nu = 0.5
-SHEAR_MODULUS_HUMAN_CLOTHES: float = 1.02e9  # Pa, incompressibility hypothesis, nu = 0.5
+SHEAR_MODULUS_CONCRETE: float = 7.10e9  # Pa
+SHEAR_MODULUS_HUMAN_NAKED: float = 1.02e6  # Pa, incompressibility hypothesis, nu = 0.5
+SHEAR_MODULUS_HUMAN_CLOTHES: float = 1.02e6  # Pa, incompressibility hypothesis, nu = 0.5
 
 GAMMA_NORMAL: float = 1.3 * 10**4  # Damping coefficient for normal contact (N/(m/s))
 GAMMA_TANGENTIAL: float = 1.3 * 10**4  # Damping coefficient for tangential contact (N/(m/s))
