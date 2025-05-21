@@ -13,8 +13,8 @@ using std::string, std::vector, std::list, std::cerr, std::cout, std::endl, std:
 list<Agent*> mech_active_agents;
 
 /**
- * @brief The function creates all agents from the Agents (static) and agentDynamics (dynamic) XML files.
- *        It initiates the list of neighbours.
+ * @brief The function creates all agents from the data stored by InputStatic.cpp.
+ *        It also creates the kinematics and dynamics of the agents by calling updateSetting().
  *
  * @param dynamicsFile The input file containing the current state and driving forces for all agents
  * @param nb_shapes_allagents The number of shapes by agent (size: number of agents)
