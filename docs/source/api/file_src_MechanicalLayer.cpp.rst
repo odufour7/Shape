@@ -32,20 +32,6 @@ Includes
 
 - ``MechanicalLayer.h`` (:ref:`file_include_MechanicalLayer.h`)
 
-- ``iostream``
-
-- ``list``
-
-- ``set``
-
-- ``string``
-
-- ``tuple``
-
-- ``utility``
-
-- ``vector``
-
 
 
 

@@ -93,11 +93,11 @@ Functions
 
 - :ref:`exhale_function__global_8h_1a766e6388d239b51baa276fa31cbfd2c7`
 
-- :ref:`exhale_function__global_8h_1a11c67c1b3c0e2076dc90d5d2e03ce6fc`
-
 - :ref:`exhale_function__global_8h_1a9e9a0359c6c7cc6b03652e3d0e616704`
 
 - :ref:`exhale_function__global_8h_1a76c71fed42cb84e0a09d13a88ada6f3a`
+
+- :ref:`exhale_function__global_8h_1a11c67c1b3c0e2076dc90d5d2e03ce6fc`
 
 - :ref:`exhale_function__global_8h_1a849746700f4ccaba4679566d70ec9900`
 
@@ -138,6 +138,8 @@ Variables
 - :ref:`exhale_variable__global_8h_1a03e28be41881b703c836edbfe9b51b17`
 
 - :ref:`exhale_variable__global_8h_1a8bfe393342f0c199097b8a314cdc6dab`
+
+- :ref:`exhale_variable__global_8h_1a714f1ca4d0b766c27006639b8cad4b70`
 
 - :ref:`exhale_variable__global_8h_1a449a06862d241ed51aafc2d9f103bd33`
 

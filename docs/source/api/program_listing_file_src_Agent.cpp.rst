@@ -44,9 +44,8 @@ Program Listing for File Agent.cpp
    }
    #endif   // DOXYGEN_SHOULD_SKIP_THIS
    
-   Agent::Agent(unsigned ID, std::vector<unsigned> Ids_shapes, double x, double y, double vx, double vy, double omega, double2 Fp,
-                double Mp, unsigned nb_shapes, const std::vector<double2>& delta_gtos, const std::vector<double>& radius_shapes,
-                double theta_body, double theta_body_init, double mass, double moi)
+   Agent::Agent(unsigned ID, std::vector<unsigned> Ids_shapes, unsigned nb_shapes, const std::vector<double2>& delta_gtos,
+                const std::vector<double>& radius_shapes, double theta_body_init, double mass, double moi)
        : _id(ID),
          _mass(mass),
          _moi(moi),
@@ -55,25 +54,8 @@ Program Listing for File Agent.cpp
          _nb_shapes(nb_shapes),
          _delta_gtos(delta_gtos),
          _radius_shapes(radius_shapes),
-         _theta_init(theta_body_init),
-         _x(x),
-         _y(y),
-         _theta(theta_body),
-         _vx(vx),
-         _vy(vy),
-         _w(omega)
+         _theta_init(theta_body_init)
    {
-       const double inverseTauMechTranslation = agentProperties[_id].first;
-       const double inverseTauMechRotation = agentProperties[_id].second;
-       _vx_des = Fp.first / inverseTauMechTranslation / _mass;    //  vx_des := Fpx/m * tau_mech
-       _vy_des = Fp.second / inverseTauMechTranslation / _mass;   //  vy_des := Fpy/m * tau_mech
-       _w_des = Mp / inverseTauMechRotation / _moi;               //  w_des  := Mp/I  * tau_mech
-   
-       if (!(_vx_des == 0. && _vy_des == 0.))
-           _theta_des = atan2(_vy_des, _vx_des);
-       else
-           _theta_des = 0.;
-       _v_des = double2(_vx_des, _vy_des);
    }
    
    Agent::~Agent() = default;

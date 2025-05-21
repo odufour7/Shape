@@ -17,13 +17,6 @@ Program Listing for File MechanicalLayer.cpp
    
    #include "MechanicalLayer.h"
    
-   #include <iostream>
-   #include <list>
-   #include <set>
-   #include <string>
-   #include <tuple>
-   #include <utility>
-   #include <vector>
    using std::list, std::map, std::set, std::vector, std::string, std::tuple, std::pair, std::cout, std::cerr, std::endl, std::ofstream,
        std::fmin;
    
@@ -56,7 +49,7 @@ Program Listing for File MechanicalLayer.cpp
          damping(nb_active_agents)
    {
        /*  Preliminary definitions and initialisation  */
-       //  Sort mechanically active agents
+       //  Sort mechanically active agents to have agent/shapes in ascending order
        mech_active_agents.sort([](auto const& a, auto const& b) { return (a->_id) < (b->_id); });
        unsigned cpt_agent = 0;
        for (Agent* agent : mech_active_agents)
@@ -195,12 +188,7 @@ Program Listing for File MechanicalLayer.cpp
                return EXIT_FAILURE;
            }
            //  Interactions with other agents
-           const tinyxml2::XMLElement* agent2Element = interactionsElement->FirstChildElement("Agent");
-           if (!agent2Element)
-           {
-               cerr << "Error: no Agent neighbour present in " << interactionsFile << endl;
-               return EXIT_FAILURE;
-           }
+           const tinyxml2::XMLElement* agent2Element = agent1Element->FirstChildElement("Agent");
            while (agent2Element)
            {
                const char* agent2ExternId = nullptr;
@@ -228,11 +216,13 @@ Program Listing for File MechanicalLayer.cpp
                    const char* buffer = nullptr;
                    interactionElement->QueryStringAttribute("TangentialRelativeDisplacement", &buffer);
                    auto [rcSlip, inputSlip] = parse2DComponents(buffer);
-                   uint32_t cpt_shape = agentIDshape[agentMap[agent1ExternId]] + shapeParent;
-                   uint32_t cpt_shape_neigh = agentIDshape[agentMap[agent2ExternId]] + shapeChild;
+                   uint32_t cpt_shape = agentIDshape[agentIds[agentMap[agent1ExternId]]] + shapeParent;
+                   uint32_t cpt_shape_neigh = agentIDshape[agentIds[agentMap[agent2ExternId]]] + shapeChild;
    
                    slip[{cpt_shape, cpt_shape_neigh}] = inputSlip;
                    slip[{cpt_shape_neigh, cpt_shape}] = -1 * inputSlip;
+   
+                   interactionElement = interactionElement->NextSiblingElement("Interaction");
                }
    
                agent2Element = agent2Element->NextSiblingElement("Agent");
@@ -243,14 +233,14 @@ Program Listing for File MechanicalLayer.cpp
            {
                int32_t shape;
                wallElement->QueryIntAttribute("ShapeId", &shape);
-               int obstacleId, wallId;
-               wallElement->QueryIntAttribute("ObstacleId", &obstacleId);
-               wallElement->QueryIntAttribute("WallId", &wallId);
+               int iobs, iwall;
+               wallElement->QueryIntAttribute("WallId", &iobs);
+               wallElement->QueryIntAttribute("CornerId", &iwall);
                const char* buffer = nullptr;
                wallElement->QueryStringAttribute("TangentialRelativeDisplacement", &buffer);
                auto [rcSlipWall, inputSlipWall] = parse2DComponents(buffer);
-               uint32_t cpt_shape = agentIDshape[agentMap[agent1ExternId]] + shape;
-               slip_wall[{cpt_shape, obstacleId, wallId}] = inputSlipWall;
+               uint32_t cpt_shape = agentIDshape[agentIds[agentMap[agent1ExternId]]] + shape;
+               slip_wall[{cpt_shape, iobs, iwall}] = inputSlipWall;
    
                wallElement = wallElement->NextSiblingElement("Wall");
            }
@@ -322,7 +312,7 @@ Program Listing for File MechanicalLayer.cpp
                else
                    slip[{cpt_shape, cpt_shape_neigh}] = slip[{cpt_shape, cpt_shape_neigh}] + dt_mech * vt_ij;
                //  For the output Interactions file:
-               //  We will only put the N(N-1)/2 pairs, ie cpt_shape_neigh>cpt_shape
+               //      We will only put the N(N-1)/2 pairs, ie cpt_shape_neigh>cpt_shape
                if (!interactionsOutput.contains({cpt_shape_neigh, cpt_shape}))
                    interactionsOutput[{cpt_shape, cpt_shape_neigh}][SLIP] = slip[{cpt_shape, cpt_shape_neigh}];
    
@@ -368,6 +358,18 @@ Program Listing for File MechanicalLayer.cpp
                double torqij = torqnij + torqtij;
                torq = torq + torqij;
            }
+           else
+           {
+               if (slip.contains({cpt_shape, cpt_shape_neigh}))
+               {
+                   slip.erase({cpt_shape, cpt_shape_neigh});
+                   if (interactionsOutput.contains({cpt_shape, cpt_shape_neigh}))
+                       interactionsOutput.erase({cpt_shape, cpt_shape_neigh});
+                   else if (interactionsOutput.contains({cpt_shape_neigh, cpt_shape}))
+                       interactionsOutput.erase({cpt_shape_neigh, cpt_shape});
+               }
+           }
+   
        }
    
        /*  Interactions with walls */
@@ -393,6 +395,7 @@ Program Listing for File MechanicalLayer.cpp
                //  If the shape is in contact with the wall:
                if (h > 0.)
                {
+   
                    double2 v_ci = velshape + (angvel ^ dcGshape);
                    double2 viw = v_ci - double2(0., 0.);
                    double2 vortho_iw = (viw % n_iw) * n_iw;
@@ -411,13 +414,6 @@ Program Listing for File MechanicalLayer.cpp
                    double2 delta_tiw = slip_wall[{cpt_shape, iobs, iwall}];
                    double norm_delta_tiw = !delta_tiw;
    
-                   double2 t_viw;
-                   if (norm_vt_iw > 0)
-                       t_viw = (1. / norm_vt_iw) * vt_iw;
-                   else if (norm_delta_tiw > 0)
-                       t_viw = (1. / norm_delta_tiw) * delta_tiw;
-                   else
-                       t_viw = double2(0., 0.);
    
                    uint32_t shapeMaterialId = shapesMaterial[active_shapeIDshape_crowd[cpt_shape]];
                    uint32_t obstacleMaterialId = obstaclesMaterial[iobs];
@@ -431,6 +427,13 @@ Program Listing for File MechanicalLayer.cpp
                    interactionsOutputWall[{cpt_shape, iobs, iwall}][FORCE_ORTHO] = fniw;
    
                    /*  Tangential interactions  */
+                   double2 t_viw;
+                   if (norm_vt_iw > 0)
+                       t_viw = (1. / norm_vt_iw) * vt_iw;
+                   else if (norm_delta_tiw > 0)
+                       t_viw = (1. / norm_delta_tiw) * delta_tiw;
+                   else
+                       t_viw = double2(0., 0.);
                    double k_t_wall = binaryProperties[STIFFNESS_TANGENTIAL][shapeMaterialId][obstacleMaterialId];
                    double Gamma_t_wall = binaryProperties[DAMPING_TANGENTIAL][shapeMaterialId][obstacleMaterialId];
                    double2 ftiw_spring = -k_t_wall * norm_delta_tiw * t_viw;
@@ -447,6 +450,14 @@ Program Listing for File MechanicalLayer.cpp
                    double torqtiw = (1. ^ dcG) % ftiw;
                    double torqiw = torqniw + torqtiw;
                    torq = torq + torqiw;
+               }
+               else
+               {
+                   if (slip_wall.contains({cpt_shape, iobs, iwall}))
+                   {
+                       slip_wall.erase({cpt_shape, iobs, iwall});
+                       interactionsOutputWall.erase({cpt_shape, iobs, iwall});
+                   }
                }
                iwall++;
            }
@@ -565,16 +576,16 @@ Program Listing for File MechanicalLayer.cpp
    
    void MechanicalLayer::generateInteractionsOutputFile(const string& interactionsFile, const pair<bool, bool>& exists)
    {
+       if (!exists.first && !exists.second)
+       {
+           return;
+       }
+   
        ofstream outputDoc;
        outputDoc.open(interactionsFile);
    
        outputDoc << R"(<?xml version="1.0" encoding="utf-8"?>)" << endl;
        outputDoc << "<Interactions>" << endl;
-       if (!exists.first && !exists.second)
-       {
-           outputDoc << "</Interactions>";
-           return;
-       }
    
        /*  Loop over active agents */
        set<unsigned> parent;                        //  Variable to remember if we have opening tags for parents
@@ -611,8 +622,8 @@ Program Listing for File MechanicalLayer.cpp
                        outputDoc << "        <Agent Id=\"" << agentMapInverse[agentActiveIds[neighbour]] << "\">" << endl;
                        parentChild.insert({agent, neighbour});
                    }
-                   outputDoc << "            <Interaction ParentShape=\"" << (shape - agentIDshape[agent]) << "\" "
-                             << "ChildShape=\"" << (shapeNeighbour - agentIDshape[neighbour]) << "\" ";
+                   outputDoc << "            <Interaction ParentShape=\"" << (shape - agentIDshape[agentActiveIds[agent]]) << "\" "
+                             << "ChildShape=\"" << (shapeNeighbour - agentIDshape[agentActiveIds[neighbour]]) << "\" ";
                    if (output[SLIP] != double2(0., 0.))
                        outputDoc << "TangentialRelativeDisplacement=\"" << output[SLIP].first << "," << output[SLIP].second << "\" ";
                    if (output[FORCE_ORTHO] != double2(0., 0.))
@@ -647,14 +658,14 @@ Program Listing for File MechanicalLayer.cpp
                        outputDoc << "    <Agent Id=\"" << agentMapInverse[agentActiveIds[agent]] << "\">" << endl;
                        parent.insert(a);
                    }
-                   outputDoc << "        <Wall ShapeId=\"" << (shape - agentIDshape[agent]) << "\" "
+                   outputDoc << "        <Wall ShapeId=\"" << (shape - agentIDshape[agentActiveIds[agent]]) << "\" "
                              << "WallId=\"" << get<1>(key) << "\" CornerId=\"" << get<2>(key) << "\" ";
                    if (output[SLIP] != double2(0., 0.))
                        outputDoc << "TangentialRelativeDisplacement=\"" << output[SLIP].first << "," << output[SLIP].second << "\" ";
-                   if (output[FORCE_TAN] != double2(0., 0.))
-                       outputDoc << "Ft=\"" << output[FORCE_TAN].first << "," << output[FORCE_TAN].second << "\" ";
                    if (output[FORCE_ORTHO] != double2(0., 0.))
                        outputDoc << "Fn=\"" << output[FORCE_ORTHO].first << "," << output[FORCE_ORTHO].second << "\" ";
+                   if (output[FORCE_TAN] != double2(0., 0.))
+                       outputDoc << "Ft=\"" << output[FORCE_TAN].first << "," << output[FORCE_TAN].second << "\" ";
                    outputDoc << "/>" << endl;
                    //  Erase the entry in slip_wall to make the next sequential search "easier"
                    interactionsOutputWall.erase(iterator++);

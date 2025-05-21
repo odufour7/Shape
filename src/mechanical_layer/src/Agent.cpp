@@ -46,23 +46,15 @@ static double size_body(const vector<double2>& delta_gtos, const vector<double>&
  *
  * @param ID The ID of the agent.
  * @param Ids_shapes The Ids of the shapes
- * @param x The initial x-coordinate of the agent.
- * @param y The initial y-coordinate of the agent.
- * @param vx The initial x-velocity of the agent.
- * @param vy The initial y-velocity of the agent.
- * @param omega The initial angular speed of the agent.
- * @param Fp
- * @param Mp
  * @param nb_shapes The number of shapes.
- * @param delta_gtos Vector of delta gtos.
+ * @param delta_gtos Vector the shapes' positions relative to the agent's center of mass.
  * @param radius_shapes Vector of shape radii.
- * @param theta_body The orientation of the agent's body.
- * @param theta_body_init
- * @param mass
- * @param moi
+ * @param theta_body_init The initial orientation of the agent's body.
+ * @param mass The mass of the agent.
+ * @param moi The moment of inertia of the agent.
  */
-Agent::Agent(unsigned ID, std::vector<unsigned> Ids_shapes, unsigned nb_shapes, const std::vector<double2>& delta_gtos, const std::vector<double>& radius_shapes,
-             double theta_body_init, double mass, double moi)
+Agent::Agent(unsigned ID, std::vector<unsigned> Ids_shapes, unsigned nb_shapes, const std::vector<double2>& delta_gtos,
+             const std::vector<double>& radius_shapes, double theta_body_init, double mass, double moi)
     : _id(ID),
       _mass(mass),
       _moi(moi),

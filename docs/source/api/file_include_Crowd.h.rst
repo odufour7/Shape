@@ -69,6 +69,8 @@ Functions
 
 - :ref:`exhale_function__crowd_8h_1a9147e71f48a9790e558b7caa2d53a83a`
 
+- :ref:`exhale_function__crowd_8h_1ae7df95aedc4d1ad67792fa5ade15b55b`
+
 
 Variables
 ---------

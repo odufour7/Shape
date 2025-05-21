@@ -53,6 +53,8 @@ Program Listing for File Global.h
    /*
        Global variables
                            */
+   extern bool firstRun;
+   
    //  Geometry
    extern std::vector<std::vector<double2>> listObstacles;
    extern double Lx;

@@ -46,3 +46,5 @@ Thumbs.db
 precommit_output.txt
 
 build/
+
+/tutorials/mechanical_layer/outputXML/

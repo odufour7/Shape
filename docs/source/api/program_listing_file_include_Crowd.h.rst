@@ -30,6 +30,7 @@ Program Listing for File Crowd.h
    int initialiseSetting(const std::string& dynamicsFile, std::vector<unsigned>& nb_shapes_allagents, std::vector<unsigned>& shapeIDagent,
                          std::vector<int>& edges, std::vector<double>& radius_allshapes, std::vector<double>& masses,
                          std::vector<double>& mois, std::vector<double2>& delta_gtos);
+   int updateSetting(const std::string& dynamicsFile);
    //      Prepare mechanical layer
    bool is_mechanically_active(const Agent* agent);
    bool get_future_collision();

@@ -168,7 +168,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/CrowdMechanics.h" line="14" column="9" bodyfile="src/Main.cpp" bodystart="41" bodyend="77" declfile="include/CrowdMechanics.h" declline="14" declcolumn="9"/>
+        <location file="include/CrowdMechanics.h" line="14" column="9" bodyfile="src/Main.cpp" bodystart="41" bodyend="84" declfile="include/CrowdMechanics.h" declline="14" declcolumn="9"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

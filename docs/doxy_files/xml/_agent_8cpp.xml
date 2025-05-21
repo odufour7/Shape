@@ -142,58 +142,40 @@
 <codeline lineno="41"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>DOXYGEN_SHOULD_SKIP_THIS</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="43"><highlight class="normal"></highlight></codeline>
-<codeline lineno="64"><highlight class="normal"><ref refid="struct_agent_1a326a5e3110590921083db5d3a02dfe1c" kindref="member">Agent::Agent</ref>(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>ID,<sp/>std::vector&lt;unsigned&gt;<sp/>Ids_shapes,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>x,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>y,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>vx,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>vy,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>omega,<sp/>double2<sp/>Fp,</highlight></codeline>
-<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>Mp,<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>nb_shapes,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;double2&gt;&amp;<sp/>delta_gtos,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;&amp;<sp/>radius_shapes,</highlight></codeline>
-<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>theta_body,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>theta_body_init,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>mass,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>moi)</highlight></codeline>
-<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/>_id(ID),</highlight></codeline>
-<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>_mass(mass),</highlight></codeline>
-<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>_moi(moi),</highlight></codeline>
-<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>_ids_shapes(std::move(Ids_shapes)),</highlight></codeline>
-<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>_radius(size_body(delta_gtos,<sp/>radius_shapes)),</highlight></codeline>
-<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>_nb_shapes(nb_shapes),</highlight></codeline>
-<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>_delta_gtos(delta_gtos),</highlight></codeline>
-<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>_radius_shapes(radius_shapes),</highlight></codeline>
-<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>_theta_init(theta_body_init),</highlight></codeline>
-<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>_x(x),</highlight></codeline>
-<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>_y(y),</highlight></codeline>
-<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>_theta(theta_body),</highlight></codeline>
-<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>_vx(vx),</highlight></codeline>
-<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>_vy(vy),</highlight></codeline>
-<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>_w(omega)</highlight></codeline>
-<codeline lineno="82"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>inverseTauMechTranslation<sp/>=<sp/>agentProperties[_id].first;</highlight></codeline>
-<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>inverseTauMechRotation<sp/>=<sp/>agentProperties[_id].second;</highlight></codeline>
-<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>_vx_des<sp/>=<sp/>Fp.first<sp/>/<sp/>inverseTauMechTranslation<sp/>/<sp/>_mass;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>vx_des<sp/>:=<sp/>Fpx/m<sp/>*<sp/>tau_mech</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>_vy_des<sp/>=<sp/>Fp.second<sp/>/<sp/>inverseTauMechTranslation<sp/>/<sp/>_mass;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>vy_des<sp/>:=<sp/>Fpy/m<sp/>*<sp/>tau_mech</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>_w_des<sp/>=<sp/>Mp<sp/>/<sp/>inverseTauMechRotation<sp/>/<sp/>_moi;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>w_des<sp/><sp/>:=<sp/>Mp/I<sp/><sp/>*<sp/>tau_mech</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="88"><highlight class="normal"></highlight></codeline>
-<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!(_vx_des<sp/>==<sp/>0.<sp/>&amp;&amp;<sp/>_vy_des<sp/>==<sp/>0.))</highlight></codeline>
-<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_theta_des<sp/>=<sp/>atan2(_vy_des,<sp/>_vx_des);</highlight></codeline>
-<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_theta_des<sp/>=<sp/>0.;</highlight></codeline>
-<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>_v_des<sp/>=<sp/>double2(_vx_des,<sp/>_vy_des);</highlight></codeline>
-<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="95"><highlight class="normal"></highlight></codeline>
-<codeline lineno="102"><highlight class="normal"><ref refid="struct_agent_1ab8dd8d152605cf1339fed595376e83cb" kindref="member">Agent::~Agent</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="103"><highlight class="normal"></highlight></codeline>
-<codeline lineno="110"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="struct_agent_1a8213096130b009ee5d233d1e60d4442d" kindref="member">Agent::move</ref>()</highlight></codeline>
-<codeline lineno="111"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_agent_1ae5fec6c2d045136730900c8fa2f1d6ee" kindref="member">_x</ref><sp/>+=<sp/><ref refid="struct_agent_1a40d332f56eb301d0f2fd80933b6c2461" kindref="member">_vx</ref><sp/>*<sp/>dt;</highlight></codeline>
-<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_agent_1a90bb0e29f517c3775a82b8ef3c15a37f" kindref="member">_y</ref><sp/>+=<sp/><ref refid="struct_agent_1ac4f2ef64b18ede184af2774563de62d8" kindref="member">_vy</ref><sp/>*<sp/>dt;</highlight></codeline>
-<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_agent_1aff31fb7e42339fb260af2a214d60a7a6" kindref="member">_theta</ref><sp/>+=<sp/><ref refid="struct_agent_1af1487c7f179e334239593bb162bf5cd0" kindref="member">_w</ref><sp/>*<sp/>dt;</highlight></codeline>
-<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="116"><highlight class="normal"></highlight></codeline>
-<codeline lineno="125"><highlight class="normal">vector&lt;double2&gt;<sp/><ref refid="struct_agent_1a830bc76a5ef0ee8d42d46ec8fdcf0091" kindref="member">Agent::get_delta_gtos</ref>()</highlight></codeline>
-<codeline lineno="126"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>vector&lt;double2&gt;<sp/>delta_gtos_abs;</highlight></codeline>
-<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[x,<sp/>y]<sp/>:<sp/><ref refid="struct_agent_1a0ca4ccfa41d290d7b9806a0738ad3982" kindref="member">_delta_gtos</ref>)</highlight></codeline>
-<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rotation_angle<sp/>=<sp/><ref refid="struct_agent_1aff31fb7e42339fb260af2a214d60a7a6" kindref="member">_theta</ref><sp/>-<sp/><ref refid="struct_agent_1a7351fecebf368e76fa36139cc1e6b3ae" kindref="member">_theta_init</ref>;</highlight></codeline>
-<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>delta_gtos_abs.emplace_back(x<sp/>*<sp/>cos(rotation_angle)<sp/>-<sp/>y<sp/>*<sp/>sin(rotation_angle),</highlight></codeline>
-<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>x<sp/>*<sp/>sin(rotation_angle)<sp/>+<sp/>y<sp/>*<sp/>cos(rotation_angle));</highlight></codeline>
-<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>delta_gtos_abs;</highlight></codeline>
-<codeline lineno="135"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><ref refid="struct_agent_1a63914b2d78836a941fcf53047d71ed29" kindref="member">Agent::Agent</ref>(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>ID,<sp/>std::vector&lt;unsigned&gt;<sp/>Ids_shapes,<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>nb_shapes,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;double2&gt;&amp;<sp/>delta_gtos,</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;&amp;<sp/>radius_shapes,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>theta_body_init,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>mass,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>moi)</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/>_id(ID),</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>_mass(mass),</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>_moi(moi),</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>_ids_shapes(std::move(Ids_shapes)),</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>_radius(size_body(delta_gtos,<sp/>radius_shapes)),</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>_nb_shapes(nb_shapes),</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>_delta_gtos(delta_gtos),</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>_radius_shapes(radius_shapes),</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>_theta_init(theta_body_init)</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><ref refid="struct_agent_1ab8dd8d152605cf1339fed595376e83cb" kindref="member">Agent::~Agent</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="struct_agent_1a8213096130b009ee5d233d1e60d4442d" kindref="member">Agent::move</ref>()</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_agent_1ae5fec6c2d045136730900c8fa2f1d6ee" kindref="member">_x</ref><sp/>+=<sp/><ref refid="struct_agent_1a40d332f56eb301d0f2fd80933b6c2461" kindref="member">_vx</ref><sp/>*<sp/>dt;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_agent_1a90bb0e29f517c3775a82b8ef3c15a37f" kindref="member">_y</ref><sp/>+=<sp/><ref refid="struct_agent_1ac4f2ef64b18ede184af2774563de62d8" kindref="member">_vy</ref><sp/>*<sp/>dt;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_agent_1aff31fb7e42339fb260af2a214d60a7a6" kindref="member">_theta</ref><sp/>+=<sp/><ref refid="struct_agent_1af1487c7f179e334239593bb162bf5cd0" kindref="member">_w</ref><sp/>*<sp/>dt;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal">vector&lt;double2&gt;<sp/><ref refid="struct_agent_1a830bc76a5ef0ee8d42d46ec8fdcf0091" kindref="member">Agent::get_delta_gtos</ref>()</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>vector&lt;double2&gt;<sp/>delta_gtos_abs;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[x,<sp/>y]<sp/>:<sp/><ref refid="struct_agent_1a0ca4ccfa41d290d7b9806a0738ad3982" kindref="member">_delta_gtos</ref>)</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rotation_angle<sp/>=<sp/><ref refid="struct_agent_1aff31fb7e42339fb260af2a214d60a7a6" kindref="member">_theta</ref><sp/>-<sp/><ref refid="struct_agent_1a7351fecebf368e76fa36139cc1e6b3ae" kindref="member">_theta_init</ref>;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>delta_gtos_abs.emplace_back(x<sp/>*<sp/>cos(rotation_angle)<sp/>-<sp/>y<sp/>*<sp/>sin(rotation_angle),</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>x<sp/>*<sp/>sin(rotation_angle)<sp/>+<sp/>y<sp/>*<sp/>cos(rotation_angle));</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>delta_gtos_abs;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal">}</highlight></codeline>
     </programlisting>
     <location file="src/Agent.cpp"/>
   </compounddef>

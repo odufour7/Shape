@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Interactions>
+    <Agent Id="0">
+        <Agent Id="2">
+            <Interaction ParentShape="4" ChildShape="1" TangentialRelativeDisplacement="3.88982e-08,-3.77148e-08" Fn="0.456782,0.471187" Ft="0.055418,-0.0537238" />
+        </Agent>
+    </Agent>
+</Interactions>

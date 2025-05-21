@@ -509,7 +509,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="81" column="16" bodyfile="src/MechanicalLayer.cpp" bodystart="282" bodyend="475"/>
+        <location file="include/MechanicalLayer.h" line="81" column="16" bodyfile="src/MechanicalLayer.cpp" bodystart="272" bodyend="486"/>
       </memberdef>
       <memberdef kind="function" id="struct_mechanical_layer_1a53c534f15aff2820bb730d85887f0a4b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -525,7 +525,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="82" column="10" bodyfile="src/MechanicalLayer.cpp" bodystart="491" bodyend="573"/>
+        <location file="include/MechanicalLayer.h" line="82" column="10" bodyfile="src/MechanicalLayer.cpp" bodystart="502" bodyend="584"/>
       </memberdef>
       <memberdef kind="function" id="struct_mechanical_layer_1a045e015db6ee46b018e0c3085ef08f74" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -554,7 +554,7 @@ return EXIT_FAILURE in case of problem with the XML file EXIT_SUCCESS otherwise 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="84" column="9" bodyfile="src/MechanicalLayer.cpp" bodystart="176" bodyend="272"/>
+        <location file="include/MechanicalLayer.h" line="84" column="9" bodyfile="src/MechanicalLayer.cpp" bodystart="169" bodyend="262"/>
       </memberdef>
       <memberdef kind="function" id="struct_mechanical_layer_1a7abe08c3957a79371de41a99a285fe7e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::pair&lt; bool, bool &gt;</type>
@@ -572,7 +572,7 @@ return EXIT_FAILURE in case of problem with the XML file EXIT_SUCCESS otherwise 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="85" column="15" bodyfile="src/MechanicalLayer.cpp" bodystart="580" bodyend="602"/>
+        <location file="include/MechanicalLayer.h" line="85" column="15" bodyfile="src/MechanicalLayer.cpp" bodystart="591" bodyend="613"/>
       </memberdef>
       <memberdef kind="function" id="struct_mechanical_layer_1aac7fb2491918667ad9e7d45754deae0f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -613,7 +613,7 @@ return EXIT_FAILURE in case of problem with the XML file EXIT_SUCCESS otherwise 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="86" column="10" bodyfile="src/MechanicalLayer.cpp" bodystart="611" bodyend="713"/>
+        <location file="include/MechanicalLayer.h" line="86" column="10" bodyfile="src/MechanicalLayer.cpp" bodystart="622" bodyend="724"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -645,7 +645,7 @@ return EXIT_FAILURE in case of problem with the XML file EXIT_SUCCESS otherwise 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="90" column="14" bodyfile="src/MechanicalLayer.cpp" bodystart="27" bodyend="157"/>
+        <location file="include/MechanicalLayer.h" line="90" column="14" bodyfile="src/MechanicalLayer.cpp" bodystart="20" bodyend="150"/>
       </memberdef>
       <memberdef kind="function" id="struct_mechanical_layer_1a7ff97bf10d2b101830cc7e4b38867a63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>

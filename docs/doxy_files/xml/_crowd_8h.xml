@@ -135,7 +135,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Crowd.h" line="14" column="18" bodyfile="src/Crowd.cpp" bodystart="19" bodyend="-1" declfile="include/Crowd.h" declline="14" declcolumn="18"/>
+        <location file="include/Crowd.h" line="14" column="18" bodyfile="src/Crowd.cpp" bodystart="13" bodyend="-1" declfile="include/Crowd.h" declline="14" declcolumn="18"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="func">
@@ -177,7 +177,7 @@
           <declname>delta_gtos</declname>
         </param>
         <briefdescription>
-<para>The function creates all agents from the Agents (static) and agentDynamics (dynamic) XML files. It initiates the list of neighbours. </para>
+<para>The function creates all agents from the data stored by InputStatic.cpp. It also creates the kinematics and dynamics of the agents by calling updateSetting(). </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
@@ -245,13 +245,30 @@
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>EXIT_SUCCESS if no issue with the Dynamics file EXIT_FAILURE otherwise </para>
+<simplesect kind="return"><para>EXIT_SUCCESS if no issue with the Dynamics file EXIT_FAILURE otherwise (the return code comes from updateSetting()) </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Crowd.h" line="18" column="5" bodyfile="src/Crowd.cpp" bodystart="37" bodyend="184" declfile="include/Crowd.h" declline="18" declcolumn="5"/>
+        <location file="include/Crowd.h" line="18" column="5" bodyfile="src/Crowd.cpp" bodystart="32" bodyend="67" declfile="include/Crowd.h" declline="18" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="_crowd_8h_1ae7df95aedc4d1ad67792fa5ade15b55b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int updateSetting</definition>
+        <argsstring>(const std::string &amp;dynamicsFile)</argsstring>
+        <name>updateSetting</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dynamicsFile</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Crowd.h" line="21" column="5" declfile="include/Crowd.h" declline="21" declcolumn="5"/>
       </memberdef>
       <memberdef kind="function" id="_crowd_8h_1a9147e71f48a9790e558b7caa2d53a83a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -281,7 +298,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Crowd.h" line="22" column="6" bodyfile="src/Crowd.cpp" bodystart="277" bodyend="277" declfile="include/Crowd.h" declline="22" declcolumn="6"/>
+        <location file="include/Crowd.h" line="23" column="6" bodyfile="src/Crowd.cpp" bodystart="304" bodyend="304" declfile="include/Crowd.h" declline="23" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="_crowd_8h_1aa72faf5d2b73071c176c3db4d019d397" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -298,7 +315,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Crowd.h" line="23" column="6" bodyfile="src/Crowd.cpp" bodystart="284" bodyend="352" declfile="include/Crowd.h" declline="23" declcolumn="6"/>
+        <location file="include/Crowd.h" line="24" column="6" bodyfile="src/Crowd.cpp" bodystart="311" bodyend="379" declfile="include/Crowd.h" declline="24" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="_crowd_8h_1ae71235d3057734af7fc3fa0b922867b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -313,7 +330,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Crowd.h" line="24" column="6" bodyfile="src/Crowd.cpp" bodystart="195" bodyend="228" declfile="include/Crowd.h" declline="24" declcolumn="6"/>
+        <location file="include/Crowd.h" line="25" column="6" bodyfile="src/Crowd.cpp" bodystart="222" bodyend="255" declfile="include/Crowd.h" declline="25" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="_crowd_8h_1a56956a345edfef0a1f39d90f7e47b083" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -348,7 +365,7 @@
         <inbodydescription>
 <para>The dynamics follow a simple relaxation equation, ie dv/dt = (v_des - v) / tau_mech ==&gt; v(t)= v_des (1 - e^-t/tau_mech) + v(t=0) e^-t/tau_mech</para>
         </inbodydescription>
-        <location file="include/Crowd.h" line="27" column="6" bodyfile="src/Crowd.cpp" bodystart="241" bodyend="268" declfile="include/Crowd.h" declline="27" declcolumn="6"/>
+        <location file="include/Crowd.h" line="28" column="6" bodyfile="src/Crowd.cpp" bodystart="268" bodyend="295" declfile="include/Crowd.h" declline="28" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="_crowd_8h_1a8207cfe8584181bf5a3f71014e3b9859" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -376,7 +393,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Crowd.h" line="29" column="6" bodyfile="src/Crowd.cpp" bodystart="359" bodyend="392" declfile="include/Crowd.h" declline="29" declcolumn="6"/>
+        <location file="include/Crowd.h" line="30" column="6" bodyfile="src/Crowd.cpp" bodystart="386" bodyend="419" declfile="include/Crowd.h" declline="30" declcolumn="6"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -404,17 +421,18 @@
 <codeline lineno="18"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>initialiseSetting(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dynamicsFile,<sp/>std::vector&lt;unsigned&gt;&amp;<sp/>nb_shapes_allagents,<sp/>std::vector&lt;unsigned&gt;&amp;<sp/>shapeIDagent,</highlight></codeline>
 <codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;&amp;<sp/>edges,<sp/>std::vector&lt;double&gt;&amp;<sp/>radius_allshapes,<sp/>std::vector&lt;double&gt;&amp;<sp/>masses,</highlight></codeline>
 <codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;&amp;<sp/>mois,<sp/>std::vector&lt;double2&gt;&amp;<sp/>delta_gtos);</highlight></codeline>
-<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>Prepare<sp/>mechanical<sp/>layer</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_mechanically_active(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_agent" kindref="compound">Agent</ref>*<sp/>agent);</highlight></codeline>
-<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>get_future_collision();</highlight></codeline>
-<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>determine_agents_neighbours();</highlight></codeline>
-<codeline lineno="25"><highlight class="normal"></highlight></codeline>
-<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>Handle<sp/>mechanical<sp/>layer</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>handleMechanicalLayer(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dynamicsFile);</highlight></codeline>
-<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>Output</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>generateDynamicsOutputFile(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dynamicsFile);</highlight></codeline>
-<codeline lineno="30"><highlight class="normal"></highlight></codeline>
-<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SRC_MECHANICAL_LAYER_INCLUDE_CROWD_H_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>updateSetting(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dynamicsFile);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>Prepare<sp/>mechanical<sp/>layer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_mechanically_active(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_agent" kindref="compound">Agent</ref>*<sp/>agent);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>get_future_collision();</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>determine_agents_neighbours();</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>Handle<sp/>mechanical<sp/>layer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>handleMechanicalLayer(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dynamicsFile);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>Output</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>generateDynamicsOutputFile(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dynamicsFile);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SRC_MECHANICAL_LAYER_INCLUDE_CROWD_H_</highlight><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="include/Crowd.h"/>
   </compounddef>

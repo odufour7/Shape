@@ -23,7 +23,7 @@
     <member refid="struct_agent_1a9489bdc6bf8961e95c9c33a145a317f0" kind="variable"><name>_v_des</name></member>
     <member refid="struct_agent_1a0698b175835cd15775fc9ff16e4add19" kind="variable"><name>_neighbours</name></member>
     <member refid="struct_agent_1a9be8318728b4f24366501ef3aa22c60b" kind="variable"><name>_neighbours_walls</name></member>
-    <member refid="struct_agent_1a326a5e3110590921083db5d3a02dfe1c" kind="function"><name>Agent</name></member>
+    <member refid="struct_agent_1a63914b2d78836a941fcf53047d71ed29" kind="function"><name>Agent</name></member>
     <member refid="struct_agent_1ab8dd8d152605cf1339fed595376e83cb" kind="function"><name>~Agent</name></member>
     <member refid="struct_agent_1a8213096130b009ee5d233d1e60d4442d" kind="function"><name>move</name></member>
     <member refid="struct_agent_1a5407f025c5bd4bee36e134bb7ff86f6a" kind="function"><name>get_r</name></member>
@@ -77,6 +77,7 @@
   <compound refid="_crowd_8h" kind="file"><name>Crowd.h</name>
     <member refid="_crowd_8h_1ae47aa443676920f180b457618de5edd7" kind="variable"><name>mech_active_agents</name></member>
     <member refid="_crowd_8h_1a07436352fc2a4dd367fe377ec449ee61" kind="function"><name>initialiseSetting</name></member>
+    <member refid="_crowd_8h_1ae7df95aedc4d1ad67792fa5ade15b55b" kind="function"><name>updateSetting</name></member>
     <member refid="_crowd_8h_1a9147e71f48a9790e558b7caa2d53a83a" kind="function"><name>is_mechanically_active</name></member>
     <member refid="_crowd_8h_1aa72faf5d2b73071c176c3db4d019d397" kind="function"><name>get_future_collision</name></member>
     <member refid="_crowd_8h_1ae71235d3057734af7fc3fa0b922867b4" kind="function"><name>determine_agents_neighbours</name></member>
@@ -89,6 +90,7 @@
   <compound refid="_global_8h" kind="file"><name>Global.h</name>
     <member refid="_global_8h_1a4efe52b7a9d34b6729f25c99620a5511" kind="typedef"><name>int2</name></member>
     <member refid="_global_8h_1a27ec70e4bef012c5adbe0c8cf122676b" kind="typedef"><name>double2</name></member>
+    <member refid="_global_8h_1a714f1ca4d0b766c27006639b8cad4b70" kind="variable"><name>firstRun</name></member>
     <member refid="_global_8h_1a245f542572171827c24b7d2fc8c0228b" kind="variable"><name>listObstacles</name></member>
     <member refid="_global_8h_1ad538aa77abb694f8faf437a41e3e8037" kind="variable"><name>Lx</name></member>
     <member refid="_global_8h_1a9b3d111ccf7f82fb80aeb6f8b229c21b" kind="variable"><name>Ly</name></member>
@@ -139,6 +141,7 @@
   <compound refid="_crowd_8cpp" kind="file"><name>Crowd.cpp</name>
     <member refid="_crowd_8cpp_1a06db7cc3077e44422fcc5e99a7d59473" kind="variable"><name>mech_active_agents</name></member>
     <member refid="_crowd_8cpp_1a07436352fc2a4dd367fe377ec449ee61" kind="function"><name>initialiseSetting</name></member>
+    <member refid="_crowd_8cpp_1a2e62134ff0fc06d04beca09f60289e38" kind="function"><name>updateSetting</name></member>
     <member refid="_crowd_8cpp_1ae71235d3057734af7fc3fa0b922867b4" kind="function"><name>determine_agents_neighbours</name></member>
     <member refid="_crowd_8cpp_1a56956a345edfef0a1f39d90f7e47b083" kind="function"><name>handleMechanicalLayer</name></member>
     <member refid="_crowd_8cpp_1a9147e71f48a9790e558b7caa2d53a83a" kind="function"><name>is_mechanically_active</name></member>
@@ -146,6 +149,7 @@
     <member refid="_crowd_8cpp_1a8207cfe8584181bf5a3f71014e3b9859" kind="function"><name>generateDynamicsOutputFile</name></member>
   </compound>
   <compound refid="_global_8cpp" kind="file"><name>Global.cpp</name>
+    <member refid="_global_8cpp_1a714f1ca4d0b766c27006639b8cad4b70" kind="variable"><name>firstRun</name></member>
     <member refid="_global_8cpp_1a17fb23d2539d94d39f4894074c1d5b45" kind="variable"><name>nAgents</name></member>
     <member refid="_global_8cpp_1a2d9c16ea9a48a801f040edbb1364a369" kind="variable"><name>agentMap</name></member>
     <member refid="_global_8cpp_1a9383e068c56024265f6b9fe837d586f6" kind="variable"><name>agentMapInverse</name></member>

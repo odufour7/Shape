@@ -94,6 +94,8 @@ Variables
 
 - :ref:`exhale_variable__global_8cpp_1a8bfe393342f0c199097b8a314cdc6dab`
 
+- :ref:`exhale_variable__global_8cpp_1a714f1ca4d0b766c27006639b8cad4b70`
+
 - :ref:`exhale_variable__global_8cpp_1a449a06862d241ed51aafc2d9f103bd33`
 
 - :ref:`exhale_variable__global_8cpp_1a7748aa3ec6479e25397cee7d2eb63b88`

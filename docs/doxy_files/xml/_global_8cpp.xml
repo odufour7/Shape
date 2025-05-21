@@ -95,6 +95,20 @@
       </node>
     </incdepgraph>
     <sectiondef kind="var">
+      <memberdef kind="variable" id="_global_8cpp_1a714f1ca4d0b766c27006639b8cad4b70" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool firstRun</definition>
+        <argsstring></argsstring>
+        <name>firstRun</name>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/Global.cpp" line="41" column="6" bodyfile="src/Global.cpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="variable" id="_global_8cpp_1a17fb23d2539d94d39f4894074c1d5b45" prot="public" static="no" mutable="no">
         <type>uint32_t</type>
         <definition>uint32_t nAgents</definition>
@@ -106,7 +120,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="41" column="10" bodyfile="src/Global.cpp" bodystart="41" bodyend="-1"/>
+        <location file="src/Global.cpp" line="43" column="10" bodyfile="src/Global.cpp" bodystart="43" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8cpp_1a2d9c16ea9a48a801f040edbb1364a369" prot="public" static="no" mutable="no">
         <type>map&lt; string, uint32_t &gt;</type>
@@ -119,7 +133,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="42" column="5" bodyfile="src/Global.cpp" bodystart="42" bodyend="-1"/>
+        <location file="src/Global.cpp" line="44" column="5" bodyfile="src/Global.cpp" bodystart="44" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8cpp_1a9383e068c56024265f6b9fe837d586f6" prot="public" static="no" mutable="no">
         <type>vector&lt; string &gt;</type>
@@ -132,7 +146,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="43" column="8" bodyfile="src/Global.cpp" bodystart="43" bodyend="-1"/>
+        <location file="src/Global.cpp" line="45" column="8" bodyfile="src/Global.cpp" bodystart="45" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8cpp_1acd1960d2e52407aba08102dc55c5891e" prot="public" static="no" mutable="no">
         <type><ref refid="struct_agent" kindref="compound">Agent</ref> **</type>
@@ -145,7 +159,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="44" column="7" bodyfile="src/Global.cpp" bodystart="44" bodyend="-1"/>
+        <location file="src/Global.cpp" line="46" column="7" bodyfile="src/Global.cpp" bodystart="46" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8cpp_1ad538aa77abb694f8faf437a41e3e8037" prot="public" static="no" mutable="no">
         <type>double</type>
@@ -158,7 +172,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="47" column="8" bodyfile="src/Global.cpp" bodystart="47" bodyend="-1"/>
+        <location file="src/Global.cpp" line="49" column="8" bodyfile="src/Global.cpp" bodystart="49" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8cpp_1a9b3d111ccf7f82fb80aeb6f8b229c21b" prot="public" static="no" mutable="no">
         <type>double</type>
@@ -171,7 +185,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="48" column="8" bodyfile="src/Global.cpp" bodystart="48" bodyend="-1"/>
+        <location file="src/Global.cpp" line="50" column="8" bodyfile="src/Global.cpp" bodystart="50" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8cpp_1a7748aa3ec6479e25397cee7d2eb63b88" prot="public" static="no" mutable="no">
         <type>vector&lt; vector&lt; double2 &gt; &gt;</type>
@@ -184,7 +198,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="49" column="8" bodyfile="src/Global.cpp" bodystart="49" bodyend="-1"/>
+        <location file="src/Global.cpp" line="51" column="8" bodyfile="src/Global.cpp" bodystart="51" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8cpp_1a03e28be41881b703c836edbfe9b51b17" prot="public" static="no" mutable="no">
         <type>double</type>
@@ -197,7 +211,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="52" column="8" bodyfile="src/Global.cpp" bodystart="52" bodyend="-1"/>
+        <location file="src/Global.cpp" line="54" column="8" bodyfile="src/Global.cpp" bodystart="54" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8cpp_1a8bfe393342f0c199097b8a314cdc6dab" prot="public" static="no" mutable="no">
         <type>double</type>
@@ -210,7 +224,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="53" column="8" bodyfile="src/Global.cpp" bodystart="53" bodyend="-1"/>
+        <location file="src/Global.cpp" line="55" column="8" bodyfile="src/Global.cpp" bodystart="55" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8cpp_1ada1128f7eea9df0860984ef5c5d8ec2d" prot="public" static="no" mutable="no">
         <type>vector&lt; double2 &gt;</type>
@@ -223,7 +237,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="57" column="8" bodyfile="src/Global.cpp" bodystart="57" bodyend="-1"/>
+        <location file="src/Global.cpp" line="59" column="8" bodyfile="src/Global.cpp" bodystart="59" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8cpp_1a8c0a8fe32456ebb50a4d4033e37ff4e5" prot="public" static="no" mutable="no">
         <type>uint32_t</type>
@@ -236,7 +250,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="58" column="10" bodyfile="src/Global.cpp" bodystart="58" bodyend="-1"/>
+        <location file="src/Global.cpp" line="60" column="10" bodyfile="src/Global.cpp" bodystart="60" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8cpp_1a449a06862d241ed51aafc2d9f103bd33" prot="public" static="no" mutable="no">
         <type>double **</type>
@@ -249,7 +263,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="59" column="8" bodyfile="src/Global.cpp" bodystart="59" bodyend="-1"/>
+        <location file="src/Global.cpp" line="61" column="8" bodyfile="src/Global.cpp" bodystart="61" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8cpp_1a6ef6c78109b8fcb63fe1cbbc85b1365f" prot="public" static="no" mutable="no">
         <type>double ***</type>
@@ -262,7 +276,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="60" column="8" bodyfile="src/Global.cpp" bodystart="60" bodyend="-1"/>
+        <location file="src/Global.cpp" line="62" column="8" bodyfile="src/Global.cpp" bodystart="62" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8cpp_1a8eda14234da32f1a6cc9f83e29039058" prot="public" static="no" mutable="no">
         <type>vector&lt; int32_t &gt;</type>
@@ -275,7 +289,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="61" column="8" bodyfile="src/Global.cpp" bodystart="61" bodyend="-1"/>
+        <location file="src/Global.cpp" line="63" column="8" bodyfile="src/Global.cpp" bodystart="63" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8cpp_1a55e531751036fba011fc2ed2a099e007" prot="public" static="no" mutable="no">
         <type>map&lt; uint32_t, int32_t &gt;</type>
@@ -288,7 +302,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="62" column="5" bodyfile="src/Global.cpp" bodystart="62" bodyend="-1"/>
+        <location file="src/Global.cpp" line="64" column="5" bodyfile="src/Global.cpp" bodystart="64" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8cpp_1a9dd72cf4b283d7ddc950555b117389e9" prot="public" static="no" mutable="no">
         <type>string</type>
@@ -301,7 +315,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="65" column="8" bodyfile="src/Global.cpp" bodystart="65" bodyend="-1"/>
+        <location file="src/Global.cpp" line="67" column="8" bodyfile="src/Global.cpp" bodystart="67" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8cpp_1a105202debb0122c2c030880a0cf66b90" prot="public" static="no" mutable="no">
         <type>string</type>
@@ -314,7 +328,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="66" column="8" bodyfile="src/Global.cpp" bodystart="66" bodyend="-1"/>
+        <location file="src/Global.cpp" line="68" column="8" bodyfile="src/Global.cpp" bodystart="68" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="func">
@@ -552,7 +566,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="78" column="6" bodyfile="src/Global.cpp" bodystart="78" bodyend="101"/>
+        <location file="src/Global.cpp" line="80" column="6" bodyfile="src/Global.cpp" bodystart="80" bodyend="103"/>
       </memberdef>
       <memberdef kind="function" id="_global_8cpp_1a09193e58d7734175ed54421ddf1e38fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>pair&lt; double, double2 &gt;</type>
@@ -606,7 +620,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="112" column="6" bodyfile="src/Global.cpp" bodystart="112" bodyend="129"/>
+        <location file="src/Global.cpp" line="114" column="6" bodyfile="src/Global.cpp" bodystart="114" bodyend="131"/>
       </memberdef>
       <memberdef kind="function" id="_global_8cpp_1ad9e358fcdbe24dd1c5b1196644116607" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>double</type>
@@ -649,7 +663,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="142" column="15" bodyfile="src/Global.cpp" bodystart="142" bodyend="142"/>
+        <location file="src/Global.cpp" line="144" column="15" bodyfile="src/Global.cpp" bodystart="144" bodyend="144"/>
       </memberdef>
       <memberdef kind="function" id="_global_8cpp_1a2fb8f9398334dcfcab2e1f03b01877d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -691,7 +705,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Global.cpp" line="151" column="8" bodyfile="src/Global.cpp" bodystart="151" bodyend="156"/>
+        <location file="src/Global.cpp" line="153" column="8" bodyfile="src/Global.cpp" bodystart="153" bodyend="158"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -739,88 +753,90 @@
 <codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
 <codeline lineno="39"><highlight class="comment"><sp/><sp/><sp/><sp/>Global<sp/>variables</highlight></codeline>
 <codeline lineno="40"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="41"><highlight class="normal">uint32_t<sp/>nAgents;</highlight></codeline>
-<codeline lineno="42"><highlight class="normal">map&lt;string,<sp/>uint32_t&gt;<sp/>agentMap;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Correspondence<sp/>between<sp/>user-given<sp/>ids<sp/>and<sp/>internal<sp/>ids</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="43"><highlight class="normal">vector&lt;string&gt;<sp/>agentMapInverse;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Inverse<sp/>version<sp/>for<sp/>output</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="44"><highlight class="normal"><ref refid="struct_agent" kindref="compound">Agent</ref>**<sp/>agents;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>The<sp/>array<sp/>of<sp/>pointers<sp/>to<sp/>the<sp/>agent<sp/>objects</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="45"><highlight class="normal"></highlight></codeline>
-<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Geometry</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>Lx;</highlight></codeline>
-<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>Ly;</highlight></codeline>
-<codeline lineno="49"><highlight class="normal">vector&lt;vector&lt;double2&gt;&gt;<sp/>listObstacles;</highlight></codeline>
-<codeline lineno="50"><highlight class="normal"></highlight></codeline>
-<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Basic<sp/>parameters</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>dt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Time<sp/>step<sp/>of<sp/>the<sp/>main<sp/>loop.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>dt_mech;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Time<sp/>step<sp/>of<sp/>the<sp/>mechanical<sp/>layer.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="54"><highlight class="normal"></highlight></codeline>
-<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">/*<sp/><sp/>Mechanical<sp/>layer<sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Materials</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="57"><highlight class="normal">vector&lt;double2&gt;<sp/>agentProperties;</highlight></codeline>
-<codeline lineno="58"><highlight class="normal">uint32_t<sp/>nMaterials;</highlight></codeline>
-<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">**<sp/>intrinsicProperties;</highlight></codeline>
-<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">***<sp/>binaryProperties;</highlight></codeline>
-<codeline lineno="61"><highlight class="normal">vector&lt;int32_t&gt;<sp/>obstaclesMaterial;</highlight></codeline>
-<codeline lineno="62"><highlight class="normal">map&lt;uint32_t,<sp/>int32_t&gt;<sp/>shapesMaterial;</highlight></codeline>
-<codeline lineno="63"><highlight class="normal"></highlight></codeline>
-<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Paths</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>pathStatic;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Folder<sp/>where<sp/>the<sp/>static<sp/><sp/>data<sp/>should<sp/>be<sp/>saved</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="66"><highlight class="normal"></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>pathDynamic;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Folder<sp/>where<sp/>the<sp/>dynamic<sp/>data<sp/>should<sp/>be<sp/>placed</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="67"><highlight class="normal"></highlight></codeline>
-<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
-<codeline lineno="69"><highlight class="comment"><sp/><sp/><sp/><sp/>Utilities<sp/>functions</highlight></codeline>
-<codeline lineno="70"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="78"><highlight class="normal">pair&lt;int,<sp/>double2&gt;<sp/>parse2DComponents(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>line)</highlight></codeline>
-<codeline lineno="79"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>vector&lt;double&gt;<sp/>result;</highlight></codeline>
-<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>stringstream<sp/>ss(line);</highlight></codeline>
-<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>token;</highlight></codeline>
-<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>counter<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(getline(ss,<sp/>token,<sp/></highlight><highlight class="charliteral">&apos;,&apos;</highlight><highlight class="normal">))</highlight></codeline>
-<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>value;</highlight></codeline>
-<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>value<sp/>=<sp/>stod(token);</highlight></codeline>
-<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)</highlight></codeline>
-<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{EXIT_FAILURE,<sp/>{0.,<sp/>0.}};</highlight></codeline>
-<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.push_back(value);</highlight></codeline>
-<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>counter++;</highlight></codeline>
-<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(counter<sp/>&gt;<sp/>2)</highlight></codeline>
-<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{EXIT_FAILURE,<sp/>{0.,<sp/>0.}};</highlight></codeline>
-<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{EXIT_SUCCESS,<sp/>{result[0],<sp/>result[1]}};</highlight></codeline>
-<codeline lineno="101"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="102"><highlight class="normal"></highlight></codeline>
-<codeline lineno="112"><highlight class="normal">pair&lt;double,<sp/>double2&gt;<sp/>get_distance_to_wall_and_closest_point(double2<sp/>vertexA,<sp/>double2<sp/>vertexB,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>double2&amp;<sp/>C)</highlight></codeline>
-<codeline lineno="113"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>double2<sp/>AB<sp/>=<sp/>vertexB<sp/>-<sp/>vertexA;</highlight></codeline>
-<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>double2<sp/>AC<sp/>=<sp/>C<sp/>-<sp/>vertexA;</highlight></codeline>
-<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>gamma:<sp/>coefficient<sp/>such<sp/>that<sp/>the<sp/>closest<sp/>point<sp/>P<sp/>on<sp/>(AB)<sp/>satisfies<sp/>AP=<sp/>gamma<sp/>AB</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>gamma<sp/>=<sp/>AB<sp/>%<sp/>AC<sp/>/<sp/>(AB<sp/>%<sp/>AB);</highlight></codeline>
-<codeline lineno="118"><highlight class="normal"></highlight></codeline>
-<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(gamma<sp/>&lt;=<sp/>0.0)</highlight></codeline>
-<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Closest<sp/>point<sp/>is<sp/>vertexA</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>make_pair(!AC,<sp/>double2(vertexA));</highlight></codeline>
-<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(gamma<sp/>&gt;=<sp/>1.0)</highlight></codeline>
-<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Closest<sp/>point<sp/>is<sp/>vertexB</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>make_pair(!(C<sp/>-<sp/>vertexB),<sp/>double2(vertexB));</highlight></codeline>
-<codeline lineno="125"><highlight class="normal"></highlight></codeline>
-<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Else:<sp/>closest<sp/>point<sp/>P<sp/>on<sp/>(AB)<sp/>to<sp/>C</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>double2<sp/>P<sp/>=<sp/>vertexA<sp/>+<sp/>gamma<sp/>*<sp/>AB;</highlight></codeline>
-<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>make_pair(!(C<sp/>-<sp/>P),<sp/>double2(P));</highlight></codeline>
-<codeline lineno="129"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="130"><highlight class="normal"></highlight></codeline>
-<codeline lineno="142"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>get_interval(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>x,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>length)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fmod(x<sp/>+<sp/>0.5<sp/>*<sp/>length,<sp/>length)<sp/>-<sp/>0.5<sp/>*<sp/>length;<sp/>}</highlight></codeline>
-<codeline lineno="143"><highlight class="normal"></highlight></codeline>
-<codeline lineno="151"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>get_distance(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>double2&amp;<sp/>A,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>double2&amp;<sp/>B)</highlight></codeline>
-<codeline lineno="152"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>x_mod<sp/>=<sp/>get_interval(A.first<sp/>-<sp/>B.first,<sp/>Lx);</highlight></codeline>
-<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>y_mod<sp/>=<sp/>get_interval(A.second<sp/>-<sp/>B.second,<sp/>Ly);</highlight></codeline>
-<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>sqrt(pow(x_mod,<sp/>2)<sp/>+<sp/>pow(y_mod,<sp/>2));</highlight></codeline>
-<codeline lineno="156"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>firstRun<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal">uint32_t<sp/>nAgents;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">map&lt;string,<sp/>uint32_t&gt;<sp/>agentMap;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Correspondence<sp/>between<sp/>user-given<sp/>ids<sp/>and<sp/>internal<sp/>ids</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal">vector&lt;string&gt;<sp/>agentMapInverse;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Inverse<sp/>version<sp/>for<sp/>output</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><ref refid="struct_agent" kindref="compound">Agent</ref>**<sp/>agents;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>The<sp/>array<sp/>of<sp/>pointers<sp/>to<sp/>the<sp/>agent<sp/>objects</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Geometry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>Lx;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>Ly;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">vector&lt;vector&lt;double2&gt;&gt;<sp/>listObstacles;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Basic<sp/>parameters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>dt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Time<sp/>step<sp/>of<sp/>the<sp/>main<sp/>loop.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>dt_mech;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Time<sp/>step<sp/>of<sp/>the<sp/>mechanical<sp/>layer.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">/*<sp/><sp/>Mechanical<sp/>layer<sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Materials</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal">vector&lt;double2&gt;<sp/>agentProperties;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">uint32_t<sp/>nMaterials;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">**<sp/>intrinsicProperties;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">***<sp/>binaryProperties;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">vector&lt;int32_t&gt;<sp/>obstaclesMaterial;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">map&lt;uint32_t,<sp/>int32_t&gt;<sp/>shapesMaterial;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Paths</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>pathStatic;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Folder<sp/>where<sp/>the<sp/>static<sp/><sp/>data<sp/>should<sp/>be<sp/>saved</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>pathDynamic;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Folder<sp/>where<sp/>the<sp/>dynamic<sp/>data<sp/>should<sp/>be<sp/>placed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="71"><highlight class="comment"><sp/><sp/><sp/><sp/>Utilities<sp/>functions</highlight></codeline>
+<codeline lineno="72"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal">pair&lt;int,<sp/>double2&gt;<sp/>parse2DComponents(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>line)</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>vector&lt;double&gt;<sp/>result;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>stringstream<sp/>ss(line);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>token;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>counter<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(getline(ss,<sp/>token,<sp/></highlight><highlight class="charliteral">&apos;,&apos;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>value;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>value<sp/>=<sp/>stod(token);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{EXIT_FAILURE,<sp/>{0.,<sp/>0.}};</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.push_back(value);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>counter++;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(counter<sp/>&gt;<sp/>2)</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{EXIT_FAILURE,<sp/>{0.,<sp/>0.}};</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{EXIT_SUCCESS,<sp/>{result[0],<sp/>result[1]}};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal">pair&lt;double,<sp/>double2&gt;<sp/>get_distance_to_wall_and_closest_point(double2<sp/>vertexA,<sp/>double2<sp/>vertexB,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>double2&amp;<sp/>C)</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>double2<sp/>AB<sp/>=<sp/>vertexB<sp/>-<sp/>vertexA;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>double2<sp/>AC<sp/>=<sp/>C<sp/>-<sp/>vertexA;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>gamma:<sp/>coefficient<sp/>such<sp/>that<sp/>the<sp/>closest<sp/>point<sp/>P<sp/>on<sp/>(AB)<sp/>satisfies<sp/>AP=<sp/>gamma<sp/>AB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>gamma<sp/>=<sp/>AB<sp/>%<sp/>AC<sp/>/<sp/>(AB<sp/>%<sp/>AB);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(gamma<sp/>&lt;=<sp/>0.0)</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Closest<sp/>point<sp/>is<sp/>vertexA</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>make_pair(!AC,<sp/>double2(vertexA));</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(gamma<sp/>&gt;=<sp/>1.0)</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Closest<sp/>point<sp/>is<sp/>vertexB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>make_pair(!(C<sp/>-<sp/>vertexB),<sp/>double2(vertexB));</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Else:<sp/>closest<sp/>point<sp/>P<sp/>on<sp/>(AB)<sp/>to<sp/>C</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>double2<sp/>P<sp/>=<sp/>vertexA<sp/>+<sp/>gamma<sp/>*<sp/>AB;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>make_pair(!(C<sp/>-<sp/>P),<sp/>double2(P));</highlight></codeline>
+<codeline lineno="131"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>get_interval(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>x,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>length)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fmod(x<sp/>+<sp/>0.5<sp/>*<sp/>length,<sp/>length)<sp/>-<sp/>0.5<sp/>*<sp/>length;<sp/>}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>get_distance(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>double2&amp;<sp/>A,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>double2&amp;<sp/>B)</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>x_mod<sp/>=<sp/>get_interval(A.first<sp/>-<sp/>B.first,<sp/>Lx);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>y_mod<sp/>=<sp/>get_interval(A.second<sp/>-<sp/>B.second,<sp/>Ly);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>sqrt(pow(x_mod,<sp/>2)<sp/>+<sp/>pow(y_mod,<sp/>2));</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">}</highlight></codeline>
     </programlisting>
     <location file="src/Global.cpp"/>
   </compounddef>
