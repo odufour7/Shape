@@ -187,7 +187,6 @@ def export_from_CSV_to_CHAOS(PathCSV: Path, dt: float) -> None:
 
     t_min = lignes["t"].min()
     t_max = lignes["t"].max()
-    print(f"t_min = {t_min:.3f}, t_max = {t_max:.3f}, dt = {dt:.3f}")
     t_vec = np.arange(t_min, t_max, dt)
 
     for cpt_agent, ID in enumerate(sorted(lignes["ID"].unique())):
@@ -220,4 +219,4 @@ def export_from_CSV_to_CHAOS(PathCSV: Path, dt: float) -> None:
 
                 monfichier.write(f"{t:.3f},{x_interp:.3f},{y_interp:.3f},0.0\n")
 
-    print("* Trajectories have been converted to Chaos-compatible files")
+    print("\n* Trajectories have been converted to Chaos-compatible files")
