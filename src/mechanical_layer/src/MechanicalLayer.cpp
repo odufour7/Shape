@@ -227,8 +227,8 @@ int MechanicalLayer::readInteractionsInputFile(const std::string& interactionsFi
                 const char* buffer = nullptr;
                 interactionElement->QueryStringAttribute("TangentialRelativeDisplacement", &buffer);
                 auto [rcSlip, inputSlip] = parse2DComponents(buffer);
-                uint32_t cpt_shape = agentIDshape[agentMap[agent1ExternId]] + shapeParent;
-                uint32_t cpt_shape_neigh = agentIDshape[agentMap[agent2ExternId]] + shapeChild;
+                uint32_t cpt_shape = agentIDshape[agentIds[agentMap[agent1ExternId]]] + shapeParent;
+                uint32_t cpt_shape_neigh = agentIDshape[agentIds[agentMap[agent2ExternId]]] + shapeChild;
 
                 slip[{cpt_shape, cpt_shape_neigh}] = inputSlip;
                 slip[{cpt_shape_neigh, cpt_shape}] = -1 * inputSlip;
@@ -250,7 +250,7 @@ int MechanicalLayer::readInteractionsInputFile(const std::string& interactionsFi
             const char* buffer = nullptr;
             wallElement->QueryStringAttribute("TangentialRelativeDisplacement", &buffer);
             auto [rcSlipWall, inputSlipWall] = parse2DComponents(buffer);
-            uint32_t cpt_shape = agentIDshape[agentMap[agent1ExternId]] + shape;
+            uint32_t cpt_shape = agentIDshape[agentIds[agentMap[agent1ExternId]]] + shape;
             slip_wall[{cpt_shape, iobs, iwall}] = inputSlipWall;
 
             wallElement = wallElement->NextSiblingElement("Wall");
