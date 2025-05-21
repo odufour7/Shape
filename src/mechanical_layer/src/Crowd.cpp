@@ -27,6 +27,7 @@ list<Agent*> mech_active_agents;
  *
  * @return EXIT_SUCCESS if no issue with the Dynamics file
  *         EXIT_FAILURE otherwise
+ *         (the return code comes from updateSetting())
  */
 int initialiseSetting(const std::string& dynamicsFile, std::vector<unsigned>& nb_shapes_allagents, std::vector<unsigned>& shapeIDagent,
                       std::vector<int>& edges, std::vector<double>& radius_allshapes, std::vector<double>& masses,
@@ -62,10 +63,17 @@ int initialiseSetting(const std::string& dynamicsFile, std::vector<unsigned>& nb
     }
 
     /*  Update the agents with the Dynamics file  */
-    updateSetting(dynamicsFile);
-
-    return EXIT_SUCCESS;
+    return updateSetting(dynamicsFile);
 }
+/**
+* @brief The function updates all agents with the agentDynamics (dynamic data) XML files.
+ *        It initiates the list of neighbours by calling determine_agents_neighbours().
+ *
+ * @param dynamicsFile The input file containing the current state and driving forces for all agents
+ *
+ * @return EXIT_SUCCESS if no issue with the Dynamics file
+ *         EXIT_FAILURE otherwise
+*/
 int updateSetting(const string& dynamicsFile)
 {
     /*  Create agents: read the dynamics file first  */
