@@ -13,8 +13,9 @@ sys.path.insert(0, os.path.abspath("../../tests/configuration/backup"))
 sys.path.insert(0, os.path.abspath("../../tests/mechanical_layer"))
 smartquotes = False
 
-os.environ["KIVY_NO_CONFIG"] = "1"  # Disable Kivy config checks during docs build
 os.environ["KIVY_NO_ARGS"] = "1"  # Disable Kivy's argument parsing
+os.environ["KIVY_NO_CONFIG"] = "1"  # Disable Kivy config checks during docs build
+os.environ["KIVY_NO_CONSOLELOG"] = "1"
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
@@ -54,7 +55,7 @@ html_static_path = ["_static"]  # Path to custom static files (e.g., CSS)
 html_css_files = ["custom.css"]  # Custom CSS file for styling
 html_logo = "_static/logo/art_light.png"  # Logo for the documentation
 
-suppress_warnings = ["config.cache"]
+suppress_warnings = ["config.cache", "duplicate_declaration.cpp"]
 
 # -- Napoleon settings -------------------------------------------------------
 napoleon_use_param = True  # Enable parameter type annotations in docstrings
