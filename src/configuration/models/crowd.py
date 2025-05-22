@@ -1,5 +1,30 @@
 """Module containing the Crowd class, which represents a crowd of pedestrians in a room."""
 
+# Copyright  2025  Institute of Light and Matter
+# Contributors: Oscar DUFOUR, Maxime STAPELLE, Alexandre NICOLAS
+
+# This software is a computer program designed to generate a realistic crowd from anthropometric data and
+# simulate the mechanical interactions that occur within it and with obstacles.
+
+# This software is governed by the CeCILL  license under French law and abiding by the rules of distribution
+# of free software.  You can  use, modify and/ or redistribute the software under the terms of the CeCILL
+# license as circulated by CEA, CNRS and INRIA at the following URL "http://www.cecill.info".
+
+# As a counterpart to the access to the source code and  rights to copy, modify and redistribute granted by
+# the license, users are provided only with a limited warranty  and the software's author,  the holder of the
+# economic rights,  and the successive licensors  have only  limited liability.
+
+# In this respect, the user's attention is drawn to the risks associated with loading,  using,  modifying
+# and/or developing or reproducing the software by the user in light of its specific status of free software,
+# that may mean  that it is complicated to manipulate,  and  that  also therefore means  that it is reserved
+# for developers  and  experienced professionals having in-depth computer knowledge. Users are therefore
+# encouraged to load and test the software's suitability as regards their requirements in conditions enabling
+# the security of their systems and/or data to be ensured and,  more generally, to use and operate it in the
+# same conditions as regards security.
+
+# The fact that you are presently reading this means that you have had knowledge of the CeCILL license and that
+# you accept its terms.
+
 import numpy as np
 import shapely.affinity as affin
 from numpy.typing import NDArray
@@ -57,8 +82,7 @@ class Crowd:
         Raises
         ------
         ValueError
-            If both measures and agents are provided,
-            or if the provided arguments are of incorrect types.
+            If both measures and agents are provided, or if the provided arguments are of incorrect types.
         """
         # Only allow one of: (measures is not None and agents is None), (measures is None and agents is not None),
         # or (measures is None and agents is None)
@@ -192,9 +216,8 @@ class Crowd:
         Add a new agent to the crowd using available measures data.
 
         The agent creation follows this priority:
-        1. Uses agent statistics if available (when custom database is empty)
-        2. Uses custom database if available
-        3. Falls back to default ANSURII database if no other data exists
+        1. Uses agent statistics if available
+        2. Uses the default ANSURII database
         """
         # Case 1: Use agent statistics if available and custom database is empty
         if self.measures.agent_statistics:
@@ -331,30 +354,32 @@ class Crowd:
         return np.array(force_magnitude * direction)
 
     @staticmethod
-    def calculate_rotational_force() -> float:
+    def calculate_rotational_force(temperature: float) -> float:
         """
         Generate a random rotational force value.
+
+        Parameters
+        ----------
+        temperature : float
+            Current cooling system coefficient (0.0-1.0) that scales rotational forces.
 
         Returns
         -------
         float
             Random rotational force in degrees.
         """
-        return float(np.random.uniform(-cst.INTENSITY_ROTATIONAL_FORCE, cst.INTENSITY_ROTATIONAL_FORCE, 1)[0])
+        return float(np.random.uniform(-cst.INTENSITY_ROTATIONAL_FORCE, cst.INTENSITY_ROTATIONAL_FORCE, 1)[0]) * temperature
 
-    def calculate_boundary_forces(self, forces: NDArray[np.float64], current_geo: Polygon, temperature: float) -> NDArray[np.float64]:
+    def calculate_boundary_forces(self, current_geo: Polygon, temperature: float) -> NDArray[np.float64]:
         """
         Compute boundary interaction forces for an agent near environment edges.
 
         Parameters
         ----------
-        forces : NDArray[np.float64]
-            Current force vector acting on the agent, shape (3,).
-            Format: [x_translation, y_translation, rotation].
         current_geo : Polygon
             Shapely Polygon representing the agent's current geometric position.
         temperature : float
-            Current cooling system coefficient (0.0-1.0) that scales rotational forces.
+            Current cooling system coefficient [0.0-1.0] that scales rotational forces.
 
         Returns
         -------
@@ -368,9 +393,6 @@ class Crowd:
             1. Contact force: Linear repulsion from nearest boundary point.
             2. Rotational force: Temperature-scaled random torque.
         """
-        if self.boundaries.is_empty or self.boundaries.contains(current_geo):
-            return forces
-
         # Compute the nearest point on the agent between the agent and the boundary
         nearest_point = Point(
             self.boundaries.exterior.interpolate(
@@ -378,10 +400,10 @@ class Crowd:
             ).coords[0]  # Compute projection distance along boundary
         )
         wall_contact_force = Crowd.calculate_contact_force(current_geo.centroid, nearest_point)
-        wall_rotational_force = Crowd.calculate_rotational_force() * temperature
+        wall_rotational_force = Crowd.calculate_rotational_force(temperature)
         wall_forces: NDArray[np.float64] = np.concatenate((wall_contact_force, np.array([wall_rotational_force])))
 
-        return forces + wall_forces
+        return wall_forces
 
     @staticmethod
     def check_validity_parameters_agents_packing(
@@ -393,11 +415,11 @@ class Crowd:
         Parameters
         ----------
         repulsion_length : float
-            The repulsion length, which must be a strictly positive float.
+            The repulsion length.
         desired_direction : float
-            The desired direction, which must be a float.
+            The desired direction.
         variable_orientation : bool
-            A flag indicating whether variable orientation is enabled, which must be a boolean.
+            A flag indicating whether variable orientation is enabled.
         """
         if not isinstance(repulsion_length, float):
             raise TypeError("`repulsion_length` should be a float.")
@@ -430,14 +452,14 @@ class Crowd:
 
     def translate_crowd(self, dx: float, dy: float) -> None:
         """
-        Translate all agents in the crowd by a specified distance.
+        Translate all agents in the crowd by a specified offset.
 
         Parameters
         ----------
         dx : float
-            The distance to translate in the x-direction.
+            The offset to translate in the x-direction.
         dy : float
-            The distance to translate in the y-direction.
+            The offset to translate in the y-direction.
         """
         for agent in self.agents:
             agent.translate(dx, dy)
@@ -463,7 +485,7 @@ class Crowd:
         Parameters
         ----------
         repulsion_length : float
-            Exponential decay coefficient for repulsive forces between agents (in meters).
+            Exponential decay coefficient for repulsive forces between agents.
             Higher values increase the effective range of repulsion.
         desired_direction : float
             Initial orientation angle in degrees for all agents.
@@ -476,7 +498,7 @@ class Crowd:
         - Boundary handling:
             * Uses Shapely Polygon objects for boundary constraints
             * Agents cannot move outside boundary polygons
-            * Boundaries are treated as static, non-physical constraints
+            * Boundaries are treated as static
         - Force calculations:
             1. Agent-agent repulsion (exponential decay with distance)
             2. Contact forces for overlapping agents
@@ -493,7 +515,7 @@ class Crowd:
         for current_agent in self.agents:
             current_agent.rotate(desired_direction)
 
-        Temperature = 1.0
+        Temperature = cst.INITIAL_TEMPERATURE
         for _ in range(cst.MAX_NB_ITERATIONS):
             # Check for overlaps and apply forces if necessary
             for i_agent, current_agent in enumerate(self.agents):
@@ -511,14 +533,11 @@ class Crowd:
                     forces[:-1] += Crowd.calculate_repulsive_force(current_centroid, neigh_centroid, repulsion_length)
                     if current_geometric.intersects(neigh_geometric):
                         forces[:-1] += Crowd.calculate_contact_force(current_centroid, neigh_centroid)
-                        forces[-1] += Crowd.calculate_rotational_force() * Temperature
+                        forces[-1] += Crowd.calculate_rotational_force(Temperature)
 
                 # Compute repulsive force between agent and wall
-                forces = (
-                    self.calculate_boundary_forces(forces, current_geometric, Temperature)
-                    if not self.boundaries.is_empty and not self.boundaries.contains(current_geometric)
-                    else forces
-                )
+                if not (self.boundaries.is_empty or self.boundaries.contains(current_geometric)):
+                    forces += self.calculate_boundary_forces(current_geometric, Temperature)
 
                 # Rotate pedestrian
                 if variable_orientation:
@@ -532,7 +551,7 @@ class Crowd:
                     current_agent.translate(forces[:-1][0], forces[:-1][1])
 
             # Decrease the temperature at each iteration
-            Temperature = max(0.0, Temperature - 0.1)
+            Temperature = max(0.0, Temperature - cst.ADDITIVE_COOLING)
 
         # Translate all agents and wall to get the minimum x-coordinates and minimum y-coordinates at (0., 0.)
         min_x = min(min(agent.shapes2D.get_geometric_shape().bounds[0] for agent in self.agents), self.boundaries.bounds[0])
@@ -578,18 +597,18 @@ class Crowd:
     @staticmethod
     def compute_stats(data: list[float | None], stats_key: str) -> float | None:
         """
-        Compute statistics for a given data list and stats key.
+        Compute statistics.
 
         Parameters
         ----------
-        data : list of float or None
+        data : list[float | None]
             The list of numerical values to compute statistics for.
         stats_key : str
             The type of statistic to compute ('mean', 'std_dev', 'min', 'max').
 
         Returns
         -------
-        float or None
+        float | None
             The computed statistic or None if data is empty or invalid.
         """
         # Filter out None values

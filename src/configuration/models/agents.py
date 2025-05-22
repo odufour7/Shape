@@ -1,4 +1,29 @@
-"""Defines classes to store physical attributes and geometry of agents."""
+"""Defines a class Agent to store physical attributes and geometry of agents."""
+
+# Copyright  2025  Institute of Light and Matter
+# Contributors: Oscar DUFOUR, Maxime STAPELLE, Alexandre NICOLAS
+
+# This software is a computer program designed to generate a realistic crowd from anthropometric data and
+# simulate the mechanical interactions that occur within it and with obstacles.
+
+# This software is governed by the CeCILL  license under French law and abiding by the rules of distribution
+# of free software.  You can  use, modify and/ or redistribute the software under the terms of the CeCILL
+# license as circulated by CEA, CNRS and INRIA at the following URL "http://www.cecill.info".
+
+# As a counterpart to the access to the source code and  rights to copy, modify and redistribute granted by
+# the license, users are provided only with a limited warranty  and the software's author,  the holder of the
+# economic rights,  and the successive licensors  have only  limited liability.
+
+# In this respect, the user's attention is drawn to the risks associated with loading,  using,  modifying
+# and/or developing or reproducing the software by the user in light of its specific status of free software,
+# that may mean  that it is complicated to manipulate,  and  that  also therefore means  that it is reserved
+# for developers  and  experienced professionals having in-depth computer knowledge. Users are therefore
+# encouraged to load and test the software's suitability as regards their requirements in conditions enabling
+# the security of their systems and/or data to be ensured and,  more generally, to use and operate it in the
+# same conditions as regards security.
+
+# The fact that you are presently reading this means that you have had knowledge of the CeCILL license and that
+# you accept its terms.
 
 import numpy as np
 import shapely.affinity as affin
@@ -22,8 +47,8 @@ class Agent:
     agent_type : AgentTypes
         The type of the agent.
     measures : dict[str, float | Sex] | AgentMeasures
-        The measures associated with the agent. Can be a dictionary with measure
-        names as keys and float values or Sex (Literal["male","female"]), or an AgentMeasures object.
+        The measures associated with the agent. Can be a dictionary with measure names as keys and float values
+        or Sex (Literal["male","female"]), or an AgentMeasures object.
     """
 
     def __init__(
@@ -110,10 +135,9 @@ class Agent:
         ----------
         agent_type : AgentTypes
             The type of the agent for which the measures are being initialized.
-        measures : AgentMeasures or dict[str, float | Sex]
+        measures : AgentMeasures | dict[str, float | Sex]
             The input measures. This can either be:
-                - A dictionary where keys are measure names (str) and values are their
-                corresponding values (float or Sex).
+                - A dictionary where keys are measure names (str) and values are their corresponding values (float or Sex).
                 - An instance of `AgentMeasures`.
 
         Returns
@@ -180,7 +204,7 @@ class Agent:
         Returns
         -------
         AgentType
-            The current agent type from the enumeration of valid types.
+            The current agent type from the enumeration `AgentTypes`.
         """
         return self._agent_type
 
@@ -192,8 +216,7 @@ class Agent:
         Returns
         -------
         AgentMeasures
-            Dataclass object holding all measurement parameters including
-            weight, dimensions, and biological characteristics.
+            Dataclass object holding all measurement parameters.
         """
         return self._measures
 
@@ -264,8 +287,7 @@ class Agent:
         Returns
         -------
         Shapes2D
-            Dataclass object holding all 2D shapes defining the agent's
-            spatial boundaries.
+            Dataclass object holding all 2D shapes defining the agent's spatial boundaries.
         """
         return self._shapes2D
 
@@ -276,9 +298,8 @@ class Agent:
 
         Returns
         -------
-        Shapes3D or None
-            Dataclass object holding all 3D shapes defining the agent's
-            3D features, if available. None if not set.
+        Shapes3D | None
+            Dataclass object holding all 3D shapes defining the agent's 3D features, if available. None if not set.
         """
         return self._shapes3D
 
@@ -292,12 +313,12 @@ class Agent:
         value : Shapes3D | dict[float, ShapeType | MultiPolygon]
             New 3D shape configuration. Can be:
             - Shapes3D instance: Used directly
-            - Dictionary: Shape definitions (float keys with ShapeType/MultiPolygon values)
+            - Dictionary: Shape definitions (float keys with ShapeType | MultiPolygon values)
 
         Raises
         ------
         TypeError
-            If input cannot initialize a valid Shapes3D object
+            If input cannot initialize a valid Shapes3D object.
         """
         if isinstance(value, dict):
             value = Shapes3D(agent_type=self.agent_type, shapes=value)
@@ -310,14 +331,13 @@ class Agent:
         Parameters
         ----------
         dx : float
-            Translation offset along the x-axis in centimeters units.
+            Translation offset along the x-axis (cm).
         dy : float
-            Translation offset along the y-axis in centimeters units.
+            Translation offset along the y-axis (cm).
 
         Notes
         -----
-        - Modifies all 2D shapes in place
-        - Does not affect 3D shapes (see `shapes3D` property for 3D transformations)
+        - Does not affect 3D shapes.
         """
         for name, shape in self.shapes2D.shapes.items():
             shape_object = shape["object"]
@@ -331,6 +351,10 @@ class Agent:
         ----------
         angle : float
             Rotation angle in degrees (positive for counter-clockwise).
+
+        Notes
+        -----
+        Does not affect 3D shapes.
         """
         rotation_axis = self.get_position()
         for name, shape in self.shapes2D.shapes.items():
@@ -362,16 +386,16 @@ class Agent:
         Parameters
         ----------
         dx : float
-            Displacement along x-axis in centimeter units.
+            Displacement along x-axis (cm).
         dy : float
-            Displacement along y-axis in centimeter units.
+            Displacement along y-axis (cm).
         dz : float
-            Vertical displacement along the z-axis in centimeter units, modifying height keys in shapes3D.
+            Vertical displacement along the z-axis (cm), modifying height keys in shapes3D.
 
         Raises
         ------
         ValueError
-            If shapes3D is None or contains no 3D shapes.
+            If shapes3D is None.
         """
         translated_body3D: ShapeDataType = {}
         if self.shapes3D is None:
@@ -392,7 +416,7 @@ class Agent:
         Raises
         ------
         ValueError
-            If shapes3D is None or contains no rotatable shapes.
+            If shapes3D is None.
         """
         rotated_body3D: dict[float, MultiPolygon] = {}
         centroid_body = self.get_centroid_body3D()
@@ -414,13 +438,12 @@ class Agent:
         Returns
         -------
         MultiPoint
-            The centroid of the agent's 3D body, calculated as the centroid of
-            all 3D shapes.
+            The centroid of the agent's 3D body, calculated as the centroid of all 3D shapes.
 
         Raises
         ------
         ValueError
-            If shapes3D is None or contains no 3D shapes.
+            If shapes3D is None.
         """
         centroid_body = []
         if self.shapes3D is None:
@@ -438,9 +461,8 @@ class Agent:
         Returns
         -------
         dict[str, tuple[float, float]]
-            Dictionary with shape names as keys and tuples of x and y coordinates
-            as values, representing the position vector from the agent centroid to
-            the centroid of each shape.
+            Dictionary with shape names as keys and tuples of x and y coordinates as values, representing
+            the position vector from the agent centroid to the centroid of each shape.
         """
         if self.agent_type != cst.AgentTypes.pedestrian:
             raise ValueError("It does not make sense to use the 'get_delta_GtoGi' function for agents other than pedestrians.")
@@ -461,7 +483,7 @@ class Agent:
         Returns
         -------
         float
-            The angle of the agent in degrees.
+            The orientation of the agent in degrees.
         """
         if self.agent_type == cst.AgentTypes.pedestrian:
             delta_GtoGi: dict[str, tuple[float, float]] = self.get_delta_GtoGi()

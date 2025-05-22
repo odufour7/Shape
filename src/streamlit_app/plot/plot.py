@@ -1,7 +1,32 @@
-"""Contains functions to plot the geometric shapes of the pedestrian and the crowd."""
+"""Contains functions to plot the geometric shapes of the pedestrian, the crowd and the anthropometric data."""
+
+# Copyright  2025  Institute of Light and Matter
+# Contributors: Oscar DUFOUR, Maxime STAPELLE, Alexandre NICOLAS
+
+# This software is a computer program designed to generate a realistic crowd from anthropometric data and
+# simulate the mechanical interactions that occur within it and with obstacles.
+
+# This software is governed by the CeCILL  license under French law and abiding by the rules of distribution
+# of free software.  You can  use, modify and/ or redistribute the software under the terms of the CeCILL
+# license as circulated by CEA, CNRS and INRIA at the following URL "http://www.cecill.info".
+
+# As a counterpart to the access to the source code and  rights to copy, modify and redistribute granted by
+# the license, users are provided only with a limited warranty  and the software's author,  the holder of the
+# economic rights,  and the successive licensors  have only  limited liability.
+
+# In this respect, the user's attention is drawn to the risks associated with loading,  using,  modifying
+# and/or developing or reproducing the software by the user in light of its specific status of free software,
+# that may mean  that it is complicated to manipulate,  and  that  also therefore means  that it is reserved
+# for developers  and  experienced professionals having in-depth computer knowledge. Users are therefore
+# encouraged to load and test the software's suitability as regards their requirements in conditions enabling
+# the security of their systems and/or data to be ensured and,  more generally, to use and operate it in the
+# same conditions as regards security.
+
+# The fact that you are presently reading this means that you have had knowledge of the CeCILL license and that
+# you accept its terms.
 
 import logging
-from typing import Literal, Optional
+from typing import Optional
 
 import cmcrameri as cram
 import matplotlib.colors as mcolors
@@ -47,10 +72,8 @@ def display_shape2D(agents: list[Agent]) -> go.Figure:
     Notes
     -----
     - If an agent's shape is a `Polygon`, it is directly plotted with its exterior boundary.
-    - If an agent's shape is a `MultiPolygon`, each individual polygon in the collection
-      is plotted separately.
-    - The centroid of each shape (or collection of shapes) is computed and annotated
-      with the corresponding agent's ID.
+    - If an agent's shape is a `MultiPolygon`, each individual polygon in the collection is plotted separately.
+    - The centroid of each shape (or collection of shapes) is computed and annotated with the corresponding agent's ID.
     """
     # Initialize a Plotly figure
     fig = go.Figure()
@@ -149,13 +172,13 @@ def display_body3D_orthogonal_projection(
     agent: Agent, extra_info: Optional[tuple[DeltaGenerator, DeltaGenerator]] = None
 ) -> mfig.Figure:
     """
-    Visualize the orthogonal projection of a pedestrian's 3D body using Matplotlib.
+    Generate a matplotlib figure showing the orthogonal projection of a pedestrian's 3D body.
 
     Parameters
     ----------
     agent : Agent
         An Agent object with 3D shapes accessible via `agent.shapes3D.shapes`,
-        where keys are heights (as strings) and values are `MultiPolygon`.
+        where keys are heights as float and values are MultiPolygon.
     extra_info : tuple[DeltaGenerator, DeltaGenerator], optional
         A tuple containing:
             - DeltaGenerator: Streamlit object for updating the progress bar.
@@ -164,7 +187,7 @@ def display_body3D_orthogonal_projection(
     Returns
     -------
     matplotlib.figure.Figure
-        Matplotlib figure showing the orthogonal projection of the pedestrian's body.
+        Matplotlib figure showing the orthogonal projection of the pedestrian's 3D body.
 
     Raises
     ------
@@ -219,55 +242,9 @@ def display_body3D_orthogonal_projection(
     return fig
 
 
-def compute_range(agent: Agent, axis: Literal["x", "y"]) -> float:
-    """
-    Compute the range (maximum - minimum) of coordinates along a given axis for an agent's 3D shapes.
-
-    Parameters
-    ----------
-    agent : Agent
-        The agent object containing 3D shape information.
-    axis : Literal["x", "y"]
-        The axis along which to compute the range.
-
-    Returns
-    -------
-    float
-        The range (maximum - minimum) of coordinates along the specified axis.
-
-    Raises
-    ------
-    ValueError
-        If the axis is not 'x' or 'y', if agent.shapes3D or agent.shapes3D.shapes is None,
-        or if any shape in agent.shapes3D.shapes is not a MultiPolygon.
-    """
-    # Check if axis is either "x" or "y"
-    if axis not in ("x", "y"):
-        raise ValueError("Axis must be 'x' or 'y'")
-
-    # Check if the agent's 3D shapes are available
-    if agent.shapes3D is None or agent.shapes3D.shapes is None:
-        raise ValueError("agent.shapes3D or agent.shapes3D.shapes is None")
-
-    # Put the coordinates in a list
-    coord_index = 0 if axis == "x" else 1
-    coordinates: list[float] = []
-    for multi_polygon in agent.shapes3D.shapes.values():
-        # Check if multi_polygon is of type MultiPolygon
-        if not isinstance(multi_polygon, MultiPolygon):
-            raise ValueError("multi_polygon is not a MultiPolygon")
-
-        # Extract coordinates for the given axis from all polygons
-        coordinates.extend(coord[coord_index] for polygon in multi_polygon.geoms for coord in polygon.exterior.coords)
-
-    # Compute the range of values (maximum-minimum)
-    xy_range: float = np.ptp(coordinates)
-    return xy_range
-
-
 def display_body3D_polygons(agent: Agent, extra_info: Optional[tuple[DeltaGenerator, DeltaGenerator]] = None) -> go.Figure:
     """
-    Display a 3D representation of an agent body from the polygons that constitute it.
+    Generate a Plotly figure object of a 3D representation of an agent body from the polygons that constitute it.
 
     Parameters
     ----------
@@ -281,7 +258,7 @@ def display_body3D_polygons(agent: Agent, extra_info: Optional[tuple[DeltaGenera
     Returns
     -------
     go.Figure
-        A Plotly figure object representing the 3D body polygons.
+        A Plotly figure object representing the 3D body made of polygons.
 
     Raises
     ------
@@ -337,8 +314,8 @@ def display_body3D_polygons(agent: Agent, extra_info: Optional[tuple[DeltaGenera
             )
 
     # Determine the maximum range for equal scaling
-    x_range = compute_range(agent, axis="x")
-    y_range = compute_range(agent, axis="y")
+    x_range = fun.compute_range(agent, axis="x")
+    y_range = fun.compute_range(agent, axis="y")
     z_range = max_height - min_height
     max_range = max(x_range, y_range, z_range)
 
@@ -369,16 +346,15 @@ def display_body3D_mesh(
     agent: Agent, precision: int = 40, extra_info: Optional[tuple[DeltaGenerator, DeltaGenerator]] = None
 ) -> go.Figure:
     """
-    Draw a continuous 3D mesh connecting contours at different heights.
+    Generate a Plotly figure object of a continuous 3D mesh connecting contours at different heights.
 
     This function generates a smooth 3D mesh visualization of an agent by connecting shape contours
-    at various heights using Plotly's Mesh3d. It fills missing triangles and smooths the mesh surface
-    for improved visualization.
+    at various heights using Plotly's Mesh3d. It fills missing triangles and smooths the mesh surface.
 
     Parameters
     ----------
     agent : Agent
-        An instance of the Agent class containing 3D shape data (agent.shapes3D).
+        An instance of the Agent class containing 3D shape data.
     precision : int, optional
         The number of layers to be displayed in the mesh.
     extra_info : tuple[DeltaGenerator, DeltaGenerator], optional
@@ -544,7 +520,7 @@ def display_body3D_mesh(
 
 def display_crowd2D(crowd: Crowd) -> mfig.Figure:
     """
-    Display a 2D plot of a crowd of agents.
+    Generate a matplotlib figure object of a crowd of agents in 2D.
 
     Parameters
     ----------
@@ -647,13 +623,12 @@ def display_crowd2D(crowd: Crowd) -> mfig.Figure:
 
 def display_crowd3D_slices_by_slices(crowd: Crowd) -> go.Figure:
     """
-    Visualize a 3D crowd as layers of 2D polygons.
+    Generate an animated Plotly figure of a 3D crowd made of layers of 2D polygons at different altitutde.
 
-    For a given set of heights, this function plots all polygons at that height.
-    For a given agent, if not polygon, then the polygon with the nearest height is shown.
-    No interpolation is performed. The result is an animated Plotly figure, where each
-    animation frame corresponds to a different height or "slice" of the crowd.
-    A slider allows interactive exploration of the crowd's cross-sections at various heights.
+    For a given set of altitutdes, this function plots all polygons at that altitutde. If there is not a
+    polygon for a given agent at that specific altitude, then the polygon with the nearest altitutde is shown.
+    No interpolation is performed. The result is an animated Plotly figure, where each animation frame
+    corresponds to a different altitude.
 
     Parameters
     ----------
@@ -663,9 +638,8 @@ def display_crowd3D_slices_by_slices(crowd: Crowd) -> go.Figure:
     Returns
     -------
     go.Figure
-        An animated Plotly figure with a slider to select the height. Each frame displays
-        all polygons of all agents at a given height. Polygon color encodes agent area.
-        Agent indices are labeled at their centroid.
+        An animated Plotly figure with a slider to select the altitutde. Each frame displays all polygons of
+        all agents at a given altitutde. Polygon color encodes agent area. Agent indices are labeled at their centroid.
     """
     # Normalize color by 2D area
     norm = Normalize(
@@ -841,23 +815,17 @@ def display_crowd3D_slices_by_slices(crowd: Crowd) -> go.Figure:
 
 def display_crowd3D_whole_3Dscene(crowd: Crowd) -> go.Figure:
     """
-    Visualize a 3D crowd as a single animated mesh.
-
-    This function generates a 3D mesh visualization of a crowd of agents,
-    where each agent's body is represented as a mesh. The mesh is animated
-    to show the crowd in a 3D scene.
+    Generate a 3D Plotly figure of a 3D crowd.
 
     Parameters
     ----------
     crowd : Crowd
-        The crowd object containing agents. Each agent is expected to have
-        a `shapes3D.shapes` dictionary mapping heights (float or int) to
-        Shapely Polygon or MultiPolygon objects.
+        The crowd object containing agents.
 
     Returns
     -------
     plotly.graph_objects.Figure
-        A Plotly figure object representing the animated 3D mesh of the crowd.
+        A Plotly figure object representing the 3D crowd.
     """
     norm = Normalize(
         vmin=min(agent.shapes2D.get_area() for agent in crowd.agents),
@@ -947,25 +915,24 @@ def display_crowd3D_whole_3Dscene(crowd: Crowd) -> go.Figure:
 
 def display_distribution(df: pd.DataFrame, column: str) -> go.Figure:
     """
-    Display the distribution of a specified column in a DataFrame, separated by sex.
+    Generate a Plotly figure of the distribution of a specified DataFrame column as overlaid histograms for each sex.
 
     Parameters
     ----------
     df : pd.DataFrame
-        The DataFrame containing the data. Must include a 'sex' column for grouping.
+        DataFrame containing the data. Must include a 'sex' column.
     column : str
-        The name of the column for which the distribution is to be displayed.
+        Name of the column to plot.
 
     Returns
     -------
     go.Figure
-        A Plotly Figure object displaying the histograms.
+        Plotly Figure object with overlaid histograms for males and females.
 
     Raises
     ------
     ValueError
-        If the specified column is not found in the DataFrame.
-        If the 'sex' column is not found in the DataFrame.
+        If the specified column or the 'sex' column is not found in the DataFrame.
     """
     # Convert the column name to lowercase for case-insensitive matching
     column = column.lower()

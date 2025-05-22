@@ -1,4 +1,29 @@
-"""Contains functions to save the crowd data in dictionary format."""
+"""Contains functions to represent the crowd data in dictionary format."""
+
+# Copyright  2025  Institute of Light and Matter
+# Contributors: Oscar DUFOUR, Maxime STAPELLE, Alexandre NICOLAS
+
+# This software is a computer program designed to generate a realistic crowd from anthropometric data and
+# simulate the mechanical interactions that occur within it and with obstacles.
+
+# This software is governed by the CeCILL  license under French law and abiding by the rules of distribution
+# of free software.  You can  use, modify and/ or redistribute the software under the terms of the CeCILL
+# license as circulated by CEA, CNRS and INRIA at the following URL "http://www.cecill.info".
+
+# As a counterpart to the access to the source code and  rights to copy, modify and redistribute granted by
+# the license, users are provided only with a limited warranty  and the software's author,  the holder of the
+# economic rights,  and the successive licensors  have only  limited liability.
+
+# In this respect, the user's attention is drawn to the risks associated with loading,  using,  modifying
+# and/or developing or reproducing the software by the user in light of its specific status of free software,
+# that may mean  that it is complicated to manipulate,  and  that  also therefore means  that it is reserved
+# for developers  and  experienced professionals having in-depth computer knowledge. Users are therefore
+# encouraged to load and test the software's suitability as regards their requirements in conditions enabling
+# the security of their systems and/or data to be ensured and,  more generally, to use and operate it in the
+# same conditions as regards security.
+
+# The fact that you are presently reading this means that you have had knowledge of the CeCILL license and that
+# you accept its terms.
 
 import itertools
 from collections import defaultdict
@@ -33,7 +58,7 @@ def get_light_agents_params(current_crowd: Crowd) -> StaticCrowdDataType:
 
     Returns
     -------
-    CrowdDataType
+    StaticCrowdDataType
         A dictionary containing agent data for all agents in the crowd.
     """
     crowd_dict: StaticCrowdDataType = {
@@ -71,7 +96,7 @@ def get_static_params(current_crowd: Crowd) -> StaticCrowdDataType:
     Returns
     -------
     StaticCrowdDataType
-        Static parameters of all agents in a nested dictionary format.
+        Static parameters of all agents in the crowd.
     """
     crowd_dict: StaticCrowdDataType = {"Agents": defaultdict(dict)}
 
@@ -129,7 +154,7 @@ def get_dynamic_params(current_crowd: Crowd) -> DynamicCrowdDataType:
     Returns
     -------
     DynamicCrowdDataType
-        Dynamical parameters of all agents.
+        Dynamical parameters for all agents in the crowd.
     """
     dynamical_parameters_crowd: DynamicCrowdDataType = {
         "Agents": {
@@ -174,8 +199,7 @@ def get_geometry_params(current_crowd: Crowd) -> GeometryDataType:
     Returns
     -------
     GeometryDataType
-        A dictionary containing the geometric parameters of the boundaries,
-        including dimensions (Lx and Ly) and wall corner data.
+        A dictionary containing the geometric parameters of the boundaries, including dimensions (Lx and Ly) and wall corner data.
     """
     # Ensure current_crowd.boundaries is a Polygon
     if not isinstance(current_crowd.boundaries, Polygon):
@@ -240,7 +264,7 @@ def get_interactions_params(current_crowd: Crowd) -> InteractionsDataType:
     Returns
     -------
     InteractionsDataType
-        A dictionary containing the parameters for agent interactions, structured to be saved as XML.
+        A dictionary containing the parameters for agent interactions.
     """
     interactions_dict: InteractionsDataType = {"Interactions": defaultdict(dict)}
 
@@ -286,7 +310,7 @@ def get_interactions_params(current_crowd: Crowd) -> InteractionsDataType:
 
 def get_materials_params() -> MaterialsDataType:
     """
-    Get the parameters of the materials.
+    Retrieve the parameters of the materials.
 
     Returns
     -------

@@ -1,4 +1,29 @@
-"""2D pedestrian visualization tab."""
+"""2D agent visualization tab."""
+
+# Copyright  2025  Institute of Light and Matter
+# Contributors: Oscar DUFOUR, Maxime STAPELLE, Alexandre NICOLAS
+
+# This software is a computer program designed to generate a realistic crowd from anthropometric data and
+# simulate the mechanical interactions that occur within it and with obstacles.
+
+# This software is governed by the CeCILL  license under French law and abiding by the rules of distribution
+# of free software.  You can  use, modify and/ or redistribute the software under the terms of the CeCILL
+# license as circulated by CEA, CNRS and INRIA at the following URL "http://www.cecill.info".
+
+# As a counterpart to the access to the source code and  rights to copy, modify and redistribute granted by
+# the license, users are provided only with a limited warranty  and the software's author,  the holder of the
+# economic rights,  and the successive licensors  have only  limited liability.
+
+# In this respect, the user's attention is drawn to the risks associated with loading,  using,  modifying
+# and/or developing or reproducing the software by the user in light of its specific status of free software,
+# that may mean  that it is complicated to manipulate,  and  that  also therefore means  that it is reserved
+# for developers  and  experienced professionals having in-depth computer knowledge. Users are therefore
+# encouraged to load and test the software's suitability as regards their requirements in conditions enabling
+# the security of their systems and/or data to be ensured and,  more generally, to use and operate it in the
+# same conditions as regards security.
+
+# The fact that you are presently reading this means that you have had knowledge of the CeCILL license and that
+# you accept its terms.
 
 from datetime import datetime
 from pathlib import Path
@@ -16,12 +41,6 @@ def init_session_state() -> AgentMeasures:
     """
     Initialize session state variables for different agent types (pedestrian or bike).
 
-    Attributes
-    ----------
-    - `st.session_state.agent_type_measures`: Stores the selected agent type.
-    - `st.session_state.current_agent`: Stores the initialized `Agent` object for the selected agent type.
-    - `st.session_state.agent_type`: Stores the name of the selected agent type.
-
     Returns
     -------
     AgentMeasures
@@ -29,11 +48,8 @@ def init_session_state() -> AgentMeasures:
 
     Notes
     -----
-    - For pedestrians, default measures include attributes like sex, bideltoid breadth,
-      chest depth, height, and weight.
-    - For bikes, default measures include attributes like wheel width, total length,
-      handlebar length, top tube length, and weight.
-    - The function uses Streamlit's `st.sidebar.radio` to allow users to select the agent type.
+    - For pedestrians, default measures include the attributes sex, bideltoid breadth, chest depth, height, and weight.
+    - For bikes, default measures include the attributes wheel width, total length, handlebar length, top tube length, and weight.
     """
     agent_type: str = st.sidebar.radio(
         "Agent type",
@@ -189,8 +205,8 @@ def sliders_for_position() -> tuple[float, float, float]:
     -------
     tuple[float, float, float]
         A tuple containing:
-        - `x_translation` (float): The translation along the X-axis in centimeters.
-        - `y_translation` (float): The translation along the Y-axis in centimeters.
+        - `x_translation` (float): The translation along the X-axis (cm).
+        - `y_translation` (float): The translation along the Y-axis (cm).
         - `rotation_angle` (float): The rotation angle in degrees.
     """
     x_translation = st.sidebar.slider(
@@ -217,11 +233,10 @@ def run_tab_agent2D() -> None:
     ----------
     Sidebar:
         - Agent type selection.
-        - Sliders for anthropometric parameters (e.g., measures).
-        - Sliders for position and rotation.
+        - Sliders for anthropometric parameters.
     Main Page:
         - Visualization of the 2D agent shape.
-        - Display of current agent measures with corresponding images.
+        - Displays an image illustrating the definitions of the current agent's measurements.
     """
     st.sidebar.header("Select agent type")
 
@@ -256,14 +271,14 @@ def run_tab_agent2D() -> None:
         st.subheader("Current agent measures")
         if st.session_state.agent_type_measures == cst.AgentTypes.pedestrian:
             path_file = Path(__file__).parent.parent.parent.parent / "data" / "images"
-            st.image(path_file / "measures_pedestrian.png", use_container_width=True)
+            st.image(str(path_file / "measures_pedestrian.png"), use_column_width=True)
         elif st.session_state.agent_type_measures == cst.AgentTypes.bike:
             path_file = Path(__file__).parent.parent.parent.parent / "data" / "images"
             st.text(" ")
             st.text(" ")
             st.text(" ")
             st.text(" ")
-            st.image(path_file / "measures_bike.png", use_container_width=True)
+            st.image(str(path_file / "measures_bike.png"), use_column_width=True)
 
     st.sidebar.header("Download")
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")

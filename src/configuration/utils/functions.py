@@ -1,5 +1,30 @@
 """Contains utility functions for data processing and manipulation."""
 
+# Copyright  2025  Institute of Light and Matter
+# Contributors: Oscar DUFOUR, Maxime STAPELLE, Alexandre NICOLAS
+
+# This software is a computer program designed to generate a realistic crowd from anthropometric data and
+# simulate the mechanical interactions that occur within it and with obstacles.
+
+# This software is governed by the CeCILL  license under French law and abiding by the rules of distribution
+# of free software.  You can  use, modify and/ or redistribute the software under the terms of the CeCILL
+# license as circulated by CEA, CNRS and INRIA at the following URL "http://www.cecill.info".
+
+# As a counterpart to the access to the source code and  rights to copy, modify and redistribute granted by
+# the license, users are provided only with a limited warranty  and the software's author,  the holder of the
+# economic rights,  and the successive licensors  have only  limited liability.
+
+# In this respect, the user's attention is drawn to the risks associated with loading,  using,  modifying
+# and/or developing or reproducing the software by the user in light of its specific status of free software,
+# that may mean  that it is complicated to manipulate,  and  that  also therefore means  that it is reserved
+# for developers  and  experienced professionals having in-depth computer knowledge. Users are therefore
+# encouraged to load and test the software's suitability as regards their requirements in conditions enabling
+# the security of their systems and/or data to be ensured and,  more generally, to use and operate it in the
+# same conditions as regards security.
+
+# The fact that you are presently reading this means that you have had knowledge of the CeCILL license and that
+# you accept its terms.
+
 import csv
 import io
 import pickle
@@ -22,9 +47,6 @@ def load_pickle(file_path: str) -> Any:
     """
     Load data from a pickle file.
 
-    This function deserializes and loads data from a specified pickle file.
-    Pickle files are commonly used to store Python objects in a serialized format.
-
     Parameters
     ----------
     file_path : str
@@ -33,8 +55,8 @@ def load_pickle(file_path: str) -> Any:
     Returns
     -------
     Any
-        The deserialized data loaded from the pickle file. The type of the
-        returned object depends on what was serialized into the pickle file.
+        The deserialized data loaded from the pickle file. The type of the returned object depends
+        on what was serialized into the pickle file (e.g. list[float], NDArray[np.float64] etc.).
 
     Raises
     ------
@@ -59,17 +81,16 @@ def save_pickle(data: Any, file_path: Path) -> None:
     Parameters
     ----------
     data : Any
-        The data to be serialized and saved. This can be any Python object
-        that is supported by the `pickle` module.
+        The data to be serialized and saved. This can be any Python object that is supported by the pickle module.
     file_path : Path
-        A `Path` object representing the path where the pickle file will be saved.
+        A Path object representing the path where the pickle file will be saved.
 
     Raises
     ------
     TypeError
-        If `file_path` is not a `Path` object.
+        If file_path is not a Path object.
     FileNotFoundError
-        If the directory for `file_path` does not exist.
+        If the directory for file_path does not exist.
     """
     if not isinstance(file_path, Path):
         raise TypeError("file_path must be a Path object.")
@@ -86,7 +107,7 @@ def load_csv(filename: Path) -> pd.DataFrame:
     Parameters
     ----------
     filename : Path
-        A `Path` object representing the path to the CSV file to be loaded.
+        A Path object representing the path to the CSV file to be loaded.
 
     Returns
     -------
@@ -96,11 +117,11 @@ def load_csv(filename: Path) -> pd.DataFrame:
     Raises
     ------
     TypeError
-        If `filename` is not a `Path` object.
+        If filename is not a Path object.
     FileNotFoundError
         If the specified file does not exist.
     ValueError
-        If the file does not have a `.csv` extension.
+        If the file does not have a .csv extension.
     """
     if not isinstance(filename, Path):
         raise TypeError("filename must be a Path object.")
@@ -117,9 +138,8 @@ def get_csv_buffer(data_dict: dict[str, list[float | None]]) -> str:
 
     Parameters
     ----------
-    data_dict : dict of str to list of float or None
-        The dictionary containing the data to be saved. Keys are strings, values are lists of floats or None.
-        If a value is None, it will be written as an empty cell in the CSV.
+    data_dict : dict[str, list[float | None]]
+        The dictionary containing the data to be saved. If a value is None, it will be written as an empty cell in the CSV.
 
     Returns
     -------
@@ -168,16 +188,15 @@ def draw_from_trunc_normal(mean: float, std_dev: float, min_val: float, max_val:
     """
     Draw a sample from a truncated normal distribution.
 
-    This function generates a random sample from a normal distribution that is truncated
-    within the range [`min_val`, `max_val`]. The truncation ensures that the sample lies
-    within the specified bounds.
+    This function generates a random sample from a normal distribution that is truncated within the
+    range [min_val, max_val]. The truncation ensures that the sample lies within the specified bounds.
 
     Parameters
     ----------
     mean : float
-        The mean (center) of the normal distribution.
+        The mean of the normal distribution.
     std_dev : float
-        The standard deviation (spread) of the normal distribution.
+        The standard deviation of the normal distribution.
     min_val : float
         The lower bound of the truncated normal distribution.
     max_val : float
@@ -191,8 +210,7 @@ def draw_from_trunc_normal(mean: float, std_dev: float, min_val: float, max_val:
     Raises
     ------
     ValueError
-        If `std_dev` is less than or equal to zero, or if `min_val` is greater than or equal
-        to `max_val`.
+        If std_dev is less than or equal to zero, or if min_val is greater than or equal to max_val.
     """
     if std_dev <= 0:
         raise ValueError("Standard deviation must be greater than zero.")
@@ -210,22 +228,22 @@ def draw_from_trunc_normal(mean: float, std_dev: float, min_val: float, max_val:
 
 def draw_sex(p: float) -> Sex:
     """
-    Randomly draw a sex ("male" or "female") based on the input proportion of "male".
+    Randomly draw a sex (`male` or `female`) based on the input proportion of `male`.
 
     Parameters
     ----------
     p : float
-        A proportion value between 0 and 1 (inclusive), representing the likelihood of selecting "male".
+        A proportion value in [0,1], representing the probability of selecting `male`.
 
     Returns
     -------
     Sex
-        "male" if a randomly generated number is less than `p`; otherwise, "female".
+        `male` if a randomly generated number is less than `p`; otherwise, `female`.
 
     Raises
     ------
     ValueError
-        If the probability `p` is not between 0 and 1 (inclusive).
+        If the probability `p` is not in [0,1].
     """
     # Check if the probability is between 0 and 1
     if not 0 <= p <= 1:
@@ -237,28 +255,19 @@ def draw_sex(p: float) -> Sex:
 
 def cross2d(Pn: NDArray[np.float64], Pn1: NDArray[np.float64]) -> float:
     """
-    Compute the 2D cross product of two vectors.
+    Compute the 2D cross product of two vectors defined as `Pn[0] * Pn1[1] - Pn[1] * Pn1[0]`.
 
     Parameters
     ----------
     Pn : NDArray[np.float64]
-        A 1D NumPy array of shape (2,) representing the first 2D vector
-        in the form [x, y].
+        A 1D NumPy array of shape (2,) representing the first 2D vector in the form [x, y].
     Pn1 : NDArray[np.float64]
-        A 1D NumPy array of shape (2,) representing the second 2D vector
-        in the form [x, y].
+        A 1D NumPy array of shape (2,) representing the second 2D vector in the form [x, y].
 
     Returns
     -------
     float
-        The magnitude of the perpendicular vector to the plane formed by the input vectors.
-
-    Notes
-    -----
-    - The 2D cross product is defined as:
-      `Pn[0] * Pn1[1] - Pn[1] * Pn1[0]`
-      This operation computes a scalar rather than a vector, as it is
-      specific to 2D vectors.
+        The magnitude of the resulting perpendicular vector to the plane formed by the input vectors.
     """
     return float(Pn[0] * Pn1[1] - Pn[1] * Pn1[0])
 
@@ -271,24 +280,23 @@ def compute_moment_of_inertia(geometric_shape: Polygon | MultiPolygon, weight: f
     represented as a polygon based on its vertices and weight. The calculation
     is performed using the second moment of area formula, assuming the polygon
     is in the XY-plane. For more details on the second moment of area, refer to:
-    https://en.wikipedia.org/wiki/Second_moment_of_area
+    https://en.wikipedia.org/wiki/Second_moment_of_area.
 
     Parameters
     ----------
     geometric_shape : Polygon | MultiPolygon
-        The geometrical representation as a shapely Polygon or MultiPolygon object. Units: cm.
+        The geometrical representation as a shapely Polygon or MultiPolygon object (cm).
     weight : float
-        The mass or weight of the shape in kilograms (kg).
+        The agent weight (kg).
 
     Returns
     -------
     float
-        The computed moment of inertia for the shape in kg·m².
+        The computed moment of inertia for the shape (kg·m²).
 
     Notes
     -----
-    - For the MultiPolygon case, the function computes the moment of inertia
-      for each polygon and sums them up, weighted by their respective areas.
+    For the MultiPolygon case, it computes the moment of inertia for each polygon and sums them up, weighted by their respective areas.
     """
 
     def polygon_inertia(polygon: Polygon, poly_weight: float) -> float:
@@ -298,14 +306,14 @@ def compute_moment_of_inertia(geometric_shape: Polygon | MultiPolygon, weight: f
         Parameters
         ----------
         polygon : Polygon
-            The geometrical representation as a shapely Polygon object. Units: cm.
+            The geometrical representation as a Polygon object (cm).
         poly_weight : float
-            The mass or weight of the polygon in kilograms (kg).
+            The agent weight (kg).
 
         Returns
         -------
         float
-            The computed moment of inertia for the polygon in kg·m².
+            The moment of inertia of the polygon (kg·m²).
         """
         vertices = np.array(polygon.exterior.coords)
         centroid = np.array(polygon.centroid.coords[0])
@@ -344,11 +352,6 @@ def validate_material(material: str) -> None:
     ----------
     material : str
         The material name to validate.
-
-    Raises
-    ------
-    ValueError
-        If the material is not in MaterialNames.
     """
     if material not in cst.MaterialNames.__members__:
         raise ValueError(f"Material '{material}' is not supported. Expected one of: {list(cst.MaterialNames.__members__.keys())}.")
@@ -386,21 +389,20 @@ def compute_bideltoid_breadth_from_multipolygon(multi_polygon: MultiPolygon) -> 
     """
     Compute the largest horizontal distance (bideltoid breadth) between points in a MultiPolygon object.
 
-    Only pairs of points with almost the same y-coordinate are considered.
-
     Parameters
     ----------
     multi_polygon : MultiPolygon
-        A Shapely MultiPolygon object.
+        A MultiPolygon object.
 
     Returns
     -------
     float
-        The largest horizontal distance.
+        The largest horizontal distance (bideltoid breadth).
 
     Notes
     -----
-    This function assumes that the input is a MultiPolygon object coming from the body3D of a pedestrian that has not been rotated.
+    To accelerate that function, only pairs of points with almost the same y-coordinate are considered.
+    Therefore it is assumed that the input is a MultiPolygon object coming from the body3D of a pedestrian that has not been rotated.
     """
     if not isinstance(multi_polygon, MultiPolygon):
         raise ValueError("Input must be a Shapely MultiPolygon object.")
@@ -436,12 +438,10 @@ def compute_chest_depth_from_multipolygon(multi_polygon: MultiPolygon) -> float:
     """
     Compute the largest vertical distance (chest depth) in a MultiPolygon object.
 
-    Only pairs of points with similar x-coordinates are considered.
-
     Parameters
     ----------
     multi_polygon : MultiPolygon
-        A Shapely MultiPolygon object.
+        A MultiPolygon object.
 
     Returns
     -------
@@ -450,7 +450,8 @@ def compute_chest_depth_from_multipolygon(multi_polygon: MultiPolygon) -> float:
 
     Notes
     -----
-    This function assumes that the input is a MultiPolygon object coming from the body3D of a pedestrian that has not been rotated.
+    To accelerate that function, only pairs of points with almost the same x-coordinate are considered.
+    Therefore it is assumed that the input is a MultiPolygon object coming from the body3D of a pedestrian that has not been rotated.
     """
     if not isinstance(multi_polygon, MultiPolygon):
         raise ValueError("Input must be a Shapely MultiPolygon object.")
@@ -499,7 +500,7 @@ def from_string_to_tuple(string: str) -> tuple[float, float]:
     Raises
     ------
     ValueError
-        If the string is not in the expected format.
+        If `string` is not in the expected format.
     """
     if not isinstance(string, str):
         raise ValueError("Input must be a string.")
@@ -511,7 +512,7 @@ def from_string_to_tuple(string: str) -> tuple[float, float]:
 
     parts = [x.strip() for x in s.split(",")]
     if len(parts) != 2:
-        raise ValueError("String must contain exactly two numbers separated by a comma.")
+        raise ValueError("`string` must contain exactly two numbers separated by a comma.")
 
     try:
         return float(parts[0]), float(parts[1])
@@ -526,9 +527,9 @@ def sigmoid(x: float, smoothing: float) -> float:
     Parameters
     ----------
     x : float
-        The input value.
-    smoothing : float, optional
-        Smoothing parameter to scale the input.
+        Input value.
+    smoothing : float
+        Smoothing parameter.
 
     Returns
     -------
@@ -548,18 +549,18 @@ def sigmoid(x: float, smoothing: float) -> float:
     return float(z / (1.0 + z))
 
 
-def rectangular_function(scale_xy: float, height: float, sex: Sex | str) -> float:
+def rectangular_function(height: float, scale_xy: float, sex: Sex | str) -> float:
     """
-    Compute the value of a rectangular function based on scale, height, and sex.
+    Compute the value of a door function evaluated in height, based on scale, and sex parameters.
 
     Parameters
     ----------
+    height : float
+        The variable of the function.
     scale_xy : float
         The scale parameter for the rectangular function.
-    height : float
-        The height parameter for the rectangular function.
     sex : Sex or str
-        The sex, either as a Sex enum or string ("male" or "female").
+        The sex of a pedestrian, either as a Sex enum or string ("male" or "female").
 
     Returns
     -------
@@ -601,18 +602,17 @@ def direction_of_longest_side(polygon: Polygon) -> float:
     """
     Compute the direction (in degrees) of the longest side of a 4-vertex polygon.
 
-    The direction is measured from the first vertex of the side to the second,
-    relative to the positive x-axis.
+    The direction is measured from the first vertex of the side to the second, relative to the positive x-axis.
 
     Parameters
     ----------
-    polygon : shapely.geometry.Polygon
-        A polygon with 4 vertices.
+    polygon : Polygon
+        A Polygon object.
 
     Returns
     -------
     float
-        The direction of the longest side, in degrees (0-360).
+        The direction of the longest side, in degrees [0-360).
     """
     coords = np.array(polygon.exterior.coords[:-1])  # Exclude the repeated last point
     assert coords.shape[0] == 4, "Polygon must have exactly 4 vertices."

@@ -1,5 +1,30 @@
 """Contains functions to download and prepare the data."""
 
+# Copyright  2025  Institute of Light and Matter
+# Contributors: Oscar DUFOUR, Maxime STAPELLE, Alexandre NICOLAS
+
+# This software is a computer program designed to generate a realistic crowd from anthropometric data and
+# simulate the mechanical interactions that occur within it and with obstacles.
+
+# This software is governed by the CeCILL  license under French law and abiding by the rules of distribution
+# of free software.  You can  use, modify and/ or redistribute the software under the terms of the CeCILL
+# license as circulated by CEA, CNRS and INRIA at the following URL "http://www.cecill.info".
+
+# As a counterpart to the access to the source code and  rights to copy, modify and redistribute granted by
+# the license, users are provided only with a limited warranty  and the software's author,  the holder of the
+# economic rights,  and the successive licensors  have only  limited liability.
+
+# In this respect, the user's attention is drawn to the risks associated with loading,  using,  modifying
+# and/or developing or reproducing the software by the user in light of its specific status of free software,
+# that may mean  that it is complicated to manipulate,  and  that  also therefore means  that it is reserved
+# for developers  and  experienced professionals having in-depth computer knowledge. Users are therefore
+# encouraged to load and test the software's suitability as regards their requirements in conditions enabling
+# the security of their systems and/or data to be ensured and,  more generally, to use and operate it in the
+# same conditions as regards security.
+
+# The fact that you are presently reading this means that you have had knowledge of the CeCILL license and that
+# you accept its terms.
+
 import logging
 from pathlib import Path
 from typing import get_args
@@ -78,9 +103,8 @@ def prepare_anthropometric_data(data_dir_path: Path) -> None:
     """
     Prepare and save anthropometric data as a pickle file.
 
-    This function reads anthropometric data for both males and females,
-    combines them into a single DataFrame, and saves the result as a
-    pickle file for efficient future access.
+    This function reads anthropometric data for both males and females, combines them into a single DataFrame,
+    and saves the result as a pickle file for efficient future access.
 
     Parameters
     ----------
@@ -103,11 +127,6 @@ def prepare_bike_data(data_dir_path: Path) -> None:
     ----------
     data_dir_path : Path
         The path to the root data directory containing "csv" and "pkl" subdirectories.
-
-    Raises
-    ------
-    FileNotFoundError
-        If the specified CSV file does not exist in the data directory.
     """
     df = pd.read_csv(data_dir_path / "csv" / "geometrics.mtb-news.de.csv", sep=";")
     fun.save_pickle(df, data_dir_path / "pkl" / "bike_data.pkl")
@@ -121,6 +140,7 @@ def prepare_data() -> None:
     initiates the data preparation process. It performs the following steps:
     1. Prepares anthropometric data by calling `prepare_anthropometric_data()`.
     2. Prepares bike data by calling `prepare_bike_data()`.
+    3. Prepares 3D body data by calling `prepare_3D_body_data()`.
     """
     data_dir_path = Path(__file__).parent.parent.parent.parent.absolute() / "data"
     if (
@@ -139,18 +159,28 @@ def prepare_data() -> None:
 
 def prepare_3D_body_data(data_dir_path: Path) -> None:
     """
-    Prepare 3D body data by filtering 3D body shapes to one entry per 3cm bin and saving the filtered data as a new pickle file.
+    Process 3D body data by keeping one MultiPolygon per bin of height of a given size and reducing the precision of each MultiPolygon.
+
+    For each sex (male/female):
+    1. Loads original 3D body shape data from <sex>_3dBody.pkl
+    2. Creates target bins at 3cm intervals (controlled by DISTANCE_BTW_TARGET_KEYS_ALTITUDES)
+    3. Selects the nearest available height to each bin's boundary values
+    4. Simplifies each Polygon that compose each MultiPolygon using Douglas-Peucker algorithm with specified tolerance
+    5. Saves optimized data to <sex>_3dBody_light.pkl
 
     Parameters
     ----------
     data_dir_path : Path
-        The path to the root data directory containing "pkl" subdirectory among others.
+        Path to root directory containing input/output subdirectories. Requires "pkl" subdirectory with original pickle files.
 
     Raises
     ------
     FileNotFoundError
-        If the required pickle file does not exist in the data directory.
+        If either the input directory structure is invalid or source pickle file
+        for a sex is missing.
     """
+    # [Rest of function implementation unchanged]
+
     for sex in cst.Sex:
         pickle_path = data_dir_path / "pkl" / f"{sex.name}_3dBody.pkl"
         if not pickle_path.exists():

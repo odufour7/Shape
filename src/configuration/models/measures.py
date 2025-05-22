@@ -1,8 +1,32 @@
-"""Module containing the Measures class to store body measures dynamically based on agent type."""
+"""Module containing the AgentMeasures and CrowdMeasures dataclass to store body measures dynamically and crowd desired measures."""
+
+# Copyright  2025  Institute of Light and Matter
+# Contributors: Oscar DUFOUR, Maxime STAPELLE, Alexandre NICOLAS
+
+# This software is a computer program designed to generate a realistic crowd from anthropometric data and
+# simulate the mechanical interactions that occur within it and with obstacles.
+
+# This software is governed by the CeCILL  license under French law and abiding by the rules of distribution
+# of free software.  You can  use, modify and/ or redistribute the software under the terms of the CeCILL
+# license as circulated by CEA, CNRS and INRIA at the following URL "http://www.cecill.info".
+
+# As a counterpart to the access to the source code and  rights to copy, modify and redistribute granted by
+# the license, users are provided only with a limited warranty  and the software's author,  the holder of the
+# economic rights,  and the successive licensors  have only  limited liability.
+
+# In this respect, the user's attention is drawn to the risks associated with loading,  using,  modifying
+# and/or developing or reproducing the software by the user in light of its specific status of free software,
+# that may mean  that it is complicated to manipulate,  and  that  also therefore means  that it is reserved
+# for developers  and  experienced professionals having in-depth computer knowledge. Users are therefore
+# encouraged to load and test the software's suitability as regards their requirements in conditions enabling
+# the security of their systems and/or data to be ensured and,  more generally, to use and operate it in the
+# same conditions as regards security.
+
+# The fact that you are presently reading this means that you have had knowledge of the CeCILL license and that
+# you accept its terms.
 
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Mapping
 
 import numpy as np
 
@@ -13,7 +37,7 @@ from configuration.utils.typing_custom import Sex
 
 @dataclass
 class AgentMeasures:
-    """Class to store body charasteristics dynamically based on agent type, used to create a specific agent."""
+    """Class to store body charasteristics dynamically based on agent type."""
 
     agent_type: cst.AgentTypes
     measures: dict[str, float | Sex] = field(default_factory=dict)
@@ -94,13 +118,7 @@ class CrowdMeasures:
 
     def __post_init__(self) -> None:
         """
-        Validate the crowd measures after the dataclass initialization.
-
-        This method performs the following validations and operations:
-        1. Ensures that `default_database`, and `agent_statistics` are dictionaries.
-        2. Loads the ANSURII dataset into the `default_database` from a pickle file located in the data directory.
-        3. Checks if the `agent_statistics` dictionary contains statistics for all required parts of the crowd.
-           Raises a ValueError if any required statistics are missing.
+        Validate the crowd measures after the dataclass initialization and loads the ANSURII dataset into the `default_database`.
 
         Raises
         ------
@@ -205,7 +223,7 @@ def _draw_bike_measures(crowd_measures: CrowdMeasures) -> AgentMeasures:
             - top_tube_length : float
             - weight : float
     """
-    measures: Mapping[str, float | Sex] = {
+    measures = {
         cst.BikeParts.wheel_width.name: _draw_measure(crowd_measures, None, cst.BikeParts.wheel_width),
         cst.BikeParts.total_length.name: _draw_measure(crowd_measures, None, cst.BikeParts.total_length),
         cst.BikeParts.handlebar_length.name: _draw_measure(crowd_measures, None, cst.BikeParts.handlebar_length),
@@ -318,9 +336,7 @@ def create_pedestrian_measures(agent_data: dict[str, float]) -> AgentMeasures:
     Returns
     -------
     AgentMeasures
-        An AgentMeasures object with the following attributes:
-            - agent_type: Set to AgentTypes.pedestrian
-            - measures: A dictionary mapping pedestrian parts to their measurements
+        An AgentMeasures object.
     """
     return AgentMeasures(
         agent_type=cst.AgentTypes.pedestrian,

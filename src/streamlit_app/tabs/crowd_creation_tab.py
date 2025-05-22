@@ -1,5 +1,30 @@
 """Pedestrian visualization tab."""
 
+# Copyright  2025  Institute of Light and Matter
+# Contributors: Oscar DUFOUR, Maxime STAPELLE, Alexandre NICOLAS
+
+# This software is a computer program designed to generate a realistic crowd from anthropometric data and
+# simulate the mechanical interactions that occur within it and with obstacles.
+
+# This software is governed by the CeCILL  license under French law and abiding by the rules of distribution
+# of free software.  You can  use, modify and/ or redistribute the software under the terms of the CeCILL
+# license as circulated by CEA, CNRS and INRIA at the following URL "http://www.cecill.info".
+
+# As a counterpart to the access to the source code and  rights to copy, modify and redistribute granted by
+# the license, users are provided only with a limited warranty  and the software's author,  the holder of the
+# economic rights,  and the successive licensors  have only  limited liability.
+
+# In this respect, the user's attention is drawn to the risks associated with loading,  using,  modifying
+# and/or developing or reproducing the software by the user in light of its specific status of free software,
+# that may mean  that it is complicated to manipulate,  and  that  also therefore means  that it is reserved
+# for developers  and  experienced professionals having in-depth computer knowledge. Users are therefore
+# encouraged to load and test the software's suitability as regards their requirements in conditions enabling
+# the security of their systems and/or data to be ensured and,  more generally, to use and operate it in the
+# same conditions as regards security.
+
+# The fact that you are presently reading this means that you have had knowledge of the CeCILL license and that
+# you accept its terms.
+
 import pickle
 from datetime import datetime
 from io import BytesIO
@@ -523,12 +548,13 @@ def general_settings() -> Polygon:
     Polygon
         The updated boundaries of the simulation area.
     """
-    selected_packing_option = st.sidebar.pills(
+    selected_packing_option: str = st.sidebar.pills(
         " ", list(st.session_state.pack_options.values()), label_visibility="collapsed", default=st.session_state.pack_options["grid"]
     )
-    if selected_packing_option != st.session_state.selected_packing_option:
+    if selected_packing_option != st.session_state.selected_packing_option:  # type: ignore[unreachable]
         st.session_state.selected_packing_option = selected_packing_option
         parameter_changed()
+    # Compare using the display value, not the key
     close_packing_enabled = st.session_state.selected_packing_option == st.session_state.pack_options["pack"]
 
     num_agents = st.sidebar.number_input(
@@ -688,17 +714,16 @@ def plot_2D_3D_and_download_section(current_crowd: Crowd) -> None:
             "2D crowd": "2D",
             "3D crowd": "3D",
         }
-        selected_dimension_options = st.pills(" ", list(dimension_options.values()), label_visibility="collapsed", default="2D")
+        selected_dimension_options: str = st.pills(" ", list(dimension_options.values()), label_visibility="collapsed", default="2D")  # type: ignore[attr-defined]
         # Plotting and downloading
         if selected_dimension_options == dimension_options["2D crowd"]:
             plot_and_download_crowd2D(current_crowd)
         elif selected_dimension_options == dimension_options["3D crowd"]:
             plot_and_download_crowd3D(current_crowd)
     else:
-        dimension_options = {"2D crowd": "2D"}
-        selected_dimension_options = st.pills(" ", list(dimension_options.values()), label_visibility="collapsed", default="2D")
+        selected_dimension_option: str = st.pills(" ", ["2D"], label_visibility="collapsed", default="2D")  # type: ignore[attr-defined]
         # Plotting and downloading
-        if selected_dimension_options == dimension_options["2D crowd"]:
+        if selected_dimension_option == "2D":
             plot_and_download_crowd2D(current_crowd)
 
 
@@ -872,10 +897,13 @@ def run_tab_crowd() -> None:
         "init crowd": "Initialize your own crowd",
         "crowd from config": "Generate from configuration files",
     }
-    selected_crowd_origin = st.pills(" ", list(crowd_origin_options.values()), label_visibility="collapsed")
+    selected_crowd_origin = st.pills(" ", list(crowd_origin_options.values()), label_visibility="collapsed")  # type: ignore[attr-defined]
 
     if selected_crowd_origin == crowd_origin_options["init crowd"]:
         run_crowd_init()
+
+    if selected_crowd_origin == crowd_origin_options["crowd from config"]:
+        run_crowd_from_config()
 
     if selected_crowd_origin == crowd_origin_options["crowd from config"]:
         run_crowd_from_config()

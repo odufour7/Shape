@@ -1,4 +1,29 @@
-"""Contains functions to save to different formats including xml, zip and also to load from them."""
+"""Contains functions to go from a dictionary representation of the crowd parameters to a XML representation and the reverse."""
+
+# Copyright  2025  Institute of Light and Matter
+# Contributors: Oscar DUFOUR, Maxime STAPELLE, Alexandre NICOLAS
+
+# This software is a computer program designed to generate a realistic crowd from anthropometric data and
+# simulate the mechanical interactions that occur within it and with obstacles.
+
+# This software is governed by the CeCILL  license under French law and abiding by the rules of distribution
+# of free software.  You can  use, modify and/ or redistribute the software under the terms of the CeCILL
+# license as circulated by CEA, CNRS and INRIA at the following URL "http://www.cecill.info".
+
+# As a counterpart to the access to the source code and  rights to copy, modify and redistribute granted by
+# the license, users are provided only with a limited warranty  and the software's author,  the holder of the
+# economic rights,  and the successive licensors  have only  limited liability.
+
+# In this respect, the user's attention is drawn to the risks associated with loading,  using,  modifying
+# and/or developing or reproducing the software by the user in light of its specific status of free software,
+# that may mean  that it is complicated to manipulate,  and  that  also therefore means  that it is reserved
+# for developers  and  experienced professionals having in-depth computer knowledge. Users are therefore
+# encouraged to load and test the software's suitability as regards their requirements in conditions enabling
+# the security of their systems and/or data to be ensured and,  more generally, to use and operate it in the
+# same conditions as regards security.
+
+# The fact that you are presently reading this means that you have had knowledge of the CeCILL license and that
+# you accept its terms.
 
 import xml.etree.ElementTree as ET
 from typing import Any
@@ -24,17 +49,17 @@ from configuration.utils.typing_custom import (
 
 def save_light_agents_params_dict_to_xml(crowd_data_dict: StaticCrowdDataType) -> str:
     """
-    Generate a pretty-printed XML string of agent parameters from a Crowd object.
+    Generate a pretty-printed XML string of agent parameters from a dictionary.
 
     Parameters
     ----------
     crowd_data_dict : StaticCrowdDataType
-        A dictionary containing agent data for all agents in the crowd.
+        A dictionary containing static agent data for all agents in the crowd.
 
     Returns
     -------
     str
-        A string representation of the XML data.
+        A string representation of the dictionary.
     """
     # Convert dictionary to XML string without type attributes
     xml_data = dicttoxml(crowd_data_dict, attr_type=False, root=False)
@@ -51,17 +76,17 @@ def save_light_agents_params_dict_to_xml(crowd_data_dict: StaticCrowdDataType) -
 
 def static_dict_to_xml(crowd_dict: StaticCrowdDataType) -> bytes:
     """
-    Convert a dictionary containing static parameters of agents into an XML representation.
+    Convert a static crowd dictionary to a prettified XML representation.
 
     Parameters
     ----------
     crowd_dict : StaticCrowdDataType
-        A dictionary containing agent data.
+        Dictionary with agent data.
 
     Returns
     -------
     bytes
-        A prettified XML string in UTF-8 encoding representing the agents and their parameters.
+        UTF-8 encoded, pretty-printed XML representation of all agents' static parameters.
     """
     # Create the root element <Agents>
     root = ET.Element("Agents")
@@ -105,17 +130,17 @@ def static_dict_to_xml(crowd_dict: StaticCrowdDataType) -> bytes:
 
 def dynamic_dict_to_xml(dynamical_parameters_crowd: DynamicCrowdDataType) -> bytes:
     """
-    Convert a dictionary containing dynamic parameters of agents into an XML representation.
+    Convert a dictionary of agents' dynamic parameters to a prettified XML representation.
 
     Parameters
     ----------
     dynamical_parameters_crowd : DynamicCrowdDataType
-        A dictionary containing agent data.
+        Dictionary with agent data.
 
     Returns
     -------
     bytes
-        A prettified XML string in UTF-8 encoding representing the agents and their parameters.
+        UTF-8 encoded, pretty-printed XML representation of all agents' dynamic parameters.
     """
     # Create the root element
     root = ET.Element("Agents")
@@ -156,17 +181,17 @@ def dynamic_dict_to_xml(dynamical_parameters_crowd: DynamicCrowdDataType) -> byt
 
 def geometry_dict_to_xml(boundaries_dict: GeometryDataType) -> bytes:
     """
-    Save the given boundaries_dict dictionary to an XML file with UTF-8 encoding.
+    Convert a dictionary of geometry data to a prettified XML representation.
 
     Parameters
     ----------
     boundaries_dict : GeometryDataType
-        A dictionary containing geometry data.
+        Dictionary with boundary data.
 
     Returns
     -------
     bytes
-        A prettified XML string in UTF-8 encoding representing the geometry.
+        UTF-8 encoded, pretty-printed XML representation of the boundaries.
     """
     # Create the root element
     root = ET.Element("Geometry")
@@ -197,17 +222,17 @@ def geometry_dict_to_xml(boundaries_dict: GeometryDataType) -> bytes:
 
 def materials_dict_to_xml(material_dict: MaterialsDataType) -> bytes:
     """
-    Save the given material_dict dictionary to an XML file with UTF-8 encoding.
+    Convert a dictionary of material properties to a prettified XML representation.
 
     Parameters
     ----------
     material_dict : MaterialsDataType
-        Dictionary containing material data.
+        Dictionary with material data.
 
     Returns
     -------
     bytes
-        A prettified XML string in UTF-8 encoding representing the materials.
+        UTF-8 encoded, pretty-printed XML representation of the materials.
     """
     # Create the root element
     root = ET.Element("Materials")
@@ -247,17 +272,17 @@ def materials_dict_to_xml(material_dict: MaterialsDataType) -> bytes:
 
 def interactions_dict_to_xml(data: InteractionsDataType) -> bytes:
     """
-    Save the given interactions dictionary to an XML file with UTF-8 encoding.
+    Convert a dictionary of interactions data to a prettified XML representation.
 
     Parameters
     ----------
     data : InteractionsDataType
-        A dictionary containing interactions data.
+        Dictionary with interactions data.
 
     Returns
     -------
     bytes
-        A prettified XML string in UTF-8 encoding representing the interactions.
+        UTF-8 encoded, pretty-printed XML representation of all agents and their interactions.
     """
     # Create the root element
     root = ET.Element("Interactions")
@@ -292,7 +317,7 @@ def interactions_dict_to_xml(data: InteractionsDataType) -> bytes:
 
 def static_xml_to_dict(xml_file: str) -> StaticCrowdDataType:
     """
-    Convert an XML string representing static agent data into a dictionary, with strict validation of structure and attribute types.
+    Convert an XML string representing agents' static data into a dictionary.
 
     Parameters
     ----------
@@ -364,7 +389,7 @@ def static_xml_to_dict(xml_file: str) -> StaticCrowdDataType:
 
 def dynamic_xml_to_dict(xml_data: str) -> DynamicCrowdDataType:
     """
-    Convert an XML string representing crowd dynamic parameters into a dictionary, with validation of structure and attribute types.
+    Convert an XML string representing agents' dynamic parameters into a dictionary.
 
     Parameters
     ----------
@@ -452,7 +477,7 @@ def dynamic_xml_to_dict(xml_data: str) -> DynamicCrowdDataType:
 
 def geometry_xml_to_dict(xml_data: str) -> GeometryDataType:
     """
-    Convert an XML string representing geometric data into a dictionary, with strict validation of structure and attribute types.
+    Convert an XML string representing geometric data into a dictionary.
 
     Parameters
     ----------
@@ -523,7 +548,7 @@ def geometry_xml_to_dict(xml_data: str) -> GeometryDataType:
 
 def materials_xml_to_dict(xml_data: str) -> MaterialsDataType:
     """
-    Convert an XML string representing material properties into a dictionary, with strict validation of structure and attribute types.
+    Convert an XML string representing material properties into a dictionary.
 
     Parameters
     ----------
@@ -600,7 +625,7 @@ def materials_xml_to_dict(xml_data: str) -> MaterialsDataType:
 
 def interactions_xml_to_dict(xml_data: str) -> InteractionsDataType:
     """
-    Convert an XML string describing interactions into a nested dictionary structure, with validation of structure and attribute types.
+    Convert an XML string describing interactions between agents and with boundaries into a dictionary.
 
     Parameters
     ----------

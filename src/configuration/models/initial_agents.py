@@ -1,5 +1,30 @@
 """Module defining the InitialState class."""
 
+# Copyright  2025  Institute of Light and Matter
+# Contributors: Oscar DUFOUR, Maxime STAPELLE, Alexandre NICOLAS
+
+# This software is a computer program designed to generate a realistic crowd from anthropometric data and
+# simulate the mechanical interactions that occur within it and with obstacles.
+
+# This software is governed by the CeCILL  license under French law and abiding by the rules of distribution
+# of free software.  You can  use, modify and/ or redistribute the software under the terms of the CeCILL
+# license as circulated by CEA, CNRS and INRIA at the following URL "http://www.cecill.info".
+
+# As a counterpart to the access to the source code and  rights to copy, modify and redistribute granted by
+# the license, users are provided only with a limited warranty  and the software's author,  the holder of the
+# economic rights,  and the successive licensors  have only  limited liability.
+
+# In this respect, the user's attention is drawn to the risks associated with loading,  using,  modifying
+# and/or developing or reproducing the software by the user in light of its specific status of free software,
+# that may mean  that it is complicated to manipulate,  and  that  also therefore means  that it is reserved
+# for developers  and  experienced professionals having in-depth computer knowledge. Users are therefore
+# encouraged to load and test the software's suitability as regards their requirements in conditions enabling
+# the security of their systems and/or data to be ensured and,  more generally, to use and operate it in the
+# same conditions as regards security.
+
+# The fact that you are presently reading this means that you have had knowledge of the CeCILL license and that
+# you accept its terms.
+
 from pathlib import Path
 
 from shapely.geometry import MultiPolygon, Point, box
@@ -12,12 +37,12 @@ from configuration.utils.typing_custom import Sex, ShapeDataType, ShapeType
 
 class InitialPedestrian:
     """
-    Encapsulates the initial pedestrian state including its 2D shape data and basic measurements.
+    Class representing the initial pedestrian state including its 2D shape data and basic measurements.
 
     Parameters
     ----------
     sex : Sex
-            Biological sex of the pedestrian, must be either "male" or "female".
+        Biological sex of the pedestrian, must be either "male" or "female".
     """
 
     def __init__(self, sex: Sex) -> None:
@@ -32,9 +57,9 @@ class InitialPedestrian:
         Attributes
         ----------
         _agent_type : AgentTypes
-            Agent type set to pedestrian (enum value)
+            Agent type set to pedestrian
         _shapes2D : ShapeDataType
-            2D shape data with disk components representing body parts
+            2D shape object
         _shapes3D : dict[float, MultiPolygon]
             3D body layers mapped to z-height coordinates
         _measures : dict[str, float | Sex | None]
@@ -49,7 +74,7 @@ class InitialPedestrian:
         Notes
         -----
         - 2D and 3D coordinates are in centimeters
-        - the moment_of_inertia will computed later when the agent will be created
+        - The moment_of_inertia will computed later when the agent will be created
         """
         if isinstance(sex, str) and sex not in ["male", "female"]:
             raise ValueError("The sex should be either 'male' or 'female'.")
@@ -85,7 +110,7 @@ class InitialPedestrian:
 
     def _initialize_shapes(self) -> dict[str, dict[str, ShapeType | float | tuple[float, float]]]:
         """
-        Initialize shape data for pedestrian body components.
+        Initialize shape data.
 
         Creates and configures five circular disks representing key body features:
             - Disk0: Left arm
@@ -101,10 +126,10 @@ class InitialPedestrian:
                 - Outer keys: Component IDs (e.g., "disk0" to "disk4")
                 - Inner dictionaries containing:
                     * type: "disk" (str from ShapeTypes enum name)
-                    * radius: Disk radius in centimeters (float)
+                    * radius: Disk radius (cm)
                     * material: Material name (str from MaterialNames enum)
-                    * x: x-coordinate in centimeters (float)
-                    * y: y-coordinate in centimeters (float)
+                    * x: x-coordinate (cm)
+                    * y: y-coordinate (cm)
 
         Notes
         -----
@@ -161,7 +186,7 @@ class InitialPedestrian:
     @property
     def agent_type(self) -> cst.AgentTypes:
         """
-        Get the type classification of the agent.
+        Get the type of the agent.
 
         Returns
         -------
@@ -182,10 +207,10 @@ class InitialPedestrian:
                 - Keys: Format "disk{N}" where N ranges 0-4 (e.g., "disk0", "disk1")
                 - Values: Dictionaries with properties:
                     * type: "disk" (str from ShapeTypes enum name)
-                    * radius: Disk radius in centimeters (float)
+                    * radius: Disk radius (cm)
                     * material: Material name (str from MaterialNames enum)
-                    * x: x-coordinate in centimeters (float)
-                    * y: y-coordinate in centimeters (float)
+                    * x: x-coordinate (cm)
+                    * y: y-coordinate (cm)
         """
         return self._shapes2D
 
@@ -197,8 +222,7 @@ class InitialPedestrian:
         Returns
         -------
         dict[str, float | Sex | None]
-            A dictionary containing the pedestrian's measures. The keys are measure names (str),
-            and the values are either floats, Sex or None.
+            A dictionary containing the pedestrian's measures. The keys are measure name.
         """
         return self._measures
 
@@ -253,7 +277,7 @@ class InitialPedestrian:
         Returns
         -------
         list[Point]
-            A list of Point objects representing the center coordinates of each disk in centimeters.
+            A list of Point objects representing the center coordinates of each disk (cm).
             The points are returned in the order of disk indices (disk0, disk1, ..., diskN-1).
         """
         return [Point(self.shapes2D[f"disk{i}"]["x"], self.shapes2D[f"disk{i}"]["y"]) for i in range(cst.DISK_NUMBER)]
@@ -297,7 +321,7 @@ class InitialPedestrian:
         Returns
         -------
         float
-            The bideltoid breadth of the agent in cm.
+            The bideltoid breadth of the agent (cm).
         """
         if self.agent_type != cst.AgentTypes.pedestrian:
             raise ValueError("get_bideltoid_breadth() can only be used for pedestrian agents.")
@@ -311,7 +335,7 @@ class InitialPedestrian:
         Returns
         -------
         float
-            The chest depth of the agent in cm.
+            The chest depth of the agent (cm).
         """
         if self.agent_type != cst.AgentTypes.pedestrian:
             raise ValueError("get_chest_depth() can only be used for pedestrian agents.")
@@ -320,12 +344,12 @@ class InitialPedestrian:
 
     def get_height(self) -> float:
         """
-        Compute the height of the agent in meters.
+        Compute the height of the agent (cm).
 
         Returns
         -------
         float
-            The height of the agent in meters.
+            The height of the agent (cm).
         """
         if self.agent_type != cst.AgentTypes.pedestrian:
             raise ValueError("get_height() can only be used for pedestrian agents.")
@@ -410,10 +434,10 @@ class InitialBike:
             Each shape dictionary contains:
                 - type: ShapeTypes.rectangle.name (str)
                 - material: MaterialNames.iron.name (str)
-                - min_x: Minimum x-coordinate in cm (float)
-                - min_y: Minimum y-coordinate in cm (float)
-                - max_x: Maximum x-coordinate in cm (float)
-                - max_y: Maximum y-coordinate in cm (float)
+                - min_x: Minimum x-coordinate (cm)
+                - min_y: Minimum y-coordinate (cm)
+                - max_x: Maximum x-coordinate (cm)
+                - max_y: Maximum y-coordinate (cm)
         """
         # define the bike as a rectangle
         rider = {
@@ -478,41 +502,44 @@ class InitialBike:
         AgentTypes
             Enum member representing the agent's type classification (either "pedestrian", "bike" or "custom").
         """
+        # return error if the agent type is not bike
+        if self._agent_type != cst.AgentTypes.bike:
+            raise ValueError("The agent type is not bike.")
         return self._agent_type
 
     @property
     def shapes2D(self) -> ShapeDataType:
         """
-        Get the 2D shapes associated with the pedestrian.
+        Get the 2D shapes of the agent.
 
         Returns
         -------
         ShapeDataType
-            An object containing the 2D shapes associated with the pedestrian.
+            An object containing the 2D shapes of the agent.
         """
         return self._shapes2D
 
     @property
     def measures(self) -> dict[str, float | None]:
         """
-        Get the measures of the pedestrian.
+        Get the measures of the agent.
 
         Returns
         -------
         dict[str, float | None]
-            A dictionary containing the measures of the pedestrian.
+            A dictionary containing the measures of the agent.
             Keys are measure names and values are measure values.
         """
         return self._measures
 
     def get_position(self) -> Point:
         """
-        Compute the centroid position of the pedestrian based on all 2D shapes.
+        Compute the centroid position of the agent based on all 2D shapes.
 
         Returns
         -------
         Point
-            A Point object representing the centroid of the pedestrian's geometry.
+            A Point object representing the centroid of the agent's geometry.
 
         Raises
         ------

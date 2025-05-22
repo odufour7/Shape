@@ -1,5 +1,30 @@
 """3D pedestrian visualization tab."""
 
+# Copyright  2025  Institute of Light and Matter
+# Contributors: Oscar DUFOUR, Maxime STAPELLE, Alexandre NICOLAS
+
+# This software is a computer program designed to generate a realistic crowd from anthropometric data and
+# simulate the mechanical interactions that occur within it and with obstacles.
+
+# This software is governed by the CeCILL  license under French law and abiding by the rules of distribution
+# of free software.  You can  use, modify and/ or redistribute the software under the terms of the CeCILL
+# license as circulated by CEA, CNRS and INRIA at the following URL "http://www.cecill.info".
+
+# As a counterpart to the access to the source code and  rights to copy, modify and redistribute granted by
+# the license, users are provided only with a limited warranty  and the software's author,  the holder of the
+# economic rights,  and the successive licensors  have only  limited liability.
+
+# In this respect, the user's attention is drawn to the risks associated with loading,  using,  modifying
+# and/or developing or reproducing the software by the user in light of its specific status of free software,
+# that may mean  that it is complicated to manipulate,  and  that  also therefore means  that it is reserved
+# for developers  and  experienced professionals having in-depth computer knowledge. Users are therefore
+# encouraged to load and test the software's suitability as regards their requirements in conditions enabling
+# the security of their systems and/or data to be ensured and,  more generally, to use and operate it in the
+# same conditions as regards security.
+
+# The fact that you are presently reading this means that you have had knowledge of the CeCILL license and that
+# you accept its terms.
+
 import pickle
 from datetime import datetime
 from io import BytesIO
@@ -19,7 +44,7 @@ from streamlit_app.plot import plot
 
 
 def initialize_session_state() -> None:
-    """Initialize the session state for the pedestrian tab."""
+    """Initialize the session state variables."""
     if "current_pedestrian" not in st.session_state:
         initial_pedestrian = InitialPedestrian(cst_app.DEFAULT_SEX)
         # Create a new pedestrian object
@@ -52,8 +77,7 @@ def sliders_for_agent_parameters() -> AgentMeasures:
     Returns
     -------
     AgentMeasures
-        An object containing the updated measures for the pedestrian agent, including sex,
-        bideltoid breadth, chest depth, height, and weight.
+        An object containing the updated measures for the pedestrian agent.
     """
     # Sex Selection
     st.sidebar.radio(
@@ -103,15 +127,15 @@ def sliders_for_agent_parameters() -> AgentMeasures:
 
 def sliders_for_agent_position() -> tuple[float, float, float]:
     """
-    Create input fields in the sidebar for adjusting an agent's position and rotation.
+    Create sliders in the sidebar for adjusting an agent's position and rotation.
 
     Returns
     -------
     tuple[float, float, float]
         A tuple containing:
-        - `x_translation` (float): The translation along the X-axis in centimeters.
-        - `y_translation` (float): The translation along the Y-axis in centimeters.
-        - `rotation_angle` (float): The rotation angle around the Z-axis in degrees.
+        - `x_translation`: The translation along the X-axis (cm).
+        - `y_translation`: The translation along the Y-axis (cm).
+        - `rotation_angle`: The rotation angle around the Z-axis in degrees.
     """
     x_translation = st.sidebar.slider(
         "X-translation (cm)",
@@ -139,13 +163,15 @@ def sliders_for_agent_position() -> tuple[float, float, float]:
 
 def download_data(current_pedestrian: Agent) -> None:
     """
-    Provide two download buttons in the sidebar to export the agent's data as a pickle file.
+    Display two download buttons in the sidebar to export 3D shape data of the current agent as pickle files.
+
+    The first button allows the user to download the current pedestrian's 3D shape polygons.
+    The second button enables downloading the reference 3D body model with standard parameters and high precision.
 
     Parameters
     ----------
     current_pedestrian : Agent
-        The agent object representing the current pedestrian. It contains the 3D shape
-        data (`shapes3D`) and anthropometric measures (`measures`) to be exported.
+        The agent object representing the current pedestrian.
     """
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     filename = f"agent3D_{current_pedestrian.agent_type}_{current_pedestrian.measures.measures['sex']}_{timestamp}.pkl"
@@ -170,6 +196,7 @@ def download_data(current_pedestrian: Agent) -> None:
         help="Contains the polygons used to build the 3D representation of the pedestrian"
         " with standard parameters,"
         " with a precision up to 0.1 mm in the altitude-direction.",
+        use_container_width=True,
     )
 
 
@@ -180,15 +207,14 @@ def orthogonal_projection_option(current_pedestrian: Agent) -> None:
     Parameters
     ----------
     current_pedestrian : Agent
-        The agent object representing the current pedestrian. It contains the 3D shape
-        data (`shapes3D`) and anthropometric measures (`measures`) to be displayed.
+        The agent object representing the current pedestrian.
 
     Notes
     -----
     - The function creates a progress bar and status text to indicate the progress of the computation.
     - The orthogonal projection is computed and displayed using the `plot.display_body3D_orthogonal_projection` function.
     - The resulting figure is saved to a `BytesIO` object in PDF format.
-    - A download button is provided in the sidebar to allow users to download the orthogonal projection as a PDF file.
+    - A download button is provided to allow users to download the orthogonal projection as a PDF file.
     """
     title_progress_bar = st.text("Progress bar")
     my_progress_bar = st.progress(0)
@@ -227,15 +253,14 @@ def slices_option(current_pedestrian: Agent) -> None:
     Parameters
     ----------
     current_pedestrian : Agent
-        The agent object representing the current pedestrian. It contains the 3D shape
-        data (`shapes3D`) and anthropometric measures (`measures`) to be displayed.
+        The agent object representing the current pedestrian.
 
     Notes
     -----
     - The function creates a progress bar and status text to indicate the progress of the computation.
     - The slices are computed and displayed using the `plot.display_body3D_polygons` function.
     - The resulting figure is saved to a `BytesIO` object in PDF format.
-    - A download button is provided in the sidebar to allow users to download the slices as a PDF file.
+    - A download button is provided to allow users to download the slices as a PDF file.
     """
     title_progress_bar = st.text("Progress Bar")
     my_progress_bar = st.progress(0)
@@ -268,15 +293,14 @@ def mesh_option(current_pedestrian: Agent) -> None:
     Parameters
     ----------
     current_pedestrian : Agent
-        The agent object representing the current pedestrian. It contains the 3D shape
-        data (`shapes3D`) and anthropometric measures (`measures`) to be displayed.
+        The agent object representing the current pedestrian.
 
     Notes
     -----
     - The function creates a progress bar and status text to indicate the progress of the computation.
     - The mesh is computed and displayed using the `plot.display_body3D_mesh` function.
     - The resulting figure is saved to a `BytesIO` object in PDF format.
-    - A download button is provided in the sidebar to allow users to download the mesh as a PDF file.
+    - A download button is provided to allow users to download the mesh as a PDF file.
     """
     title_progress_bar = st.text("Progress Bar")
     my_progress_bar = st.progress(0)
