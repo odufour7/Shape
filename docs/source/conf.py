@@ -15,7 +15,7 @@ smartquotes = False
 
 os.environ["KIVY_NO_ARGS"] = "1"  # Disable Kivy's argument parsing
 os.environ["KIVY_NO_CONFIG"] = "1"  # Disable Kivy config checks during docs build
-os.environ["KIVY_NO_CONSOLELOG"] = "1"
+os.environ["KIVY_NO_CONSOLELOG"] = "1"  # Disable Kivy console logging during docs build
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
@@ -88,8 +88,8 @@ exhale_args = {
     "rootFileName": "library_root.rst",  # Name of the root file
     "rootFileTitle": "Mechanical layer (C++)",  # Title for the root file
     "doxygenStripFromPath": os.path.abspath(os.path.join("..", "..", "src", "mechanical_layer")),  # Relative to conf.py's location
-    "createTreeView": True,
-    "exhaleExecutesDoxygen": True,
+    "createTreeView": True,  # Create a tree view of the API
+    "exhaleExecutesDoxygen": True,  # Execute Doxygen to generate XML files
     "exhaleDoxygenStdin": "INPUT=../../src/mechanical_layer/src ../../src/mechanical_layer/include",  # Input directory for Doxygen
 }
 
