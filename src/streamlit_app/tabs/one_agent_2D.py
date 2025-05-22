@@ -271,14 +271,14 @@ def run_tab_agent2D() -> None:
         st.subheader("Current agent measures")
         if st.session_state.agent_type_measures == cst.AgentTypes.pedestrian:
             path_file = Path(__file__).parent.parent.parent.parent / "data" / "images"
-            st.image(str(path_file / "measures_pedestrian.png"), use_column_width=True)
+            st.image(str(path_file / "measures_pedestrian.png"), use_container_width=True)  # type: ignore[call-arg]
         elif st.session_state.agent_type_measures == cst.AgentTypes.bike:
             path_file = Path(__file__).parent.parent.parent.parent / "data" / "images"
             st.text(" ")
             st.text(" ")
             st.text(" ")
             st.text(" ")
-            st.image(str(path_file / "measures_bike.png"), use_column_width=True)
+            st.image(str(path_file / "measures_bike.png"), use_container_width=True)  # type: ignore[call-arg]
 
     st.sidebar.header("Download")
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")

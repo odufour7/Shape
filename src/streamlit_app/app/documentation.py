@@ -44,4 +44,4 @@ def about() -> None:
     current_file_path = Path(__file__)
     ROOT_DIR = current_file_path.parent.parent.parent.parent.absolute()
     logo_path = ROOT_DIR / "data" / "images" / "coverage_explanation.png"
-    st.image(str(logo_path), use_column_width=True)
+    st.image(str(logo_path), use_container_width=True)  # type: ignore[call-arg]

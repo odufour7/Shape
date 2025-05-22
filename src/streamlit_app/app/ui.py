@@ -145,6 +145,6 @@ def init_sidebar_looks() -> None:
     c1.write("**Repo**")
     c2.markdown(repo_badge, unsafe_allow_html=True)
 
-    st.sidebar.image(str(logo_path), use_column_width=True)
+    st.sidebar.image(str(logo_path), use_container_width=True)  # type: ignore[call-arg]
 
     st.sidebar.warning("⚠️ All measurements in this app are displayed in centimeters.")

@@ -1108,12 +1108,6 @@ wheels = [
 ]
 
 [[package]]
-name = "logging"
-version = "0.4.9.6"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/93/4b/979db9e44be09f71e85c9c8cfc42f258adfb7d93ce01deed2788b2948919/logging-0.4.9.6.tar.gz", hash = "sha256:26f6b50773f085042d301085bd1bf5d9f3735704db9f37c1ce6d8b85c38f2417", size = 96029 }
-
-[[package]]
 name = "lxml"
 version = "5.4.0"
 source = { registry = "https://pypi.org/simple" }
@@ -2182,7 +2176,6 @@ dependencies = [
     { name = "gprof2dot" },
     { name = "jupyter" },
     { name = "kivy" },
-    { name = "logging" },
     { name = "matplotlib" },
     { name = "mypy" },
     { name = "myst-parser" },
@@ -2221,7 +2214,6 @@ requires-dist = [
     { name = "gprof2dot", specifier = ">=2025.4.14" },
     { name = "jupyter", specifier = ">=1.1.1" },
     { name = "kivy", specifier = ">=2.3.1" },
-    { name = "logging", specifier = ">=0.4.9.6" },
     { name = "matplotlib", specifier = ">=3.10.3" },
     { name = "mypy", specifier = ">=1.15.0" },
     { name = "myst-parser", specifier = ">=4.0.1" },
