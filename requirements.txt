@@ -223,8 +223,6 @@ kivy-garden==0.1.5
     # via kivy
 kiwisolver==1.4.8
     # via matplotlib
-logging==0.4.9.6
-    # via shapes (pyproject.toml)
 lxml==5.4.0
     # via exhale
 markdown-it-py==3.0.0
