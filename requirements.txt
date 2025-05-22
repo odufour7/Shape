@@ -217,6 +217,8 @@ jupyterlab-server==2.27.3
     #   notebook
 jupyterlab-widgets==3.0.13
     # via ipywidgets
+kaleido==0.2.1
+    # via shapes (pyproject.toml)
 kivy==2.3.1
     # via shapes (pyproject.toml)
 kivy-garden==0.1.5
