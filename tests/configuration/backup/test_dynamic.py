@@ -28,7 +28,7 @@
 from pathlib import Path
 
 import pytest
-from pytest_lazyfixture import lazy_fixture
+from _pytest.fixtures import SubRequest
 
 import configuration.backup.dict_to_xml_and_reverse as fun_xml
 from configuration.utils.typing_custom import DynamicCrowdDataType
@@ -78,9 +78,11 @@ def dynamical_parameters_crowd() -> DynamicCrowdDataType:
 
 @pytest.mark.parametrize(
     "dynamical_parameters_crowd_dict",
-    [lazy_fixture("dynamical_parameters_crowd")],
+    ["dynamical_parameters_crowd"],
 )
-def test_dynamic_parameters_dict_to_xml_and_back(dynamical_parameters_crowd_dict: DynamicCrowdDataType, tmp_path: Path) -> None:
+def test_dynamic_parameters_dict_to_xml_and_back(
+    dynamical_parameters_crowd_dict: DynamicCrowdDataType, tmp_path: Path, request: SubRequest
+) -> None:
     """
     Test the loading and saving of dynamic parameters in XML format.
 
@@ -93,7 +95,12 @@ def test_dynamic_parameters_dict_to_xml_and_back(dynamical_parameters_crowd_dict
         A dictionary containing dynamic parameters for two agents.
     tmp_path : Path
         Temporary directory for XML file storage.
+    request : SubRequest
+        The pytest request object used to access fixtures.
     """
+    # Get the fixture data
+    dynamical_parameters_crowd_dict = request.getfixturevalue(dynamical_parameters_crowd_dict)
+
     # Convert the dictionary to XML format
     xml_data = fun_xml.dynamic_dict_to_xml(dynamical_parameters_crowd_dict)
 

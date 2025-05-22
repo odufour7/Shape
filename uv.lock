@@ -1854,18 +1854,6 @@ wheels = [
 ]
 
 [[package]]
-name = "pytest-lazy-fixture"
-version = "0.6.3"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "pytest" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/b2/82/ae6d2f6903719c4ec410dcd31ee24e3bce74b2cef3c5b9150ad36e8594b6/pytest-lazy-fixture-0.6.3.tar.gz", hash = "sha256:0e7d0c7f74ba33e6e80905e9bfd81f9d15ef9a790de97993e34213deb5ad10ac", size = 7878 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/2d/a1/2f2c1c2353350d66c4d110d283e422e4943eb5ad10effa9357ba66f7b5b9/pytest_lazy_fixture-0.6.3-py3-none-any.whl", hash = "sha256:e0b379f38299ff27a653f03eaa69b08a6fd4484e46fd1c9907d984b9f9daeda6", size = 4948 },
-]
-
-[[package]]
 name = "python-dateutil"
 version = "2.9.0.post0"
 source = { registry = "https://pypi.org/simple" }
@@ -2209,7 +2197,6 @@ dependencies = [
     { name = "pylint" },
     { name = "pytest" },
     { name = "pytest-cov" },
-    { name = "pytest-lazy-fixture" },
     { name = "pyvista" },
     { name = "ruff" },
     { name = "scipy" },
@@ -2249,7 +2236,6 @@ requires-dist = [
     { name = "pylint", specifier = ">=3.3.7" },
     { name = "pytest", specifier = ">=8.3.5" },
     { name = "pytest-cov", specifier = ">=6.1.1" },
-    { name = "pytest-lazy-fixture", specifier = ">=0.6.3" },
     { name = "pyvista", specifier = ">=0.45.2" },
     { name = "ruff", specifier = ">=0.11.10" },
     { name = "scipy", specifier = ">=1.15.3" },

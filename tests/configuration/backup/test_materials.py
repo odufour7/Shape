@@ -28,7 +28,7 @@
 from pathlib import Path
 
 import pytest
-from pytest_lazyfixture import lazy_fixture
+from _pytest.fixtures import SubRequest
 
 import configuration.backup.dict_to_xml_and_reverse as fun_xml
 from configuration.utils.typing_custom import MaterialsDataType
@@ -102,9 +102,9 @@ def materials_dict() -> MaterialsDataType:
 
 @pytest.mark.parametrize(
     "materials_dict_fixture",
-    [lazy_fixture("materials_dict")],
+    ["materials_dict"],
 )
-def test_materials_dict_to_xml_and_back(materials_dict_fixture: MaterialsDataType, tmp_path: Path) -> None:
+def test_materials_dict_to_xml_and_back(materials_dict_fixture: MaterialsDataType, tmp_path: Path, request: SubRequest) -> None:
     """
     Test the loading and saving of material parameters in XML format.
 
@@ -117,7 +117,12 @@ def test_materials_dict_to_xml_and_back(materials_dict_fixture: MaterialsDataTyp
         A fixture containing material parameters for testing.
     tmp_path : Path
         A temporary directory provided by pytest for file operations.
+    request : SubRequest
+        The pytest request object used to access fixtures.
     """
+    # Get the fixture data
+    materials_dict_fixture = request.getfixturevalue(materials_dict_fixture)
+
     # Convert the dictionary to XML format
     xml_data = fun_xml.materials_dict_to_xml(materials_dict_fixture)
 

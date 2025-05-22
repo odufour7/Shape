@@ -48,16 +48,16 @@ repos:
   #       always_run: true # Run this hook on every commit, even if no notebooks changed
   #       files: ^tutorials/shapes_configuration/.*\.ipynb$ # Restrict to this directory
 
-  # # Test of python functions
-  # - repo: local
-  #   hooks:
-  #     - id: uv-pytest
-  #       name: pytest
-  #       entry: uv run pytest
-  #       language: system # Use 'system' to run the command directly
-  #       pass_filenames: false
-  #       always_run: true
-  #       types: ["python"]
+  # Test of python functions
+  - repo: local
+    hooks:
+      - id: uv-pytest
+        name: pytest
+        entry: uv run pytest
+        language: system # Use 'system' to run the command directly
+        pass_filenames: false
+        always_run: true
+        types: ["python"]
 
   # Cppcheck: C++ static analysis
   - repo: https://github.com/pocc/pre-commit-hooks

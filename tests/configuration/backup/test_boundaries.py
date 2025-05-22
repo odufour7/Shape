@@ -28,7 +28,7 @@
 from pathlib import Path
 
 import pytest
-from pytest_lazyfixture import lazy_fixture
+from _pytest.fixtures import SubRequest
 
 import configuration.backup.dict_to_xml_and_reverse as fun_xml
 from configuration.utils.typing_custom import GeometryDataType
@@ -110,11 +110,11 @@ def boundaries_dict_one_wall() -> GeometryDataType:
 @pytest.mark.parametrize(
     "boundaries_dict",
     [
-        lazy_fixture("boundaries_dict_two_walls"),
-        lazy_fixture("boundaries_dict_one_wall"),
+        "boundaries_dict_two_walls",
+        "boundaries_dict_one_wall",
     ],
 )
-def test_geometry_dict_to_xml_and_back(boundaries_dict: GeometryDataType, tmp_path: Path) -> None:
+def test_geometry_dict_to_xml_and_back(boundaries_dict: GeometryDataType, tmp_path: Path, request: SubRequest) -> None:
     """
     Test the loading and saving of boundaries parameters in XML format.
 
@@ -125,7 +125,12 @@ def test_geometry_dict_to_xml_and_back(boundaries_dict: GeometryDataType, tmp_pa
         wall properties such as material ID and corner coordinates.
     tmp_path : Path
         Temporary directory for XML file storage.
+    request : SubRequest
+        The pytest request object used to access fixtures.
     """
+    # Get the fixture data
+    boundaries_dict = request.getfixturevalue(boundaries_dict)
+
     # Convert dictionary to XML
     xml_data = fun_xml.geometry_dict_to_xml(boundaries_dict)
 
@@ -142,4 +147,5 @@ def test_geometry_dict_to_xml_and_back(boundaries_dict: GeometryDataType, tmp_pa
     parsed_boundaries = fun_xml.geometry_xml_to_dict(loaded_xml_data)
 
     # Assert that the original dictionary matches the parsed dictionary
+    assert boundaries_dict == parsed_boundaries
     assert boundaries_dict == parsed_boundaries

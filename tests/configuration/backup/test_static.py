@@ -28,7 +28,7 @@
 from pathlib import Path
 
 import pytest
-from pytest_lazyfixture import lazy_fixture
+from _pytest.fixtures import SubRequest
 
 import configuration.backup.dict_to_xml_and_reverse as fun_xml
 from configuration.utils.typing_custom import StaticCrowdDataType
@@ -84,9 +84,11 @@ def crowd_static_dict() -> StaticCrowdDataType:
 
 @pytest.mark.parametrize(
     "crowd_static_dict_fixture",
-    [lazy_fixture("crowd_static_dict")],
+    ["crowd_static_dict"],
 )
-def test_static_parameters_pedestrians_dict_to_xml_and_back(crowd_static_dict_fixture: StaticCrowdDataType, tmp_path: Path) -> None:
+def test_static_parameters_pedestrians_dict_to_xml_and_back(
+    crowd_static_dict_fixture: StaticCrowdDataType, tmp_path: Path, request: SubRequest
+) -> None:
     """
     Test the loading and saving of static parameters for pedestrians in XML format.
 
@@ -99,7 +101,12 @@ def test_static_parameters_pedestrians_dict_to_xml_and_back(crowd_static_dict_fi
         A fixture providing static parameters for pedestrians.
     tmp_path : Path
         A pytest fixture providing a temporary directory for file operations.
+    request : SubRequest
+        The pytest request object used to access fixtures.
     """
+    # Get the fixture data
+    crowd_static_dict_fixture = request.getfixturevalue(crowd_static_dict_fixture)
+
     # Convert the dictionary to XML format
     xml_data = fun_xml.static_dict_to_xml(crowd_static_dict_fixture)
 
