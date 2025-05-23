@@ -7,7 +7,7 @@ Tests cover:
     - 2D 3D centroid position invariance under rotation
 """
 
-# Copyright  2025  Institute of Light and Matter
+# Copyright  2025  Institute of Light and Matter, CNRS UMR 5306
 # Contributors: Oscar DUFOUR, Maxime STAPELLE, Alexandre NICOLAS
 
 # This software is a computer program designed to generate a realistic crowd from anthropometric data and

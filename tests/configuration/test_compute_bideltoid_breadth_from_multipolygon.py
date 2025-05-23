@@ -10,7 +10,7 @@ Test cases cover:
     - Irregular polygon where the maximum horizontal breadth is not between endpoints.
 """
 
-# Copyright  2025  Institute of Light and Matter
+# Copyright  2025  Institute of Light and Matter, CNRS UMR 5306
 # Contributors: Oscar DUFOUR, Maxime STAPELLE, Alexandre NICOLAS
 
 # This software is a computer program designed to generate a realistic crowd from anthropometric data and
@@ -87,6 +87,7 @@ def test_irregular_shape() -> None:
     poly = Polygon([(0, 0), (2, 1), (1, 2), (0, 1)])
     mp = MultiPolygon([poly])
     breadth = compute_bideltoid_breadth_from_multipolygon(mp)
+    assert np.isclose(breadth, 2.0, atol=1e-6)
     assert np.isclose(breadth, 2.0, atol=1e-6)
     assert np.isclose(breadth, 2.0, atol=1e-6)
     assert np.isclose(breadth, 2.0, atol=1e-6)

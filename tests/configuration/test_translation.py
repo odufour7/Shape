@@ -8,7 +8,7 @@ Tests cover:
     - Agent's 3D body centroid and lowest height are correctly updated after translation in z direction
 """
 
-# Copyright  2025  Institute of Light and Matter
+# Copyright  2025  Institute of Light and Matter, CNRS UMR 5306
 # Contributors: Oscar DUFOUR, Maxime STAPELLE, Alexandre NICOLAS
 
 # This software is a computer program designed to generate a realistic crowd from anthropometric data and

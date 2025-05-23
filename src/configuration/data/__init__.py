@@ -1,1 +1,1 @@
-"""Data subpackage provides the module datafactory to convert the csv database into a pickle file that will be use later."""
+"""Data subpackage provides the module datafactory to prepare the data for a later use within the app."""
