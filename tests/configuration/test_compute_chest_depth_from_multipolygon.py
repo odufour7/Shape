@@ -4,9 +4,8 @@ Unit tests for the compute_chest_depth_from_multipolygon function.
 Tests cover:
     - Simple MultiPolygon with known vertical depth
     - MultiPolygon with two separated polygons
-    - Single Polygon wrapped in MultiPolygon
-    - Non-MultiPolygon input (error)
     - Degenerate case: all points on a horizontal line (depth zero)
+    - Non-MultiPolygon input (error)
     - Centroid shift invariance
     - Irregular shape with known max vertical distance at similar x
 """
@@ -40,12 +39,11 @@ import numpy as np
 import pytest
 from shapely.geometry import MultiPolygon, Polygon
 
-from configuration.utils.functions import compute_chest_depth_from_multipolygon  # Replace with your actual module
+from configuration.utils.functions import compute_chest_depth_from_multipolygon
 
 
 def test_simple_vertical_rectangle() -> None:
     """Test a single rectangle MultiPolygon where the chest depth is the rectangle's height."""
-    # Rectangle: width=2, height=5
     rect = Polygon([(0, 0), (2, 0), (2, 5), (0, 5)])
     mp = MultiPolygon([rect])
     depth = compute_chest_depth_from_multipolygon(mp)
@@ -63,7 +61,6 @@ def test_two_rectangles_same_x() -> None:
 
 def test_single_point_horizontal_line() -> None:
     """All points have the same y, so depth should be zero."""
-    # Horizontal line at y=1
     poly = Polygon([(0, 1), (1, 1), (2, 1)])
     mp = MultiPolygon([poly])
     depth = compute_chest_depth_from_multipolygon(mp)
@@ -78,18 +75,18 @@ def test_non_multipolygon_input() -> None:
 
 
 def test_depth_includes_centroid_shift() -> None:
-    """Test that centroid shift does not affect the result."""
-    # Rectangle at (10, 10), height=3
-    rect = Polygon([(10, 10), (12, 10), (12, 13), (10, 13)])
+    """Test that centroid shift (with respect to the Polygon of the first test) does not affect the result."""
+    rect = Polygon([(10, 10), (12, 10), (12, 15), (10, 15)])
     mp = MultiPolygon([rect])
     depth = compute_chest_depth_from_multipolygon(mp)
-    assert np.isclose(depth, 3.0, atol=1e-6)
+    assert np.isclose(depth, 5.0, atol=1e-6)
 
 
 def test_irregular_shape() -> None:
     """Test an irregular polygon where the max vertical distance is not between endpoints."""
     poly = Polygon([(0, 0), (1, 2), (2, 0), (1, -2)])
     mp = MultiPolygon([poly])
-    # The maximum vertical distance at similar x is between (1,2) and (1,-2)
     depth = compute_chest_depth_from_multipolygon(mp)
+    assert np.isclose(depth, 4.0, atol=1e-6)
+    assert np.isclose(depth, 4.0, atol=1e-6)
     assert np.isclose(depth, 4.0, atol=1e-6)

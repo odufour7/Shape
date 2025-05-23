@@ -17,4 +17,3 @@ If you prefer to run the application locally or want to use only specific functi
    create3Dped
    read_ANSURII_database
    read_configuration_files
-   export_to_ChAOS

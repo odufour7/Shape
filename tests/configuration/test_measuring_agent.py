@@ -1,4 +1,12 @@
-"""Test the measuring methods."""
+"""
+Unit tests for the measuring methods of Agent 2D and 3D shapes.
+
+Tests cover:
+    - Correctness of 2D measurements (chest depth, bideltoid breadth) under rotation and translation
+    - Correctness of 3D measurements (height, chest depth, bideltoid breadth) under rotation and translation
+    - Validation of the smallest 3D height value after transformations
+    - Consistency of measurements after multiple geometric operations
+"""
 
 # Copyright  2025  Institute of Light and Matter
 # Contributors: Oscar DUFOUR, Maxime STAPELLE, Alexandre NICOLAS

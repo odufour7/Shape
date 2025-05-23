@@ -5,7 +5,7 @@ repos:
     rev: v0.11.7
     hooks:
       - id: ruff
-        args: ["--fix"] # Automatically fix issues where possible
+        args: ["--fix"]
         types_or: ["python", "pyi"]
       # Formatting with Ruff
       - id: ruff-format
@@ -37,24 +37,13 @@ repos:
       - id: numpydoc-validation
         files: ^(src|tests)/.*\.py$
 
-  # # Test of Jupyter notebooks
-  # - repo: local
-  #   hooks:
-  #     - id: nbmake
-  #       name: jupyter-notebooks
-  #       entry: uv run pytest --nbmake tutorials/shapes_configuration/
-  #       language: system # Use 'system' to run the command directly
-  #       pass_filenames: false # Don't pass filenames from pre-commit, since you specify the directory
-  #       always_run: true # Run this hook on every commit, even if no notebooks changed
-  #       files: ^tutorials/shapes_configuration/.*\.ipynb$ # Restrict to this directory
-
   # Test of python functions
   - repo: local
     hooks:
       - id: uv-pytest
         name: pytest
         entry: uv run pytest
-        language: system # Use 'system' to run the command directly
+        language: system
         pass_filenames: false
         always_run: true
         types: ["python"]

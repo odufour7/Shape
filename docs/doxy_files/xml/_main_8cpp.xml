@@ -90,7 +90,7 @@
         </childnode>
       </node>
       <node id="1">
-        <label>src/Main.cpp</label>
+        <label>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Main.cpp</label>
         <link refid="_main_8cpp"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -177,7 +177,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/Main.cpp" line="41" column="9" bodyfile="src/Main.cpp" bodystart="41" bodyend="84"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Main.cpp" line="58" column="9" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Main.cpp" bodystart="58" bodyend="101"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -186,73 +186,90 @@
     </detaileddescription>
     <programlisting>
 <codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
-<codeline lineno="2"><highlight class="comment"><sp/>*<sp/><sp/>Copyright<sp/>2025<sp/>&lt;Dufour<sp/>Oscar,<sp/>Maxime<sp/>Stappel,<sp/>Nicolas<sp/>Alexandre,<sp/>Institute<sp/>of<sp/>Light<sp/>and<sp/>Matter,<sp/>CNRS<sp/>UMR<sp/>5306&gt;</highlight></codeline>
-<codeline lineno="3"><highlight class="comment"><sp/>*<sp/><sp/>&quot;Mechanical<sp/>layer&quot;<sp/>for<sp/>handling<sp/>agent<sp/>collisions<sp/>in<sp/>agent-based<sp/>models</highlight></codeline>
-<codeline lineno="4"><highlight class="comment"><sp/>*<sp/><sp/>Designed<sp/>as<sp/>a<sp/>shared<sp/>library<sp/>to<sp/>be<sp/>called<sp/>from<sp/>Python<sp/>or<sp/>C++</highlight></codeline>
-<codeline lineno="5"><highlight class="comment"><sp/>*</highlight></codeline>
-<codeline lineno="6"><highlight class="comment"><sp/>*<sp/><sp/>Part<sp/>the<sp/>agent-based<sp/>model<sp/>&quot;ANticipatory<sp/>Dynamics<sp/>Algorithm<sp/>(ANDA)&quot;:</highlight></codeline>
-<codeline lineno="7"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>A.<sp/>Nicolas,<sp/>2020</highlight></codeline>
-<codeline lineno="8"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>I.<sp/>Echeverria,<sp/>2021</highlight></codeline>
-<codeline lineno="9"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/><sp/>-<sp/>O.<sp/>Dufour,<sp/>2024</highlight></codeline>
-<codeline lineno="10"><highlight class="comment"><sp/>*<sp/><sp/>Adapted<sp/>as<sp/>a<sp/>standalone<sp/>library<sp/>by<sp/>M.<sp/>Stapelle,<sp/>2025.</highlight></codeline>
-<codeline lineno="11"><highlight class="comment"><sp/>*</highlight></codeline>
-<codeline lineno="12"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="13"><highlight class="normal"></highlight></codeline>
-<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="16"><highlight class="normal"></highlight></codeline>
-<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;CrowdMechanics.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">std::string,<sp/>std::map,<sp/>std::vector;</highlight></codeline>
-<codeline lineno="19"><highlight class="normal"></highlight></codeline>
-<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>extern<sp/>C<sp/>is<sp/>a<sp/>trick<sp/>for<sp/>Python<sp/>ctypes<sp/>to<sp/>work</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="22"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>CrowdMechanics(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**<sp/>files)</highlight></codeline>
-<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/><sp/>Read<sp/>general<sp/>PARAMETERS<sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>parametersFile<sp/>=<sp/>files[0];<sp/>readParameters(parametersFile)<sp/>==<sp/>EXIT_FAILURE)</highlight></codeline>
-<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>EXIT_FAILURE;</highlight></codeline>
-<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Store<sp/>the<sp/>dynamics<sp/>file<sp/>name,<sp/>wether<sp/>it<sp/>is<sp/>the<sp/>first<sp/>run<sp/>or<sp/>not</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>dynamicsFile<sp/>=<sp/>pathDynamic<sp/>+<sp/>files[4];</highlight></codeline>
-<codeline lineno="48"><highlight class="normal"></highlight></codeline>
-<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(firstRun)<sp/>{</highlight></codeline>
-<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/><sp/>Read<sp/>MATERIALS<sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Mapping<sp/>between<sp/>user-given<sp/>id&apos;s<sp/>and<sp/>indexes<sp/>in<sp/>the<sp/>program</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>map&lt;string,<sp/>int32_t&gt;<sp/>materialMapping;</highlight></codeline>
-<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>materialsFile<sp/>=<sp/>pathStatic<sp/>+<sp/>files[1];<sp/>readMaterials(materialsFile,<sp/>materialMapping)<sp/>==<sp/>EXIT_FAILURE)</highlight></codeline>
-<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>EXIT_FAILURE;</highlight></codeline>
-<codeline lineno="55"><highlight class="normal"></highlight></codeline>
-<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/><sp/>Read<sp/>GEOMETRY<sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>geometryFile<sp/>=<sp/>pathStatic<sp/>+<sp/>files[2];<sp/>readGeometry(geometryFile,<sp/>materialMapping)<sp/>==<sp/>EXIT_FAILURE)</highlight></codeline>
-<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>EXIT_FAILURE;</highlight></codeline>
-<codeline lineno="59"><highlight class="normal"></highlight></codeline>
-<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/><sp/>Read<sp/>AGENTS<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vector&lt;unsigned&gt;<sp/>nb_shapes_allagents,<sp/>shapeIDagent;</highlight></codeline>
-<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vector&lt;int&gt;<sp/>edges;</highlight></codeline>
-<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vector&lt;double&gt;<sp/>radius_allshapes,<sp/>masses,<sp/>mois;</highlight></codeline>
-<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vector&lt;double2&gt;<sp/>delta_gtos;</highlight></codeline>
-<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>agentsFile<sp/>=<sp/>pathStatic<sp/>+<sp/>files[3];</highlight></codeline>
-<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>readAgents(agentsFile,<sp/>nb_shapes_allagents,<sp/>shapeIDagent,<sp/>edges,<sp/>radius_allshapes,<sp/>masses,<sp/>mois,<sp/>delta_gtos,</highlight></codeline>
-<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>materialMapping)<sp/>==<sp/>EXIT_FAILURE)</highlight></codeline>
-<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>EXIT_FAILURE;</highlight></codeline>
-<codeline lineno="69"><highlight class="normal"></highlight></codeline>
-<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/><sp/>Initialise<sp/>simulation<sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(initialiseSetting(dynamicsFile,<sp/>nb_shapes_allagents,<sp/>shapeIDagent,<sp/>edges,<sp/>radius_allshapes,<sp/>masses,<sp/>mois,<sp/>delta_gtos)<sp/>==</highlight></codeline>
-<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXIT_FAILURE)</highlight></codeline>
-<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>EXIT_FAILURE;</highlight></codeline>
-<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(updateSetting(dynamicsFile)<sp/>==<sp/>EXIT_FAILURE)</highlight></codeline>
-<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>EXIT_FAILURE;</highlight></codeline>
-<codeline lineno="78"><highlight class="normal"></highlight></codeline>
-<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/><sp/>Main<sp/>program<sp/>procedure<sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handleMechanicalLayer(dynamicsFile);</highlight></codeline>
-<codeline lineno="81"><highlight class="normal"></highlight></codeline>
-<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>firstRun<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>EXIT_SUCCESS;</highlight></codeline>
-<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="85"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/><sp/><sp/><sp/>Copyright<sp/><sp/>2025<sp/><sp/>Institute<sp/>of<sp/>Light<sp/>and<sp/>Matter,<sp/>CNRS<sp/>UMR<sp/>5306</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/><sp/><sp/><sp/>Contributors:<sp/>Oscar<sp/>DUFOUR,<sp/>Maxime<sp/>STAPELLE,<sp/>Alexandre<sp/>NICOLAS</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"></highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/><sp/><sp/><sp/>This<sp/>software<sp/>is<sp/>a<sp/>computer<sp/>program<sp/>designed<sp/>to<sp/>generate<sp/>a<sp/>realistic<sp/>crowd<sp/>from<sp/>anthropometric<sp/>data<sp/>and</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/><sp/><sp/><sp/>simulate<sp/>the<sp/>mechanical<sp/>interactions<sp/>that<sp/>occur<sp/>within<sp/>it<sp/>and<sp/>with<sp/>obstacles.</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"></highlight></codeline>
+<codeline lineno="8"><highlight class="comment"><sp/><sp/><sp/><sp/>This<sp/>software<sp/>is<sp/>governed<sp/>by<sp/>the<sp/>CeCILL<sp/><sp/>license<sp/>under<sp/>French<sp/>law<sp/>and<sp/>abiding<sp/>by<sp/>the<sp/>rules<sp/>of<sp/>distribution</highlight></codeline>
+<codeline lineno="9"><highlight class="comment"><sp/><sp/><sp/><sp/>of<sp/>free<sp/>software.<sp/><sp/>You<sp/>can<sp/><sp/>use,<sp/>modify<sp/>and/<sp/>or<sp/>redistribute<sp/>the<sp/>software<sp/>under<sp/>the<sp/>terms<sp/>of<sp/>the<sp/>CeCILL</highlight></codeline>
+<codeline lineno="10"><highlight class="comment"><sp/><sp/><sp/><sp/>license<sp/>as<sp/>circulated<sp/>by<sp/>CEA,<sp/>CNRS<sp/>and<sp/>INRIA<sp/>at<sp/>the<sp/>following<sp/>URL<sp/>&quot;http://www.cecill.info&quot;.</highlight></codeline>
+<codeline lineno="11"><highlight class="comment"></highlight></codeline>
+<codeline lineno="12"><highlight class="comment"><sp/><sp/><sp/><sp/>As<sp/>a<sp/>counterpart<sp/>to<sp/>the<sp/>access<sp/>to<sp/>the<sp/>source<sp/>code<sp/>and<sp/><sp/>rights<sp/>to<sp/>copy,<sp/>modify<sp/>and<sp/>redistribute<sp/>granted<sp/>by</highlight></codeline>
+<codeline lineno="13"><highlight class="comment"><sp/><sp/><sp/><sp/>the<sp/>license,<sp/>users<sp/>are<sp/>provided<sp/>only<sp/>with<sp/>a<sp/>limited<sp/>warranty<sp/><sp/>and<sp/>the<sp/>software&apos;s<sp/>author,<sp/><sp/>the<sp/>holder<sp/>of<sp/>the</highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/><sp/><sp/><sp/>economic<sp/>rights,<sp/><sp/>and<sp/>the<sp/>successive<sp/>licensors<sp/><sp/>have<sp/>only<sp/><sp/>limited<sp/>liability.</highlight></codeline>
+<codeline lineno="15"><highlight class="comment"></highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/><sp/><sp/><sp/>In<sp/>this<sp/>respect,<sp/>the<sp/>user&apos;s<sp/>attention<sp/>is<sp/>drawn<sp/>to<sp/>the<sp/>risks<sp/>associated<sp/>with<sp/>loading,<sp/><sp/>using,<sp/><sp/>modifying</highlight></codeline>
+<codeline lineno="17"><highlight class="comment"><sp/><sp/><sp/><sp/>and/or<sp/>developing<sp/>or<sp/>reproducing<sp/>the<sp/>software<sp/>by<sp/>the<sp/>user<sp/>in<sp/>light<sp/>of<sp/>its<sp/>specific<sp/>status<sp/>of<sp/>free<sp/>software,</highlight></codeline>
+<codeline lineno="18"><highlight class="comment"><sp/><sp/><sp/><sp/>that<sp/>may<sp/>mean<sp/><sp/>that<sp/>it<sp/>is<sp/>complicated<sp/>to<sp/>manipulate,<sp/><sp/>and<sp/><sp/>that<sp/><sp/>also<sp/>therefore<sp/>means<sp/><sp/>that<sp/>it<sp/>is<sp/>reserved</highlight></codeline>
+<codeline lineno="19"><highlight class="comment"><sp/><sp/><sp/><sp/>for<sp/>developers<sp/><sp/>and<sp/><sp/>experienced<sp/>professionals<sp/>having<sp/>in-depth<sp/>computer<sp/>knowledge.<sp/>Users<sp/>are<sp/>therefore</highlight></codeline>
+<codeline lineno="20"><highlight class="comment"><sp/><sp/><sp/><sp/>encouraged<sp/>to<sp/>load<sp/>and<sp/>test<sp/>the<sp/>software&apos;s<sp/>suitability<sp/>as<sp/>regards<sp/>their<sp/>requirements<sp/>in<sp/>conditions<sp/>enabling</highlight></codeline>
+<codeline lineno="21"><highlight class="comment"><sp/><sp/><sp/><sp/>the<sp/>security<sp/>of<sp/>their<sp/>systems<sp/>and/or<sp/>data<sp/>to<sp/>be<sp/>ensured<sp/>and,<sp/><sp/>more<sp/>generally,<sp/>to<sp/>use<sp/>and<sp/>operate<sp/>it<sp/>in<sp/>the</highlight></codeline>
+<codeline lineno="22"><highlight class="comment"><sp/><sp/><sp/><sp/>same<sp/>conditions<sp/>as<sp/>regards<sp/>security.</highlight></codeline>
+<codeline lineno="23"><highlight class="comment"></highlight></codeline>
+<codeline lineno="24"><highlight class="comment"><sp/><sp/><sp/><sp/>The<sp/>fact<sp/>that<sp/>you<sp/>are<sp/>presently<sp/>reading<sp/>this<sp/>means<sp/>that<sp/>you<sp/>have<sp/>had<sp/>knowledge<sp/>of<sp/>the<sp/>CeCILL<sp/>license<sp/>and<sp/>that</highlight></codeline>
+<codeline lineno="25"><highlight class="comment"><sp/><sp/><sp/><sp/>you<sp/>accept<sp/>its<sp/>terms.</highlight></codeline>
+<codeline lineno="26"><highlight class="comment"></highlight></codeline>
+<codeline lineno="27"><highlight class="comment"><sp/><sp/><sp/><sp/>`Mechanical<sp/>layer`<sp/>for<sp/>handling<sp/>agent<sp/>collisions<sp/>in<sp/>agent-based<sp/>models.</highlight></codeline>
+<codeline lineno="28"><highlight class="comment"><sp/><sp/><sp/><sp/>Designed<sp/>as<sp/>a<sp/>shared<sp/>library<sp/>to<sp/>be<sp/>called<sp/>from<sp/>Python<sp/>or<sp/>C++</highlight></codeline>
+<codeline lineno="29"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;CrowdMechanics.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">std::string,<sp/>std::map,<sp/>std::vector;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>extern<sp/>C<sp/>is<sp/>a<sp/>trick<sp/>for<sp/>Python<sp/>ctypes<sp/>to<sp/>work</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>CrowdMechanics(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**<sp/>files)</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/><sp/>Read<sp/>general<sp/>PARAMETERS<sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>parametersFile<sp/>=<sp/>files[0];<sp/>readParameters(parametersFile)<sp/>==<sp/>EXIT_FAILURE)</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>EXIT_FAILURE;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Store<sp/>the<sp/>dynamics<sp/>file<sp/>name,<sp/>whether<sp/>it<sp/>is<sp/>the<sp/>first<sp/>run<sp/>or<sp/>not</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>dynamicsFile<sp/>=<sp/>pathDynamic<sp/>+<sp/>files[4];</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(firstRun)</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/><sp/>Read<sp/>MATERIALS<sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Mapping<sp/>between<sp/>user-given<sp/>id&apos;s<sp/>and<sp/>indexes<sp/>in<sp/>the<sp/>program</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>map&lt;string,<sp/>int32_t&gt;<sp/>materialMapping;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>materialsFile<sp/>=<sp/>pathStatic<sp/>+<sp/>files[1];<sp/>readMaterials(materialsFile,<sp/>materialMapping)<sp/>==<sp/>EXIT_FAILURE)</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>EXIT_FAILURE;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/><sp/>Read<sp/>GEOMETRY<sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>geometryFile<sp/>=<sp/>pathStatic<sp/>+<sp/>files[2];<sp/>readGeometry(geometryFile,<sp/>materialMapping)<sp/>==<sp/>EXIT_FAILURE)</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>EXIT_FAILURE;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/><sp/>Read<sp/>AGENTS<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vector&lt;unsigned&gt;<sp/>nb_shapes_allagents,<sp/>shapeIDagent;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vector&lt;int&gt;<sp/>edges;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vector&lt;double&gt;<sp/>radius_allshapes,<sp/>masses,<sp/>mois;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vector&lt;double2&gt;<sp/>delta_gtos;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>agentsFile<sp/>=<sp/>pathStatic<sp/>+<sp/>files[3];</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>readAgents(agentsFile,<sp/>nb_shapes_allagents,<sp/>shapeIDagent,<sp/>edges,<sp/>radius_allshapes,<sp/>masses,<sp/>mois,<sp/>delta_gtos,</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>materialMapping)<sp/>==<sp/>EXIT_FAILURE)</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>EXIT_FAILURE;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/><sp/>Initialise<sp/>simulation<sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(initialiseSetting(dynamicsFile,<sp/>nb_shapes_allagents,<sp/>shapeIDagent,<sp/>edges,<sp/>radius_allshapes,<sp/>masses,<sp/>mois,</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>delta_gtos)<sp/>==<sp/>EXIT_FAILURE)</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>EXIT_FAILURE;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(updateSetting(dynamicsFile)<sp/>==<sp/>EXIT_FAILURE)</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>EXIT_FAILURE;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/><sp/>Main<sp/>program<sp/>procedure<sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handleMechanicalLayer(dynamicsFile);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>firstRun<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>EXIT_SUCCESS;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}</highlight></codeline>
     </programlisting>
-    <location file="src/Main.cpp"/>
+    <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Main.cpp"/>
   </compounddef>
 </doxygen>

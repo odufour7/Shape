@@ -8,8 +8,8 @@
     </detaileddescription>
     <programlisting>
 <codeline lineno="1"><highlight class="normal">CMakeFiles/CrowdMechanics.dir/src/Global.cpp.o:<sp/>\</highlight></codeline>
-<codeline lineno="2"><highlight class="normal"><sp/><sp/>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/src/Global.cpp<sp/>\</highlight></codeline>
-<codeline lineno="3"><highlight class="normal"><sp/><sp/>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/Global.h<sp/>\</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"><sp/><sp/>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Global.cpp<sp/>\</highlight></codeline>
+<codeline lineno="3"><highlight class="normal"><sp/><sp/>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h<sp/>\</highlight></codeline>
 <codeline lineno="4"><highlight class="normal"><sp/><sp/>/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/stat.h<sp/>\</highlight></codeline>
 <codeline lineno="5"><highlight class="normal"><sp/><sp/>/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types.h<sp/>\</highlight></codeline>
 <codeline lineno="6"><highlight class="normal"><sp/><sp/>/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h<sp/>\</highlight></codeline>
@@ -969,8 +969,8 @@
 <codeline lineno="960"><highlight class="normal"><sp/><sp/>/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/map<sp/>\</highlight></codeline>
 <codeline lineno="961"><highlight class="normal"><sp/><sp/>/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__tree<sp/>\</highlight></codeline>
 <codeline lineno="962"><highlight class="normal"><sp/><sp/>/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/sstream<sp/>\</highlight></codeline>
-<codeline lineno="963"><highlight class="normal"><sp/><sp/>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/include/../3rdparty/tinyxml/tinyxml2.h</highlight></codeline>
+<codeline lineno="963"><highlight class="normal"><sp/><sp/>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/../3rdparty/tinyxml/tinyxml2.h</highlight></codeline>
     </programlisting>
-    <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/build/CMakeFiles/CrowdMechanics.dir/src/Global.cpp.o.d"/>
+    <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/build/CMakeFiles/CrowdMechanics.dir/src/Global.cpp.o.d"/>
   </compounddef>
 </doxygen>

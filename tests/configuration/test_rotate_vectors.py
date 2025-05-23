@@ -2,11 +2,12 @@
 Unit tests for the rotate_vectors function.
 
 Tests cover:
-    - Correct rotation for canonical angles (0, 90, 180, 270 degrees)
-    - Multiple vectors in the dictionary
-    - Empty dictionary
-    - Negative and non-integer angles
-    - Floating point precision handling
+    - Rotation accuracy for standard angles (0°, 90°, 180°, 270°)
+    - Non-integer and negative angle values
+    - Empty dictionary handling
+    - Multiple vector transformations in single operation
+    - Input immutability verification
+    - Error handling for invalid vector formats
 """
 
 # Copyright  2025  Institute of Light and Matter
@@ -109,9 +110,9 @@ def test_rotate_negative_angle() -> None:
 def test_rotate_non_integer_angle() -> None:
     """Test rotation by a non-integer angle."""
     vectors = {"a": (1.0, 0.0)}
-    theta = 45.0
-    expected_x = math.cos(math.radians(45))
-    expected_y = math.sin(math.radians(45))
+    theta = 45.5
+    expected_x = math.cos(math.radians(theta))
+    expected_y = math.sin(math.radians(theta))
     result = rotate_vectors(vectors, theta)
     assert math.isclose(result["a"][0], expected_x, abs_tol=1e-8)
     assert math.isclose(result["a"][1], expected_y, abs_tol=1e-8)

@@ -2,9 +2,10 @@
 Unit tests for the from_string_to_tuple function.
 
 Tests cover:
-    - Valid string inputs (with/without parentheses, with extra spaces)
-    - Invalid formats (wrong number of elements, not a string, non-numeric)
-    - Edge cases (negative numbers, scientific notation, leading/trailing whitespace)
+    - Valid string inputs (with and without parentheses, extra spaces, negative numbers, scientific notation)
+    - Handling of leading/trailing whitespace
+    - Invalid inputs (non-string, wrong number of elements, non-numeric values, empty string)
+    - Error message validation for incorrect formats
 """
 
 # Copyright  2025  Institute of Light and Matter

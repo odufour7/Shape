@@ -1,10 +1,35 @@
 /*
-    Copyright 2025 <Dufour Oscar, Maxime Stappel, Nicolas Alexandre, Institute of Light and Matter, CNRS UMR 5306>
+    Copyright  2025  Institute of Light and Matter, CNRS UMR 5306
+    Contributors: Oscar DUFOUR, Maxime STAPELLE, Alexandre NICOLAS
+
+    This software is a computer program designed to generate a realistic crowd from anthropometric data and
+    simulate the mechanical interactions that occur within it and with obstacles.
+
+    This software is governed by the CeCILL  license under French law and abiding by the rules of distribution
+    of free software.  You can  use, modify and/ or redistribute the software under the terms of the CeCILL
+    license as circulated by CEA, CNRS and INRIA at the following URL "http://www.cecill.info".
+
+    As a counterpart to the access to the source code and  rights to copy, modify and redistribute granted by
+    the license, users are provided only with a limited warranty  and the software's author,  the holder of the
+    economic rights,  and the successive licensors  have only  limited liability.
+
+    In this respect, the user's attention is drawn to the risks associated with loading,  using,  modifying
+    and/or developing or reproducing the software by the user in light of its specific status of free software,
+    that may mean  that it is complicated to manipulate,  and  that  also therefore means  that it is reserved
+    for developers  and  experienced professionals having in-depth computer knowledge. Users are therefore
+    encouraged to load and test the software's suitability as regards their requirements in conditions enabling
+    the security of their systems and/or data to be ensured and,  more generally, to use and operate it in the
+    same conditions as regards security.
+
+    The fact that you are presently reading this means that you have had knowledge of the CeCILL license and that
+    you accept its terms.
+
     Crowd.cpp is responsible for setting up the global situation, decide which agents
     are mechanically active and call the mechanical layer for the latter.
  */
 
 #include "Crowd.h"
+
 #include "MechanicalLayer.h"
 
 using std::string, std::vector, std::list, std::cerr, std::cout, std::endl, std::ranges::find, std::ofstream;
@@ -44,7 +69,8 @@ int initialiseSetting(const std::string& dynamicsFile, std::vector<unsigned>& nb
     }
 
     /*  Create the agents  */
-    for (uint32_t a = 0; a < nAgents; a++) {
+    for (uint32_t a = 0; a < nAgents; a++)
+    {
         vector<double2> delta_gtos_curr(&delta_gtos[edges[a]], &delta_gtos[edges[a + 1]]);
         double2 shoulders_direction(delta_gtos[edges[a + 1] - 1] - delta_gtos[edges[a]]);    // from left to right
         double2 orientation_vec({-shoulders_direction.second, shoulders_direction.first});   // normal to the shoulders direction
@@ -57,23 +83,22 @@ int initialiseSetting(const std::string& dynamicsFile, std::vector<unsigned>& nb
         const double mass_curr(masses[a]), moi_curr(mois[a]);
 
         //  Actual creation of the Agent object
-        agents[a] =
-            new Agent(a, Ids_shapes_agent, nb_shapes_allagents[a], delta_gtos_curr, radius_shapes,
-                      theta_body_init, mass_curr, moi_curr);
+        agents[a] = new Agent(a, Ids_shapes_agent, nb_shapes_allagents[a], delta_gtos_curr, radius_shapes, theta_body_init, mass_curr,
+                              moi_curr);
     }
 
     /*  Update the agents with the Dynamics file  */
     return updateSetting(dynamicsFile);
 }
 /**
-* @brief The function updates all agents with the agentDynamics (dynamic data) XML files.
+ * @brief The function updates all agents with the agentDynamics (dynamic data) XML files.
  *        It initiates the list of neighbours by calling determine_agents_neighbours().
  *
  * @param dynamicsFile The input file containing the current state and driving forces for all agents
  *
  * @return EXIT_SUCCESS if no issue with the Dynamics file
  *         EXIT_FAILURE otherwise
-*/
+ */
 int updateSetting(const string& dynamicsFile)
 {
     /*  Create agents: read the dynamics file first  */
@@ -178,17 +203,17 @@ int updateSetting(const string& dynamicsFile)
             return EXIT_FAILURE;
         }
         //  Update agent with the kinematics and dynamics
-        agents[a]->_x  = position.first;
-        agents[a]->_y  = position.second;
+        agents[a]->_x = position.first;
+        agents[a]->_y = position.second;
         agents[a]->_theta = theta;
         agents[a]->_vx = velocity.first;
         agents[a]->_vy = velocity.second;
-        agents[a]->_w  = omega;
+        agents[a]->_w = omega;
         const double inverseTauMechTranslation = agentProperties[a].first;
         const double inverseTauMechRotation = agentProperties[a].second;
-        agents[a]->_vx_des = Fp.first / inverseTauMechTranslation / agents[a]->_mass;    //  vx_des := Fpx/m * tau_mech
+        agents[a]->_vx_des = Fp.first / inverseTauMechTranslation / agents[a]->_mass;   //  vx_des := Fpx/m * tau_mech
         agents[a]->_vy_des = Fp.second / inverseTauMechTranslation / agents[a]->_mass;
-        agents[a]->_w_des  = Mp / inverseTauMechRotation / agents[a]->_moi;              //  w_des  := Mp/I  * tau_mech
+        agents[a]->_w_des = Mp / inverseTauMechRotation / agents[a]->_moi;   //  w_des  := Mp/I  * tau_mech
         if (!(agents[a]->_vx_des == 0. && agents[a]->_vy_des == 0.))
             agents[a]->_theta_des = atan2(agents[a]->_vy_des, agents[a]->_vx_des);
         else
@@ -199,7 +224,8 @@ int updateSetting(const string& dynamicsFile)
         agentElement = agentElement->NextSiblingElement("Agent");
         agentCounter++;
     }
-    if (agentCounter < nAgents) {
+    if (agentCounter < nAgents)
+    {
         cerr << "Agents are missing in the dynamics file!" << endl;
         return EXIT_FAILURE;
     }

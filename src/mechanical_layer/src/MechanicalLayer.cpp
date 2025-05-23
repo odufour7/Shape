@@ -1,5 +1,29 @@
 /*
-    Copyright 2025 <Dufour Oscar, Maxime Stappel, Nicolas Alexandre, Institute of Light and Matter, CNRS UMR 5306>
+    Copyright  2025  Institute of Light and Matter, CNRS UMR 5306
+    Contributors: Oscar DUFOUR, Maxime STAPELLE, Alexandre NICOLAS
+
+    This software is a computer program designed to generate a realistic crowd from anthropometric data and
+    simulate the mechanical interactions that occur within it and with obstacles.
+
+    This software is governed by the CeCILL  license under French law and abiding by the rules of distribution
+    of free software.  You can  use, modify and/ or redistribute the software under the terms of the CeCILL
+    license as circulated by CEA, CNRS and INRIA at the following URL "http://www.cecill.info".
+
+    As a counterpart to the access to the source code and  rights to copy, modify and redistribute granted by
+    the license, users are provided only with a limited warranty  and the software's author,  the holder of the
+    economic rights,  and the successive licensors  have only  limited liability.
+
+    In this respect, the user's attention is drawn to the risks associated with loading,  using,  modifying
+    and/or developing or reproducing the software by the user in light of its specific status of free software,
+    that may mean  that it is complicated to manipulate,  and  that  also therefore means  that it is reserved
+    for developers  and  experienced professionals having in-depth computer knowledge. Users are therefore
+    encouraged to load and test the software's suitability as regards their requirements in conditions enabling
+    the security of their systems and/or data to be ensured and,  more generally, to use and operate it in the
+    same conditions as regards security.
+
+    The fact that you are presently reading this means that you have had knowledge of the CeCILL license and that
+    you accept its terms.
+
     This file contains the actual mechanical layer, which will take mechanically active agents and handle possible collisions.
  */
 
@@ -331,7 +355,7 @@ tuple<double2, double2, double> MechanicalLayer::get_interactions(unsigned cpt_s
             else
                 slip[{cpt_shape, cpt_shape_neigh}] = slip[{cpt_shape, cpt_shape_neigh}] + dt_mech * vt_ij;
             //  For the output Interactions file:
-            //  	We will only put the N(N-1)/2 pairs, ie cpt_shape_neigh>cpt_shape
+            //  We will only put the N(N-1)/2 pairs, ie cpt_shape_neigh>cpt_shape
             if (!interactionsOutput.contains({cpt_shape_neigh, cpt_shape}))
                 interactionsOutput[{cpt_shape, cpt_shape_neigh}][SLIP] = slip[{cpt_shape, cpt_shape_neigh}];
 
@@ -388,7 +412,6 @@ tuple<double2, double2, double> MechanicalLayer::get_interactions(unsigned cpt_s
                     interactionsOutput.erase({cpt_shape_neigh, cpt_shape});
             }
         }
-
     }
 
     /*  Interactions with walls */
@@ -414,7 +437,6 @@ tuple<double2, double2, double> MechanicalLayer::get_interactions(unsigned cpt_s
             //  If the shape is in contact with the wall:
             if (h > 0.)
             {
-
                 double2 v_ci = velshape + (angvel ^ dcGshape);
                 double2 viw = v_ci - double2(0., 0.);
                 double2 vortho_iw = (viw % n_iw) * n_iw;
@@ -428,11 +450,10 @@ tuple<double2, double2, double> MechanicalLayer::get_interactions(unsigned cpt_s
                 else
                     slip_wall[{cpt_shape, iobs, iwall}] = slip_wall[{cpt_shape, iobs, iwall}] + dt_mech * vt_iw;
                 //  For the Interactions output file:
-    	        interactionsOutputWall[{cpt_shape, iobs, iwall}][SLIP] = slip_wall[{cpt_shape, iobs, iwall}];
+                interactionsOutputWall[{cpt_shape, iobs, iwall}][SLIP] = slip_wall[{cpt_shape, iobs, iwall}];
 
                 double2 delta_tiw = slip_wall[{cpt_shape, iobs, iwall}];
                 double norm_delta_tiw = !delta_tiw;
-
 
                 uint32_t shapeMaterialId = shapesMaterial[active_shapeIDshape_crowd[cpt_shape]];
                 uint32_t obstacleMaterialId = obstaclesMaterial[iobs];
@@ -443,7 +464,7 @@ tuple<double2, double2, double> MechanicalLayer::get_interactions(unsigned cpt_s
                 double2 fniw_viscous = -Gamma_n_wall * vortho_iw;
                 double2 fniw = fniw_elastic + fniw_viscous;
                 fortho = fortho + fniw;
-	            interactionsOutputWall[{cpt_shape, iobs, iwall}][FORCE_ORTHO] = fniw;
+                interactionsOutputWall[{cpt_shape, iobs, iwall}][FORCE_ORTHO] = fniw;
 
                 /*  Tangential interactions  */
                 double2 t_viw;
@@ -470,14 +491,14 @@ tuple<double2, double2, double> MechanicalLayer::get_interactions(unsigned cpt_s
                 double torqiw = torqniw + torqtiw;
                 torq = torq + torqiw;
             }
-	        else
-    	    {
-        	    if (slip_wall.contains({cpt_shape, iobs, iwall}))
-            	{
-                	slip_wall.erase({cpt_shape, iobs, iwall});
-                	interactionsOutputWall.erase({cpt_shape, iobs, iwall});
-    	        }
-	        }
+            else
+            {
+                if (slip_wall.contains({cpt_shape, iobs, iwall}))
+                {
+                    slip_wall.erase({cpt_shape, iobs, iwall});
+                    interactionsOutputWall.erase({cpt_shape, iobs, iwall});
+                }
+            }
             iwall++;
         }
         iobs++;

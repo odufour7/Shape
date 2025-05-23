@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.13.2" xml:lang="en-US">
   <compounddef id="dir_f966173dae337468e744bc02eb138d56" kind="dir">
-    <compoundname>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/build</compoundname>
-    <innerdir refid="dir_da8736ba346742f9173f51b18c4c2850">/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/build/CMakeFiles</innerdir>
+    <compoundname>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/build</compoundname>
+    <innerdir refid="dir_da8736ba346742f9173f51b18c4c2850">/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/build/CMakeFiles</innerdir>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/build/"/>
+    <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/build/"/>
   </compounddef>
 </doxygen>

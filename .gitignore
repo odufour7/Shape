@@ -50,3 +50,4 @@ build/
 /tutorials/mechanical_layer/outputXML/
 /tutorials/mechanical_layer/inputXML/
 /tutorials/mechanical_layer/outputCSV/
+/tutorials/mechanical_layer/dynamic/AgentInteractions.xml

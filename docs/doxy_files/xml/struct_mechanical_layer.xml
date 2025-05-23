@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="38" column="14" bodyfile="include/MechanicalLayer.h" bodystart="38" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="63" column="14" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" bodystart="63" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_mechanical_layer_1a0d550a287d4362b687783ec336fad10c" prot="private" static="no" mutable="no">
         <type>unsigned</type>
@@ -30,7 +30,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="39" column="14" bodyfile="include/MechanicalLayer.h" bodystart="39" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="64" column="14" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" bodystart="64" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_mechanical_layer_1a1fd7edad63dad37a436eb0aa33c2a4d3" prot="private" static="no" mutable="no">
         <type>std::vector&lt; double2 &gt;</type>
@@ -44,7 +44,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="40" column="17" bodyfile="include/MechanicalLayer.h" bodystart="40" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="65" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" bodystart="65" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_mechanical_layer_1afebf27fa2199d3457cc6c9750809892c" prot="private" static="no" mutable="no">
         <type>std::vector&lt; double2 &gt;</type>
@@ -58,7 +58,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="41" column="17" bodyfile="include/MechanicalLayer.h" bodystart="41" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="66" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" bodystart="66" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_mechanical_layer_1ae8054839f11cc1b49b68eb7ab8e82e9e" prot="private" static="no" mutable="no">
         <type>std::vector&lt; double2 &gt;</type>
@@ -72,7 +72,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="42" column="17" bodyfile="include/MechanicalLayer.h" bodystart="42" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="67" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" bodystart="67" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_mechanical_layer_1af589b17443d56c6e2cbb6d88eaca8de5" prot="private" static="no" mutable="no">
         <type>std::vector&lt; double2 &gt;</type>
@@ -86,7 +86,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="43" column="17" bodyfile="include/MechanicalLayer.h" bodystart="43" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="68" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" bodystart="68" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_mechanical_layer_1a96513bb9b2356abfe10a25ac12741174" prot="private" static="no" mutable="no">
         <type>std::vector&lt; double2 &gt;</type>
@@ -100,7 +100,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="44" column="17" bodyfile="include/MechanicalLayer.h" bodystart="44" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="69" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" bodystart="69" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_mechanical_layer_1a05dd26a3707b9797590402be3082dc6f" prot="private" static="no" mutable="no">
         <type>std::vector&lt; double2 &gt;</type>
@@ -114,7 +114,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="45" column="17" bodyfile="include/MechanicalLayer.h" bodystart="45" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="70" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" bodystart="70" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_mechanical_layer_1aef267abd44a8a9227d3ba187d2499505" prot="private" static="no" mutable="no">
         <type>std::vector&lt; double &gt;</type>
@@ -128,7 +128,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="47" column="17" bodyfile="include/MechanicalLayer.h" bodystart="47" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="72" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" bodystart="72" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_mechanical_layer_1ad16780becbcd653566ce2762b7b92155" prot="private" static="no" mutable="no">
         <type>std::vector&lt; double &gt;</type>
@@ -142,7 +142,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="48" column="17" bodyfile="include/MechanicalLayer.h" bodystart="48" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="73" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" bodystart="73" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_mechanical_layer_1a1e9baf1b61b4b6a8f3263ddc8cb66ea3" prot="private" static="no" mutable="no">
         <type>std::vector&lt; double &gt;</type>
@@ -156,7 +156,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="49" column="17" bodyfile="include/MechanicalLayer.h" bodystart="49" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="74" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" bodystart="74" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_mechanical_layer_1a81b191f31d33c3d705d5bea8f74c415d" prot="private" static="no" mutable="no">
         <type>std::vector&lt; double &gt;</type>
@@ -170,7 +170,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="50" column="17" bodyfile="include/MechanicalLayer.h" bodystart="50" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="75" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" bodystart="75" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_mechanical_layer_1ad4fbeb99aa5aae3b6995cda682f704a7" prot="private" static="no" mutable="no">
         <type>std::vector&lt; double &gt;</type>
@@ -184,7 +184,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="51" column="17" bodyfile="include/MechanicalLayer.h" bodystart="51" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="76" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" bodystart="76" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_mechanical_layer_1a99f8b6dc3cfba590e569761a2336c9df" prot="private" static="no" mutable="no">
         <type>std::vector&lt; double2 &gt;</type>
@@ -198,7 +198,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="53" column="17" bodyfile="include/MechanicalLayer.h" bodystart="53" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="78" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" bodystart="78" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_mechanical_layer_1a60c8f918cc6cf2b82624edc2865a3d20" prot="private" static="no" mutable="no">
         <type>std::vector&lt; double2 &gt;</type>
@@ -212,7 +212,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="54" column="17" bodyfile="include/MechanicalLayer.h" bodystart="54" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="79" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" bodystart="79" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_mechanical_layer_1a030867d5f403acd81e57d48d74d17e8e" prot="private" static="no" mutable="no">
         <type>std::vector&lt; double2 &gt;</type>
@@ -226,7 +226,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="55" column="17" bodyfile="include/MechanicalLayer.h" bodystart="55" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="80" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" bodystart="80" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_mechanical_layer_1a9a648518dc07c5ab67612b4d6f4f4d6f" prot="private" static="no" mutable="no">
         <type>std::vector&lt; double &gt;</type>
@@ -240,7 +240,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="56" column="17" bodyfile="include/MechanicalLayer.h" bodystart="56" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="81" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" bodystart="81" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_mechanical_layer_1af42801711cb4eaf47ff74c4fc94f9447" prot="private" static="no" mutable="no">
         <type>std::vector&lt; std::list&lt; int &gt; &gt;</type>
@@ -254,7 +254,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="57" column="17" bodyfile="include/MechanicalLayer.h" bodystart="57" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="82" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" bodystart="82" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_mechanical_layer_1a51c46db9390dd1a4619c5736219239bd" prot="private" static="no" mutable="no">
         <type>std::vector&lt; unsigned &gt;</type>
@@ -268,7 +268,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="58" column="17" bodyfile="include/MechanicalLayer.h" bodystart="58" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="83" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" bodystart="83" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_mechanical_layer_1a00287374db8ca70da180f55ee6fb02cd" prot="private" static="no" mutable="no">
         <type>std::vector&lt; unsigned &gt;</type>
@@ -282,7 +282,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="59" column="17" bodyfile="include/MechanicalLayer.h" bodystart="59" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="84" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" bodystart="84" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_mechanical_layer_1abd1438db7007cbd09531f8544021e10b" prot="private" static="no" mutable="no">
         <type>std::vector&lt; double &gt;</type>
@@ -296,7 +296,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="60" column="17" bodyfile="include/MechanicalLayer.h" bodystart="60" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="85" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" bodystart="85" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_mechanical_layer_1a8c51cfd2ca3b50989175fa3c5e2bd99d" prot="private" static="no" mutable="no">
         <type>std::vector&lt; unsigned &gt;</type>
@@ -310,7 +310,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="61" column="17" bodyfile="include/MechanicalLayer.h" bodystart="61" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="86" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" bodystart="86" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_mechanical_layer_1a9012efef9b4c969a138edf3e78d50589" prot="private" static="no" mutable="no">
         <type>std::map&lt; unsigned, unsigned &gt;</type>
@@ -324,7 +324,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="62" column="14" bodyfile="include/MechanicalLayer.h" bodystart="62" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="87" column="14" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" bodystart="87" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_mechanical_layer_1a5387063855aacf76e4b1bbbc7df64c85" prot="private" static="no" mutable="no">
         <type>std::vector&lt; unsigned &gt;</type>
@@ -338,7 +338,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="63" column="17" bodyfile="include/MechanicalLayer.h" bodystart="63" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="88" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" bodystart="88" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_mechanical_layer_1aca4fc5ae809f093b28c14f0f91d1a2d0" prot="private" static="no" mutable="no">
         <type>std::vector&lt; std::vector&lt; unsigned &gt; &gt;</type>
@@ -352,7 +352,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="64" column="17" bodyfile="include/MechanicalLayer.h" bodystart="64" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="89" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" bodystart="89" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_mechanical_layer_1a7c236ee202268046bf379bdba937c6a3" prot="private" static="no" mutable="no">
         <type>std::vector&lt; unsigned &gt;</type>
@@ -366,7 +366,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="65" column="17" bodyfile="include/MechanicalLayer.h" bodystart="65" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="90" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" bodystart="90" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_mechanical_layer_1a2a5aaf2c9678636c7b59bc3f391fdc27" prot="private" static="no" mutable="no">
         <type>std::vector&lt; double &gt;</type>
@@ -380,7 +380,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="66" column="17" bodyfile="include/MechanicalLayer.h" bodystart="66" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="91" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" bodystart="91" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_mechanical_layer_1acd4ad4e383961321eec5608f89b8b92d" prot="private" static="no" mutable="no">
         <type>std::vector&lt; double &gt;</type>
@@ -394,7 +394,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="67" column="17" bodyfile="include/MechanicalLayer.h" bodystart="67" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="92" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" bodystart="92" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_mechanical_layer_1ac6acda2457f8eba8685457c13cc71829" prot="private" static="no" mutable="no">
         <type>std::vector&lt; double2 &gt;</type>
@@ -408,7 +408,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="68" column="17" bodyfile="include/MechanicalLayer.h" bodystart="68" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="93" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" bodystart="93" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_mechanical_layer_1a87e0b261b0e90c4ffe21e52451503f17" prot="private" static="no" mutable="no">
         <type>std::map&lt; std::pair&lt; unsigned, unsigned &gt;, double2 &gt;</type>
@@ -422,7 +422,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="71" column="14" bodyfile="include/MechanicalLayer.h" bodystart="71" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="96" column="14" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" bodystart="96" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_mechanical_layer_1a2e73b5f8e78a5efe297ca7b85c5df739" prot="private" static="no" mutable="no">
         <type>std::map&lt; std::tuple&lt; unsigned, int, int &gt;, double2 &gt;</type>
@@ -436,7 +436,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="72" column="14" bodyfile="include/MechanicalLayer.h" bodystart="72" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="97" column="14" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" bodystart="97" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_mechanical_layer_1ac0252932939e4b8d6ab9b6eb42b04e4f" prot="private" static="no" mutable="no">
         <type>std::map&lt; std::pair&lt; unsigned, unsigned &gt;, std::array&lt; double2, 3 &gt; &gt;</type>
@@ -450,7 +450,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="78" column="14" bodyfile="include/MechanicalLayer.h" bodystart="78" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="103" column="14" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" bodystart="103" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_mechanical_layer_1a6c34d654fe3be05e1e67580c9286b260" prot="private" static="no" mutable="no">
         <type>std::map&lt; std::tuple&lt; unsigned, int, int &gt;, std::array&lt; double2, 3 &gt; &gt;</type>
@@ -464,7 +464,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="79" column="14" bodyfile="include/MechanicalLayer.h" bodystart="79" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="104" column="14" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" bodystart="104" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -509,7 +509,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="81" column="16" bodyfile="src/MechanicalLayer.cpp" bodystart="272" bodyend="486"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="106" column="16" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/MechanicalLayer.cpp" bodystart="296" bodyend="507"/>
       </memberdef>
       <memberdef kind="function" id="struct_mechanical_layer_1a53c534f15aff2820bb730d85887f0a4b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -525,7 +525,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="82" column="10" bodyfile="src/MechanicalLayer.cpp" bodystart="502" bodyend="584"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="107" column="10" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/MechanicalLayer.cpp" bodystart="523" bodyend="605"/>
       </memberdef>
       <memberdef kind="function" id="struct_mechanical_layer_1a045e015db6ee46b018e0c3085ef08f74" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -554,7 +554,7 @@ return EXIT_FAILURE in case of problem with the XML file EXIT_SUCCESS otherwise 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="84" column="9" bodyfile="src/MechanicalLayer.cpp" bodystart="169" bodyend="262"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="109" column="9" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/MechanicalLayer.cpp" bodystart="193" bodyend="286"/>
       </memberdef>
       <memberdef kind="function" id="struct_mechanical_layer_1a7abe08c3957a79371de41a99a285fe7e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::pair&lt; bool, bool &gt;</type>
@@ -572,7 +572,7 @@ return EXIT_FAILURE in case of problem with the XML file EXIT_SUCCESS otherwise 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="85" column="15" bodyfile="src/MechanicalLayer.cpp" bodystart="591" bodyend="613"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="110" column="15" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/MechanicalLayer.cpp" bodystart="612" bodyend="634"/>
       </memberdef>
       <memberdef kind="function" id="struct_mechanical_layer_1aac7fb2491918667ad9e7d45754deae0f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -613,7 +613,7 @@ return EXIT_FAILURE in case of problem with the XML file EXIT_SUCCESS otherwise 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="86" column="10" bodyfile="src/MechanicalLayer.cpp" bodystart="622" bodyend="724"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="111" column="10" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/MechanicalLayer.cpp" bodystart="643" bodyend="745"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -645,7 +645,7 @@ return EXIT_FAILURE in case of problem with the XML file EXIT_SUCCESS otherwise 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="90" column="14" bodyfile="src/MechanicalLayer.cpp" bodystart="20" bodyend="150"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="115" column="14" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/MechanicalLayer.cpp" bodystart="44" bodyend="174"/>
       </memberdef>
       <memberdef kind="function" id="struct_mechanical_layer_1a7ff97bf10d2b101830cc7e4b38867a63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -662,7 +662,7 @@ return EXIT_FAILURE in case of problem with the XML file EXIT_SUCCESS otherwise 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/MechanicalLayer.h" line="92" column="5"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="117" column="5"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -671,7 +671,7 @@ return EXIT_FAILURE in case of problem with the XML file EXIT_SUCCESS otherwise 
     <detaileddescription>
 <para>This class handles the mechanical interactions between pedestrians in a crowd. It keeps track of the positions, velocities, orientations, and forces acting on each pedestrian. The class also provides methods for updating the positions and velocities of the pedestrians and saving the configuration to a file. </para>
     </detaileddescription>
-    <location file="include/MechanicalLayer.h" line="27" column="1" bodyfile="include/MechanicalLayer.h" bodystart="36" bodyend="93"/>
+    <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" line="52" column="1" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h" bodystart="61" bodyend="118"/>
     <listofallmembers>
       <member refid="struct_mechanical_layer_1a51c46db9390dd1a4619c5736219239bd" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>active_shapeIDagent</name></member>
       <member refid="struct_mechanical_layer_1a00287374db8ca70da180f55ee6fb02cd" prot="private" virt="non-virtual"><scope>MechanicalLayer</scope><name>active_shapeIDshape_crowd</name></member>

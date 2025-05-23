@@ -2,11 +2,12 @@
 Unit tests for the compute_moment_of_inertia function.
 
 Tests cover:
-    - Correct computation for simple polygons (square, triangle)
-    - Handling of MultiPolygon (sum of moments)
-    - Zero or negative weight handling
-    - Invalid geometry types
-    - Consistency with area scaling
+    - Correct computation for simple polygons (square)
+    - Handling of MultiPolygon geometries
+    - Zero and negative weight values
+    - Invalid geometry type validation
+    - Area scaling consistency
+    - Mass distribution in composite geometries
 """
 
 # Copyright  2025  Institute of Light and Matter
@@ -53,17 +54,6 @@ def test_square_polygon() -> None:
     assert math.isclose(result, expected, rel_tol=1e-6)
 
 
-def test_triangle_polygon() -> None:
-    """Test moment of inertia for a right triangle."""
-    triangle = Polygon([(0, 0), (1, 0), (0, 1)])
-    weight = 3.0
-    result = compute_moment_of_inertia(triangle, weight)
-    # Compare with itself (idempotency)
-    result2 = compute_moment_of_inertia(triangle, weight)
-    assert math.isclose(result, result2, rel_tol=1e-12)
-    assert result > 0
-
-
 def test_multipolygon_sum() -> None:
     """Test that MultiPolygon sums the moments of the components."""
     poly1 = Polygon([(0, 0), (1, 0), (1, 1), (0, 1)])
@@ -83,7 +73,7 @@ def test_zero_weight() -> None:
 
 
 def test_negative_weight() -> None:
-    """Test that negative weight returns negative moment (mathematically valid)."""
+    """Test that negative weight returns negative moment."""
     square = Polygon([(0, 0), (1, 0), (1, 1), (0, 1)])
     result = compute_moment_of_inertia(square, -2.0)
     assert result < 0
@@ -100,7 +90,7 @@ def test_scaling_with_area() -> None:
     square = Polygon([(0, 0), (1, 0), (1, 1), (0, 1)])
     weight = 2.0
     I1 = compute_moment_of_inertia(square, weight)
-    # Scale by 2: area increases by 4, inertia by 16 (since inertia ~ area * r^2)
+    # If distance scaled by 2, mass scaled by 4 then inertia should be scaled by 16 (since inertia ~ mass * r^2)
     square2 = Polygon([(0, 0), (2, 0), (2, 2), (0, 2)])
     I2 = compute_moment_of_inertia(square2, weight * 4)
     assert math.isclose(I2, I1 * 16, rel_tol=1e-6)

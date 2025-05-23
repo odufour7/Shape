@@ -1,4 +1,4 @@
-"""Test dynamic parameters loading and saving functions."""
+"""Test the loading and saving of dynamic parameters in XML format."""
 
 # Copyright  2025  Institute of Light and Matter
 # Contributors: Oscar DUFOUR, Maxime STAPELLE, Alexandre NICOLAS

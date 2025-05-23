@@ -1,13 +1,13 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.13.2" xml:lang="en-US">
   <compounddef id="dir_5375ac4767d13642c2044f14fd5ba078" kind="dir">
-    <compoundname>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/build/CMakeFiles/CrowdMechanics.dir</compoundname>
-    <innerdir refid="dir_27e3aa53afdeff9546b17d5aa5a9e7d4">/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/build/CMakeFiles/CrowdMechanics.dir/3rdparty</innerdir>
-    <innerdir refid="dir_e61d575f0a6afc890a31686fb581e252">/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/build/CMakeFiles/CrowdMechanics.dir/src</innerdir>
+    <compoundname>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/build/CMakeFiles/CrowdMechanics.dir</compoundname>
+    <innerdir refid="dir_27e3aa53afdeff9546b17d5aa5a9e7d4">/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/build/CMakeFiles/CrowdMechanics.dir/3rdparty</innerdir>
+    <innerdir refid="dir_e61d575f0a6afc890a31686fb581e252">/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/build/CMakeFiles/CrowdMechanics.dir/src</innerdir>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/build/CMakeFiles/CrowdMechanics.dir/"/>
+    <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/build/CMakeFiles/CrowdMechanics.dir/"/>
   </compounddef>
 </doxygen>

@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.13.2" xml:lang="en-US">
   <compounddef id="dir_31f7b955563111d2ef4ba72c186dc596" kind="dir">
-    <compoundname>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/build/CMakeFiles/CrowdMechanics.dir/3rdparty/tinyxml</compoundname>
+    <compoundname>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/build/CMakeFiles/CrowdMechanics.dir/3rdparty/tinyxml</compoundname>
     <innerfile refid="tinyxml2_8cpp_8o_8d">tinyxml2.cpp.o.d</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/src/mechanical_layer/build/CMakeFiles/CrowdMechanics.dir/3rdparty/tinyxml/"/>
+    <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/build/CMakeFiles/CrowdMechanics.dir/3rdparty/tinyxml/"/>
   </compounddef>
 </doxygen>

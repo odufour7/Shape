@@ -1,4 +1,4 @@
-"""Test interactions serialization/deserialization."""
+"""Test the loading and saving of interactions parameters in XML format."""
 
 # Copyright  2025  Institute of Light and Matter
 # Contributors: Oscar DUFOUR, Maxime STAPELLE, Alexandre NICOLAS
@@ -64,7 +64,7 @@ def crowd(request: pytest.FixtureRequest) -> Crowd:
 )
 def test_interactions_dict_xml_roundtrip(crowd: Crowd, tmp_path: Path) -> None:
     """
-    Test XML serialization/deserialization.
+    Test the loading and saving of interactions parameters in XML format.
 
     There are 4 scenarios:
         - 1 agent (packed/unpacked)

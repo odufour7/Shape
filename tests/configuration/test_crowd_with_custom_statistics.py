@@ -1,4 +1,10 @@
-"""Test the Crowd class with custom agent statistics."""
+"""
+Unit tests for the Crowd class configuration and statistical validation.
+
+Tests cover:
+    - Agent population initialization count
+    - Anthropometric statistic validation (means, proportions)
+"""
 
 # Copyright  2025  Institute of Light and Matter
 # Contributors: Oscar DUFOUR, Maxime STAPELLE, Alexandre NICOLAS
@@ -32,13 +38,11 @@ import configuration.utils.constants as cst
 from configuration.models.crowd import Crowd
 from configuration.models.measures import CrowdMeasures
 
-# Constants for the test
 NUMBER_AGENTS: int = 30
 REPULSION_LENGTH: float = 5.0  # (cm)
 DESIRED_DIRECTION: float = 90.0  # (degrees)
 RANDOM_PACKING: bool = False
 
-# Custom agent statistics for the test
 AGENT_STATISTICS: dict[str, float] = {
     **cst.CrowdStat,
     "male_proportion": 0.4,

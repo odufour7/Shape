@@ -1,4 +1,11 @@
-"""Tests for the rotation methods of the Agent class."""
+"""
+Unit tests for Agent rotation.
+
+Tests cover:
+    - Initial orientation state validation
+    - 2D shape positioning accuracy during rotation
+    - 2D 3D centroid position invariance under rotation
+"""
 
 # Copyright  2025  Institute of Light and Matter
 # Contributors: Oscar DUFOUR, Maxime STAPELLE, Alexandre NICOLAS

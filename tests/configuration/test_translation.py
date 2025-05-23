@@ -1,4 +1,12 @@
-"""Tests for the translation methods of the Agent class."""
+"""
+Unit tests for Agent translation mechanics across dimensional spaces.
+
+Tests cover:
+    - Agent's initial position is set correctly
+    - Agent's position is correctly updated after translation of the 2D shapes in x and y directions
+    - Agent's 3D body centroid is correctly updated after translation in x and y directions
+    - Agent's 3D body centroid and lowest height are correctly updated after translation in z direction
+"""
 
 # Copyright  2025  Institute of Light and Matter
 # Contributors: Oscar DUFOUR, Maxime STAPELLE, Alexandre NICOLAS
@@ -55,6 +63,22 @@ def agent() -> Agent:
     return Agent(agent_type=agent_type, measures=agent_measures)
 
 
+def test_initial_position(agent: Agent) -> None:
+    """
+    Test that the agent's initial position is set correctly.
+
+    Parameters
+    ----------
+    agent : Agent
+        The agent fixture.
+    """
+    initial_position = agent.get_position()
+    initial_lowest_altitude = min(agent.shapes3D.shapes.keys())
+    assert abs(initial_position.x) < 0.05, "The x-coordinate should be initialized to 0.0."
+    assert abs(initial_position.y) < 0.05, "The y-coordinate should be initialized to 0.0."
+    assert abs(initial_lowest_altitude) < 0.05, "The z-coordinate should be initialized to 0.0."
+
+
 def test_translate_position(agent: Agent) -> None:
     """
     Test that the agent's position is correctly updated after translation of the 2D shapes.
@@ -101,7 +125,7 @@ def test_translate_body3d_xy(agent: Agent) -> None:
 
 def test_translate_body3d_z(agent: Agent) -> None:
     """
-    Test that the agent's 3D body centroid and lowest height are correctly updated after translation in z.
+    Test that the agent's 3D body centroid and lowest altitude are correctly updated after translation in z.
 
     Parameters
     ----------
@@ -109,19 +133,19 @@ def test_translate_body3d_z(agent: Agent) -> None:
         The agent fixture.
     """
     initial_centroid = agent.get_centroid_body3D()
-    initial_lowest_height = min(agent.shapes3D.shapes.keys())
+    initial_lowest_altitude = min(agent.shapes3D.shapes.keys())
     agent.translate_body3D(0.0, 0.0, 30.0)
     final_centroid = agent.get_centroid_body3D()
-    final_lowest_height = min(agent.shapes3D.shapes.keys())
+    final_lowest_altitude = min(agent.shapes3D.shapes.keys())
     assert abs(final_centroid.x - initial_centroid.x) < 0.05, "The x-coordinate should not have changed."
     assert abs(final_centroid.y - initial_centroid.y) < 0.05, "The y-coordinate should not have changed."
-    assert abs(final_lowest_height - (initial_lowest_height + 30.0)) < 0.05, "The lowest height should have changed by 30.0."
+    assert abs(final_lowest_altitude - (initial_lowest_altitude + 30.0)) < 0.05, "The lowest altitude should have changed by 30.0."
 
     initial_centroid = agent.get_centroid_body3D()
-    initial_lowest_height = min(agent.shapes3D.shapes.keys())
+    initial_lowest_altitude = min(agent.shapes3D.shapes.keys())
     agent.translate_body3D(0.0, 0.0, -30.0)
     final_centroid = agent.get_centroid_body3D()
-    final_lowest_height = min(agent.shapes3D.shapes.keys())
+    final_lowest_altitude = min(agent.shapes3D.shapes.keys())
     assert abs(final_centroid.x - initial_centroid.x) < 0.05, "The x-coordinate should not have changed."
     assert abs(final_centroid.y - initial_centroid.y) < 0.05, "The y-coordinate should not have changed."
-    assert abs(final_lowest_height - (initial_lowest_height - 30.0)) < 0.05, "The lowest height should have changed by -30.0."
+    assert abs(final_lowest_altitude - (initial_lowest_altitude - 30.0)) < 0.05, "The lowest altitude should have changed by -30.0."
