@@ -76,7 +76,7 @@
         </childnode>
       </node>
       <node id="1">
-        <label>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/MechanicalLayer.cpp</label>
+        <label>src/MechanicalLayer.cpp</label>
         <link refid="_mechanical_layer_8cpp"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -827,6 +827,6 @@
 <codeline lineno="744"><highlight class="normal"><sp/><sp/><sp/><sp/>outputDoc.close();</highlight></codeline>
 <codeline lineno="745"><highlight class="normal">}</highlight></codeline>
     </programlisting>
-    <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/MechanicalLayer.cpp"/>
+    <location file="src/MechanicalLayer.cpp"/>
   </compounddef>
 </doxygen>
