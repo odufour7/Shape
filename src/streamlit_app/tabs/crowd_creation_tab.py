@@ -548,10 +548,10 @@ def general_settings() -> Polygon:
     Polygon
         The updated boundaries of the simulation area.
     """
-    selected_packing_option: str = st.sidebar.pills(
+    selected_packing_option = st.sidebar.pills(
         " ", list(st.session_state.pack_options.values()), label_visibility="collapsed", default=st.session_state.pack_options["grid"]
     )
-    if selected_packing_option != st.session_state.selected_packing_option:  # type: ignore[unreachable]
+    if selected_packing_option != st.session_state.selected_packing_option:
         st.session_state.selected_packing_option = selected_packing_option
         parameter_changed()
     # Compare using the display value, not the key
@@ -714,14 +714,14 @@ def plot_2D_3D_and_download_section(current_crowd: Crowd) -> None:
             "2D crowd": "2D",
             "3D crowd": "3D",
         }
-        selected_dimension_options: str = st.pills(" ", list(dimension_options.values()), label_visibility="collapsed", default="2D")  # type: ignore[attr-defined]
+        selected_dimension_options = st.pills(" ", list(dimension_options.values()), label_visibility="collapsed", default="2D")
         # Plotting and downloading
         if selected_dimension_options == dimension_options["2D crowd"]:
             plot_and_download_crowd2D(current_crowd)
         elif selected_dimension_options == dimension_options["3D crowd"]:
             plot_and_download_crowd3D(current_crowd)
     else:
-        selected_dimension_option: str = st.pills(" ", ["2D"], label_visibility="collapsed", default="2D")  # type: ignore[attr-defined]
+        selected_dimension_option = st.pills(" ", ["2D"], label_visibility="collapsed", default="2D")
         # Plotting and downloading
         if selected_dimension_option == "2D":
             plot_and_download_crowd2D(current_crowd)
@@ -897,7 +897,7 @@ def run_tab_crowd() -> None:
         "init crowd": "Initialize your own crowd",
         "crowd from config": "Generate from configuration files",
     }
-    selected_crowd_origin = st.pills(" ", list(crowd_origin_options.values()), label_visibility="collapsed")  # type: ignore[attr-defined]
+    selected_crowd_origin = st.pills(" ", list(crowd_origin_options.values()), label_visibility="collapsed")
 
     if selected_crowd_origin == crowd_origin_options["init crowd"]:
         run_crowd_init()

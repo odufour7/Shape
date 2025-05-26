@@ -38,7 +38,7 @@ def run_tab_one_agent() -> None:
         "2D": "2D",
         "3D": "3D",
     }
-    selected_dimension_options: str = st.pills(" ", list(dimension_options.values()), label_visibility="collapsed", default="2D")  # type: ignore[attr-defined]
+    selected_dimension_options = st.pills(" ", list(dimension_options.values()), label_visibility="collapsed", default="2D")
 
     if selected_dimension_options == dimension_options["2D"]:
         run_tab_agent2D()

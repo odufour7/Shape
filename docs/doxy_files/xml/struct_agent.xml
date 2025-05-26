@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Agent.h" line="45" column="20" bodyfile="include/Agent.h" bodystart="45" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" line="45" column="20" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" bodystart="45" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_agent_1a574623159c00a0a641fb380a8d7cd312" prot="public" static="no" mutable="no">
         <type>const double</type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Agent.h" line="46" column="18" bodyfile="include/Agent.h" bodystart="46" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" line="46" column="18" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" bodystart="46" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_agent_1a7af4908964668300dceb0e97deeac933" prot="public" static="no" mutable="no">
         <type>const double</type>
@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Agent.h" line="47" column="18" bodyfile="include/Agent.h" bodystart="47" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" line="47" column="18" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" bodystart="47" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_agent_1a04ebfcac2b96192faed3ed25041441e2" prot="public" static="no" mutable="no">
         <type>const std::vector&lt; unsigned &gt;</type>
@@ -62,7 +62,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Agent.h" line="48" column="23" bodyfile="include/Agent.h" bodystart="48" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" line="48" column="23" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" bodystart="48" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_agent_1ac0f2bb8aa434e847f264bd8051bbdc62" prot="public" static="no" mutable="no">
         <type>const double</type>
@@ -77,7 +77,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Agent.h" line="49" column="18" bodyfile="include/Agent.h" bodystart="49" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" line="49" column="18" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" bodystart="49" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_agent_1a78f7a7a1101569400fec08c8412ccfdf" prot="public" static="no" mutable="no">
         <type>const unsigned</type>
@@ -92,7 +92,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Agent.h" line="50" column="20" bodyfile="include/Agent.h" bodystart="50" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" line="50" column="20" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" bodystart="50" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_agent_1a0ca4ccfa41d290d7b9806a0738ad3982" prot="public" static="no" mutable="no">
         <type>std::vector&lt; double2 &gt;</type>
@@ -107,7 +107,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Agent.h" line="51" column="17" bodyfile="include/Agent.h" bodystart="51" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" line="51" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" bodystart="51" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_agent_1a569f4d3e9c12a902f30f116892381c4b" prot="public" static="no" mutable="no">
         <type>const std::vector&lt; double &gt;</type>
@@ -122,7 +122,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Agent.h" line="53" column="23" bodyfile="include/Agent.h" bodystart="53" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" line="53" column="23" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" bodystart="53" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_agent_1a7351fecebf368e76fa36139cc1e6b3ae" prot="public" static="no" mutable="no">
         <type>const double</type>
@@ -137,7 +137,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Agent.h" line="55" column="18" bodyfile="include/Agent.h" bodystart="55" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" line="55" column="18" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" bodystart="55" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_agent_1ae5fec6c2d045136730900c8fa2f1d6ee" prot="public" static="no" mutable="no">
         <type>double</type>
@@ -152,7 +152,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Agent.h" line="56" column="12" bodyfile="include/Agent.h" bodystart="56" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" line="56" column="12" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" bodystart="56" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_agent_1a90bb0e29f517c3775a82b8ef3c15a37f" prot="public" static="no" mutable="no">
         <type>double</type>
@@ -167,7 +167,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Agent.h" line="57" column="12" bodyfile="include/Agent.h" bodystart="57" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" line="57" column="12" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" bodystart="57" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_agent_1aff31fb7e42339fb260af2a214d60a7a6" prot="public" static="no" mutable="no">
         <type>double</type>
@@ -182,7 +182,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Agent.h" line="58" column="12" bodyfile="include/Agent.h" bodystart="58" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" line="58" column="12" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" bodystart="58" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_agent_1a40d332f56eb301d0f2fd80933b6c2461" prot="public" static="no" mutable="no">
         <type>double</type>
@@ -197,7 +197,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Agent.h" line="59" column="12" bodyfile="include/Agent.h" bodystart="59" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" line="59" column="12" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" bodystart="59" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_agent_1ac4f2ef64b18ede184af2774563de62d8" prot="public" static="no" mutable="no">
         <type>double</type>
@@ -212,7 +212,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Agent.h" line="60" column="12" bodyfile="include/Agent.h" bodystart="60" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" line="60" column="12" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" bodystart="60" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_agent_1af1487c7f179e334239593bb162bf5cd0" prot="public" static="no" mutable="no">
         <type>double</type>
@@ -227,7 +227,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Agent.h" line="61" column="12" bodyfile="include/Agent.h" bodystart="61" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" line="61" column="12" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" bodystart="61" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_agent_1ae33a1855f9a37f246968f5be5e3eaa06" prot="public" static="no" mutable="no">
         <type>double</type>
@@ -242,7 +242,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Agent.h" line="62" column="12" bodyfile="include/Agent.h" bodystart="62" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" line="62" column="12" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" bodystart="62" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_agent_1ab93d8f0f443321392144eb8392c63baa" prot="public" static="no" mutable="no">
         <type>double</type>
@@ -257,7 +257,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Agent.h" line="63" column="12" bodyfile="include/Agent.h" bodystart="63" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" line="63" column="12" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" bodystart="63" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_agent_1a9a22b9537f6f92ec7cd9c11b5bff5a5e" prot="public" static="no" mutable="no">
         <type>double</type>
@@ -272,7 +272,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Agent.h" line="64" column="12" bodyfile="include/Agent.h" bodystart="64" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" line="64" column="12" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" bodystart="64" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_agent_1a8bdb8ef4e124ca48217cc5e42ad157f7" prot="public" static="no" mutable="no">
         <type>double</type>
@@ -287,7 +287,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Agent.h" line="65" column="12" bodyfile="include/Agent.h" bodystart="65" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" line="65" column="12" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" bodystart="65" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_agent_1a9489bdc6bf8961e95c9c33a145a317f0" prot="public" static="no" mutable="no">
         <type>double2</type>
@@ -302,7 +302,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Agent.h" line="67" column="13" bodyfile="include/Agent.h" bodystart="67" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" line="67" column="13" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" bodystart="67" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_agent_1a0698b175835cd15775fc9ff16e4add19" prot="public" static="no" mutable="no">
         <type>std::list&lt; unsigned &gt;</type>
@@ -317,7 +317,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Agent.h" line="68" column="15" bodyfile="include/Agent.h" bodystart="68" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" line="68" column="15" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" bodystart="68" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_agent_1a9be8318728b4f24366501ef3aa22c60b" prot="public" static="no" mutable="no">
         <type>std::list&lt; std::pair&lt; unsigned, unsigned &gt; &gt;</type>
@@ -332,7 +332,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Agent.h" line="69" column="15" bodyfile="include/Agent.h" bodystart="69" bodyend="-1"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" line="69" column="15" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" bodystart="69" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -447,7 +447,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Agent.h" line="72" column="5" bodyfile="src/Agent.cpp" bodystart="80" bodyend="92"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" line="72" column="5" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Agent.cpp" bodystart="80" bodyend="92"/>
       </memberdef>
       <memberdef kind="function" id="struct_agent_1ab8dd8d152605cf1339fed595376e83cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -463,7 +463,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Agent.h" line="74" column="5"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" line="74" column="5"/>
       </memberdef>
       <memberdef kind="function" id="struct_agent_1a8213096130b009ee5d233d1e60d4442d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -479,7 +479,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Agent.h" line="76" column="10" bodyfile="src/Agent.cpp" bodystart="108" bodyend="113"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" line="76" column="10" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Agent.cpp" bodystart="108" bodyend="113"/>
       </memberdef>
       <memberdef kind="function" id="struct_agent_1a5407f025c5bd4bee36e134bb7ff86f6a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>double2</type>
@@ -497,7 +497,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Agent.h" line="82" column="20" bodyfile="include/Agent.h" bodystart="82" bodyend="82"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" line="82" column="20" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" bodystart="82" bodyend="82"/>
       </memberdef>
       <memberdef kind="function" id="struct_agent_1a550e4f7aa2abaedb8b23735b14a9500a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>double2</type>
@@ -515,7 +515,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Agent.h" line="88" column="20" bodyfile="include/Agent.h" bodystart="88" bodyend="88"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" line="88" column="20" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" bodystart="88" bodyend="88"/>
       </memberdef>
       <memberdef kind="function" id="struct_agent_1a830bc76a5ef0ee8d42d46ec8fdcf0091" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; double2 &gt;</type>
@@ -534,7 +534,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Agent.h" line="89" column="17" bodyfile="src/Agent.cpp" bodystart="123" bodyend="133"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" line="89" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Agent.cpp" bodystart="123" bodyend="133"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -543,7 +543,7 @@
     <detaileddescription>
 <para>This class defines the properties and behaviors of an agent, such as its position, velocity, and shape. Agents can interact with each other and navigate through the environment based on a driving force. </para>
     </detaileddescription>
-    <location file="include/Agent.h" line="37" column="1" bodyfile="include/Agent.h" bodystart="44" bodyend="90"/>
+    <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" line="37" column="1" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h" bodystart="44" bodyend="90"/>
     <listofallmembers>
       <member refid="struct_agent_1a0ca4ccfa41d290d7b9806a0738ad3982" prot="public" virt="non-virtual"><scope>Agent</scope><name>_delta_gtos</name></member>
       <member refid="struct_agent_1a453331e293cdc1f5df8ff6e89cde6def" prot="public" virt="non-virtual"><scope>Agent</scope><name>_id</name></member>
