@@ -23,13 +23,7 @@
 
     The fact that you are presently reading this means that you have had knowledge of the CeCILL license and that
     you accept its terms.
-<<<<<<< Updated upstream
-
-    This file contains the actual mechanical layer, which will take mechanically active agents and handle possible collisions.
  */
-=======
-*/
->>>>>>> Stashed changes
 
 #include "MechanicalLayer.h"
 
@@ -42,6 +36,8 @@
 #include <string>
 #include <sys/stat.h>
 #include <fstream>
+
+#include "../3rdparty/tinyxml/tinyxml2.h"
 
 using std::list, std::map, std::set, std::vector, std::string, std::tuple, std::pair, std::cout, std::cerr, std::endl, std::ofstream,
     std::fmin;
@@ -444,8 +440,6 @@ tuple<double2, double2, double> MechanicalLayer::get_interactions(unsigned cpt_s
             //  If the shape is in contact with the wall:
             if (h > 0.)
             {
-<<<<<<< Updated upstream
-=======
 	            double2 r_iw = posshape - closestPoint;   //  Vector starting on the wall and going towards the shape
     	        double2 n_iw;
         	    if (distance == 0.)
@@ -455,7 +449,6 @@ tuple<double2, double2, double> MechanicalLayer::get_interactions(unsigned cpt_s
 	            double2 dcGshape = -(radius[cpt_shape] - h / 2.) * n_iw;
     	        double2 dcG = delta[cpt_shape] + dcGshape;   //  Distance from the CM G to the contact point c
 
->>>>>>> Stashed changes
                 double2 v_ci = velshape + (angvel ^ dcGshape);
                 double2 viw = v_ci - double2(0., 0.);
                 double2 vortho_iw = (viw % n_iw) * n_iw;
@@ -469,11 +462,7 @@ tuple<double2, double2, double> MechanicalLayer::get_interactions(unsigned cpt_s
                 else
                     slip_wall[{cpt_shape, iobs, iwall}] = slip_wall[{cpt_shape, iobs, iwall}] + dt_mech * vt_iw;
                 //  For the Interactions output file:
-<<<<<<< Updated upstream
-                interactionsOutputWall[{cpt_shape, iobs, iwall}][SLIP] = slip_wall[{cpt_shape, iobs, iwall}];
-=======
 				interactionsOutputWall[{cpt_shape, iobs, iwall}][SLIP] = slip_wall[{cpt_shape, iobs, iwall}];
->>>>>>> Stashed changes
 
                 double2 delta_tiw = slip_wall[{cpt_shape, iobs, iwall}];
                 double norm_delta_tiw = !delta_tiw;
@@ -487,11 +476,7 @@ tuple<double2, double2, double> MechanicalLayer::get_interactions(unsigned cpt_s
                 double2 fniw_viscous = -Gamma_n_wall * vortho_iw;
                 double2 fniw = fniw_elastic + fniw_viscous;
                 fortho = fortho + fniw;
-<<<<<<< Updated upstream
                 interactionsOutputWall[{cpt_shape, iobs, iwall}][FORCE_ORTHO] = fniw;
-=======
-				interactionsOutputWall[{cpt_shape, iobs, iwall}][FORCE_ORTHO] = fniw;
->>>>>>> Stashed changes
 
                 /*  Tangential interactions  */
                 double2 t_viw;

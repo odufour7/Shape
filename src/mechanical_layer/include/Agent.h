@@ -1,9 +1,5 @@
 /*
-<<<<<<< Updated upstream
     Copyright  2025  Institute of Light and Matter, CNRS UMR 5306
-=======
-Copyright  2025  Institute of Light and Matter, CNRS UMR 5306
->>>>>>> Stashed changes
     Contributors: Oscar DUFOUR, Maxime STAPELLE, Alexandre NICOLAS
 
     This software is a computer program designed to generate a realistic crowd from anthropometric data and

@@ -23,9 +23,6 @@
 
     The fact that you are presently reading this means that you have had knowledge of the CeCILL license and that
     you accept its terms.
-
-    `Mechanical layer` for handling agent collisions in agent-based models.
-    Designed as a shared library to be called from Python or C++
  */
 
 #include "CrowdMechanics.h"
@@ -66,11 +63,7 @@ extern "C"
         //  Store the dynamics file name, whether it is the first run or not
         const string dynamicsFile = pathDynamic + files[4];
 
-<<<<<<< Updated upstream
-        if (firstRun)
-=======
         if (loadStaticData)
->>>>>>> Stashed changes
         {
             /*  Read MATERIALS  */
             //  Mapping between user-given id's and indexes in the program

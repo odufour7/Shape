@@ -23,14 +23,7 @@
 
     The fact that you are presently reading this means that you have had knowledge of the CeCILL license and that
     you accept its terms.
-<<<<<<< Updated upstream
-
-    The file contains the functions that will handle "static" input files.
-    It will also compute physical parameters depending on materials.
  */
-=======
-*/
->>>>>>> Stashed changes
 
 #include "InputStatic.h"
 
@@ -38,6 +31,8 @@
 #include <map>
 #include <string>
 #include <fstream>
+
+#include "../3rdparty/tinyxml/tinyxml2.h"
 
 using std::cout, std::cerr, std::string, std::endl, std::vector, std::map;
 

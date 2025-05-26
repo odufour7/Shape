@@ -35,9 +35,6 @@
 #include <string>
 #include <vector>
 
-//  3rd party
-#include "../3rdparty/tinyxml/tinyxml2.h"
-
 /*
     New types
                 */
