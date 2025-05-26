@@ -1,9 +1,15 @@
 [project]
 name = "shapes"
 version = "0.1.0"
-description = "Add your description here"
+description = "shapes is a library to generate realistic crowds from anthropometric data (Python), and to simulate their mechanical interactions (C++)"
 readme = "README.md"
 requires-python = ">=3.13"
+authors = [
+    { name = "Oscar DUFOUR" },
+    { name = "Maxime STAPELLE" },
+    { name = "Alexandre NICOLAS" },
+]
+
 dependencies = [
     "breathe>=4.36.0",
     "cmcrameri>=1.9",
@@ -60,12 +66,5 @@ checks = [
     "ES01",
 ]
 # remember to use single quotes for regex in TOML
-exclude = [ # don't report on objects that match any of these regex
-    '\.undocumented_method$',
-    '\.__repr__$',
-]
-override_SS05 = [ # override SS05 to allow docstrings starting with these words
-    '^Process ',
-    '^Assess ',
-    '^Access ',
-]
+exclude = ['\.undocumented_method$', '\.__repr__$']
+override_SS05 = ['^Process ', '^Assess ', '^Access ']

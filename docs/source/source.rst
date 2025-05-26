@@ -15,7 +15,7 @@ The authors of the code are:
 Affiliation
 -----------
 This project is developed at the
-`Institute of Light and Matter <https://ilm.univ-lyon1.fr/>`__.
+`Institute of Light and Matter, CNRS UMR 5306 <https://ilm.univ-lyon1.fr/>`__.
 
 Citation
 --------
@@ -25,9 +25,9 @@ To cite this work, please use the following reference in bibtex format:
 
 .. code-block:: bibtex
 
-   @software{crowdmorph_2025_14906931,
+   @software{shapes_2025_14906931,
      author    = {Dufour, Oscar and Stapelle, Maxime and Nicolas, Alexandre},
-     title     = {CrowdMorph - Realistic Crowd Generator and Simulation},
+     title     = {Shapes - Realistic Crowd Generator and Simulation},
      month     = {jun},
      year      = {2025},
      publisher = {Zenodo},

@@ -99,9 +99,9 @@ Functions
 
 - :ref:`exhale_function__global_8h_1a11c67c1b3c0e2076dc90d5d2e03ce6fc`
 
-- :ref:`exhale_function__global_8h_1abe8198bc51fc4dba2f59ff2196bc31b5`
-
 - :ref:`exhale_function__global_8h_1a849746700f4ccaba4679566d70ec9900`
+
+- :ref:`exhale_function__global_8h_1abe8198bc51fc4dba2f59ff2196bc31b5`
 
 - :ref:`exhale_function__global_8h_1a1862d4516e73ee3b3c2db581c9d7dfc4`
 

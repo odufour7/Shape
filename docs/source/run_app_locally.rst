@@ -3,19 +3,16 @@
 Run the app locally
 ===================
 
-To set up, follow these steps after downloading the repository from GitHub:
+To set up, follow these steps after downloading the repository from `GitHub <https://github.com/odufour7/Shape.git>`__:
 
 **1. Environment setup**
 
-Create and activate a virtual environment to manage dependencies efficiently:
+Create and activate a virtual environment using `uv <https://docs.astral.sh/uv/>`__ to manage dependencies efficiently:
 
 .. code-block:: bash
 
-   # Upgrade pip to the latest version
    python -m pip install --upgrade pip
-   # Install 'uv' for managing dependencies
    pip install uv
-   # Synchronize dependencies as specified in the requirements.txt file
    uv sync
 
 
@@ -29,7 +26,7 @@ Start the app with the following command:
 
 **3. Modify the app**
 
-If you want to modify the app or the C++ code in a clean and consistent way, you should use the pre-commit hooks defined in the .pre-commit-config.yaml file.
+If you want to modify the app or the C++ code in a clean and consistent way, you should use the `pre-commit <https://pre-commit.com/>`__  hooks defined in the .pre-commit-config.yaml file.
 These hooks help ensure your code is properly formatted and passes all required checks before each commit.
 Before you can use the pre-commit hooks, you need to install them. You can do this by running the following command:
 

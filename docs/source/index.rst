@@ -29,7 +29,7 @@ Welcome to the official shapes package documentation! This guide provides compre
    :maxdepth: 2
    :caption: API REFERENCES
 
-   api/library_root
-   streamlit_app
    configuration
+   streamlit_app
+   api/library_root
    tests

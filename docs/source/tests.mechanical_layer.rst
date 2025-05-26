@@ -1,5 +1,5 @@
-Mechanical layer
-================
+Mechanical layer (Python)
+=========================
 
 
 .. automodule:: create_scenario_anisotropic
