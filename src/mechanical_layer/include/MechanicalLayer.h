@@ -28,15 +28,6 @@
 #ifndef SRC_MECHANICAL_LAYER_INCLUDE_MECHANICALLAYER_H_
 #define SRC_MECHANICAL_LAYER_INCLUDE_MECHANICALLAYER_H_
 
-#include <array>
-#include <map>
-#include <set>
-#include <string>
-#include <tuple>
-#include <unordered_set>
-#include <utility>
-#include <vector>
-
 #include "Agent.h"
 #include "Global.h"
 

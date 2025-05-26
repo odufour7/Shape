@@ -23,13 +23,16 @@
 
     The fact that you are presently reading this means that you have had knowledge of the CeCILL license and that
     you accept its terms.
+<<<<<<< Updated upstream
 
     Agent.cpp contains the constructor of the agent class, as well as functions related to the agent's properties.
  */
+=======
+*/
+>>>>>>> Stashed changes
 
 #include "Agent.h"
 
-#include <utility>
 #include <vector>
 
 using std::vector;

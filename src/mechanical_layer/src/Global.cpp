@@ -32,6 +32,8 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <sstream>
+
 using std::map, std::string, std::vector, std::pair, std::stringstream;
 
 /*
@@ -62,7 +64,9 @@ int2 operator*(int2 const& a, int2 const& b) { return {a.first * b.first, a.seco
 /*
     Global variables
                         */
-bool firstRun = true;
+bool loadStaticData = true;		  //  In case of several calls to the library, this flag says if the
+								  //  static data needs to be reloaded (eg when a user is using the GUI
+								  //  application and changes the geometry and/or agents.
 
 uint32_t nAgents;
 map<string, uint32_t> agentMap;   //  Correspondence between user-given ids and internal ids

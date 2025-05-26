@@ -23,17 +23,21 @@
 
     The fact that you are presently reading this means that you have had knowledge of the CeCILL license and that
     you accept its terms.
+<<<<<<< Updated upstream
 
     The file contains the functions that will handle "static" input files.
     It will also compute physical parameters depending on materials.
  */
+=======
+*/
+>>>>>>> Stashed changes
 
 #include "InputStatic.h"
 
-#include <iostream>
+#include <vector>
 #include <map>
 #include <string>
-#include <vector>
+#include <fstream>
 
 using std::cout, std::cerr, std::string, std::endl, std::vector, std::map;
 
@@ -109,6 +113,21 @@ int readParameters(const std::string& file)
  */
 int readMaterials(const std::string& file, std::map<std::string, int32_t>& materialMapping)
 {
+    //	If the library is called from many runs where the user forces firstRun=True because of changed static
+    //	data, we first clear the global variables
+    if (intrinsicProperties) {
+        delete intrinsicProperties[YOUNG_MODULUS];
+        delete intrinsicProperties[SHEAR_MODULUS];
+        intrinsicProperties = nullptr;
+        for (uint8_t n = 0; n < nBinaryProperties; n++) {
+		    for (uint32_t m = 0; m < nMaterials; m++) {
+            	delete binaryProperties[n][m];
+                binaryProperties[n][m] = nullptr;
+            }
+            delete binaryProperties[n];
+            binaryProperties[n] = nullptr;
+        }
+    }
     tinyxml2::XMLDocument document;
     document.LoadFile(file.data());
     if (document.ErrorID() != 0)
@@ -264,6 +283,12 @@ int readMaterials(const std::string& file, std::map<std::string, int32_t>& mater
  */
 int readGeometry(const std::string& file, std::map<std::string, int32_t>& materialMapping)
 {
+    //	If the library is called from many runs where the user forces firstRun=True because of changed static
+    //	data, we first clear the global variables
+    if (!listObstacles.empty()) {
+		listObstacles.clear();
+        obstaclesMaterial.clear();
+    }
     tinyxml2::XMLDocument document;
     document.LoadFile(file.data());
     if (document.ErrorID() != 0)
@@ -369,6 +394,18 @@ int readAgents(const std::string& file, std::vector<unsigned>& nShapesPerAgent, 
                std::vector<int>& edges, std::vector<double>& radii, std::vector<double>& masses, std::vector<double>& mois,
                std::vector<double2>& delta_gtos, std::map<std::string, int32_t>& materialMapping)
 {
+    if (agents) {
+        for (uint32_t a = 0; a < nAgents; ++a) {
+            delete agents[a];
+            agents[a] = nullptr;
+        }
+        delete agents;
+        agents = nullptr;
+        agentMap.clear();
+        agentMapInverse.clear();
+        agentProperties.clear();
+		shapesMaterial.clear();
+    }
     tinyxml2::XMLDocument document;
     document.LoadFile(file.data());
     if (document.ErrorID() != 0)

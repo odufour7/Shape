@@ -23,11 +23,25 @@
 
     The fact that you are presently reading this means that you have had knowledge of the CeCILL license and that
     you accept its terms.
+<<<<<<< Updated upstream
 
     This file contains the actual mechanical layer, which will take mechanically active agents and handle possible collisions.
  */
+=======
+*/
+>>>>>>> Stashed changes
 
 #include "MechanicalLayer.h"
+
+#include <array>
+#include <set>
+#include <unordered_set>
+#include <tuple>
+#include <vector>
+#include <map>
+#include <string>
+#include <sys/stat.h>
+#include <fstream>
 
 using std::list, std::map, std::set, std::vector, std::string, std::tuple, std::pair, std::cout, std::cerr, std::endl, std::ofstream,
     std::fmin;
@@ -319,28 +333,31 @@ tuple<double2, double2, double> MechanicalLayer::get_interactions(unsigned cpt_s
                                        : delta[cpt_shape_neigh] + ((thetnp1[cpt_neigh] - thetn[cpt_neigh]) ^ delta[cpt_shape_neigh]);
         double2 posagent_neigh = AtTimen ? rgn[cpt_neigh] : rgnp1[cpt_neigh];
         double2 posshape_neigh = posagent_neigh + delta_GtoS_neigh;
-        double angvel_neigh = AtTimen ? wn[cpt_neigh] : wn[cpt_neigh] + dt_mech * taun[cpt_neigh];
-        double2 velagent_neigh =   //  Velocity of the CM of the neighbouring pedestrian neighbour
-            AtTimen ? vgn[cpt_neigh] : UnmZetadt * vgn[cpt_neigh] + dt_mech * (Fp[cpt_neigh] + Forthon[cpt_neigh] + Ftn[cpt_neigh]);
-        double2 velshape_neigh = velagent_neigh + (angvel_neigh ^ delta_GtoS_neigh);
 
         double2 r_ij = posshape - posshape_neigh;
         double distance(!r_ij);
-        double2 n_ij;
-        if (distance == 0.)
-            n_ij = double2(0., 0.);
-        else
-            n_ij = (1. / distance) * r_ij;
         double h(radius[cpt_shape] + radius[cpt_shape_neigh] - distance);   //  Indentation
-        double2 dcGshape = -(radius[cpt_shape] - h / 2.) * n_ij;            //  From the center of mass G of the shape
-                                                                            //  towards c (the contact point)
-        double2 dcGshapeneigh = +(radius[cpt_shape_neigh] - h / 2.) * n_ij;
-        double2 dcG = delta[cpt_shape] + dcGshape;   //  Vector distance from CM of the agent to
-                                                     //  c = vector distance from CM agent to CM shape +
-                                                     //      distance from CM shape to c
+
         //  If the two shapes are in contact:
         if (h > 0.)
         {
+            double angvel_neigh = AtTimen ? wn[cpt_neigh] : wn[cpt_neigh] + dt_mech * taun[cpt_neigh];
+            double2 velagent_neigh =   //  Velocity of the CM of the neighbouring pedestrian neighbour
+                AtTimen ? vgn[cpt_neigh] : UnmZetadt * vgn[cpt_neigh] + dt_mech * (Fp[cpt_neigh] + Forthon[cpt_neigh] + Ftn[cpt_neigh]);
+            double2 velshape_neigh = velagent_neigh + (angvel_neigh ^ delta_GtoS_neigh);
+
+            double2 n_ij;
+            if (distance == 0.)
+                n_ij = double2(0., 0.);
+            else
+                n_ij = (1. / distance) * r_ij;
+            double2 dcGshape = -(radius[cpt_shape] - h / 2.) * n_ij;            //  From the center of mass G of the shape
+            //  towards c (the contact point)
+            double2 dcGshapeneigh = +(radius[cpt_shape_neigh] - h / 2.) * n_ij;
+            double2 dcG = delta[cpt_shape] + dcGshape;   //  Vector distance from CM of the agent to
+            //  c = vector distance from CM agent to CM shape +
+            //      distance from CM shape to c
+
             double2 v_ci = velshape + (angvel ^ dcGshape);                    //  Velocity of i at the contact point
             double2 v_cj = velshape_neigh + (angvel_neigh ^ dcGshapeneigh);   //  Velocity of j at the contact point
             double2 vij = v_ci - v_cj;
@@ -421,22 +438,24 @@ tuple<double2, double2, double> MechanicalLayer::get_interactions(unsigned cpt_s
         int iwall = 0;
         for (auto it = wall_it.begin(); next(it) != wall_it.end(); ++it)
         {
-            auto [dist, closestPoint] = get_distance_to_wall_and_closest_point(*it, *(next(it)), posshape);
-
-            double2 r_iw = posshape - closestPoint;   //  Vector starting on the wall and going towards the shape
-            double distance = dist;
-            double2 n_iw;
-            if (distance == 0.)
-                n_iw = double2(0., 0.);
-            else
-                n_iw = (1. / distance) * r_iw;
+            auto [distance, closestPoint] = get_distance_to_wall_and_closest_point(*it, *(next(it)), posshape);
             double h = radius[cpt_shape] - distance;
-            double2 dcGshape = -(radius[cpt_shape] - h / 2.) * n_iw;
-            double2 dcG = delta[cpt_shape] + dcGshape;   //  Distance from the CM G to the contact point c
 
             //  If the shape is in contact with the wall:
             if (h > 0.)
             {
+<<<<<<< Updated upstream
+=======
+	            double2 r_iw = posshape - closestPoint;   //  Vector starting on the wall and going towards the shape
+    	        double2 n_iw;
+        	    if (distance == 0.)
+            	    n_iw = double2(0., 0.);
+	            else
+    	            n_iw = (1. / distance) * r_iw;
+	            double2 dcGshape = -(radius[cpt_shape] - h / 2.) * n_iw;
+    	        double2 dcG = delta[cpt_shape] + dcGshape;   //  Distance from the CM G to the contact point c
+
+>>>>>>> Stashed changes
                 double2 v_ci = velshape + (angvel ^ dcGshape);
                 double2 viw = v_ci - double2(0., 0.);
                 double2 vortho_iw = (viw % n_iw) * n_iw;
@@ -450,7 +469,11 @@ tuple<double2, double2, double> MechanicalLayer::get_interactions(unsigned cpt_s
                 else
                     slip_wall[{cpt_shape, iobs, iwall}] = slip_wall[{cpt_shape, iobs, iwall}] + dt_mech * vt_iw;
                 //  For the Interactions output file:
+<<<<<<< Updated upstream
                 interactionsOutputWall[{cpt_shape, iobs, iwall}][SLIP] = slip_wall[{cpt_shape, iobs, iwall}];
+=======
+				interactionsOutputWall[{cpt_shape, iobs, iwall}][SLIP] = slip_wall[{cpt_shape, iobs, iwall}];
+>>>>>>> Stashed changes
 
                 double2 delta_tiw = slip_wall[{cpt_shape, iobs, iwall}];
                 double norm_delta_tiw = !delta_tiw;
@@ -464,7 +487,11 @@ tuple<double2, double2, double> MechanicalLayer::get_interactions(unsigned cpt_s
                 double2 fniw_viscous = -Gamma_n_wall * vortho_iw;
                 double2 fniw = fniw_elastic + fniw_viscous;
                 fortho = fortho + fniw;
+<<<<<<< Updated upstream
                 interactionsOutputWall[{cpt_shape, iobs, iwall}][FORCE_ORTHO] = fniw;
+=======
+				interactionsOutputWall[{cpt_shape, iobs, iwall}][FORCE_ORTHO] = fniw;
+>>>>>>> Stashed changes
 
                 /*  Tangential interactions  */
                 double2 t_viw;
@@ -574,7 +601,8 @@ void MechanicalLayer::loop()
     {
         double UnmZetadt2 = 1.0 - 0.5 * dt_mech * damping[cpt_agent].first;
         double UnpZetadt2 = 1.0 + 0.5 * dt_mech * damping[cpt_agent].first;
-        taunp1[cpt_agent] = taunp1[cpt_agent] + (wdesired[cpt_agent] - wnp1[cpt_agent]) * damping[cpt_agent].second;
+        double wn_trial = wn[cpt_agent] + dt_mech * taun[cpt_agent];
+        taunp1[cpt_agent] = taunp1[cpt_agent] + (wdesired[cpt_agent] - wn_trial) * damping[cpt_agent].second;
         //  Update velocities
         vgnp1[cpt_agent] =
             1.0 / UnpZetadt2 *

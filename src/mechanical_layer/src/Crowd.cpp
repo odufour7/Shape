@@ -23,6 +23,7 @@
 
     The fact that you are presently reading this means that you have had knowledge of the CeCILL license and that
     you accept its terms.
+<<<<<<< Updated upstream
 
     Crowd.cpp is responsible for setting up the global situation, decide which agents
     are mechanically active and call the mechanical layer for the latter.
@@ -30,6 +31,16 @@
 
 #include "Crowd.h"
 
+=======
+*/
+
+#include "Crowd.h"
+
+#include <vector>
+#include <algorithm>
+#include <fstream>
+
+>>>>>>> Stashed changes
 #include "MechanicalLayer.h"
 
 using std::string, std::vector, std::list, std::cerr, std::cout, std::endl, std::ranges::find, std::ofstream;

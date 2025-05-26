@@ -28,19 +28,11 @@
 #ifndef SRC_MECHANICAL_LAYER_INCLUDE_GLOBAL_H_
 #define SRC_MECHANICAL_LAYER_INCLUDE_GLOBAL_H_
 
-#include <sys/stat.h>
-
-#include <algorithm>
 #include <cmath>
-#include <filesystem>
-#include <fstream>
 #include <iostream>
-#include <iterator>
 #include <list>
 #include <map>
-#include <sstream>
 #include <string>
-#include <utility>
 #include <vector>
 
 //  3rd party
@@ -66,7 +58,7 @@ extern int2 operator*(int2 const& a, int2 const& b);
 /*
     Global variables
                         */
-extern bool firstRun;
+extern bool loadStaticData;
 
 //  Geometry
 extern std::vector<std::vector<double2>> listObstacles;

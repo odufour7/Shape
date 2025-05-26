@@ -28,10 +28,13 @@
     Designed as a shared library to be called from Python or C++
  */
 
-#include <string>
-#include <vector>
-
 #include "CrowdMechanics.h"
+
+#include <vector>
+#include <map>
+#include <string>
+
+
 using std::string, std::map, std::vector;
 
 //  extern C is a trick for Python ctypes to work
@@ -63,7 +66,11 @@ extern "C"
         //  Store the dynamics file name, whether it is the first run or not
         const string dynamicsFile = pathDynamic + files[4];
 
+<<<<<<< Updated upstream
         if (firstRun)
+=======
+        if (loadStaticData)
+>>>>>>> Stashed changes
         {
             /*  Read MATERIALS  */
             //  Mapping between user-given id's and indexes in the program
@@ -96,7 +103,7 @@ extern "C"
         /*  Main program procedure  */
         handleMechanicalLayer(dynamicsFile);
 
-        firstRun = false;
+        loadStaticData = false;
         return EXIT_SUCCESS;
     }
 }
