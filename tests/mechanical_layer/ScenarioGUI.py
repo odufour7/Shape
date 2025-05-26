@@ -323,8 +323,8 @@ class Scenario:
             The y-coordinate of the agent in pixels.
         """
         self.agents.append(AgentKivy(float(x) / pixel_density, float(y) / pixel_density))
-        self.nAgents = len(self.agents) - 1
-        self.current_agent_kivy_selected_id = self.nAgents
+        self.nAgents = len(self.agents)
+        self.current_agent_kivy_selected_id = self.nAgents - 1
         self.staticDataChange = True
 
     def add_NewWall(self, x0: int, y0: int) -> None:
@@ -355,7 +355,7 @@ class Scenario:
         Converts the given pixel coordinates to world coordinates using `pixel_density`
         and appends the point to the most recently created wall in `self.walls`.
 
-        Parameters
+       Parameters
         ----------
         x0 : int
             The x-coordinate of the new wall point in pixels.
