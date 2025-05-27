@@ -1,5 +1,5 @@
 /*
-    Copyright  2025  Institute of Light and Matter, CNRS UMR 5306
+    Copyright  2025  Institute of Light and Matter, CNRS UMR 5306, University Claude Bernard Lyon 1
     Contributors: Oscar DUFOUR, Maxime STAPELLE, Alexandre NICOLAS
 
     This software is a computer program designed to generate a realistic crowd from anthropometric data and
@@ -27,10 +27,10 @@
 
 #include "InputStatic.h"
 
-#include <vector>
+#include <fstream>
 #include <map>
 #include <string>
-#include <fstream>
+#include <vector>
 
 #include "../3rdparty/tinyxml/tinyxml2.h"
 
@@ -108,15 +108,18 @@ int readParameters(const std::string& file)
  */
 int readMaterials(const std::string& file, std::map<std::string, int32_t>& materialMapping)
 {
-    //	If the library is called from many runs where the user forces firstRun=True because of changed static
-    //	data, we first clear the global variables
-    if (intrinsicProperties) {
+    //  If the library is called from many runs where the user forces firstRun=True because of changed static
+    //  data, we first clear the global variables
+    if (intrinsicProperties)
+    {
         delete intrinsicProperties[YOUNG_MODULUS];
         delete intrinsicProperties[SHEAR_MODULUS];
         intrinsicProperties = nullptr;
-        for (uint8_t n = 0; n < nBinaryProperties; n++) {
-		    for (uint32_t m = 0; m < nMaterials; m++) {
-            	delete binaryProperties[n][m];
+        for (uint8_t n = 0; n < nBinaryProperties; n++)
+        {
+            for (uint32_t m = 0; m < nMaterials; m++)
+            {
+                delete binaryProperties[n][m];
                 binaryProperties[n][m] = nullptr;
             }
             delete binaryProperties[n];
@@ -278,10 +281,11 @@ int readMaterials(const std::string& file, std::map<std::string, int32_t>& mater
  */
 int readGeometry(const std::string& file, std::map<std::string, int32_t>& materialMapping)
 {
-    //	If the library is called from many runs where the user forces firstRun=True because of changed static
-    //	data, we first clear the global variables
-    if (!listObstacles.empty()) {
-		listObstacles.clear();
+    //  If the library is called from many runs where the user forces firstRun=True because of changed static
+    //  data, we first clear the global variables
+    if (!listObstacles.empty())
+    {
+        listObstacles.clear();
         obstaclesMaterial.clear();
     }
     tinyxml2::XMLDocument document;
@@ -389,8 +393,10 @@ int readAgents(const std::string& file, std::vector<unsigned>& nShapesPerAgent, 
                std::vector<int>& edges, std::vector<double>& radii, std::vector<double>& masses, std::vector<double>& mois,
                std::vector<double2>& delta_gtos, std::map<std::string, int32_t>& materialMapping)
 {
-    if (agents) {
-        for (uint32_t a = 0; a < nAgents; ++a) {
+    if (agents)
+    {
+        for (uint32_t a = 0; a < nAgents; ++a)
+        {
             delete agents[a];
             agents[a] = nullptr;
         }
@@ -399,7 +405,7 @@ int readAgents(const std::string& file, std::vector<unsigned>& nShapesPerAgent, 
         agentMap.clear();
         agentMapInverse.clear();
         agentProperties.clear();
-		shapesMaterial.clear();
+        shapesMaterial.clear();
     }
     tinyxml2::XMLDocument document;
     document.LoadFile(file.data());

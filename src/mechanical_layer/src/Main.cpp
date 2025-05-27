@@ -1,5 +1,5 @@
 /*
-    Copyright  2025  Institute of Light and Matter, CNRS UMR 5306
+    Copyright  2025  Institute of Light and Matter, CNRS UMR 5306, University Claude Bernard Lyon 1
     Contributors: Oscar DUFOUR, Maxime STAPELLE, Alexandre NICOLAS
 
     This software is a computer program designed to generate a realistic crowd from anthropometric data and
@@ -25,12 +25,11 @@
     you accept its terms.
  */
 
-#include "CrowdMechanics.h"
-
-#include <vector>
 #include <map>
 #include <string>
+#include <vector>
 
+#include "CrowdMechanics.h"
 
 using std::string, std::map, std::vector;
 

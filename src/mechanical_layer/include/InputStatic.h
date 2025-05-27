@@ -1,5 +1,5 @@
 /*
-    Copyright  2025  Institute of Light and Matter, CNRS UMR 5306
+    Copyright  2025  Institute of Light and Matter, CNRS UMR 5306, University Claude Bernard Lyon 1
     Contributors: Oscar DUFOUR, Maxime STAPELLE, Alexandre NICOLAS
 
     This software is a computer program designed to generate a realistic crowd from anthropometric data and
@@ -28,8 +28,8 @@
 #ifndef SRC_MECHANICAL_LAYER_INCLUDE_INPUTSTATIC_H_
 #define SRC_MECHANICAL_LAYER_INCLUDE_INPUTSTATIC_H_
 
-#include "Global.h"
 #include "Agent.h"
+#include "Global.h"
 
 //  Read input files
 int readParameters(const std::string& file);

@@ -1,5 +1,5 @@
 /*
-    Copyright  2025  Institute of Light and Matter, CNRS UMR 5306
+    Copyright  2025  Institute of Light and Matter, CNRS UMR 5306, University Claude Bernard Lyon 1
     Contributors: Oscar DUFOUR, Maxime STAPELLE, Alexandre NICOLAS
 
     This software is a computer program designed to generate a realistic crowd from anthropometric data and
@@ -27,15 +27,16 @@
 
 #include "MechanicalLayer.h"
 
-#include <array>
-#include <set>
-#include <unordered_set>
-#include <tuple>
-#include <vector>
-#include <map>
-#include <string>
 #include <sys/stat.h>
+
+#include <array>
 #include <fstream>
+#include <map>
+#include <set>
+#include <string>
+#include <tuple>
+#include <unordered_set>
+#include <vector>
 
 #include "../3rdparty/tinyxml/tinyxml2.h"
 
@@ -339,7 +340,8 @@ tuple<double2, double2, double> MechanicalLayer::get_interactions(unsigned cpt_s
         {
             double angvel_neigh = AtTimen ? wn[cpt_neigh] : wn[cpt_neigh] + dt_mech * taun[cpt_neigh];
             double2 velagent_neigh =   //  Velocity of the CM of the neighbouring pedestrian neighbour
-                AtTimen ? vgn[cpt_neigh] : UnmZetadt * vgn[cpt_neigh] + dt_mech * (Fp[cpt_neigh] + Forthon[cpt_neigh] + Ftn[cpt_neigh]);
+                AtTimen ? vgn[cpt_neigh]
+                        : UnmZetadt * vgn[cpt_neigh] + dt_mech * (Fp[cpt_neigh] + Forthon[cpt_neigh] + Ftn[cpt_neigh]);
             double2 velshape_neigh = velagent_neigh + (angvel_neigh ^ delta_GtoS_neigh);
 
             double2 n_ij;
@@ -347,7 +349,7 @@ tuple<double2, double2, double> MechanicalLayer::get_interactions(unsigned cpt_s
                 n_ij = double2(0., 0.);
             else
                 n_ij = (1. / distance) * r_ij;
-            double2 dcGshape = -(radius[cpt_shape] - h / 2.) * n_ij;            //  From the center of mass G of the shape
+            double2 dcGshape = -(radius[cpt_shape] - h / 2.) * n_ij;   //  From the center of mass G of the shape
             //  towards c (the contact point)
             double2 dcGshapeneigh = +(radius[cpt_shape_neigh] - h / 2.) * n_ij;
             double2 dcG = delta[cpt_shape] + dcGshape;   //  Vector distance from CM of the agent to
@@ -367,8 +369,8 @@ tuple<double2, double2, double> MechanicalLayer::get_interactions(unsigned cpt_s
             else
             {
                 double2 slip_prime = slip[{cpt_shape, cpt_shape_neigh}];
-                //	Rotation of the slip to take into account the roation of the contact reference frame
-                //	from t to t+dt_mech (D.R. Vyas, J.M. Ottino, R.M. Lueptow et al. 2025)
+                //  Rotation of the slip to take into account the rotation of the contact reference frame
+                //  from t to t+dt_mech (D.R. Vyas, J.M. Ottino, R.M. Lueptow et al. 2025)
                 double2 slip_projected = slip_prime - (slip_prime % n_ij) * n_ij;
                 double2 slip_new = slip_prime;
                 if ((!slip_projected) > 0.)
@@ -443,14 +445,14 @@ tuple<double2, double2, double> MechanicalLayer::get_interactions(unsigned cpt_s
             //  If the shape is in contact with the wall:
             if (h > 0.)
             {
-	            double2 r_iw = posshape - closestPoint;   //  Vector starting on the wall and going towards the shape
-    	        double2 n_iw;
-        	    if (distance == 0.)
-            	    n_iw = double2(0., 0.);
-	            else
-    	            n_iw = (1. / distance) * r_iw;
-	            double2 dcGshape = -(radius[cpt_shape] - h / 2.) * n_iw;
-    	        double2 dcG = delta[cpt_shape] + dcGshape;   //  Distance from the CM G to the contact point c
+                double2 r_iw = posshape - closestPoint;   //  Vector starting on the wall and going towards the shape
+                double2 n_iw;
+                if (distance == 0.)
+                    n_iw = double2(0., 0.);
+                else
+                    n_iw = (1. / distance) * r_iw;
+                double2 dcGshape = -(radius[cpt_shape] - h / 2.) * n_iw;
+                double2 dcG = delta[cpt_shape] + dcGshape;   //  Distance from the CM G to the contact point c
 
                 double2 v_ci = velshape + (angvel ^ dcGshape);
                 double2 viw = v_ci - double2(0., 0.);
@@ -464,8 +466,8 @@ tuple<double2, double2, double> MechanicalLayer::get_interactions(unsigned cpt_s
                 else
                 {
                     double2 slip_wall_prime = slip_wall[{cpt_shape, iobs, iwall}];
-                    //	Rotation of the slip to take into account the roation of the contact reference frame
-                    // 	from t to t+dt_mech (D.R. Vyas, J.M. Ottino, R.M. Lueptow et al. 2025)
+                    //  Rotation of the slip to take into account the rotation of the contact reference frame
+                    //  from t to t+dt_mech (D.R. Vyas, J.M. Ottino, R.M. Lueptow et al. 2025)
                     double2 slip_wall_projected = slip_wall_prime - (slip_wall_prime % n_iw) * n_iw;
                     double2 slip_wall_new = slip_wall_prime;
                     if ((!slip_wall_projected) > 0.0)
@@ -475,7 +477,7 @@ tuple<double2, double2, double> MechanicalLayer::get_interactions(unsigned cpt_s
                     slip_wall[{cpt_shape, iobs, iwall}] = slip_wall[{cpt_shape, iobs, iwall}] + dt_mech * vt_iw;
                 }
                 //  For the Interactions output file:
-				interactionsOutputWall[{cpt_shape, iobs, iwall}][SLIP] = slip_wall[{cpt_shape, iobs, iwall}];
+                interactionsOutputWall[{cpt_shape, iobs, iwall}][SLIP] = slip_wall[{cpt_shape, iobs, iwall}];
 
                 uint32_t shapeMaterialId = shapesMaterial[active_shapeIDshape_crowd[cpt_shape]];
                 uint32_t obstacleMaterialId = obstaclesMaterial[iobs];

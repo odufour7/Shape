@@ -4,8 +4,8 @@
     <compoundname>Crowd.h</compoundname>
     <includes refid="_agent_8h" local="yes">Agent.h</includes>
     <includes refid="_global_8h" local="yes">Global.h</includes>
-    <includedby refid="_crowd_mechanics_8h" local="yes">include/CrowdMechanics.h</includedby>
-    <includedby refid="_crowd_8cpp" local="yes">src/Crowd.cpp</includedby>
+    <includedby refid="_crowd_mechanics_8h" local="yes">/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape25may/src/mechanical_layer/include/CrowdMechanics.h</includedby>
+    <includedby refid="_crowd_8cpp" local="yes">/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape25may/src/mechanical_layer/src/Crowd.cpp</includedby>
     <incdepgraph>
       <node id="2">
         <label>Agent.h</label>
@@ -14,7 +14,7 @@
         </childnode>
       </node>
       <node id="1">
-        <label>include/Crowd.h</label>
+        <label>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape25may/src/mechanical_layer/include/Crowd.h</label>
         <link refid="_crowd_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -58,13 +58,13 @@
     </incdepgraph>
     <invincdepgraph>
       <node id="1">
-        <label>include/Crowd.h</label>
+        <label>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape25may/src/mechanical_layer/include/Crowd.h</label>
         <link refid="_crowd_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
       </node>
       <node id="2">
-        <label>include/CrowdMechanics.h</label>
+        <label>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape25may/src/mechanical_layer/include/CrowdMechanics.h</label>
         <link refid="_crowd_mechanics_8h_source"/>
       </node>
     </invincdepgraph>
@@ -80,7 +80,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Crowd.h" line="35" column="18" bodyfile="src/Crowd.cpp" bodystart="41" bodyend="-1" declfile="include/Crowd.h" declline="35" declcolumn="18"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape25may/src/mechanical_layer/include/Crowd.h" line="35" column="18" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape25may/src/mechanical_layer/src/Crowd.cpp" bodystart="40" bodyend="-1" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape25may/src/mechanical_layer/include/Crowd.h" declline="35" declcolumn="18"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="func">
@@ -196,7 +196,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Crowd.h" line="39" column="5" bodyfile="src/Crowd.cpp" bodystart="60" bodyend="95" declfile="include/Crowd.h" declline="39" declcolumn="5"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape25may/src/mechanical_layer/include/Crowd.h" line="39" column="5" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape25may/src/mechanical_layer/src/Crowd.cpp" bodystart="59" bodyend="94" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape25may/src/mechanical_layer/include/Crowd.h" declline="39" declcolumn="5"/>
       </memberdef>
       <memberdef kind="function" id="_crowd_8h_1ae7df95aedc4d1ad67792fa5ade15b55b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -213,7 +213,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Crowd.h" line="42" column="5" declfile="include/Crowd.h" declline="42" declcolumn="5"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape25may/src/mechanical_layer/include/Crowd.h" line="42" column="5" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape25may/src/mechanical_layer/include/Crowd.h" declline="42" declcolumn="5"/>
       </memberdef>
       <memberdef kind="function" id="_crowd_8h_1a9147e71f48a9790e558b7caa2d53a83a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -243,7 +243,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Crowd.h" line="44" column="6" bodyfile="src/Crowd.cpp" bodystart="333" bodyend="333" declfile="include/Crowd.h" declline="44" declcolumn="6"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape25may/src/mechanical_layer/include/Crowd.h" line="44" column="6" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape25may/src/mechanical_layer/src/Crowd.cpp" bodystart="332" bodyend="332" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape25may/src/mechanical_layer/include/Crowd.h" declline="44" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="_crowd_8h_1aa72faf5d2b73071c176c3db4d019d397" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -260,7 +260,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Crowd.h" line="45" column="6" bodyfile="src/Crowd.cpp" bodystart="340" bodyend="408" declfile="include/Crowd.h" declline="45" declcolumn="6"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape25may/src/mechanical_layer/include/Crowd.h" line="45" column="6" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape25may/src/mechanical_layer/src/Crowd.cpp" bodystart="339" bodyend="407" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape25may/src/mechanical_layer/include/Crowd.h" declline="45" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="_crowd_8h_1ae71235d3057734af7fc3fa0b922867b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -275,7 +275,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Crowd.h" line="46" column="6" bodyfile="src/Crowd.cpp" bodystart="251" bodyend="284" declfile="include/Crowd.h" declline="46" declcolumn="6"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape25may/src/mechanical_layer/include/Crowd.h" line="46" column="6" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape25may/src/mechanical_layer/src/Crowd.cpp" bodystart="250" bodyend="283" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape25may/src/mechanical_layer/include/Crowd.h" declline="46" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="_crowd_8h_1a56956a345edfef0a1f39d90f7e47b083" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -310,7 +310,7 @@
         <inbodydescription>
 <para>The dynamics follow a simple relaxation equation, ie dv/dt = (v_des - v) / tau_mech ==&gt; v(t)= v_des (1 - e^-t/tau_mech) + v(t=0) e^-t/tau_mech</para>
         </inbodydescription>
-        <location file="include/Crowd.h" line="49" column="6" bodyfile="src/Crowd.cpp" bodystart="297" bodyend="324" declfile="include/Crowd.h" declline="49" declcolumn="6"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape25may/src/mechanical_layer/include/Crowd.h" line="49" column="6" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape25may/src/mechanical_layer/src/Crowd.cpp" bodystart="296" bodyend="323" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape25may/src/mechanical_layer/include/Crowd.h" declline="49" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="_crowd_8h_1a8207cfe8584181bf5a3f71014e3b9859" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -338,7 +338,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/Crowd.h" line="51" column="6" bodyfile="src/Crowd.cpp" bodystart="415" bodyend="448" declfile="include/Crowd.h" declline="51" declcolumn="6"/>
+        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape25may/src/mechanical_layer/include/Crowd.h" line="51" column="6" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape25may/src/mechanical_layer/src/Crowd.cpp" bodystart="414" bodyend="447" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape25may/src/mechanical_layer/include/Crowd.h" declline="51" declcolumn="6"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -347,7 +347,7 @@
     </detaileddescription>
     <programlisting>
 <codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
-<codeline lineno="2"><highlight class="comment"><sp/><sp/><sp/><sp/>Copyright<sp/><sp/>2025<sp/><sp/>Institute<sp/>of<sp/>Light<sp/>and<sp/>Matter,<sp/>CNRS<sp/>UMR<sp/>5306</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/><sp/><sp/><sp/>Copyright<sp/><sp/>2025<sp/><sp/>Institute<sp/>of<sp/>Light<sp/>and<sp/>Matter,<sp/>CNRS<sp/>UMR<sp/>5306,<sp/>University<sp/>Claude<sp/>Bernard<sp/>Lyon<sp/>1</highlight></codeline>
 <codeline lineno="3"><highlight class="comment"><sp/><sp/><sp/><sp/>Contributors:<sp/>Oscar<sp/>DUFOUR,<sp/>Maxime<sp/>STAPELLE,<sp/>Alexandre<sp/>NICOLAS</highlight></codeline>
 <codeline lineno="4"><highlight class="comment"></highlight></codeline>
 <codeline lineno="5"><highlight class="comment"><sp/><sp/><sp/><sp/>This<sp/>software<sp/>is<sp/>a<sp/>computer<sp/>program<sp/>designed<sp/>to<sp/>generate<sp/>a<sp/>realistic<sp/>crowd<sp/>from<sp/>anthropometric<sp/>data<sp/>and</highlight></codeline>
@@ -400,6 +400,6 @@
 <codeline lineno="52"><highlight class="normal"></highlight></codeline>
 <codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SRC_MECHANICAL_LAYER_INCLUDE_CROWD_H_</highlight><highlight class="normal"></highlight></codeline>
     </programlisting>
-    <location file="include/Crowd.h"/>
+    <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape25may/src/mechanical_layer/include/Crowd.h"/>
   </compounddef>
 </doxygen>

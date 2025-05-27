@@ -1,5 +1,5 @@
 /*
-    Copyright  2025  Institute of Light and Matter, CNRS UMR 5306
+    Copyright  2025  Institute of Light and Matter, CNRS UMR 5306, University Claude Bernard Lyon 1
     Contributors: Oscar DUFOUR, Maxime STAPELLE, Alexandre NICOLAS
 
     This software is a computer program designed to generate a realistic crowd from anthropometric data and
@@ -29,10 +29,10 @@
 
 #include "Global.h"
 
+#include <sstream>
 #include <string>
 #include <utility>
 #include <vector>
-#include <sstream>
 
 using std::map, std::string, std::vector, std::pair, std::stringstream;
 
@@ -64,9 +64,9 @@ int2 operator*(int2 const& a, int2 const& b) { return {a.first * b.first, a.seco
 /*
     Global variables
                         */
-bool loadStaticData = true;		  //  In case of several calls to the library, this flag says if the
-								  //  static data needs to be reloaded (eg when a user is using the GUI
-								  //  application and changes the geometry and/or agents.
+bool loadStaticData = true;   //  In case of several calls to the library, this flag says if the
+                              //  static data needs to be reloaded (eg when a user is using the GUI
+                              //  application and changes the geometry and/or agents.
 
 uint32_t nAgents;
 map<string, uint32_t> agentMap;   //  Correspondence between user-given ids and internal ids
