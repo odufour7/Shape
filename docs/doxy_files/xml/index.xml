@@ -72,64 +72,6 @@
     <member refid="struct_mechanical_layer_1a649d6a6badb00c69e97cd3d96d3305ad" kind="function"><name>MechanicalLayer</name></member>
     <member refid="struct_mechanical_layer_1a7ff97bf10d2b101830cc7e4b38867a63" kind="function"><name>~MechanicalLayer</name></member>
   </compound>
-  <compound refid="_c_make_c_compiler_id_8c" kind="file"><name>CMakeCCompilerId.c</name>
-    <member refid="_c_make_c_compiler_id_8c_1ae5510d82e4946f1656f4969911c54736" kind="define"><name>__has_include</name></member>
-    <member refid="_c_make_c_compiler_id_8c_1a81dee0709ded976b2e0319239f72d174" kind="define"><name>COMPILER_ID</name></member>
-    <member refid="_c_make_c_compiler_id_8c_1a2ae9b72bb13abaabfcf2ee0ba7d3fa1d" kind="define"><name>STRINGIFY_HELPER</name></member>
-    <member refid="_c_make_c_compiler_id_8c_1a43e1cad902b6477bec893cb6430bd6c8" kind="define"><name>STRINGIFY</name></member>
-    <member refid="_c_make_c_compiler_id_8c_1adbc5372f40838899018fadbc89bd588b" kind="define"><name>PLATFORM_ID</name></member>
-    <member refid="_c_make_c_compiler_id_8c_1aba35d0d200deaeb06aee95ca297acb28" kind="define"><name>ARCHITECTURE_ID</name></member>
-    <member refid="_c_make_c_compiler_id_8c_1ad1280362da42492bbc11aa78cbf776ad" kind="define"><name>DEC</name></member>
-    <member refid="_c_make_c_compiler_id_8c_1a46d5d95daa1bef867bd0179594310ed5" kind="define"><name>HEX</name></member>
-    <member refid="_c_make_c_compiler_id_8c_1af6079dc519dac099ee85a1df6ae5e5e8" kind="define"><name>C_STD_99</name></member>
-    <member refid="_c_make_c_compiler_id_8c_1a7c35af7e67642a2c62eb27dd81be11b2" kind="define"><name>C_STD_11</name></member>
-    <member refid="_c_make_c_compiler_id_8c_1aa8cd9c2c76dde36abac0bd7698090693" kind="define"><name>C_STD_17</name></member>
-    <member refid="_c_make_c_compiler_id_8c_1a81af617e8f7b5417689ca478ce9f4d69" kind="define"><name>C_STD_23</name></member>
-    <member refid="_c_make_c_compiler_id_8c_1adaee3ee7c5a7a22451ea25e762e1d7d5" kind="define"><name>C_VERSION</name></member>
-    <member refid="_c_make_c_compiler_id_8c_1a4b0efeb7a5d59313986b3a0390f050f6" kind="variable"><name>info_compiler</name></member>
-    <member refid="_c_make_c_compiler_id_8c_1a2321403dee54ee23f0c2fa849c60f7d4" kind="variable"><name>info_platform</name></member>
-    <member refid="_c_make_c_compiler_id_8c_1a59647e99d304ed33b15cb284c27ed391" kind="variable"><name>info_arch</name></member>
-    <member refid="_c_make_c_compiler_id_8c_1a4607cccf070750927b458473ca82c090" kind="variable"><name>info_language_standard_default</name></member>
-    <member refid="_c_make_c_compiler_id_8c_1a0f46a8a39e09d9b803c4766904fd7e99" kind="variable"><name>info_language_extensions_default</name></member>
-    <member refid="_c_make_c_compiler_id_8c_1a0ddf1224851353fc92bfbff6f499fa97" kind="function"><name>main</name></member>
-  </compound>
-  <compound refid="_c_make_c_x_x_compiler_id_8cpp" kind="file"><name>CMakeCXXCompilerId.cpp</name>
-    <member refid="_c_make_c_x_x_compiler_id_8cpp_1ae5510d82e4946f1656f4969911c54736" kind="define"><name>__has_include</name></member>
-    <member refid="_c_make_c_x_x_compiler_id_8cpp_1a81dee0709ded976b2e0319239f72d174" kind="define"><name>COMPILER_ID</name></member>
-    <member refid="_c_make_c_x_x_compiler_id_8cpp_1a2ae9b72bb13abaabfcf2ee0ba7d3fa1d" kind="define"><name>STRINGIFY_HELPER</name></member>
-    <member refid="_c_make_c_x_x_compiler_id_8cpp_1a43e1cad902b6477bec893cb6430bd6c8" kind="define"><name>STRINGIFY</name></member>
-    <member refid="_c_make_c_x_x_compiler_id_8cpp_1adbc5372f40838899018fadbc89bd588b" kind="define"><name>PLATFORM_ID</name></member>
-    <member refid="_c_make_c_x_x_compiler_id_8cpp_1aba35d0d200deaeb06aee95ca297acb28" kind="define"><name>ARCHITECTURE_ID</name></member>
-    <member refid="_c_make_c_x_x_compiler_id_8cpp_1ad1280362da42492bbc11aa78cbf776ad" kind="define"><name>DEC</name></member>
-    <member refid="_c_make_c_x_x_compiler_id_8cpp_1a46d5d95daa1bef867bd0179594310ed5" kind="define"><name>HEX</name></member>
-    <member refid="_c_make_c_x_x_compiler_id_8cpp_1a2454727f55dd7af9210ab341ca8be2c8" kind="define"><name>CXX_STD_98</name></member>
-    <member refid="_c_make_c_x_x_compiler_id_8cpp_1a2c21af1889e9ca5cda36069184cc3234" kind="define"><name>CXX_STD_11</name></member>
-    <member refid="_c_make_c_x_x_compiler_id_8cpp_1a39fb4789a452bfb5df17d40f640dd720" kind="define"><name>CXX_STD_14</name></member>
-    <member refid="_c_make_c_x_x_compiler_id_8cpp_1ae17f1ae0bf56cf631eadff4f73e96ff9" kind="define"><name>CXX_STD_17</name></member>
-    <member refid="_c_make_c_x_x_compiler_id_8cpp_1aa52ec6104623a66734cc5d5d28733bed" kind="define"><name>CXX_STD_20</name></member>
-    <member refid="_c_make_c_x_x_compiler_id_8cpp_1ae5e2d955d2884c65b7de2e1ad29a4f1d" kind="define"><name>CXX_STD_23</name></member>
-    <member refid="_c_make_c_x_x_compiler_id_8cpp_1a34cc889e576a1ae6c84ae9e0a851ba21" kind="define"><name>CXX_STD</name></member>
-    <member refid="_c_make_c_x_x_compiler_id_8cpp_1a4b0efeb7a5d59313986b3a0390f050f6" kind="variable"><name>info_compiler</name></member>
-    <member refid="_c_make_c_x_x_compiler_id_8cpp_1a2321403dee54ee23f0c2fa849c60f7d4" kind="variable"><name>info_platform</name></member>
-    <member refid="_c_make_c_x_x_compiler_id_8cpp_1a59647e99d304ed33b15cb284c27ed391" kind="variable"><name>info_arch</name></member>
-    <member refid="_c_make_c_x_x_compiler_id_8cpp_1a4607cccf070750927b458473ca82c090" kind="variable"><name>info_language_standard_default</name></member>
-    <member refid="_c_make_c_x_x_compiler_id_8cpp_1a0f46a8a39e09d9b803c4766904fd7e99" kind="variable"><name>info_language_extensions_default</name></member>
-    <member refid="_c_make_c_x_x_compiler_id_8cpp_1a0ddf1224851353fc92bfbff6f499fa97" kind="function"><name>main</name></member>
-  </compound>
-  <compound refid="tinyxml2_8cpp_8o_8d" kind="file"><name>tinyxml2.cpp.o.d</name>
-  </compound>
-  <compound refid="_agent_8cpp_8o_8d" kind="file"><name>Agent.cpp.o.d</name>
-  </compound>
-  <compound refid="_crowd_8cpp_8o_8d" kind="file"><name>Crowd.cpp.o.d</name>
-  </compound>
-  <compound refid="_global_8cpp_8o_8d" kind="file"><name>Global.cpp.o.d</name>
-  </compound>
-  <compound refid="_input_static_8cpp_8o_8d" kind="file"><name>InputStatic.cpp.o.d</name>
-  </compound>
-  <compound refid="_main_8cpp_8o_8d" kind="file"><name>Main.cpp.o.d</name>
-  </compound>
-  <compound refid="_mechanical_layer_8cpp_8o_8d" kind="file"><name>MechanicalLayer.cpp.o.d</name>
-  </compound>
   <compound refid="_agent_8h" kind="file"><name>Agent.h</name>
   </compound>
   <compound refid="_crowd_8h" kind="file"><name>Crowd.h</name>
@@ -148,7 +90,7 @@
   <compound refid="_global_8h" kind="file"><name>Global.h</name>
     <member refid="_global_8h_1a4efe52b7a9d34b6729f25c99620a5511" kind="typedef"><name>int2</name></member>
     <member refid="_global_8h_1a27ec70e4bef012c5adbe0c8cf122676b" kind="typedef"><name>double2</name></member>
-    <member refid="_global_8h_1a714f1ca4d0b766c27006639b8cad4b70" kind="variable"><name>firstRun</name></member>
+    <member refid="_global_8h_1a5dd948293e826dd88f965e2c71722af2" kind="variable"><name>loadStaticData</name></member>
     <member refid="_global_8h_1a245f542572171827c24b7d2fc8c0228b" kind="variable"><name>listObstacles</name></member>
     <member refid="_global_8h_1ad538aa77abb694f8faf437a41e3e8037" kind="variable"><name>Lx</name></member>
     <member refid="_global_8h_1a9b3d111ccf7f82fb80aeb6f8b229c21b" kind="variable"><name>Ly</name></member>
@@ -207,7 +149,7 @@
     <member refid="_crowd_8cpp_1a8207cfe8584181bf5a3f71014e3b9859" kind="function"><name>generateDynamicsOutputFile</name></member>
   </compound>
   <compound refid="_global_8cpp" kind="file"><name>Global.cpp</name>
-    <member refid="_global_8cpp_1a714f1ca4d0b766c27006639b8cad4b70" kind="variable"><name>firstRun</name></member>
+    <member refid="_global_8cpp_1a5dd948293e826dd88f965e2c71722af2" kind="variable"><name>loadStaticData</name></member>
     <member refid="_global_8cpp_1a17fb23d2539d94d39f4894074c1d5b45" kind="variable"><name>nAgents</name></member>
     <member refid="_global_8cpp_1a2d9c16ea9a48a801f040edbb1364a369" kind="variable"><name>agentMap</name></member>
     <member refid="_global_8cpp_1a9383e068c56024265f6b9fe837d586f6" kind="variable"><name>agentMapInverse</name></member>
@@ -253,30 +195,8 @@
   </compound>
   <compound refid="_mechanical_layer_8cpp" kind="file"><name>MechanicalLayer.cpp</name>
   </compound>
-  <compound refid="dir_27e3aa53afdeff9546b17d5aa5a9e7d4" kind="dir"><name>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/build/CMakeFiles/CrowdMechanics.dir/3rdparty</name>
+  <compound refid="dir_d44c64559bbebec7f509842c48db8b23" kind="dir"><name>include</name>
   </compound>
-  <compound refid="dir_73b740c917021887ac6946f866719b87" kind="dir"><name>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/build/CMakeFiles/4.0.1</name>
-  </compound>
-  <compound refid="dir_f966173dae337468e744bc02eb138d56" kind="dir"><name>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/build</name>
-  </compound>
-  <compound refid="dir_da8736ba346742f9173f51b18c4c2850" kind="dir"><name>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/build/CMakeFiles</name>
-  </compound>
-  <compound refid="dir_ea0a70bf827ec97dc0b1f0ba0d0e46e4" kind="dir"><name>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/build/CMakeFiles/4.0.1/CompilerIdC</name>
-  </compound>
-  <compound refid="dir_04569a3fa4969758526d2e565e6c5ae8" kind="dir"><name>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/build/CMakeFiles/4.0.1/CompilerIdCXX</name>
-  </compound>
-  <compound refid="dir_5375ac4767d13642c2044f14fd5ba078" kind="dir"><name>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/build/CMakeFiles/CrowdMechanics.dir</name>
-  </compound>
-  <compound refid="dir_ce624fb514b2d098fd3bb2b8bc42acd1" kind="dir"><name>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include</name>
-  </compound>
-  <compound refid="dir_fb3266c4f0536d7caf040191bdf6d92a" kind="dir"><name>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer</name>
-  </compound>
-  <compound refid="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir"><name>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src</name>
-  </compound>
-  <compound refid="dir_e61d575f0a6afc890a31686fb581e252" kind="dir"><name>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/build/CMakeFiles/CrowdMechanics.dir/src</name>
-  </compound>
-  <compound refid="dir_d19e9585c3e2b81a995b8dc4367bd78a" kind="dir"><name>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src</name>
-  </compound>
-  <compound refid="dir_31f7b955563111d2ef4ba72c186dc596" kind="dir"><name>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/build/CMakeFiles/CrowdMechanics.dir/3rdparty/tinyxml</name>
+  <compound refid="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir"><name>src</name>
   </compound>
 </doxygenindex>

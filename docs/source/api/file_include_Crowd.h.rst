@@ -34,12 +34,6 @@ Includes
 
 - ``Global.h`` (:ref:`file_include_Global.h`)
 
-- ``list``
-
-- ``string``
-
-- ``vector``
-
 
 
 Included By

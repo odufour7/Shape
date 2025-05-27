@@ -32,6 +32,8 @@ Includes
 
 - ``CrowdMechanics.h`` (:ref:`file_include_CrowdMechanics.h`)
 
+- ``map``
+
 - ``string``
 
 - ``vector``

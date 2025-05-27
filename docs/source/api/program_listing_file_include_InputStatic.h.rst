@@ -40,11 +40,8 @@ Program Listing for File InputStatic.h
    #ifndef SRC_MECHANICAL_LAYER_INCLUDE_INPUTSTATIC_H_
    #define SRC_MECHANICAL_LAYER_INCLUDE_INPUTSTATIC_H_
    
-   #include <map>
-   #include <string>
-   #include <vector>
-   
    #include "Global.h"
+   #include "Agent.h"
    
    //  Read input files
    int readParameters(const std::string& file);

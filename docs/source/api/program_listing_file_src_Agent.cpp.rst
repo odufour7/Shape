@@ -35,13 +35,10 @@ Program Listing for File Agent.cpp
    
        The fact that you are presently reading this means that you have had knowledge of the CeCILL license and that
        you accept its terms.
-   
-       Agent.cpp contains the constructor of the agent class, as well as functions related to the agent's properties.
     */
    
    #include "Agent.h"
    
-   #include <utility>
    #include <vector>
    
    using std::vector;

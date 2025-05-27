@@ -40,10 +40,6 @@ Program Listing for File Crowd.h
    #ifndef SRC_MECHANICAL_LAYER_INCLUDE_CROWD_H_
    #define SRC_MECHANICAL_LAYER_INCLUDE_CROWD_H_
    
-   #include <list>
-   #include <string>
-   #include <vector>
-   
    #include "Agent.h"
    #include "Global.h"
    

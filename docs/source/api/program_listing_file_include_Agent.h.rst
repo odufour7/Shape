@@ -40,10 +40,6 @@ Program Listing for File Agent.h
    #ifndef SRC_MECHANICAL_LAYER_INCLUDE_AGENT_H_
    #define SRC_MECHANICAL_LAYER_INCLUDE_AGENT_H_
    
-   #include <list>
-   #include <utility>
-   #include <vector>
-   
    #include "Global.h"
    
    struct Agent

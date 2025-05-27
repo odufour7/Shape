@@ -35,15 +35,15 @@ Program Listing for File Main.cpp
    
        The fact that you are presently reading this means that you have had knowledge of the CeCILL license and that
        you accept its terms.
-   
-       `Mechanical layer` for handling agent collisions in agent-based models.
-       Designed as a shared library to be called from Python or C++
     */
    
-   #include <string>
-   #include <vector>
-   
    #include "CrowdMechanics.h"
+   
+   #include <vector>
+   #include <map>
+   #include <string>
+   
+   
    using std::string, std::map, std::vector;
    
    //  extern C is a trick for Python ctypes to work
@@ -57,7 +57,7 @@ Program Listing for File Main.cpp
            //  Store the dynamics file name, whether it is the first run or not
            const string dynamicsFile = pathDynamic + files[4];
    
-           if (firstRun)
+           if (loadStaticData)
            {
                /*  Read MATERIALS  */
                //  Mapping between user-given id's and indexes in the program
@@ -90,7 +90,7 @@ Program Listing for File Main.cpp
            /*  Main program procedure  */
            handleMechanicalLayer(dynamicsFile);
    
-           firstRun = false;
+           loadStaticData = false;
            return EXIT_SUCCESS;
        }
    }

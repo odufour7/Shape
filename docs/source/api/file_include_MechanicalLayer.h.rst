@@ -34,22 +34,6 @@ Includes
 
 - ``Global.h`` (:ref:`file_include_Global.h`)
 
-- ``array``
-
-- ``map``
-
-- ``set``
-
-- ``string``
-
-- ``tuple``
-
-- ``unordered_set``
-
-- ``utility``
-
-- ``vector``
-
 
 
 Included By

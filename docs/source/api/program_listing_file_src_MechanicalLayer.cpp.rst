@@ -35,11 +35,21 @@ Program Listing for File MechanicalLayer.cpp
    
        The fact that you are presently reading this means that you have had knowledge of the CeCILL license and that
        you accept its terms.
-   
-       This file contains the actual mechanical layer, which will take mechanically active agents and handle possible collisions.
     */
    
    #include "MechanicalLayer.h"
+   
+   #include <array>
+   #include <set>
+   #include <unordered_set>
+   #include <tuple>
+   #include <vector>
+   #include <map>
+   #include <string>
+   #include <sys/stat.h>
+   #include <fstream>
+   
+   #include "../3rdparty/tinyxml/tinyxml2.h"
    
    using std::list, std::map, std::set, std::vector, std::string, std::tuple, std::pair, std::cout, std::cerr, std::endl, std::ofstream,
        std::fmin;
@@ -300,56 +310,56 @@ Program Listing for File MechanicalLayer.cpp
                                           : delta[cpt_shape_neigh] + ((thetnp1[cpt_neigh] - thetn[cpt_neigh]) ^ delta[cpt_shape_neigh]);
            double2 posagent_neigh = AtTimen ? rgn[cpt_neigh] : rgnp1[cpt_neigh];
            double2 posshape_neigh = posagent_neigh + delta_GtoS_neigh;
-           double angvel_neigh = AtTimen ? wn[cpt_neigh] : wn[cpt_neigh] + dt_mech * taun[cpt_neigh];
-           double2 velagent_neigh =   //  Velocity of the CM of the neighbouring pedestrian neighbour
-               AtTimen ? vgn[cpt_neigh] : UnmZetadt * vgn[cpt_neigh] + dt_mech * (Fp[cpt_neigh] + Forthon[cpt_neigh] + Ftn[cpt_neigh]);
-           double2 velshape_neigh = velagent_neigh + (angvel_neigh ^ delta_GtoS_neigh);
    
            double2 r_ij = posshape - posshape_neigh;
            double distance(!r_ij);
-           double2 n_ij;
-           if (distance == 0.)
-               n_ij = double2(0., 0.);
-           else
-               n_ij = (1. / distance) * r_ij;
            double h(radius[cpt_shape] + radius[cpt_shape_neigh] - distance);   //  Indentation
-           double2 dcGshape = -(radius[cpt_shape] - h / 2.) * n_ij;            //  From the center of mass G of the shape
-                                                                               //  towards c (the contact point)
-           double2 dcGshapeneigh = +(radius[cpt_shape_neigh] - h / 2.) * n_ij;
-           double2 dcG = delta[cpt_shape] + dcGshape;   //  Vector distance from CM of the agent to
-                                                        //  c = vector distance from CM agent to CM shape +
-                                                        //      distance from CM shape to c
+   
            //  If the two shapes are in contact:
            if (h > 0.)
            {
+               double angvel_neigh = AtTimen ? wn[cpt_neigh] : wn[cpt_neigh] + dt_mech * taun[cpt_neigh];
+               double2 velagent_neigh =   //  Velocity of the CM of the neighbouring pedestrian neighbour
+                   AtTimen ? vgn[cpt_neigh] : UnmZetadt * vgn[cpt_neigh] + dt_mech * (Fp[cpt_neigh] + Forthon[cpt_neigh] + Ftn[cpt_neigh]);
+               double2 velshape_neigh = velagent_neigh + (angvel_neigh ^ delta_GtoS_neigh);
+   
+               double2 n_ij;
+               if (distance == 0.)
+                   n_ij = double2(0., 0.);
+               else
+                   n_ij = (1. / distance) * r_ij;
+               double2 dcGshape = -(radius[cpt_shape] - h / 2.) * n_ij;            //  From the center of mass G of the shape
+               //  towards c (the contact point)
+               double2 dcGshapeneigh = +(radius[cpt_shape_neigh] - h / 2.) * n_ij;
+               double2 dcG = delta[cpt_shape] + dcGshape;   //  Vector distance from CM of the agent to
+               //  c = vector distance from CM agent to CM shape +
+               //      distance from CM shape to c
+   
                double2 v_ci = velshape + (angvel ^ dcGshape);                    //  Velocity of i at the contact point
                double2 v_cj = velshape_neigh + (angvel_neigh ^ dcGshapeneigh);   //  Velocity of j at the contact point
                double2 vij = v_ci - v_cj;
                double2 vortho_ij = (vij % n_ij) * n_ij;
                double2 vt_ij = vij - vortho_ij;
-               double norm_vt_ij = !vt_ij;
    
                //  If the map does not contain this pair ie the slip is not initialized, we initialize it
                //  Otherwise: we increment it
                if (!slip.contains({cpt_shape, cpt_shape_neigh}))
                    slip[{cpt_shape, cpt_shape_neigh}] = double2(0., 0.);
                else
-                   slip[{cpt_shape, cpt_shape_neigh}] = slip[{cpt_shape, cpt_shape_neigh}] + dt_mech * vt_ij;
+               {
+                   double2 slip_prime = slip[{cpt_shape, cpt_shape_neigh}];
+                   //  Rotation of the slip to take into account the roation of the contact reference frame
+                   //  from t to t+dt_mech (D.R. Vyas, J.M. Ottino, R.M. Lueptow et al. 2025)
+                   double2 slip_projected = slip_prime - (slip_prime % n_ij) * n_ij;
+                   double2 slip_new = slip_prime;
+                   if ((!slip_projected) > 0.)
+                       slip_new = (!slip_prime / !slip_projected) * slip_projected;
+                   slip[{cpt_shape, cpt_shape_neigh}] = slip_new + dt_mech * vt_ij;
+               }
                //  For the output Interactions file:
                //  We will only put the N(N-1)/2 pairs, ie cpt_shape_neigh>cpt_shape
                if (!interactionsOutput.contains({cpt_shape_neigh, cpt_shape}))
                    interactionsOutput[{cpt_shape, cpt_shape_neigh}][SLIP] = slip[{cpt_shape, cpt_shape_neigh}];
-   
-               double2 delta_tij = slip[{cpt_shape, cpt_shape_neigh}];   //  Vector of tangential displacement
-               double norm_delta_tij = !delta_tij;
-   
-               double2 t_vij;
-               if (norm_vt_ij > 0)
-                   t_vij = (1. / norm_vt_ij) * vt_ij;
-               else if (norm_delta_tij > 0)
-                   t_vij = (1. / norm_delta_tij) * delta_tij;
-               else
-                   t_vij = double2(0., 0.);
    
                uint32_t shapeMaterialId = shapesMaterial[active_shapeIDshape_crowd[cpt_shape]];
                uint32_t shapeNeighbourMaterialId = shapesMaterial[active_shapeIDshape_crowd[cpt_shape_neigh]];
@@ -366,12 +376,18 @@ Program Listing for File MechanicalLayer.cpp
                /*  Tangential interactions */
                double k_t = binaryProperties[STIFFNESS_TANGENTIAL][shapeMaterialId][shapeNeighbourMaterialId];
                double Gamma_t = binaryProperties[DAMPING_TANGENTIAL][shapeMaterialId][shapeNeighbourMaterialId];
-               double2 ftij_spring = -k_t * norm_delta_tij * t_vij;
-               double2 ftij_viscous = -Gamma_t * vt_ij;
-               double2 ftij_static = ftij_spring + ftij_viscous;
+               double2 ftij_static = -k_t * slip[{cpt_shape, cpt_shape_neigh}] - Gamma_t * vt_ij;
                double mu_dyn = binaryProperties[FRICTION_SLIDING][shapeMaterialId][shapeNeighbourMaterialId];
-               double2 ftij_dynamic = -mu_dyn * !fnij * t_vij;
-               double2 ftij = -1. * fmin(!ftij_static, !ftij_dynamic) * t_vij;
+               double2 t_vij = double2(0., 0.);
+               double2 ftij = double2(0., 0.);
+               if ((!ftij_static) > mu_dyn * !fnij)
+               {
+                   t_vij = (1. / !ftij_static) * ftij_static;
+                   ftij = mu_dyn * !fnij * t_vij;
+                   slip[{cpt_shape, cpt_shape_neigh}] = -(1. / k_t) * (mu_dyn * !fnij * t_vij + Gamma_t * vt_ij);
+               }
+               else
+                   ftij = ftij_static;
                ft = ft + ftij;
                if (!interactionsOutput.contains({cpt_shape_neigh, cpt_shape}))
                    interactionsOutput[{cpt_shape, cpt_shape_neigh}][FORCE_TAN] = ftij;
@@ -402,42 +418,49 @@ Program Listing for File MechanicalLayer.cpp
            int iwall = 0;
            for (auto it = wall_it.begin(); next(it) != wall_it.end(); ++it)
            {
-               auto [dist, closestPoint] = get_distance_to_wall_and_closest_point(*it, *(next(it)), posshape);
-   
-               double2 r_iw = posshape - closestPoint;   //  Vector starting on the wall and going towards the shape
-               double distance = dist;
-               double2 n_iw;
-               if (distance == 0.)
-                   n_iw = double2(0., 0.);
-               else
-                   n_iw = (1. / distance) * r_iw;
+               auto [distance, closestPoint] = get_distance_to_wall_and_closest_point(*it, *(next(it)), posshape);
                double h = radius[cpt_shape] - distance;
-               double2 dcGshape = -(radius[cpt_shape] - h / 2.) * n_iw;
-               double2 dcG = delta[cpt_shape] + dcGshape;   //  Distance from the CM G to the contact point c
    
                //  If the shape is in contact with the wall:
                if (h > 0.)
                {
+                   double2 r_iw = posshape - closestPoint;   //  Vector starting on the wall and going towards the shape
+                   double2 n_iw;
+                   if (distance == 0.)
+                       n_iw = double2(0., 0.);
+                   else
+                       n_iw = (1. / distance) * r_iw;
+                   double2 dcGshape = -(radius[cpt_shape] - h / 2.) * n_iw;
+                   double2 dcG = delta[cpt_shape] + dcGshape;   //  Distance from the CM G to the contact point c
+   
                    double2 v_ci = velshape + (angvel ^ dcGshape);
                    double2 viw = v_ci - double2(0., 0.);
                    double2 vortho_iw = (viw % n_iw) * n_iw;
                    double2 vt_iw = viw - vortho_iw;
-                   double norm_vt_iw = !vt_iw;
    
                    //  If the map does not contain this pair ie the slip is not initialized, we initialize it
                    //  Otherwise: we increment it
                    if (!slip_wall.contains({cpt_shape, iobs, iwall}))
                        slip_wall[{cpt_shape, iobs, iwall}] = double2(0., 0.);
                    else
+                   {
+                       double2 slip_wall_prime = slip_wall[{cpt_shape, iobs, iwall}];
+                       //  Rotation of the slip to take into account the roation of the contact reference frame
+                       //  from t to t+dt_mech (D.R. Vyas, J.M. Ottino, R.M. Lueptow et al. 2025)
+                       double2 slip_wall_projected = slip_wall_prime - (slip_wall_prime % n_iw) * n_iw;
+                       double2 slip_wall_new = slip_wall_prime;
+                       if ((!slip_wall_projected) > 0.0)
+                       {
+                           slip_wall_new = (!slip_wall_prime / !slip_wall_projected) * slip_wall_projected;
+                       }
                        slip_wall[{cpt_shape, iobs, iwall}] = slip_wall[{cpt_shape, iobs, iwall}] + dt_mech * vt_iw;
+                   }
                    //  For the Interactions output file:
                    interactionsOutputWall[{cpt_shape, iobs, iwall}][SLIP] = slip_wall[{cpt_shape, iobs, iwall}];
    
-                   double2 delta_tiw = slip_wall[{cpt_shape, iobs, iwall}];
-                   double norm_delta_tiw = !delta_tiw;
-   
                    uint32_t shapeMaterialId = shapesMaterial[active_shapeIDshape_crowd[cpt_shape]];
                    uint32_t obstacleMaterialId = obstaclesMaterial[iobs];
+   
                    /*  Normal interactions  */
                    double k_n_wall = binaryProperties[STIFFNESS_NORMAL][shapeMaterialId][obstacleMaterialId];
                    double Gamma_n_wall = binaryProperties[DAMPING_NORMAL][shapeMaterialId][obstacleMaterialId];
@@ -448,21 +471,22 @@ Program Listing for File MechanicalLayer.cpp
                    interactionsOutputWall[{cpt_shape, iobs, iwall}][FORCE_ORTHO] = fniw;
    
                    /*  Tangential interactions  */
-                   double2 t_viw;
-                   if (norm_vt_iw > 0)
-                       t_viw = (1. / norm_vt_iw) * vt_iw;
-                   else if (norm_delta_tiw > 0)
-                       t_viw = (1. / norm_delta_tiw) * delta_tiw;
-                   else
-                       t_viw = double2(0., 0.);
                    double k_t_wall = binaryProperties[STIFFNESS_TANGENTIAL][shapeMaterialId][obstacleMaterialId];
                    double Gamma_t_wall = binaryProperties[DAMPING_TANGENTIAL][shapeMaterialId][obstacleMaterialId];
-                   double2 ftiw_spring = -k_t_wall * norm_delta_tiw * t_viw;
-                   double2 ftiw_viscous = -Gamma_t_wall * vt_iw;
-                   double2 ftiw_static = ftiw_spring + ftiw_viscous;
+                   double2 ftiw_static = -k_t_wall * slip_wall[{cpt_shape, iobs, iwall}] - Gamma_t_wall * vt_iw;
+                   double2 t_viw = double2(0., 0.);
+                   double2 ftiw = double2(0., 0.);
                    double mu_dyn_wall = binaryProperties[FRICTION_SLIDING][shapeMaterialId][obstacleMaterialId];
-                   double2 ftiw_dynamic = -mu_dyn_wall * !fniw * t_viw;
-                   double2 ftiw = -1. * fmin(!ftiw_static, !ftiw_dynamic) * t_viw;
+                   if ((!ftiw_static) > mu_dyn_wall * !fniw)
+                   {
+                       t_viw = (1.0 / !ftiw_static) * ftiw_static;
+                       ftiw = mu_dyn_wall * !fniw * t_viw;
+                       slip_wall[{cpt_shape, iobs, iwall}] = -(1.0 / k_t_wall) * (mu_dyn_wall * !fniw * t_viw + Gamma_t_wall * vt_iw);
+                   }
+                   else
+                   {
+                       ftiw = ftiw_static;
+                   }
                    ft = ft + ftiw;
                    interactionsOutputWall[{cpt_shape, iobs, iwall}][FORCE_TAN] = ftiw;
    
@@ -541,7 +565,8 @@ Program Listing for File MechanicalLayer.cpp
        {
            double UnmZetadt2 = 1.0 - 0.5 * dt_mech * damping[cpt_agent].first;
            double UnpZetadt2 = 1.0 + 0.5 * dt_mech * damping[cpt_agent].first;
-           taunp1[cpt_agent] = taunp1[cpt_agent] + (wdesired[cpt_agent] - wnp1[cpt_agent]) * damping[cpt_agent].second;
+           double wn_trial = wn[cpt_agent] + dt_mech * taun[cpt_agent];
+           taunp1[cpt_agent] = taunp1[cpt_agent] + (wdesired[cpt_agent] - wn_trial) * damping[cpt_agent].second;
            //  Update velocities
            vgnp1[cpt_agent] =
                1.0 / UnpZetadt2 *

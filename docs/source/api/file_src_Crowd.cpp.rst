@@ -30,9 +30,17 @@ Includes
 --------
 
 
+- ``../3rdparty/tinyxml/tinyxml2.h``
+
 - ``Crowd.h`` (:ref:`file_include_Crowd.h`)
 
 - ``MechanicalLayer.h`` (:ref:`file_include_MechanicalLayer.h`)
+
+- ``algorithm``
+
+- ``fstream``
+
+- ``vector``
 
 
 

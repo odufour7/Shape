@@ -40,23 +40,12 @@ Program Listing for File Global.h
    #ifndef SRC_MECHANICAL_LAYER_INCLUDE_GLOBAL_H_
    #define SRC_MECHANICAL_LAYER_INCLUDE_GLOBAL_H_
    
-   #include <sys/stat.h>
-   
-   #include <algorithm>
    #include <cmath>
-   #include <filesystem>
-   #include <fstream>
    #include <iostream>
-   #include <iterator>
    #include <list>
    #include <map>
-   #include <sstream>
    #include <string>
-   #include <utility>
    #include <vector>
-   
-   //  3rd party
-   #include "../3rdparty/tinyxml/tinyxml2.h"
    
    /*
        New types
@@ -78,7 +67,7 @@ Program Listing for File Global.h
    /*
        Global variables
                            */
-   extern bool firstRun;
+   extern bool loadStaticData;
    
    //  Geometry
    extern std::vector<std::vector<double2>> listObstacles;

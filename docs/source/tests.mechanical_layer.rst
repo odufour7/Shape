@@ -2,7 +2,7 @@ Mechanical layer (Python)
 =========================
 
 
-.. automodule:: create_scenario_anisotropic
+.. automodule:: ScenarioGUI_mypy_correction
     :members:
     :undoc-members:
     :show-inheritance:

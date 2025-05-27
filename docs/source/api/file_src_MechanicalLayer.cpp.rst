@@ -30,7 +30,27 @@ Includes
 --------
 
 
+- ``../3rdparty/tinyxml/tinyxml2.h``
+
 - ``MechanicalLayer.h`` (:ref:`file_include_MechanicalLayer.h`)
+
+- ``array``
+
+- ``fstream``
+
+- ``map``
+
+- ``set``
+
+- ``string``
+
+- ``sys/stat.h``
+
+- ``tuple``
+
+- ``unordered_set``
+
+- ``vector``
 
 
 

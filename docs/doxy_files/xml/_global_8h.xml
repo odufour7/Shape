@@ -2,32 +2,21 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.13.2" xml:lang="en-US">
   <compounddef id="_global_8h" kind="file" language="C++">
     <compoundname>Global.h</compoundname>
-    <includes local="no">sys/stat.h</includes>
-    <includes local="no">algorithm</includes>
     <includes local="no">cmath</includes>
-    <includes local="no">filesystem</includes>
-    <includes local="no">fstream</includes>
     <includes local="no">iostream</includes>
-    <includes local="no">iterator</includes>
     <includes local="no">list</includes>
     <includes local="no">map</includes>
-    <includes local="no">sstream</includes>
     <includes local="no">string</includes>
-    <includes local="no">utility</includes>
     <includes local="no">vector</includes>
-    <includes local="yes">../3rdparty/tinyxml/tinyxml2.h</includes>
-    <includedby refid="_agent_8h" local="yes">/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h</includedby>
-    <includedby refid="_crowd_8h" local="yes">/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Crowd.h</includedby>
-    <includedby refid="_crowd_mechanics_8h" local="yes">/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/CrowdMechanics.h</includedby>
-    <includedby refid="_input_static_8h" local="yes">/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/InputStatic.h</includedby>
-    <includedby refid="_mechanical_layer_8h" local="yes">/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h</includedby>
-    <includedby refid="_global_8cpp" local="yes">/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Global.cpp</includedby>
+    <includedby refid="_agent_8h" local="yes">include/Agent.h</includedby>
+    <includedby refid="_crowd_8h" local="yes">include/Crowd.h</includedby>
+    <includedby refid="_crowd_mechanics_8h" local="yes">include/CrowdMechanics.h</includedby>
+    <includedby refid="_input_static_8h" local="yes">include/InputStatic.h</includedby>
+    <includedby refid="_mechanical_layer_8h" local="yes">include/MechanicalLayer.h</includedby>
+    <includedby refid="_global_8cpp" local="yes">src/Global.cpp</includedby>
     <incdepgraph>
-      <node id="15">
-        <label>../3rdparty/tinyxml/tinyxml2.h</label>
-      </node>
       <node id="1">
-        <label>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h</label>
+        <label>include/Global.h</label>
         <link refid="_global_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -41,84 +30,49 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-      </node>
-      <node id="3">
-        <label>algorithm</label>
-      </node>
-      <node id="4">
-        <label>cmath</label>
-      </node>
-      <node id="5">
-        <label>filesystem</label>
-      </node>
-      <node id="6">
-        <label>fstream</label>
-      </node>
-      <node id="7">
-        <label>iostream</label>
-      </node>
-      <node id="8">
-        <label>iterator</label>
-      </node>
-      <node id="9">
-        <label>list</label>
-      </node>
-      <node id="10">
-        <label>map</label>
-      </node>
-      <node id="11">
-        <label>sstream</label>
-      </node>
-      <node id="12">
-        <label>string</label>
       </node>
       <node id="2">
-        <label>sys/stat.h</label>
+        <label>cmath</label>
       </node>
-      <node id="13">
-        <label>utility</label>
+      <node id="3">
+        <label>iostream</label>
       </node>
-      <node id="14">
+      <node id="4">
+        <label>list</label>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
         <label>vector</label>
       </node>
     </incdepgraph>
     <invincdepgraph>
       <node id="2">
-        <label>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Agent.h</label>
+        <label>include/Agent.h</label>
         <link refid="_agent_8h_source"/>
         <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
       </node>
       <node id="3">
-        <label>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Crowd.h</label>
+        <label>include/Crowd.h</label>
         <link refid="_crowd_8h_source"/>
         <childnode refid="4" relation="include">
         </childnode>
       </node>
       <node id="4">
-        <label>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/CrowdMechanics.h</label>
+        <label>include/CrowdMechanics.h</label>
         <link refid="_crowd_mechanics_8h_source"/>
       </node>
       <node id="1">
-        <label>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h</label>
+        <label>include/Global.h</label>
         <link refid="_global_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -126,19 +80,19 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
         <childnode refid="5" relation="include">
         </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
       </node>
-      <node id="6">
-        <label>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/InputStatic.h</label>
+      <node id="5">
+        <label>include/InputStatic.h</label>
         <link refid="_input_static_8h_source"/>
         <childnode refid="4" relation="include">
         </childnode>
       </node>
-      <node id="5">
-        <label>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/MechanicalLayer.h</label>
+      <node id="6">
+        <label>include/MechanicalLayer.h</label>
         <link refid="_mechanical_layer_8h_source"/>
       </node>
     </invincdepgraph>
@@ -154,7 +108,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" line="52" column="19" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" bodystart="52" bodyend="-1"/>
+        <location file="include/Global.h" line="41" column="19" bodyfile="include/Global.h" bodystart="41" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="_global_8h_1a27ec70e4bef012c5adbe0c8cf122676b" prot="public" static="no">
         <type>std::pair&lt; double, double &gt;</type>
@@ -167,22 +121,22 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" line="53" column="19" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" bodystart="53" bodyend="-1"/>
+        <location file="include/Global.h" line="42" column="19" bodyfile="include/Global.h" bodystart="42" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="var">
-      <memberdef kind="variable" id="_global_8h_1a714f1ca4d0b766c27006639b8cad4b70" prot="public" static="no" extern="yes" mutable="no">
+      <memberdef kind="variable" id="_global_8h_1a5dd948293e826dd88f965e2c71722af2" prot="public" static="no" extern="yes" mutable="no">
         <type>bool</type>
-        <definition>bool firstRun</definition>
+        <definition>bool loadStaticData</definition>
         <argsstring></argsstring>
-        <name>firstRun</name>
+        <name>loadStaticData</name>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" line="69" column="13" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Global.cpp" bodystart="65" bodyend="-1" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" declline="69" declcolumn="13"/>
+        <location file="include/Global.h" line="58" column="13" bodyfile="src/Global.cpp" bodystart="67" bodyend="-1" declfile="include/Global.h" declline="58" declcolumn="13"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8h_1a245f542572171827c24b7d2fc8c0228b" prot="public" static="no" extern="yes" mutable="no">
         <type>std::vector&lt; std::vector&lt; double2 &gt; &gt;</type>
@@ -195,7 +149,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" line="72" column="20" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Global.cpp" bodystart="75" bodyend="-1" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" declline="72" declcolumn="20"/>
+        <location file="include/Global.h" line="61" column="20" bodyfile="src/Global.cpp" bodystart="79" bodyend="-1" declfile="include/Global.h" declline="61" declcolumn="20"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8h_1ad538aa77abb694f8faf437a41e3e8037" prot="public" static="no" extern="yes" mutable="no">
         <type>double</type>
@@ -208,7 +162,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" line="73" column="15" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Global.cpp" bodystart="73" bodyend="-1" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" declline="73" declcolumn="15"/>
+        <location file="include/Global.h" line="62" column="15" bodyfile="src/Global.cpp" bodystart="77" bodyend="-1" declfile="include/Global.h" declline="62" declcolumn="15"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8h_1a9b3d111ccf7f82fb80aeb6f8b229c21b" prot="public" static="no" extern="yes" mutable="no">
         <type>double</type>
@@ -221,7 +175,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" line="74" column="15" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Global.cpp" bodystart="74" bodyend="-1" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" declline="74" declcolumn="15"/>
+        <location file="include/Global.h" line="63" column="15" bodyfile="src/Global.cpp" bodystart="78" bodyend="-1" declfile="include/Global.h" declline="63" declcolumn="15"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8h_1a17fb23d2539d94d39f4894074c1d5b45" prot="public" static="no" extern="yes" mutable="no">
         <type>uint32_t</type>
@@ -234,7 +188,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" line="76" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Global.cpp" bodystart="67" bodyend="-1" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" declline="76" declcolumn="17"/>
+        <location file="include/Global.h" line="65" column="17" bodyfile="src/Global.cpp" bodystart="71" bodyend="-1" declfile="include/Global.h" declline="65" declcolumn="17"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8h_1a44e082dbf949303a43b6fa4a5e5c3cca" prot="public" static="no" extern="yes" mutable="no">
         <type>std::map&lt; std::string, uint32_t &gt;</type>
@@ -247,7 +201,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" line="77" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Global.cpp" bodystart="68" bodyend="-1" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" declline="77" declcolumn="17"/>
+        <location file="include/Global.h" line="66" column="17" bodyfile="src/Global.cpp" bodystart="72" bodyend="-1" declfile="include/Global.h" declline="66" declcolumn="17"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8h_1a92e99256a0e993d98492591f470fcf70" prot="public" static="no" extern="yes" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
@@ -260,7 +214,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" line="78" column="20" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Global.cpp" bodystart="69" bodyend="-1" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" declline="78" declcolumn="20"/>
+        <location file="include/Global.h" line="67" column="20" bodyfile="src/Global.cpp" bodystart="73" bodyend="-1" declfile="include/Global.h" declline="67" declcolumn="20"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8h_1acd1960d2e52407aba08102dc55c5891e" prot="public" static="no" extern="yes" mutable="no">
         <type><ref refid="struct_agent" kindref="compound">Agent</ref> **</type>
@@ -273,7 +227,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" line="80" column="14" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Global.cpp" bodystart="70" bodyend="-1" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" declline="80" declcolumn="14"/>
+        <location file="include/Global.h" line="69" column="14" bodyfile="src/Global.cpp" bodystart="74" bodyend="-1" declfile="include/Global.h" declline="69" declcolumn="14"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8h_1a03e28be41881b703c836edbfe9b51b17" prot="public" static="no" extern="yes" mutable="no">
         <type>double</type>
@@ -286,7 +240,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" line="83" column="15" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Global.cpp" bodystart="78" bodyend="-1" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" declline="83" declcolumn="15"/>
+        <location file="include/Global.h" line="72" column="15" bodyfile="src/Global.cpp" bodystart="82" bodyend="-1" declfile="include/Global.h" declline="72" declcolumn="15"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8h_1a8bfe393342f0c199097b8a314cdc6dab" prot="public" static="no" extern="yes" mutable="no">
         <type>double</type>
@@ -299,7 +253,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" line="84" column="15" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Global.cpp" bodystart="79" bodyend="-1" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" declline="84" declcolumn="15"/>
+        <location file="include/Global.h" line="73" column="15" bodyfile="src/Global.cpp" bodystart="83" bodyend="-1" declfile="include/Global.h" declline="73" declcolumn="15"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8h_1a3277222a08d2a1a9bef000016a5bc383" prot="public" static="no" extern="yes" mutable="no">
         <type>std::vector&lt; double2 &gt;</type>
@@ -312,7 +266,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" line="87" column="20" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Global.cpp" bodystart="83" bodyend="-1" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" declline="87" declcolumn="20"/>
+        <location file="include/Global.h" line="76" column="20" bodyfile="src/Global.cpp" bodystart="87" bodyend="-1" declfile="include/Global.h" declline="76" declcolumn="20"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8h_1a8c0a8fe32456ebb50a4d4033e37ff4e5" prot="public" static="no" extern="yes" mutable="no">
         <type>uint32_t</type>
@@ -325,7 +279,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" line="88" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Global.cpp" bodystart="84" bodyend="-1" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" declline="88" declcolumn="17"/>
+        <location file="include/Global.h" line="77" column="17" bodyfile="src/Global.cpp" bodystart="88" bodyend="-1" declfile="include/Global.h" declline="77" declcolumn="17"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8h_1a449a06862d241ed51aafc2d9f103bd33" prot="public" static="no" extern="yes" mutable="no">
         <type>double **</type>
@@ -338,7 +292,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" line="89" column="15" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Global.cpp" bodystart="85" bodyend="-1" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" declline="89" declcolumn="15"/>
+        <location file="include/Global.h" line="78" column="15" bodyfile="src/Global.cpp" bodystart="89" bodyend="-1" declfile="include/Global.h" declline="78" declcolumn="15"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8h_1a725385e907dca1efd746427a21d02b18" prot="public" static="no" constexpr="yes" mutable="no">
         <type>int</type>
@@ -352,7 +306,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" line="90" column="15" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" bodystart="90" bodyend="-1"/>
+        <location file="include/Global.h" line="79" column="15" bodyfile="include/Global.h" bodystart="79" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8h_1a6ef6c78109b8fcb63fe1cbbc85b1365f" prot="public" static="no" extern="yes" mutable="no">
         <type>double ***</type>
@@ -365,7 +319,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" line="98" column="15" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Global.cpp" bodystart="86" bodyend="-1" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" declline="98" declcolumn="15"/>
+        <location file="include/Global.h" line="87" column="15" bodyfile="src/Global.cpp" bodystart="90" bodyend="-1" declfile="include/Global.h" declline="87" declcolumn="15"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8h_1acb0ea5b3e97d546ec59597d1e38f6da8" prot="public" static="no" constexpr="yes" mutable="no">
         <type>int</type>
@@ -379,7 +333,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" line="99" column="15" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" bodystart="99" bodyend="-1"/>
+        <location file="include/Global.h" line="88" column="15" bodyfile="include/Global.h" bodystart="88" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8h_1ad17e406d411b13e36cdc42b3a781d1a0" prot="public" static="no" extern="yes" mutable="no">
         <type>std::vector&lt; int32_t &gt;</type>
@@ -392,7 +346,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" line="110" column="20" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Global.cpp" bodystart="87" bodyend="-1" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" declline="110" declcolumn="20"/>
+        <location file="include/Global.h" line="99" column="20" bodyfile="src/Global.cpp" bodystart="91" bodyend="-1" declfile="include/Global.h" declline="99" declcolumn="20"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8h_1a8cf6fd8677b31374a3f7b977386d679e" prot="public" static="no" extern="yes" mutable="no">
         <type>std::map&lt; uint32_t, int32_t &gt;</type>
@@ -405,7 +359,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" line="111" column="17" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Global.cpp" bodystart="88" bodyend="-1" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" declline="111" declcolumn="17"/>
+        <location file="include/Global.h" line="100" column="17" bodyfile="src/Global.cpp" bodystart="92" bodyend="-1" declfile="include/Global.h" declline="100" declcolumn="17"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8h_1a1dafd4caf95ef720e13da7d763236f91" prot="public" static="no" extern="yes" mutable="no">
         <type>std::string</type>
@@ -418,7 +372,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" line="114" column="20" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Global.cpp" bodystart="91" bodyend="-1" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" declline="114" declcolumn="20"/>
+        <location file="include/Global.h" line="103" column="20" bodyfile="src/Global.cpp" bodystart="95" bodyend="-1" declfile="include/Global.h" declline="103" declcolumn="20"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8h_1af643e0a93a86f1561a94baec6fa0b14e" prot="public" static="no" extern="yes" mutable="no">
         <type>std::string</type>
@@ -431,7 +385,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" line="115" column="20" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Global.cpp" bodystart="92" bodyend="-1" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" declline="115" declcolumn="20"/>
+        <location file="include/Global.h" line="104" column="20" bodyfile="src/Global.cpp" bodystart="96" bodyend="-1" declfile="include/Global.h" declline="104" declcolumn="20"/>
       </memberdef>
       <memberdef kind="variable" id="_global_8h_1a72db0ee84370892f3c8df7fadf2bfb80" prot="public" static="no" constexpr="yes" mutable="no">
         <type>double</type>
@@ -445,7 +399,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" line="121" column="18" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" bodystart="121" bodyend="-1"/>
+        <location file="include/Global.h" line="110" column="18" bodyfile="include/Global.h" bodystart="110" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="func">
@@ -468,7 +422,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" line="55" column="16" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Global.cpp" bodystart="42" bodyend="42" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" declline="55" declcolumn="16"/>
+        <location file="include/Global.h" line="44" column="16" bodyfile="src/Global.cpp" bodystart="44" bodyend="44" declfile="include/Global.h" declline="44" declcolumn="16"/>
       </memberdef>
       <memberdef kind="function" id="_global_8h_1a1862d4516e73ee3b3c2db581c9d7dfc4" prot="public" static="no" extern="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double2</type>
@@ -489,7 +443,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" line="56" column="16" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Global.cpp" bodystart="43" bodyend="43" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" declline="56" declcolumn="16"/>
+        <location file="include/Global.h" line="45" column="16" bodyfile="src/Global.cpp" bodystart="45" bodyend="45" declfile="include/Global.h" declline="45" declcolumn="16"/>
       </memberdef>
       <memberdef kind="function" id="_global_8h_1a76c71fed42cb84e0a09d13a88ada6f3a" prot="public" static="no" extern="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double2</type>
@@ -510,7 +464,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" line="57" column="16" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Global.cpp" bodystart="45" bodyend="45" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" declline="57" declcolumn="16"/>
+        <location file="include/Global.h" line="46" column="16" bodyfile="src/Global.cpp" bodystart="47" bodyend="47" declfile="include/Global.h" declline="46" declcolumn="16"/>
       </memberdef>
       <memberdef kind="function" id="_global_8h_1a11c67c1b3c0e2076dc90d5d2e03ce6fc" prot="public" static="no" extern="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double2</type>
@@ -531,7 +485,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" line="58" column="16" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Global.cpp" bodystart="47" bodyend="47" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" declline="58" declcolumn="16"/>
+        <location file="include/Global.h" line="47" column="16" bodyfile="src/Global.cpp" bodystart="49" bodyend="49" declfile="include/Global.h" declline="47" declcolumn="16"/>
       </memberdef>
       <memberdef kind="function" id="_global_8h_1a766e6388d239b51baa276fa31cbfd2c7" prot="public" static="no" extern="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -552,7 +506,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" line="59" column="15" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Global.cpp" bodystart="49" bodyend="49" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" declline="59" declcolumn="15"/>
+        <location file="include/Global.h" line="48" column="15" bodyfile="src/Global.cpp" bodystart="51" bodyend="51" declfile="include/Global.h" declline="48" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="_global_8h_1af5778cd68c3fb8dbdf4d84f64d739a18" prot="public" static="no" extern="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -569,7 +523,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" line="60" column="15" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Global.cpp" bodystart="51" bodyend="51" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" declline="60" declcolumn="15"/>
+        <location file="include/Global.h" line="49" column="15" bodyfile="src/Global.cpp" bodystart="53" bodyend="53" declfile="include/Global.h" declline="49" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="_global_8h_1a3120e906e54cde6d1aac48c62ba184f8" prot="public" static="no" extern="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double2</type>
@@ -590,7 +544,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" line="61" column="16" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Global.cpp" bodystart="53" bodyend="53" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" declline="61" declcolumn="16"/>
+        <location file="include/Global.h" line="50" column="16" bodyfile="src/Global.cpp" bodystart="55" bodyend="55" declfile="include/Global.h" declline="50" declcolumn="16"/>
       </memberdef>
       <memberdef kind="function" id="_global_8h_1a849746700f4ccaba4679566d70ec9900" prot="public" static="no" extern="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int2</type>
@@ -611,7 +565,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" line="63" column="13" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Global.cpp" bodystart="57" bodyend="57" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" declline="63" declcolumn="13"/>
+        <location file="include/Global.h" line="52" column="13" bodyfile="src/Global.cpp" bodystart="59" bodyend="59" declfile="include/Global.h" declline="52" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="_global_8h_1a6dbb29b39df9d069b3e8c49df3aca876" prot="public" static="no" extern="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int2</type>
@@ -632,7 +586,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" line="64" column="13" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Global.cpp" bodystart="58" bodyend="58" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" declline="64" declcolumn="13"/>
+        <location file="include/Global.h" line="53" column="13" bodyfile="src/Global.cpp" bodystart="60" bodyend="60" declfile="include/Global.h" declline="53" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="_global_8h_1a9e9a0359c6c7cc6b03652e3d0e616704" prot="public" static="no" extern="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int2</type>
@@ -653,7 +607,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" line="65" column="13" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Global.cpp" bodystart="60" bodyend="60" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" declline="65" declcolumn="13"/>
+        <location file="include/Global.h" line="54" column="13" bodyfile="src/Global.cpp" bodystart="62" bodyend="62" declfile="include/Global.h" declline="54" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="_global_8h_1a53c7d5b40d13d038e6fc8dc60ed8ed4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::pair&lt; int, double2 &gt;</type>
@@ -683,7 +637,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" line="127" column="11" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Global.cpp" bodystart="104" bodyend="127" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" declline="127" declcolumn="11"/>
+        <location file="include/Global.h" line="116" column="11" bodyfile="src/Global.cpp" bodystart="108" bodyend="131" declfile="include/Global.h" declline="116" declcolumn="11"/>
       </memberdef>
       <memberdef kind="function" id="_global_8h_1ad9e358fcdbe24dd1c5b1196644116607" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>double</type>
@@ -726,7 +680,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" line="130" column="15" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Global.cpp" bodystart="168" bodyend="168" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" declline="130" declcolumn="15"/>
+        <location file="include/Global.h" line="119" column="15" bodyfile="src/Global.cpp" bodystart="172" bodyend="172" declfile="include/Global.h" declline="119" declcolumn="15"/>
       </memberdef>
       <memberdef kind="function" id="_global_8h_1a55be1ace8f20b737960163ee8932a816" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::pair&lt; double, double2 &gt;</type>
@@ -780,7 +734,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" line="131" column="11" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Global.cpp" bodystart="138" bodyend="155" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" declline="131" declcolumn="11"/>
+        <location file="include/Global.h" line="120" column="11" bodyfile="src/Global.cpp" bodystart="142" bodyend="159" declfile="include/Global.h" declline="120" declcolumn="11"/>
       </memberdef>
       <memberdef kind="function" id="_global_8h_1a2fb8f9398334dcfcab2e1f03b01877d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -822,7 +776,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" line="132" column="8" bodyfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/src/Global.cpp" bodystart="177" bodyend="182" declfile="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h" declline="132" declcolumn="8"/>
+        <location file="include/Global.h" line="121" column="8" bodyfile="src/Global.cpp" bodystart="181" bodyend="186" declfile="include/Global.h" declline="121" declcolumn="8"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -860,111 +814,100 @@
 <codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>SRC_MECHANICAL_LAYER_INCLUDE_GLOBAL_H_</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SRC_MECHANICAL_LAYER_INCLUDE_GLOBAL_H_</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="30"><highlight class="normal"></highlight></codeline>
-<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sys/stat.h&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="32"><highlight class="normal"></highlight></codeline>
-<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iterator&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;list&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sstream&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="45"><highlight class="normal"></highlight></codeline>
-<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>3rd<sp/>party</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../3rdparty/tinyxml/tinyxml2.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="48"><highlight class="normal"></highlight></codeline>
-<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
-<codeline lineno="50"><highlight class="comment"><sp/><sp/><sp/><sp/>New<sp/>types</highlight></codeline>
-<codeline lineno="51"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::pair&lt;int,<sp/>int&gt;<sp/>int2;</highlight></codeline>
-<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::pair&lt;double,<sp/>double&gt;<sp/>double2;</highlight></codeline>
-<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">/*<sp/><sp/>Define<sp/>operations<sp/>on<sp/>type<sp/>double2<sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>double2<sp/>operator+(double2<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>a,<sp/>double2<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>b);</highlight></codeline>
-<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>double2<sp/>operator-(double2<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>a,<sp/>double2<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>b);</highlight></codeline>
-<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>double2<sp/>operator*(double2<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>a,<sp/>double2<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>b);</highlight></codeline>
-<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>double2<sp/>operator*(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>coef,<sp/>double2<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>R);</highlight></codeline>
-<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>operator%(double2<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>a,<sp/>double2<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>b);</highlight></codeline>
-<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>operator!(double2<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>a);</highlight></codeline>
-<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>double2<sp/>operator^(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>a,<sp/>double2<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>b);</highlight></codeline>
-<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">/*<sp/><sp/>Define<sp/>operations<sp/>on<sp/>type<sp/>int2<sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>int2<sp/>operator+(int2<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>a,<sp/>int2<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>b);</highlight></codeline>
-<codeline lineno="64"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>int2<sp/>operator-(int2<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>a,<sp/>int2<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>b);</highlight></codeline>
-<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>int2<sp/>operator*(int2<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>a,<sp/>int2<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>b);</highlight></codeline>
-<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
-<codeline lineno="67"><highlight class="comment"><sp/><sp/><sp/><sp/>Global<sp/>variables</highlight></codeline>
-<codeline lineno="68"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="69"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>firstRun;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;list&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="39"><highlight class="comment"><sp/><sp/><sp/><sp/>New<sp/>types</highlight></codeline>
+<codeline lineno="40"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::pair&lt;int,<sp/>int&gt;<sp/>int2;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>std::pair&lt;double,<sp/>double&gt;<sp/>double2;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">/*<sp/><sp/>Define<sp/>operations<sp/>on<sp/>type<sp/>double2<sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>double2<sp/>operator+(double2<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>a,<sp/>double2<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>b);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>double2<sp/>operator-(double2<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>a,<sp/>double2<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>b);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>double2<sp/>operator*(double2<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>a,<sp/>double2<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>b);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>double2<sp/>operator*(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>coef,<sp/>double2<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>R);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>operator%(double2<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>a,<sp/>double2<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>b);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>operator!(double2<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>a);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>double2<sp/>operator^(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>a,<sp/>double2<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>b);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">/*<sp/><sp/>Define<sp/>operations<sp/>on<sp/>type<sp/>int2<sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>int2<sp/>operator+(int2<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>a,<sp/>int2<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>b);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>int2<sp/>operator-(int2<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>a,<sp/>int2<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>b);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>int2<sp/>operator*(int2<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>a,<sp/>int2<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">&amp;<sp/>b);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="56"><highlight class="comment"><sp/><sp/><sp/><sp/>Global<sp/>variables</highlight></codeline>
+<codeline lineno="57"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>loadStaticData;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Geometry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;double2&gt;&gt;<sp/>listObstacles;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>Lx;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>Ly;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>uint32_t<sp/>nAgents;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Number<sp/>of<sp/>agents</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>uint32_t&gt;<sp/>agentMap;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Correspondence<sp/>between<sp/>user-given<sp/>ids<sp/>and<sp/>internal<sp/>ids</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/>agentMapInverse;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Inverse<sp/>version<sp/>for<sp/>output</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_agent" kindref="compound">Agent</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Defined<sp/>in<sp/>Agents.h</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/><ref refid="struct_agent" kindref="compound">Agent</ref>**<sp/>agents;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>The<sp/>array<sp/>of<sp/>pointers<sp/>to<sp/>the<sp/>agent<sp/>objects</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="70"><highlight class="normal"></highlight></codeline>
-<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Geometry</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;double2&gt;&gt;<sp/>listObstacles;</highlight></codeline>
-<codeline lineno="73"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>Lx;</highlight></codeline>
-<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>Ly;</highlight></codeline>
-<codeline lineno="75"><highlight class="normal"></highlight></codeline>
-<codeline lineno="76"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>uint32_t<sp/>nAgents;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Number<sp/>of<sp/>agents</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="77"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>uint32_t&gt;<sp/>agentMap;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Correspondence<sp/>between<sp/>user-given<sp/>ids<sp/>and<sp/>internal<sp/>ids</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="78"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/>agentMapInverse;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Inverse<sp/>version<sp/>for<sp/>output</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="79"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_agent" kindref="compound">Agent</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Defined<sp/>in<sp/>Agents.h</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="80"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/><ref refid="struct_agent" kindref="compound">Agent</ref>**<sp/>agents;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>The<sp/>array<sp/>of<sp/>pointers<sp/>to<sp/>the<sp/>agent<sp/>objects</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="81"><highlight class="normal"></highlight></codeline>
-<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Time<sp/>variables</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="83"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>dt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Time<sp/>between<sp/>two<sp/>calls<sp/>of<sp/>the<sp/>library</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>dt_mech;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Time<sp/>step<sp/>of<sp/>the<sp/>mechanical<sp/>layer</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="85"><highlight class="normal"></highlight></codeline>
-<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">/*<sp/><sp/>Mechanical<sp/>layer<sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="87"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>std::vector&lt;double2&gt;<sp/>agentProperties;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>1<sp/>/<sp/>tau_mech:<sp/>translational<sp/>and<sp/>rotational<sp/>damping</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="88"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>uint32_t<sp/>nMaterials;</highlight></codeline>
-<codeline lineno="89"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">**<sp/>intrinsicProperties;</highlight></codeline>
-<codeline lineno="90"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>nIntrinsicProperties<sp/>=<sp/>2;</highlight></codeline>
-<codeline lineno="91"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>!defined(DOXYGEN_SHOULD_SKIP_THIS)</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="92"><highlight class="normal"></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>__attribute__((__packed__))</highlight></codeline>
-<codeline lineno="93"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>YOUNG_MODULUS<sp/>=<sp/>0,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>E</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>SHEAR_MODULUS<sp/>=<sp/>1,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>G</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="96"><highlight class="normal">};</highlight></codeline>
-<codeline lineno="97"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>DOXYGEN_SHOULD_SKIP_THIS</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="98"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">***<sp/>binaryProperties;</highlight></codeline>
-<codeline lineno="99"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>nBinaryProperties<sp/>=<sp/>5;</highlight></codeline>
-<codeline lineno="100"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>!defined(DOXYGEN_SHOULD_SKIP_THIS)</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="101"><highlight class="normal"></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>__attribute__((__packed__))</highlight></codeline>
-<codeline lineno="102"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>DAMPING_NORMAL<sp/>=<sp/>0,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Gamma_n</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>DAMPING_TANGENTIAL<sp/>=<sp/>1,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Gamma_t</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>STIFFNESS_NORMAL<sp/>=<sp/>2,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>k_n</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>STIFFNESS_TANGENTIAL<sp/>=<sp/>3,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>k_t</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>FRICTION_SLIDING<sp/>=<sp/>4,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>mu_dyn</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="108"><highlight class="normal">};</highlight></codeline>
-<codeline lineno="109"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>DOXYGEN_SHOULD_SKIP_THIS</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="110"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>std::vector&lt;int32_t&gt;<sp/>obstaclesMaterial;</highlight></codeline>
-<codeline lineno="111"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>std::map&lt;uint32_t,<sp/>int32_t&gt;<sp/>shapesMaterial;</highlight></codeline>
-<codeline lineno="112"><highlight class="normal"></highlight></codeline>
-<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Paths</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="114"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>std::string<sp/>pathStatic;</highlight></codeline>
-<codeline lineno="115"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>std::string<sp/>pathDynamic;</highlight></codeline>
-<codeline lineno="116"><highlight class="normal"></highlight></codeline>
-<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
-<codeline lineno="118"><highlight class="comment"><sp/><sp/><sp/><sp/>Model<sp/>parameters<sp/>and<sp/>user-defined<sp/>constants</highlight></codeline>
-<codeline lineno="119"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Maximum<sp/>speed<sp/>of<sp/>an<sp/>agent</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="121"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>vMaxAgent<sp/>=<sp/>7.;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Time<sp/>variables</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>dt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Time<sp/>between<sp/>two<sp/>calls<sp/>of<sp/>the<sp/>library</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>dt_mech;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Time<sp/>step<sp/>of<sp/>the<sp/>mechanical<sp/>layer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">/*<sp/><sp/>Mechanical<sp/>layer<sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>std::vector&lt;double2&gt;<sp/>agentProperties;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>1<sp/>/<sp/>tau_mech:<sp/>translational<sp/>and<sp/>rotational<sp/>damping</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>uint32_t<sp/>nMaterials;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">**<sp/>intrinsicProperties;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>nIntrinsicProperties<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>!defined(DOXYGEN_SHOULD_SKIP_THIS)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>__attribute__((__packed__))</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>YOUNG_MODULUS<sp/>=<sp/>0,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>E</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>SHEAR_MODULUS<sp/>=<sp/>1,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>G</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>DOXYGEN_SHOULD_SKIP_THIS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">***<sp/>binaryProperties;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>nBinaryProperties<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>!defined(DOXYGEN_SHOULD_SKIP_THIS)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>__attribute__((__packed__))</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>DAMPING_NORMAL<sp/>=<sp/>0,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Gamma_n</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>DAMPING_TANGENTIAL<sp/>=<sp/>1,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Gamma_t</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>STIFFNESS_NORMAL<sp/>=<sp/>2,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>k_n</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>STIFFNESS_TANGENTIAL<sp/>=<sp/>3,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>k_t</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>FRICTION_SLIDING<sp/>=<sp/>4,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>mu_dyn</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>DOXYGEN_SHOULD_SKIP_THIS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>std::vector&lt;int32_t&gt;<sp/>obstaclesMaterial;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>std::map&lt;uint32_t,<sp/>int32_t&gt;<sp/>shapesMaterial;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Paths</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>std::string<sp/>pathStatic;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>std::string<sp/>pathDynamic;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="107"><highlight class="comment"><sp/><sp/><sp/><sp/>Model<sp/>parameters<sp/>and<sp/>user-defined<sp/>constants</highlight></codeline>
+<codeline lineno="108"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Maximum<sp/>speed<sp/>of<sp/>an<sp/>agent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>vMaxAgent<sp/>=<sp/>7.;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="113"><highlight class="comment"><sp/><sp/><sp/><sp/>Function<sp/>declarations</highlight></codeline>
+<codeline lineno="114"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Utilities</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal">std::pair&lt;int,<sp/>double2&gt;<sp/>parse2DComponents(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>line);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Physics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>get_interval(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>x,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>length);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">std::pair&lt;double,<sp/>double2&gt;<sp/>get_distance_to_wall_and_closest_point(double2<sp/>vertexA,<sp/>double2<sp/>vertexB,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>double2&amp;<sp/>C);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>get_distance(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>double2&amp;<sp/>A,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>double2&amp;<sp/>B);</highlight></codeline>
 <codeline lineno="122"><highlight class="normal"></highlight></codeline>
-<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
-<codeline lineno="124"><highlight class="comment"><sp/><sp/><sp/><sp/>Function<sp/>declarations</highlight></codeline>
-<codeline lineno="125"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Utilities</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="127"><highlight class="normal">std::pair&lt;int,<sp/>double2&gt;<sp/>parse2DComponents(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>line);</highlight></codeline>
-<codeline lineno="128"><highlight class="normal"></highlight></codeline>
-<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Physics</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="130"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>get_interval(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>x,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>length);</highlight></codeline>
-<codeline lineno="131"><highlight class="normal">std::pair&lt;double,<sp/>double2&gt;<sp/>get_distance_to_wall_and_closest_point(double2<sp/>vertexA,<sp/>double2<sp/>vertexB,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>double2&amp;<sp/>C);</highlight></codeline>
-<codeline lineno="132"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>get_distance(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>double2&amp;<sp/>A,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>double2&amp;<sp/>B);</highlight></codeline>
-<codeline lineno="133"><highlight class="normal"></highlight></codeline>
-<codeline lineno="134"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SRC_MECHANICAL_LAYER_INCLUDE_GLOBAL_H_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SRC_MECHANICAL_LAYER_INCLUDE_GLOBAL_H_</highlight><highlight class="normal"></highlight></codeline>
     </programlisting>
-    <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape/src/mechanical_layer/include/Global.h"/>
+    <location file="include/Global.h"/>
   </compounddef>
 </doxygen>

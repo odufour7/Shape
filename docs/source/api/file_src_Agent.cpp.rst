@@ -32,8 +32,6 @@ Includes
 
 - ``Agent.h`` (:ref:`file_include_Agent.h`)
 
-- ``utility``
-
 - ``vector``
 
 
