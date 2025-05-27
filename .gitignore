@@ -51,3 +51,7 @@ build/
 /tutorials/mechanical_layer/inputXML/
 /tutorials/mechanical_layer/outputCSV/
 /tutorials/mechanical_layer/dynamic/AgentInteractions.xml
+
+/tests/mechanical_layer/dynamic/
+/tests/mechanical_layer/static/Agents.xml
+/tests/mechanical_layer/static/Geometry.xml

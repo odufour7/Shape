@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Agents>
-	<Agent Id="0">
-		<Kinematics Position="1.26,2.39" Velocity="0.000,0.000" Theta="0.00" Omega="0.00"/>
-		<Dynamics Fp="121.71,34.31" Mp="0.00"/>
-	</Agent>
-</Agents>
