@@ -359,29 +359,26 @@ tuple<double2, double2, double> MechanicalLayer::get_interactions(unsigned cpt_s
             double2 vij = v_ci - v_cj;
             double2 vortho_ij = (vij % n_ij) * n_ij;
             double2 vt_ij = vij - vortho_ij;
-            double norm_vt_ij = !vt_ij;
 
             //  If the map does not contain this pair ie the slip is not initialized, we initialize it
             //  Otherwise: we increment it
             if (!slip.contains({cpt_shape, cpt_shape_neigh}))
                 slip[{cpt_shape, cpt_shape_neigh}] = double2(0., 0.);
             else
-                slip[{cpt_shape, cpt_shape_neigh}] = slip[{cpt_shape, cpt_shape_neigh}] + dt_mech * vt_ij;
+            {
+                double2 slip_prime = slip[{cpt_shape, cpt_shape_neigh}];
+                //	Rotation of the slip to take into account the roation of the contact reference frame
+                //	from t to t+dt_mech (D.R. Vyas, J.M. Ottino, R.M. Lueptow et al. 2025)
+                double2 slip_projected = slip_prime - (slip_prime % n_ij) * n_ij;
+                double2 slip_new = slip_prime;
+                if ((!slip_projected) > 0.)
+                    slip_new = (!slip_prime / !slip_projected) * slip_projected;
+                slip[{cpt_shape, cpt_shape_neigh}] = slip_new + dt_mech * vt_ij;
+            }
             //  For the output Interactions file:
             //  We will only put the N(N-1)/2 pairs, ie cpt_shape_neigh>cpt_shape
             if (!interactionsOutput.contains({cpt_shape_neigh, cpt_shape}))
                 interactionsOutput[{cpt_shape, cpt_shape_neigh}][SLIP] = slip[{cpt_shape, cpt_shape_neigh}];
-
-            double2 delta_tij = slip[{cpt_shape, cpt_shape_neigh}];   //  Vector of tangential displacement
-            double norm_delta_tij = !delta_tij;
-
-            double2 t_vij;
-            if (norm_vt_ij > 0)
-                t_vij = (1. / norm_vt_ij) * vt_ij;
-            else if (norm_delta_tij > 0)
-                t_vij = (1. / norm_delta_tij) * delta_tij;
-            else
-                t_vij = double2(0., 0.);
 
             uint32_t shapeMaterialId = shapesMaterial[active_shapeIDshape_crowd[cpt_shape]];
             uint32_t shapeNeighbourMaterialId = shapesMaterial[active_shapeIDshape_crowd[cpt_shape_neigh]];
@@ -398,12 +395,18 @@ tuple<double2, double2, double> MechanicalLayer::get_interactions(unsigned cpt_s
             /*  Tangential interactions */
             double k_t = binaryProperties[STIFFNESS_TANGENTIAL][shapeMaterialId][shapeNeighbourMaterialId];
             double Gamma_t = binaryProperties[DAMPING_TANGENTIAL][shapeMaterialId][shapeNeighbourMaterialId];
-            double2 ftij_spring = -k_t * norm_delta_tij * t_vij;
-            double2 ftij_viscous = -Gamma_t * vt_ij;
-            double2 ftij_static = ftij_spring + ftij_viscous;
+            double2 ftij_static = -k_t * slip[{cpt_shape, cpt_shape_neigh}] - Gamma_t * vt_ij;
             double mu_dyn = binaryProperties[FRICTION_SLIDING][shapeMaterialId][shapeNeighbourMaterialId];
-            double2 ftij_dynamic = -mu_dyn * !fnij * t_vij;
-            double2 ftij = -1. * fmin(!ftij_static, !ftij_dynamic) * t_vij;
+            double2 t_vij = double2(0., 0.);
+            double2 ftij = double2(0., 0.);
+            if ((!ftij_static) > mu_dyn * !fnij)
+            {
+                t_vij = (1. / !ftij_static) * ftij_static;
+                ftij = mu_dyn * !fnij * t_vij;
+                slip[{cpt_shape, cpt_shape_neigh}] = -(1. / k_t) * (mu_dyn * !fnij * t_vij + Gamma_t * vt_ij);
+            }
+            else
+                ftij = ftij_static;
             ft = ft + ftij;
             if (!interactionsOutput.contains({cpt_shape_neigh, cpt_shape}))
                 interactionsOutput[{cpt_shape, cpt_shape_neigh}][FORCE_TAN] = ftij;
@@ -453,22 +456,30 @@ tuple<double2, double2, double> MechanicalLayer::get_interactions(unsigned cpt_s
                 double2 viw = v_ci - double2(0., 0.);
                 double2 vortho_iw = (viw % n_iw) * n_iw;
                 double2 vt_iw = viw - vortho_iw;
-                double norm_vt_iw = !vt_iw;
 
                 //  If the map does not contain this pair ie the slip is not initialized, we initialize it
                 //  Otherwise: we increment it
                 if (!slip_wall.contains({cpt_shape, iobs, iwall}))
                     slip_wall[{cpt_shape, iobs, iwall}] = double2(0., 0.);
                 else
+                {
+                    double2 slip_wall_prime = slip_wall[{cpt_shape, iobs, iwall}];
+                    //	Rotation of the slip to take into account the roation of the contact reference frame
+                    // 	from t to t+dt_mech (D.R. Vyas, J.M. Ottino, R.M. Lueptow et al. 2025)
+                    double2 slip_wall_projected = slip_wall_prime - (slip_wall_prime % n_iw) * n_iw;
+                    double2 slip_wall_new = slip_wall_prime;
+                    if ((!slip_wall_projected) > 0.0)
+                    {
+                        slip_wall_new = (!slip_wall_prime / !slip_wall_projected) * slip_wall_projected;
+                    }
                     slip_wall[{cpt_shape, iobs, iwall}] = slip_wall[{cpt_shape, iobs, iwall}] + dt_mech * vt_iw;
+                }
                 //  For the Interactions output file:
 				interactionsOutputWall[{cpt_shape, iobs, iwall}][SLIP] = slip_wall[{cpt_shape, iobs, iwall}];
 
-                double2 delta_tiw = slip_wall[{cpt_shape, iobs, iwall}];
-                double norm_delta_tiw = !delta_tiw;
-
                 uint32_t shapeMaterialId = shapesMaterial[active_shapeIDshape_crowd[cpt_shape]];
                 uint32_t obstacleMaterialId = obstaclesMaterial[iobs];
+
                 /*  Normal interactions  */
                 double k_n_wall = binaryProperties[STIFFNESS_NORMAL][shapeMaterialId][obstacleMaterialId];
                 double Gamma_n_wall = binaryProperties[DAMPING_NORMAL][shapeMaterialId][obstacleMaterialId];
@@ -479,21 +490,22 @@ tuple<double2, double2, double> MechanicalLayer::get_interactions(unsigned cpt_s
                 interactionsOutputWall[{cpt_shape, iobs, iwall}][FORCE_ORTHO] = fniw;
 
                 /*  Tangential interactions  */
-                double2 t_viw;
-                if (norm_vt_iw > 0)
-                    t_viw = (1. / norm_vt_iw) * vt_iw;
-                else if (norm_delta_tiw > 0)
-                    t_viw = (1. / norm_delta_tiw) * delta_tiw;
-                else
-                    t_viw = double2(0., 0.);
                 double k_t_wall = binaryProperties[STIFFNESS_TANGENTIAL][shapeMaterialId][obstacleMaterialId];
                 double Gamma_t_wall = binaryProperties[DAMPING_TANGENTIAL][shapeMaterialId][obstacleMaterialId];
-                double2 ftiw_spring = -k_t_wall * norm_delta_tiw * t_viw;
-                double2 ftiw_viscous = -Gamma_t_wall * vt_iw;
-                double2 ftiw_static = ftiw_spring + ftiw_viscous;
+                double2 ftiw_static = -k_t_wall * slip_wall[{cpt_shape, iobs, iwall}] - Gamma_t_wall * vt_iw;
+                double2 t_viw = double2(0., 0.);
+                double2 ftiw = double2(0., 0.);
                 double mu_dyn_wall = binaryProperties[FRICTION_SLIDING][shapeMaterialId][obstacleMaterialId];
-                double2 ftiw_dynamic = -mu_dyn_wall * !fniw * t_viw;
-                double2 ftiw = -1. * fmin(!ftiw_static, !ftiw_dynamic) * t_viw;
+                if ((!ftiw_static) > mu_dyn_wall * !fniw)
+                {
+                    t_viw = (1.0 / !ftiw_static) * ftiw_static;
+                    ftiw = mu_dyn_wall * !fniw * t_viw;
+                    slip_wall[{cpt_shape, iobs, iwall}] = -(1.0 / k_t_wall) * (mu_dyn_wall * !fniw * t_viw + Gamma_t_wall * vt_iw);
+                }
+                else
+                {
+                    ftiw = ftiw_static;
+                }
                 ft = ft + ftiw;
                 interactionsOutputWall[{cpt_shape, iobs, iwall}][FORCE_TAN] = ftiw;
 
