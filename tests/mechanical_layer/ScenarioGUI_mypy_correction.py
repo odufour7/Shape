@@ -304,7 +304,7 @@ class Scenario:
         # List of agents
         self.agents: list[AgentKivy] = []
         self.nAgents: int = -1  # index of the current agent
-        self.current_agent_kivy_selected_id = -1
+        self.current_agent_kivy_selected_id: int = -1
 
         # Variable that says if data has been changed since last run of CrowdMechanics
         self.staticDataChange: bool = False
@@ -437,8 +437,7 @@ class Scenario:
                     # Write shapes too
                     dynamicsFile.write(
                         f'\t\t<Kinematics Position="{agent_kivy.x:.2f},{agent_kivy.y:.2f}" Velocity="{agent_kivy.vx:.3f},'
-                        f'{agent_kivy.vy:.3f}"'
-                        f' Theta="{agent_kivy.theta:.2f}" Omega="{agent_kivy.omega:.2f}"/>\n'
+                        f'{agent_kivy.vy:.3f}" Theta="{agent_kivy.theta:.2f}" Omega="{agent_kivy.omega:.2f}"/>\n'
                     )
                     dynamicsFile.write(
                         f'\t\t<Dynamics Fp="{agent_kivy.Fx * BASE_VALUE_F:.2f},{agent_kivy.Fy * BASE_VALUE_F:.2f}" '
@@ -604,16 +603,7 @@ class MyWidget(Widget):  # type: ignore[misc]
                 Rectangle(pos=(WS_X / 2.0 - 63, WS_Y - 125), size=(125, 20), texture=label2.texture)
 
     def draw_buttons(self) -> None:
-        """
-        Draw dynamic UI buttons and stage instructions on the canvas.
-
-        This method renders:
-            - A stage-specific instruction banner at the top-left
-            - Interactive buttons on the right side with varying colors based on `self.current`
-            - A torque control button with a dedicated position and color
-
-        The button colors and text change based on the current interaction stage.
-        """
+        """Draw stage instructions on the canvas."""
         with self.canvas:
             Color(0, 0, 0, 1, mode="bgra")
             if self.current == 0:
