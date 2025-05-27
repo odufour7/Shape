@@ -10,7 +10,7 @@ Tests cover:
     - Irregular shape with known max vertical distance at similar x
 """
 
-# Copyright  2025  Institute of Light and Matter, CNRS UMR 5306
+# Copyright  2025  Institute of Light and Matter, CNRS UMR 5306, University Claude Bernard Lyon 1
 # Contributors: Oscar DUFOUR, Maxime STAPELLE, Alexandre NICOLAS
 
 # This software is a computer program designed to generate a realistic crowd from anthropometric data and
