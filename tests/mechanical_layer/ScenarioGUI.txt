@@ -3,11 +3,11 @@
 import ctypes
 import sys
 import time
-from pathlib import Path
-from typing import cast
+import xml.etree.ElementTree as ET
 from enum import Enum
 from math import pi
-
+from pathlib import Path
+from typing import cast
 
 import kivy
 import numpy as np
@@ -19,21 +19,16 @@ from kivy.core.window import Window
 from kivy.graphics import Color, Line, Mesh, Rectangle
 from kivy.graphics.tesselator import Tesselator  # pylint: disable=no-name-in-module
 from kivy.uix.popup import Popup
-from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
 from kivy.uix.widget import Widget
-from kivy.uix.image import Image
-from kivy.uix.label import Label
-from kivy.core.text import FontContextManager as FCM
+
 # Create a font context containing system fonts + one custom TTF
 # FCM.create('system://myapp')
 # DejaVu = FCM.add_font('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf')
-from matplotlib.hatch import Shapes
 from shapely.geometry import MultiPolygon, Point, Polygon
 from shapely.geometry.base import BaseGeometry
-import xml.etree.ElementTree as ET
 
-sys.path.append('/home/mstapelle/Thesis/Shapes/Shape/src')
+sys.path.append("/home/mstapelle/Thesis/Shapes/Shape/src")
 import configuration.utils.constants as cst
 import configuration.utils.functions as fun
 from configuration.models.agents import Agent
@@ -51,7 +46,7 @@ dy: float = dx  # y-spacing of gridpoints in meters
 Lx: float = M1 * dx  # Layout width in meters
 Ly: float = M2 * dy  # Layout height in meters
 pixel_density: float = float(WS_X) / float(Lx)  # pixel density in pixels/meter
-N_PIXELS_ONE : int = int(1 / dx)                # number of pixels that give value 1
+N_PIXELS_ONE: int = int(1 / dx)  # number of pixels that give value 1
 
 # Define parameters for the agents
 MAX_AGENTS: int = 50
@@ -59,13 +54,13 @@ rc = []
 for a in range(MAX_AGENTS):
     color = np.random.rand(3)
     # Avoid color that are too light
-    while 0.2126*color[0] + 0.7152*color[1] + 0.0722*color[2] > 0.7:
+    while 0.2126 * color[0] + 0.7152 * color[1] + 0.0722 * color[2] > 0.7:
         color = np.random.rand(3)
     rc.append(color)
 
 # Define parameters for forces and torque
-BASE_VALUE_F : int = 100
-BASE_VALUE_M : int = 10
+BASE_VALUE_F: int = 100
+BASE_VALUE_M: int = 10
 # Position of the Torque button
 torque_button_xs: int = WS_X - 55
 torque_button_ys: int = WS_Y - 150
@@ -147,6 +142,7 @@ def shapely_to_kivy_contours(geometry: BaseGeometry) -> list[list[float]]:
         for poly in geometry.geoms:
             contours.extend(shapely_to_kivy_contours(poly))
     return contours
+
 
 ########## CUSTOM ERROR CODES ##########
 class Error(Enum):
@@ -355,7 +351,7 @@ class Scenario:
         Converts the given pixel coordinates to world coordinates using `pixel_density`
         and appends the point to the most recently created wall in `self.walls`.
 
-       Parameters
+        Parameters
         ----------
         x0 : int
             The x-coordinate of the new wall point in pixels.
@@ -437,7 +433,9 @@ class Scenario:
                         f'\t\t<Kinematics Position="{agent_kivy.x:.2f},{agent_kivy.y:.2f}" Velocity="{agent_kivy.vx:.3f},{agent_kivy.vy:.3f}"'
                         f' Theta="{agent_kivy.theta:.2f}" Omega="{agent_kivy.omega:.2f}"/>\n'
                     )
-                    dynamicsFile.write(f'\t\t<Dynamics Fp="{agent_kivy.Fx * BASE_VALUE_F:.2f},{agent_kivy.Fy * BASE_VALUE_F:.2f}" Mp="{agent_kivy.torque * BASE_VALUE_M:.2f}"/>\n')
+                    dynamicsFile.write(
+                        f'\t\t<Dynamics Fp="{agent_kivy.Fx * BASE_VALUE_F:.2f},{agent_kivy.Fy * BASE_VALUE_F:.2f}" Mp="{agent_kivy.torque * BASE_VALUE_M:.2f}"/>\n'
+                    )
                     agentsFile.write("\t</Agent>\n")
                     dynamicsFile.write("\t</Agent>\n")
                 dynamicsFile.write("</Agents>")
@@ -479,7 +477,7 @@ class MyWidget(Widget):  # type: ignore[misc]
         self.time_pressed: float | None = None
         self.current: int | None = None
         self.drawing_walls: bool | None = None
-        self.modify_force_or_torque : int = 0
+        self.modify_force_or_torque: int = 0
 
     def draw_cross(self, x: int, y: int, size: int) -> None:
         """
@@ -746,7 +744,7 @@ class MyWidget(Widget):  # type: ignore[misc]
         agent = self.scenario.agents[self.scenario.current_agent_kivy_selected_id]
         with self.canvas:
             Color(0, 0, 0, 1, mode="bgra")
-            Line(points=(50, 100, WS_X-50, 100), width=1)
+            Line(points=(50, 100, WS_X - 50, 100), width=1)
             label = CoreLabel(text=f"Agent {self.scenario.current_agent_kivy_selected_id:d}", font_size=24)
             label.refresh()
             Rectangle(pos=(50, 110), size=(100, 40), texture=label.texture)
@@ -853,8 +851,10 @@ class MyWidget(Widget):  # type: ignore[misc]
         cpt_agent = 0
         for agent in self.scenario.agents:
             # agent_kivy = self.scenario.agents[self.scenario.current_agent_kivy_selected_id]
-            if np.sqrt((self.pos_pressed[0] - pixel_density * agent.x) ** 2 + (self.pos_pressed[1] - pixel_density * agent.y) ** 2) \
-                <= pixel_density * agent.current_agent_big.shapes2D.get_additional_parameters()['disk2']['radius']:
+            if (
+                np.sqrt((self.pos_pressed[0] - pixel_density * agent.x) ** 2 + (self.pos_pressed[1] - pixel_density * agent.y) ** 2)
+                <= pixel_density * agent.current_agent_big.shapes2D.get_additional_parameters()["disk2"]["radius"]
+            ):
                 self.scenario.current_agent_kivy_selected_id = cpt_agent
                 return True
             cpt_agent += 1
@@ -906,7 +906,12 @@ class MyWidget(Widget):  # type: ignore[misc]
 
             elif self.current == 1:  # New agent
                 # 1. Check if the Add torque button is being pressed
-                if self.scenario.nAgents > 0 and self.time_pressed > 0 and self.modify_force_or_torque == 1 and not self.isCliskOnAgent():
+                if (
+                    self.scenario.nAgents > 0
+                    and self.time_pressed > 0
+                    and self.modify_force_or_torque == 1
+                    and not self.isCliskOnAgent()
+                ):
                     agent_kivy = self.scenario.agents[self.scenario.current_agent_kivy_selected_id]
                     intensity = 0.5 * (time.time() - self.time_pressed)
                     if touch.button == "right":
@@ -1094,7 +1099,6 @@ class MyApp(App):  # type: ignore[misc]
 
         The stage progression (space bar) cycles through modes: walls -> agents -> simulation
         """
-
         if self.widget is None:
             raise ValueError("Widget is not initialized")
 
@@ -1161,10 +1165,10 @@ class MyApp(App):  # type: ignore[misc]
                         kinematics = agentsTree[a].find("Kinematics")
                         for key, value in kinematics.attrib.items():
                             if key == "Position":
-                                vector = value.split(',')
+                                vector = value.split(",")
                                 agent.update_position(float(vector[0]), float(vector[1]))
                             elif key == "Velocity":
-                                vector = value.split(',')
+                                vector = value.split(",")
                                 agent.vx = float(vector[0])
                                 agent.vy = float(vector[1])
                             elif key == "Theta":
@@ -1193,7 +1197,7 @@ class MyApp(App):  # type: ignore[misc]
         """
         Window.clearcolor = (1, 1, 1, 1)
         Window.size = (WS_X, WS_Y)
-        self.title = 'Crowd simulator'
+        self.title = "Crowd simulator"
         self.widget = MyWidget()
         self.widget.initialise()
 
@@ -1206,7 +1210,7 @@ if __name__ == "__main__":
     Config.set("input", "mouse", "mouse,multitouch_on_demand")
 
     # Load the CrowdMechanics library into ctypes
-    libname = str(Path().absolute().parent.parent / "src" / "mechanical_layer" / "build" / "libCrowdMechanics.so")
+    libname = str(Path().absolute().parent.parent / "src" / "mechanical_layer" / "build" / "libCrowdMechanics.dylib")
     mechanicalLayer = ctypes.CDLL(libname)
     files = [
         b"./Parameters.xml",
