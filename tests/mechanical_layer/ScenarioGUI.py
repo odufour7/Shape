@@ -1083,8 +1083,10 @@ class MyApp(App):  # type: ignore[misc]
             loadStaticData = ctypes.c_bool.in_dll(mechanicalLayer, "loadStaticData")
             loadStaticData.value = True
             self.widget.scenario.staticDataChange = False
+
         # Accordingly, we re-save everything, ie recreate all files
         self.widget.scenario.save()
+
         mechanicalLayer.CrowdMechanics(filesInput)
         # Read from AgentDynamics output file to update agents
         dynamicsFile = Path(folderDynamic / "AgentDynamics.xml")
@@ -1232,5 +1234,7 @@ if __name__ == "__main__":
     nFiles = len(files)
     filesInput = cast(list[ctypes.c_char_p | bytes | None], (ctypes.c_char_p * nFiles)())
     filesInput[:] = files
+
+    MyApp().run()
 
     MyApp().run()
