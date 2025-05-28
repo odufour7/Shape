@@ -7,3 +7,4 @@ Mechanical layer
 
    use_mechanical_layer
    run_mechanical_layer
+   tutorials_tests_mechanical_layer

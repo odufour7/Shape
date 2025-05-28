@@ -28,7 +28,7 @@
         </childnode>
       </node>
       <node id="1">
-        <label>/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape25may/src/mechanical_layer/src/Agent.cpp</label>
+        <label>src/Agent.cpp</label>
         <link refid="_agent_8cpp"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -149,6 +149,6 @@
 <codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>delta_gtos_abs;</highlight></codeline>
 <codeline lineno="130"><highlight class="normal">}</highlight></codeline>
     </programlisting>
-    <location file="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/Shape25may/src/mechanical_layer/src/Agent.cpp"/>
+    <location file="src/Agent.cpp"/>
   </compounddef>
 </doxygen>

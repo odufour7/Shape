@@ -11,7 +11,7 @@ Program Listing for File InputStatic.cpp
 .. code-block:: cpp
 
    /*
-       Copyright  2025  Institute of Light and Matter, CNRS UMR 5306
+       Copyright  2025  Institute of Light and Matter, CNRS UMR 5306, University Claude Bernard Lyon 1
        Contributors: Oscar DUFOUR, Maxime STAPELLE, Alexandre NICOLAS
    
        This software is a computer program designed to generate a realistic crowd from anthropometric data and
@@ -39,10 +39,10 @@ Program Listing for File InputStatic.cpp
    
    #include "InputStatic.h"
    
-   #include <vector>
+   #include <fstream>
    #include <map>
    #include <string>
-   #include <fstream>
+   #include <vector>
    
    #include "../3rdparty/tinyxml/tinyxml2.h"
    
@@ -105,12 +105,15 @@ Program Listing for File InputStatic.cpp
    {
        //  If the library is called from many runs where the user forces firstRun=True because of changed static
        //  data, we first clear the global variables
-       if (intrinsicProperties) {
+       if (intrinsicProperties)
+       {
            delete intrinsicProperties[YOUNG_MODULUS];
            delete intrinsicProperties[SHEAR_MODULUS];
            intrinsicProperties = nullptr;
-           for (uint8_t n = 0; n < nBinaryProperties; n++) {
-               for (uint32_t m = 0; m < nMaterials; m++) {
+           for (uint8_t n = 0; n < nBinaryProperties; n++)
+           {
+               for (uint32_t m = 0; m < nMaterials; m++)
+               {
                    delete binaryProperties[n][m];
                    binaryProperties[n][m] = nullptr;
                }
@@ -266,7 +269,8 @@ Program Listing for File InputStatic.cpp
    {
        //  If the library is called from many runs where the user forces firstRun=True because of changed static
        //  data, we first clear the global variables
-       if (!listObstacles.empty()) {
+       if (!listObstacles.empty())
+       {
            listObstacles.clear();
            obstaclesMaterial.clear();
        }
@@ -359,8 +363,10 @@ Program Listing for File InputStatic.cpp
                   std::vector<int>& edges, std::vector<double>& radii, std::vector<double>& masses, std::vector<double>& mois,
                   std::vector<double2>& delta_gtos, std::map<std::string, int32_t>& materialMapping)
    {
-       if (agents) {
-           for (uint32_t a = 0; a < nAgents; ++a) {
+       if (agents)
+       {
+           for (uint32_t a = 0; a < nAgents; ++a)
+           {
                delete agents[a];
                agents[a] = nullptr;
            }

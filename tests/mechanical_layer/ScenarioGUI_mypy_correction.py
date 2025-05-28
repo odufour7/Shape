@@ -1,4 +1,4 @@
-"""Run the CrowdMechanics library for tests."""
+"""Run the ``CrowdMechanics`` library for tests."""
 
 import ctypes
 import sys

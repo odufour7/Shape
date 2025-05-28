@@ -37,9 +37,6 @@ Thumbs.db
 # Miscellaneous temporary or log files
 *.log
 
-/docs/build/doctrees/
-/docs/build/html/
-/docs/build/jupyter_execute/
 
 /tests/.pytest_cache/
 
@@ -55,3 +52,9 @@ build/
 /tests/mechanical_layer/dynamic/
 /tests/mechanical_layer/static/Agents.xml
 /tests/mechanical_layer/static/Geometry.xml
+
+/docs/build/doctrees/
+/docs/build/html/
+/docs/build/jupyter_execute/
+/docs/source/api/
+/docs/doxy_files/xml/

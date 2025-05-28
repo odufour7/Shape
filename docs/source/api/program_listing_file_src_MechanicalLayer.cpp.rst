@@ -11,7 +11,7 @@ Program Listing for File MechanicalLayer.cpp
 .. code-block:: cpp
 
    /*
-       Copyright  2025  Institute of Light and Matter, CNRS UMR 5306
+       Copyright  2025  Institute of Light and Matter, CNRS UMR 5306, University Claude Bernard Lyon 1
        Contributors: Oscar DUFOUR, Maxime STAPELLE, Alexandre NICOLAS
    
        This software is a computer program designed to generate a realistic crowd from anthropometric data and
@@ -39,15 +39,16 @@ Program Listing for File MechanicalLayer.cpp
    
    #include "MechanicalLayer.h"
    
-   #include <array>
-   #include <set>
-   #include <unordered_set>
-   #include <tuple>
-   #include <vector>
-   #include <map>
-   #include <string>
    #include <sys/stat.h>
+   
+   #include <array>
    #include <fstream>
+   #include <map>
+   #include <set>
+   #include <string>
+   #include <tuple>
+   #include <unordered_set>
+   #include <vector>
    
    #include "../3rdparty/tinyxml/tinyxml2.h"
    
@@ -320,7 +321,8 @@ Program Listing for File MechanicalLayer.cpp
            {
                double angvel_neigh = AtTimen ? wn[cpt_neigh] : wn[cpt_neigh] + dt_mech * taun[cpt_neigh];
                double2 velagent_neigh =   //  Velocity of the CM of the neighbouring pedestrian neighbour
-                   AtTimen ? vgn[cpt_neigh] : UnmZetadt * vgn[cpt_neigh] + dt_mech * (Fp[cpt_neigh] + Forthon[cpt_neigh] + Ftn[cpt_neigh]);
+                   AtTimen ? vgn[cpt_neigh]
+                           : UnmZetadt * vgn[cpt_neigh] + dt_mech * (Fp[cpt_neigh] + Forthon[cpt_neigh] + Ftn[cpt_neigh]);
                double2 velshape_neigh = velagent_neigh + (angvel_neigh ^ delta_GtoS_neigh);
    
                double2 n_ij;
@@ -328,7 +330,7 @@ Program Listing for File MechanicalLayer.cpp
                    n_ij = double2(0., 0.);
                else
                    n_ij = (1. / distance) * r_ij;
-               double2 dcGshape = -(radius[cpt_shape] - h / 2.) * n_ij;            //  From the center of mass G of the shape
+               double2 dcGshape = -(radius[cpt_shape] - h / 2.) * n_ij;   //  From the center of mass G of the shape
                //  towards c (the contact point)
                double2 dcGshapeneigh = +(radius[cpt_shape_neigh] - h / 2.) * n_ij;
                double2 dcG = delta[cpt_shape] + dcGshape;   //  Vector distance from CM of the agent to
@@ -348,7 +350,7 @@ Program Listing for File MechanicalLayer.cpp
                else
                {
                    double2 slip_prime = slip[{cpt_shape, cpt_shape_neigh}];
-                   //  Rotation of the slip to take into account the roation of the contact reference frame
+                   //  Rotation of the slip to take into account the rotation of the contact reference frame
                    //  from t to t+dt_mech (D.R. Vyas, J.M. Ottino, R.M. Lueptow et al. 2025)
                    double2 slip_projected = slip_prime - (slip_prime % n_ij) * n_ij;
                    double2 slip_new = slip_prime;
@@ -445,7 +447,7 @@ Program Listing for File MechanicalLayer.cpp
                    else
                    {
                        double2 slip_wall_prime = slip_wall[{cpt_shape, iobs, iwall}];
-                       //  Rotation of the slip to take into account the roation of the contact reference frame
+                       //  Rotation of the slip to take into account the rotation of the contact reference frame
                        //  from t to t+dt_mech (D.R. Vyas, J.M. Ottino, R.M. Lueptow et al. 2025)
                        double2 slip_wall_projected = slip_wall_prime - (slip_wall_prime % n_iw) * n_iw;
                        double2 slip_wall_new = slip_wall_prime;

@@ -11,7 +11,7 @@ Program Listing for File Crowd.cpp
 .. code-block:: cpp
 
    /*
-       Copyright  2025  Institute of Light and Matter, CNRS UMR 5306
+       Copyright  2025  Institute of Light and Matter, CNRS UMR 5306, University Claude Bernard Lyon 1
        Contributors: Oscar DUFOUR, Maxime STAPELLE, Alexandre NICOLAS
    
        This software is a computer program designed to generate a realistic crowd from anthropometric data and
@@ -39,12 +39,11 @@ Program Listing for File Crowd.cpp
    
    #include "Crowd.h"
    
-   #include <vector>
    #include <algorithm>
    #include <fstream>
+   #include <vector>
    
    #include "../3rdparty/tinyxml/tinyxml2.h"
-   
    #include "MechanicalLayer.h"
    
    using std::string, std::vector, std::list, std::cerr, std::cout, std::endl, std::ranges::find, std::ofstream;
