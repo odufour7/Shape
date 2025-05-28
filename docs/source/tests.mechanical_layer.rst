@@ -2,7 +2,7 @@ Mechanical layer (Python)
 =========================
 
 
-.. automodule:: ScenarioGUI_mypy_correction
+.. automodule:: ScenarioGUI
     :members:
     :undoc-members:
     :show-inheritance:

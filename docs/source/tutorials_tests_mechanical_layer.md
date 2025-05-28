@@ -14,7 +14,7 @@ You will find a comprehensive keybinding reference at the end to assist you, alo
 
 After running the GUI from within the `tests/mechanical_layer` directory:
 ```bash
-uv run ScenarioGUI.py
+uv run python ScenarioGUI.py
 ```
 proceed with the following detailed workflow.
 

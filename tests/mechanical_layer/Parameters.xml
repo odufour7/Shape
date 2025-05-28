@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Parameters>
-    <Directories Static="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/tests/mechanical_layer/Static/" Dynamic="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/tests/mechanical_layer/Dynamic/"/>
+    <Directories Static="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/tests/mechanical_layer/static/" Dynamic="/Volumes/desk_oscar/main/cours/phd_first_year/shape_project/code/tests/mechanical_layer/dynamic/"/>
     <Times TimeStep="2.0" TimeStepMechanical="1e-5"/>
 </Parameters>
