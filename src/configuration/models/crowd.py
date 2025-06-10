@@ -592,7 +592,8 @@ class Crowd:
             col, row = i % best_n_cols, i // best_n_cols
             agent.translate(col * grid_size_x + x_offset - pos.x, row * grid_size_y + y_offset - pos.y)
 
-        self.update_shapes3D_based_on_shapes2D()
+        if all(agent.agent_type == cst.AgentTypes.pedestrian for agent in self.agents):
+            self.update_shapes3D_based_on_shapes2D()
 
     @staticmethod
     def compute_stats(data: list[float | None], stats_key: str) -> float | None:

@@ -685,7 +685,11 @@ def run_crowd_init() -> None:
             st.session_state.simulation_run = False
             info_placeholder.empty()
         else:
-            st.session_state.current_crowd.pack_agents_on_grid()
+            # if some agents are bike, then specify the grid parameters
+            if any(agent.agent_type == cst.AgentTypes.bike for agent in st.session_state.current_crowd.agents):
+                st.session_state.current_crowd.pack_agents_on_grid(grid_size_x=cst.GRID_SIZE_X_BIKE, grid_size_y=cst.GRID_SIZE_Y_BIKE)
+            else:
+                st.session_state.current_crowd.pack_agents_on_grid()
             st.session_state.simulation_run = False
 
     display_interpenetration_warning()

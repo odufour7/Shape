@@ -84,6 +84,8 @@ INTENSITY_ROTATIONAL_FORCE: float = 10.0  # degrees
 INTENSITY_TRANSLATIONAL_FORCE: float = 3.0  # arbitrary units
 GRID_SIZE_X: float = 31.0  # cm
 GRID_SIZE_Y: float = 60.0  # cm
+GRID_SIZE_X_BIKE: float = 200.0  # cm
+GRID_SIZE_Y_BIKE: float = 200.0  # cm
 INITIAL_TEMPERATURE: float = 1.0  # Initial temperature for the packing algorithm
 ADDITIVE_COOLING: float = 0.1  # Cooling rate for the simulated annealing algorithm T<- max(T, T - COOLING_RATE)
 
@@ -219,7 +221,7 @@ CrowdStat = MappingProxyType(
         "wheel_width_min": 2.0,  # cm
         "wheel_width_max": 20.0,  # cm
         "wheel_width_mean": 6.0,  # cm
-        "wheel_width_std_dev": 2.0,  # cm
+        "wheel_width_std_dev": 0.50,  # cm
         # Total length
         "total_length_min": 100.0,  # cm
         "total_length_max": 200.0,  # cm

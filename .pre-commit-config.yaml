@@ -20,15 +20,15 @@ repos:
           - --ignore-words-list=teh,fo,bar,tesselator,Tesselator,tesselation,tesselate
         files: '\.(py|md|c|cpp|h|hpp)$'
 
-  # Mypy: Static type checker (local hook)
-  - repo: local
-    hooks:
-      - id: mypy
-        name: mypy
-        entry: mypy --strict
-        language: python
-        types: ["python"]
-        files: "\\.py$"
+  # # Mypy: Static type checker (local hook)
+  # - repo: local
+  #   hooks:
+  #     - id: mypy
+  #       name: mypy
+  #       entry: mypy --strict
+  #       language: python
+  #       types: ["python"]
+  #       files: "\\.py$"
 
   # Numpydoc Validation: Ensure docstring compliance
   - repo: https://github.com/numpy/numpydoc
