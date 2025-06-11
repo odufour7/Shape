@@ -908,6 +908,3 @@ def run_tab_crowd() -> None:
 
     if selected_crowd_origin == crowd_origin_options["crowd from config"]:
         run_crowd_from_config()
-
-    if selected_crowd_origin == crowd_origin_options["crowd from config"]:
-        run_crowd_from_config()
