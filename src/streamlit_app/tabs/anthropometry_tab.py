@@ -108,6 +108,7 @@ def run_tab_anthropometry() -> None:
         data=fig.to_image(format="pdf"),
         file_name=f"{selected_attribute_name}_distribution.pdf",
         mime="application/pdf",
+        use_container_width=True,
     )
 
     # Add a selectbox for choosing the dataset to download
@@ -123,6 +124,7 @@ def run_tab_anthropometry() -> None:
         data=data_to_download,
         file_name=download_filename,
         mime="text/csv",
+        use_container_width=True,
     )
 
     df = fun.load_csv(path_file / "ANSURIIMALEPublic.csv")
@@ -135,4 +137,5 @@ def run_tab_anthropometry() -> None:
         data=data_to_download,
         file_name=download_filename,
         mime="text/csv",
+        use_container_width=True,
     )
