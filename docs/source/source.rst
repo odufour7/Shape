@@ -19,7 +19,7 @@ This project is developed at the
 
 Citation
 --------
-If you use *shapes*, we encourage you to cite or reference this work as you would any other scientific research. The package is the result of a significant amount of time and effort invested by the authors. Citing us helps measure the impact of the research and encourages others to use the library.
+If you use *LEMON*, we encourage you to cite or reference this work as you would any other scientific research. The package is the result of a significant amount of time and effort invested by the authors. Citing us helps measure the impact of the research and encourages others to use the library.
 
 To cite this work, please use the following reference in bibtex format:
 
@@ -27,7 +27,7 @@ To cite this work, please use the following reference in bibtex format:
 
    @software{shapes_2025_14906931,
      author    = {Dufour, Oscar and Stapelle, Maxime and Nicolas, Alexandre},
-     title     = {Shapes - Realistic Crowd Generator and Simulation},
+     title     = {LEMON - Realistic Crowd Generator and Simulation},
      month     = {jun},
      year      = {2025},
      publisher = {Zenodo},

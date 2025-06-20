@@ -13,7 +13,7 @@
 <div align="center">
 
 [![](https://badgen.net/badge/DOI/open%20access/orange)](https://scipost.org/SciPostPhysCodeb)
-[![](https://badgen.net/static/DOC/shapes-docs/cyan?icon=https://icons.getbootstrap.com/icons/filetype-doc/)](https://shapes-crowd.readthedocs.io/en/latest/index.html)
+[![](https://badgen.net/static/DOC/lemon-docs/cyan?icon=https://icons.getbootstrap.com/icons/filetype-doc/)](https://shapes-crowd.readthedocs.io/en/latest/index.html)
 [![](https://badgen.net/badge/icon/GitHub?icon=github&label)](https://github.com/odufour7/Shape)
 [![](https://badgen.net/badge/🚀/Streamlit%20App/green)](https://crowdmecha.streamlit.app/)
 
@@ -34,13 +34,13 @@ This project is developed at
 
 ## Citation
 
-If you use `shapes`, we encourage you to cite or reference this work as you would any other scientific research. The package is a result of a huge amount of time and effort invested by the authors. Citing us allows us to measure the impact of the research and encourages others to use the library.
+If you use `lemon`, we encourage you to cite or reference this work as you would any other scientific research. The package is a result of a huge amount of time and effort invested by the authors. Citing us allows us to measure the impact of the research and encourages others to use the library.
 
 Cite us:
 ```
 @software{dufour_2025_14906931,
     author    = {Dufour, Oscar and Stapelle, Maxime and Nicolas, Alexandre},
-    title     = {Shapes - Realistic Crowd Generator and Simulation},
+    title     = {LEMON - Realistic Crowd Generator and Simulation},
     month     = {jun},
     year      = {2025},
     publisher = {Zenodo},

@@ -130,7 +130,7 @@ def init_sidebar_looks() -> None:
     """
     current_file_path = Path(__file__)
     ROOT_DIR = current_file_path.parent.parent.parent.parent.absolute()
-    logo_path = ROOT_DIR / "docs" / "source" / "_static" / "logo" / "art_light_logo_app.png"
+    logo_path = ROOT_DIR / "docs" / "source" / "_static" / "logo" / "logo_app.png"
     article_badge = "[![](https://badgen.net/badge/DOI/open%20access/orange)](https://scipost.org/SciPostPhysCodeb)"
     doc_badge = "[![](https://badgen.net/static/DOC/lemon-docs/cyan?icon=https://icons.getbootstrap.com/icons/filetype-doc/)](https://shapes-crowd.readthedocs.io/en/latest/index.html)"
     gh = "https://badgen.net/badge/icon/GitHub?icon=github&label"

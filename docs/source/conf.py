@@ -1,4 +1,4 @@
-"""Shapes project documentation build configuration file."""
+"""LEMON project documentation build configuration file."""
 
 # Configuration file for the Sphinx documentation builder.
 # For the full list of built-in configuration values, see the documentation:
@@ -20,8 +20,8 @@ os.environ["KIVY_NO_CONSOLELOG"] = "1"  # Disable Kivy console logging during do
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = "shapes"
-copyright = "2025, The SHAPE project"
+project = "lemon"
+copyright = "2025, The LEMON project"
 author = "Oscar Maxime Alexandre"
 # release = "1.0.0"
 
@@ -53,7 +53,7 @@ language = "en"
 html_theme = "sphinx_rtd_theme"  # Use the Read the Docs theme
 html_static_path = ["_static"]  # Path to custom static files (e.g., CSS)
 html_css_files = ["custom.css"]  # Custom CSS file for styling
-html_logo = "_static/logo/art_light.png"  # Logo for the documentation
+html_logo = "_static/logo/logo_doc.png"  # Logo for the documentation
 
 suppress_warnings = ["config.cache", "duplicate_declaration.cpp"]
 
