@@ -15,7 +15,7 @@ The authors of the code are:
 Affiliation
 -----------
 This project is developed at the
-`Institute of Light and Matter, CNRS UMR 5306 <https://ilm.univ-lyon1.fr/>`__.
+`Institute of Light and Matter, CNRS UMR 5306, University Lyon 1 <https://ilm.univ-lyon1.fr/>`__.
 
 Citation
 --------
@@ -27,7 +27,7 @@ To cite this work, please use the following reference in bibtex format:
 
    @software{shapes_2025_14906931,
      author    = {Dufour, Oscar and Stapelle, Maxime and Nicolas, Alexandre},
-     title     = {LEMON - Realistic Crowd Generator and Simulation},
+     title     = {LEMON - Crowd generation from anthropometric data with mechanicaL intEraction and decision siMulatiON},
      month     = {jun},
      year      = {2025},
      publisher = {Zenodo},

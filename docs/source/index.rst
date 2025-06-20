@@ -6,7 +6,7 @@
 The LEMON documentation
 ========================
 
-Welcome to the official LEMON package documentation! This guide provides comprehensive instructions on how to install and use the package. Additionally, it offers an overview of the package's functionalities and capabilities, complemented by an extensive API reference.
+Welcome to the official LEMON package documentation! This guide provides comprehensive instructions on how to install and use the package. It also offers an overview of the package’s functionalities and capabilities, complemented by an extensive API reference.
 
 .. toctree::
    :maxdepth: 2
@@ -27,7 +27,7 @@ Welcome to the official LEMON package documentation! This guide provides compreh
 
 .. toctree::
    :maxdepth: 2
-   :caption: API REFERENCES
+   :caption: API REFERENCE
 
    configuration
    streamlit_app
