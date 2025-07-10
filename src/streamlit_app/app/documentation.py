@@ -37,6 +37,20 @@ def about() -> None:
     current_file_path = Path(__file__)
     ROOT_DIR = current_file_path.parent.parent.parent.parent.absolute()
     st.markdown(f"## Overview of the {cst_app.PROJECT_NAME} project")
+    st.markdown("""
+        The software release dubbed LEMON consists of:
+
+        1. **This online platform**
+        [https://crowdmecha.streamlit.app/](https://crowdmecha.streamlit.app/) to generate and visualise individual pedestrians
+        (whose shapes are compatible with anthropometric data) or crowds.
+
+        2. **A C++ library**
+        to compute mechanical contact forces in two dimensions and then evolve the crowd according to Newton's equation of motion.
+
+        3. **A Python interface**
+        to import anthropometric data, generate and visualise crowds, and simulate their dynamics via simple calls to the C++ library.
+        """)
+
     visible_human_proj_url = "https://www.nlm.nih.gov/research/visible/visible_human.html"
     ANSURII_url = "https://ph.health.mil/topics/workplacehealth/ergo/Pages/Anthropometric-Database.aspx"
     granular_material_url = "https://doi.org/10.1016/j.cpc.2025.109524"
