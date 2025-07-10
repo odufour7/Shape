@@ -34,7 +34,7 @@ This project is developed at
 
 ## Citation
 
-If you use `lemon`, we encourage you to cite or reference this work as you would any other scientific research. The package is a result of a huge amount of time and effort invested by the authors. Citing us allows us to measure the impact of the research and encourages others to use the library.
+If you use `LEMON`, we encourage you to cite or reference this work as you would any other scientific research. The package is a result of a huge amount of time and effort invested by the authors. Citing us allows us to measure the impact of the research and encourages others to use the library.
 
 Cite us:
 ```
@@ -56,7 +56,7 @@ Cite us:
 
 
 ## License
-Every part of `shapes` is available under the [`CeCILL-B`](https://cecill.info/licences.fr.html) license.
+Every part of `LEMON` is available under the [`CeCILL-B`](https://cecill.info/licences.fr.html) license.
 
 
 
