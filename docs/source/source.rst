@@ -27,8 +27,8 @@ To cite this work, please use the following reference in bibtex format:
 
    @software{shapes_2025_14906931,
      author    = {Dufour, Oscar and Stapelle, Maxime and Nicolas, Alexandre},
-     title     = {LEMON - Crowd generation from anthropometric data with mechanicaL intEraction and decision siMulatiON},
-     month     = {jun},
+     title     = {LEMON - An open-source platform to generate non-circuLar, anthropometry-based pEdestrian shapes and simulate their Mechanical interactiONs in two dimensions},
+     month     = {jul},
      year      = {2025},
      publisher = {Zenodo},
      version   = {v1.3.1},
