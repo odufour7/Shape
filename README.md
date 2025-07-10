@@ -1,7 +1,7 @@
 <table align="center" style="width:100%; border-collapse:collapse;">
   <tr>
     <td align="center" style="width:100%;">
-      <img src="./docs/source/_static/logo/art_light.png" width="300" alt="Project icon" style="display:block; margin:auto;">
+      <img src="./docs/source/_static/logo/log_doc.png" width="300" alt="Project icon" style="display:block; margin:auto;">
     </td>
   </tr>
   <tr>
